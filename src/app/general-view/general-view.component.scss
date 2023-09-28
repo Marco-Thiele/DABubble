@@ -1,5 +1,13 @@
+.general-view-container {
+  width: -webkit-fill-available;
+  display: flex;
+  height: calc(100% - 50px);
+  padding: 20px 20px 25px 20px;
+  gap: 20px;
+}
+
 .channels-container {
-  width: 19.6%;
+  width: 18.6%;
   height: -webkit-fill-available;
   background-color: #fff;
   border-radius: 30px;

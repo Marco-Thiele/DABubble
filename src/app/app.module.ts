@@ -22,9 +22,17 @@ import { GeneralViewComponent } from './general-view/general-view.component';
 import { ChannelsComponent } from './channels/channels.component';
 import { MainChatComponent } from './main-chat/main-chat.component';
 import { SecondaryChatComponent } from './secondary-chat/secondary-chat.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
-  declarations: [AppComponent, GeneralViewComponent, ChannelsComponent, MainChatComponent, SecondaryChatComponent],
+  declarations: [
+    AppComponent,
+    GeneralViewComponent,
+    ChannelsComponent,
+    MainChatComponent,
+    SecondaryChatComponent,
+    LoginComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
