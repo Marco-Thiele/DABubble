@@ -1,23 +1,34 @@
 <div>
-    <div >
-   <div class="header-position">
-     <div class="position-icon">
-       <img src="../../assets/img/logo_with_text.svg" alt="">
-     </div>
-     <div class="input-position">
-       <input class="input-field" type="text" placeholder="Code learning durchsuchen">
-     </div>
-     <div class="position-profil-contant">
-        <div class="profil-name">
-            Frederik Beck
+    <div>
+        <div class="header-position">
+            <div class="position-icon">
+                <img src="../../assets/img/logo_with_text.svg" alt="">
+            </div>
+            <div class="input-position">
+                <input class="input-field" type="text" placeholder="Code learning durchsuchen">
+            </div>
+            <div class="position-profil-contant" (click)="showInfo()">
+                <div class="profil-name">
+                    Frederik Beck
+                </div>
+                <div>
+                    <img src="../../assets/profil-img/Profile bild.svg" alt="">
+                </div>
+                <div>
+                    <img src="../../assets/icons/keyboard_arrow_down.svg" alt="">
+                </div>
+            </div>
         </div>
-       <div>
-        <img src="../../assets/profil-img/Profile bild.svg" alt="">
-       </div>
-       <div>
-        <img src="../../assets/icons/keyboard_arrow_down.svg" alt="">
-       </div>
-     </div>
-   </div>
- 
- </div>
+
+    </div>
+</div>
+<div id="profilLogout" class="position-profil-logout d-none" (click)="removeInfo()">
+    <div id="profilLogoutContant" class="position-profile-contant">
+        <div>
+            Profil
+        </div>
+        <div>
+            Log Out
+        </div>
+    </div>
+</div>
