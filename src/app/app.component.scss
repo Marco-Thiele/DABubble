@@ -1,7 +1,14 @@
-.header-position{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100vw;
-    max-width: 100%;
+.header-position {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  max-width: 100%;
+}
+
+.general-view-container {
+  display: flex;
+  height: calc(100% - 120px);
+  padding: 20px 20px 25px 20px;
+  gap: 20px;
 }
