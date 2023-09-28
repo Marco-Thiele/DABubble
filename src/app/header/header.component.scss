@@ -1,0 +1,43 @@
+.header-position {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .position-icon{
+    width: 19%;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  .input-field{
+    border-radius: 42px;
+    padding: 17px 45px 17px 45px;
+    background-image: url('../../assets/icons/search.svg'); 
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    background-position: right center;
+    background-position-x: 95%;
+    min-width: 100%;
+  }
+
+  .input-position{
+    min-width: 51.5%;
+  }
+
+  .position-profil-contant{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 21.2%;
+  }
+
+  .profil-name{
+    font-weight: 700;
+    font-size: 24px;
+  }

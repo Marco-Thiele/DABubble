@@ -24,6 +24,7 @@ import { MainChatComponent } from './main-chat/main-chat.component';
 import { SecondaryChatComponent } from './secondary-chat/secondary-chat.component';
 import { LoginComponent } from './login/login.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MainChatComponent,
     SecondaryChatComponent,
     LoginComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
