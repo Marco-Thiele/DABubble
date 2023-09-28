@@ -1,11 +1,235 @@
-.logo{
-    position: absolute;
+.logo {
+  position: absolute;
+  top: 75px;
+  left: 75px;
 }
 
-.reg-container{
-    position: absolute;
-    right: 75px;
-    display: flex;
-    flex-direction: column;
+.reg-container {
+  position: absolute;
+  right: 75px;
+  top: 75px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  a{
+    text-decoration: none;
+  }
+}
+
+.container {
+  width: 100vw;
+  max-width: 100%;
+  height: 100vh;
+  padding: 75px;
+  flex-direction: column;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Nunito" !important;
+  gap: 65px;
+}
+
+.login-container {
+  width: 606px;
+  height: 769px;
+  border-radius: 30px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+.greet {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  h1 {
+    color: #444df2;
+    font-size: 46px;
+    text-align: center;
+    font-weight: 700;
+    font-family: "Nunito" !important;
+  }
+  span {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+  }
+}
+
+form {
+  margin-top: 46px;
+  width: 500px;
+  height: 222px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  input {
+    align-items: center;
     gap: 10px;
+    outline-style: none !important;
+    align-self: stretch;
+    border-style: unset;
+
+    &:focus {
+      border: 1px solid blue;
+    }
+    &:hover {
+      border: 1px solid black;
+      cursor: pointer;
+    }
+  }
+}
+
+.email-container,
+.pwd-container,
+.google {
+  width: 500px;
+  border-radius: 100px;
+  display: flex;
+  padding: 18px 32px;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  background: var(--Bg-color, #eceefe);
+  transition: border-color 0.3s;
+  border: 1px solid transparent;
+  &:hover {
+    border: 1px solid black;
+    cursor: pointer;
+  }
+  &:focus {
+    border: 1px solid blue;
+  }
+  input {
+    font-family: "Nunito";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    background: var(--Bg-color, #eceefe);
+    outline-style: none;
+    border-style: unset;
+    width: 100%;
+    &:focus {
+      border: none;
+    }
+    &:hover {
+      border: none;
+    }
+  }
+}
+
+.email-container.focused,
+.pwd-container.focused {
+  border: 1px solid blue; /* Change this to your desired focused border color */
+}
+
+.reset {
+  text-decoration: none;
+  padding: 5px 15px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  color: #797ef3;
+  &:hover {
+    background-color: #eceefe;
+    border-radius: 12px;
+    font-weight: 700;
+  }
+}
+
+.or-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  span {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    padding: 5px 15px;
+  }
+}
+.divider {
+  background-color: #adb0d9;
+  height: 1px;
+  width: 40%;
+}
+
+.google {
+  padding: 11px 32px;
+  justify-content: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  color: #444df2;
+  &:hover {
+    border: 1px solid blue;
+    font-weight: 700;
+  }
+}
+
+.btn-container {
+  width: 500px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.submit,
+.guest {
+  display: flex;
+  padding: 12px 25px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  border: 1px solid transparent;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.submit {
+  background-color: #444df2;
+  color: white;
+  &:hover {
+    background-color: #5d64ef;
+  }
+}
+
+.guest {
+  color: #444df2;
+  background-color: white;
+  border: 1px solid #797ef3;
+  &:hover {
+    background-color: #444df2;
+    color: white;
+    border: 1px solid transparent;
+  }
+}
+
+.policies {
+  display: flex;
+  gap: 16px;
+  a {
+    padding: 10px 15px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: none;
+    border: 1px solid transparent;
+    &:hover{
+        border: 0.5px solid gray;
+        border-radius: 14px;
+    }
+  }
 }
