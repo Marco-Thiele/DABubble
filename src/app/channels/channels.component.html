@@ -4,10 +4,34 @@
       <img src="assets/icons/Rectangle.svg">
     </div>
     <div class="channel-title">
-      <span class="title">Code learning</span>
+      <span class="title font700-normal">Code learning</span>
     </div>
   </div>
-  <div class="edi-icon"></div>
+  <div class="edit-icon">
+    <img class="icon" src="assets/icons/edit.svg" alt="">
+  </div>
 </div>
 
-<div class="final-menu"></div>
+<div class="final-menu">
+  <div class="channels-menu">
+    <mat-accordion class="channels-menu-up">
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle>
+        <mat-expansion-panel-header class="channel-container">
+          <div class="channels-title-container">
+            <mat-icon class="icon-expansion"></mat-icon>
+            <mat-icon class="workspaces"></mat-icon>
+            <mat-panel-title class="channels-title font700-normal">
+              Channels
+            </mat-panel-title>
+          </div>
+          <div class="channel-add">
+            <mat-icon class="add-icon"></mat-icon>
+          </div>
+        </mat-expansion-panel-header>
+        <p>I'm visible because I am open</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div></div>
+</div>

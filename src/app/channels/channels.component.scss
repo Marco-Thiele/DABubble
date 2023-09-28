@@ -30,7 +30,94 @@
 .title {
   color: var(--Black, #000);
   font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+}
+
+.edit-icon {
+  display: flex;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.final-menu {
+  width: 306px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none !important;
+}
+
+.channel-container {
+  padding: 3px 0px !important;
+  span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+  }
+}
+
+.channels-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 25px;
+}
+
+.channels-menu-up {
+  width: 100%;
+}
+
+.ng-tns-c2690051721-1 {
+  padding: 0;
+}
+
+.channels-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-expansion {
+  background-image: url(/assets/icons/arrow_drop_down.svg);
+  background-position: center;
+  padding-right: 15px;
+}
+
+.workspaces {
+  background-image: url(/assets/icons/workspaces.svg);
+  padding-right: 10px;
+  background-size: 24px;
+}
+
+.channels-title {
+  color: var(--Black, #000);
+  font-size: 20px;
+}
+
+.channel-add {
+  display: flex;
+  padding: 3px;
+  align-items: center;
+  gap: 10px;
+}
+
+.add-icon {
+  background-image: url(/assets/icons/add.svg);
+  background-size: 24px;
+}
+
+.ng-trigger-indicatorRotate {
+  display: none !important;
 }

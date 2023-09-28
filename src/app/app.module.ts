@@ -23,6 +23,7 @@ import { ChannelsComponent } from './channels/channels.component';
 import { MainChatComponent } from './main-chat/main-chat.component';
 import { SecondaryChatComponent } from './secondary-chat/secondary-chat.component';
 import { LoginComponent } from './login/login.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { LoginComponent } from './login/login.component';
     MatProgressBarModule,
     MatCardModule,
     MatMenuModule,
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
