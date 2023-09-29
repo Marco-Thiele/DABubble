@@ -26,6 +26,7 @@ import { LoginComponent } from './login/login.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HeaderComponent } from './header/header.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 
 
@@ -39,6 +40,7 @@ import { CreateAccountComponent } from './create-account/create-account.componen
     LoginComponent,
     HeaderComponent,
     CreateAccountComponent,
+    PasswordResetComponent,
   ],
   imports: [
     BrowserModule,

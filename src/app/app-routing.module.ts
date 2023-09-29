@@ -7,10 +7,12 @@ import { ChannelsComponent } from './channels/channels.component';
 import { MainChatComponent } from './main-chat/main-chat.component';
 import { SecondaryChatComponent } from './secondary-chat/secondary-chat.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: CreateAccountComponent},
+  { path: 'recover', component: PasswordResetComponent},
   {
     path: 'index',
     component: GeneralViewComponent,
