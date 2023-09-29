@@ -25,6 +25,7 @@ import { SecondaryChatComponent } from './secondary-chat/secondary-chat.componen
 import { LoginComponent } from './login/login.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HeaderComponent } from './header/header.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
 
 
 
@@ -37,6 +38,7 @@ import { HeaderComponent } from './header/header.component';
     SecondaryChatComponent,
     LoginComponent,
     HeaderComponent,
+    CreateAccountComponent,
   ],
   imports: [
     BrowserModule,

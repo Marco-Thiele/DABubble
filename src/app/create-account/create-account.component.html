@@ -1,0 +1,51 @@
+<div class="container">
+    <img class="logo" src="../../assets/img/logo_with_text.svg" />
+    
+    
+  
+    <div class="register-container">
+      
+      <div class="greet">
+        <a routerLink="/login" class="return-arrow">
+            <img src="../../assets/img/arrow_back.svg">
+        </a>
+        <h1>Konto erstellen</h1>
+        <span
+          >Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.
+        </span>
+      </div>
+  
+  
+      <form (submit)="registerUser()" #createUserForm ngNativeValidate>
+        <div class="name-container" [class.focused]="isNameFocused">
+            <img src="../../assets/img/person_filled.svg">
+            <input required id="name" type="text" placeholder="Name und Nachname" (focus)="onFocusName()" (blur)="onBlurName()" />
+        </div>
+          <div class="email-container" [class.focused]="isEmailFocused">
+              <img src="../../assets/img/mail.svg">
+              <input required id="email" type="email" placeholder="beispielname@email.com" (focus)="onFocusEmail()" (blur)="onBlurMail()" />
+          </div>
+          <div class="pwd-container" [class.focused]="isPwdFocused">
+              <img src="../../assets/img/lock.svg">
+        <input required id="password" type="password" placeholder="Passwort" (focus)="onFocusPwd()" (blur)="onBlurPwd()" />
+
+              </div>
+              <div class="data-policy-container">
+        <input id="data-policy" type="checkbox" required>   
+        <label for="data-policy">Ich stimme der <a href="#">Datenschutzerklärung</a> zu.</label> 
+    </div>
+        <div class="btn-container">
+          <button class="submit" type="submit">
+              Weiter
+          </button>
+          
+      </div>
+  </form>
+    </div>
+  
+    <div class="policies">
+      <a href="#">Impressum</a>
+      <a href="#">Datenschutz</a>
+    </div>
+  </div>
+  

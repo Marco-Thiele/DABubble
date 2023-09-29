@@ -2,7 +2,7 @@
   <img class="logo" src="../../assets/img/logo_with_text.svg" />
   <div class="reg-container">
     Neu bei DABubble?
-    <a href="#">Konto erstellen</a>
+    <a routerLink="/register">Konto erstellen</a>
   </div>
 
   <div class="login-container">
@@ -16,14 +16,14 @@
     </div>
 
 
-    <form>
+    <form (submit)="loginUser()" #loginUserForm ngNativeValidate>
         <div class="email-container" [class.focused]="isEmailFocused">
             <img src="../../assets/img/mail.svg">
-            <input id="email" type="email" placeholder="beispielname@email.com" (focus)="onFocusEmail()" (blur)="onBlurMail()" />
+            <input required id="email" type="email" placeholder="beispielname@email.com" (focus)="onFocusEmail()" (blur)="onBlurMail()" />
         </div>
         <div class="pwd-container" [class.focused]="isPwdFocused">
             <img src="../../assets/img/lock.svg">
-      <input id="password" type="password" placeholder="Passwort" (focus)="onFocusPwd()" (blur)="onBlurPwd()" />
+      <input required id="password" type="password" placeholder="Passwort" (focus)="onFocusPwd()" (blur)="onBlurPwd()" />
             </div>
 
         <a class="reset" href="#">Passwort vergessen?</a>

@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-create-account',
+  templateUrl: './create-account.component.html',
+  styleUrls: ['./create-account.component.scss']
 })
-export class LoginComponent {
+export class CreateAccountComponent {
   isEmailFocused: boolean = false;
   isPwdFocused: boolean = false;
+  isNameFocused: boolean = false;
 
   onFocusEmail() {
     this.isEmailFocused = true;
@@ -17,6 +18,10 @@ export class LoginComponent {
     this.isPwdFocused = true;
   }
 
+  onFocusName() {
+    this.isNameFocused = true;
+  }
+
   onBlurMail(){
     this.isEmailFocused = false;
   }
@@ -24,5 +29,9 @@ export class LoginComponent {
     this.isPwdFocused = false;
   }
 
-  loginUser(){}
+  onBlurName() {
+    this.isNameFocused = false;
+  }
+
+  registerUser(){}
 }
