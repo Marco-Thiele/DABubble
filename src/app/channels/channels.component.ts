@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-channels',
@@ -9,7 +10,18 @@ import { MatExpansionModule } from '@angular/material/expansion';
 })
 export class ChannelsComponent implements OnInit {
   panelOpenState = false;
+  isClicked = false;
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  openMenuChannels() {
+    this.isClicked = !this.isClicked;
+  }
+  openDirectMessages() {
+    this.isClicked = !this.isClicked;
+  }
+
+  openNewChannel() {}
 }

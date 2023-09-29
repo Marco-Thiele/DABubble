@@ -33,20 +33,26 @@
 }
 
 .edit-icon {
-  display: flex;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
+  padding: 4px;
+  cursor: pointer;
 
-.icon {
-  width: 24px;
-  height: 24px;
+  .icon {
+    background-image: url(/assets/icons/edit.svg);
+    background-size: 20px;
+    background-position: center;
+  }
+  &:hover {
+    .icon {
+      background-image: url(/assets/icons/edit_blue.svg);
+      background-size: 20px;
+    }
+    border-radius: 20px;
+    background: var(--Bg-color, #eceefe);
+  }
 }
 
 .final-menu {
-  width: 306px;
+  width: 325px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,8 +63,9 @@
   box-shadow: none !important;
 }
 
-.channel-container {
+.channel-container-head {
   padding: 3px 0px !important;
+  width: 175px;
   span {
     display: flex;
     justify-content: space-between;
@@ -69,9 +76,10 @@
 
 .channels-menu {
   width: 100%;
+  height: 210px;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
   gap: 25px;
 }
 
@@ -83,27 +91,62 @@
   padding: 0;
 }
 
+.mat-expansion-panel-header:not([aria-disabled="true"]) {
+  cursor: initial !important;
+}
+
+.mat-expansion-panel:not(.mat-expanded)
+  .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
+  background: none !important;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  height: 48px !important;
+}
+
 .channels-title-container {
   display: flex;
   align-items: center;
   justify-content: center;
-}
+  cursor: pointer;
 
-.icon-expansion {
-  background-image: url(/assets/icons/arrow_drop_down.svg);
-  background-position: center;
-  padding-right: 15px;
-}
+  .icon-expansion {
+    background-image: url(/assets/icons/arrow_drop_down.svg);
+    background-position: center;
+    padding-right: 15px;
+    transform: rotate(-90deg);
+  }
 
-.workspaces {
-  background-image: url(/assets/icons/workspaces.svg);
-  padding-right: 10px;
-  background-size: 24px;
-}
+  .workspaces {
+    background-image: url(/assets/icons/workspaces.svg);
+    padding-right: 10px;
+    background-size: 24px;
+  }
 
-.channels-title {
-  color: var(--Black, #000);
-  font-size: 20px;
+  .channels-title {
+    color: var(--Black, #000);
+    font-size: 20px;
+  }
+
+  &:hover {
+    .channels-title {
+      color: var(--Purple-3, #535af1);
+    }
+
+    .workspaces {
+      background-image: url(/assets/icons/workspaces_blue.svg);
+    }
+
+    .icon-expansion {
+      background-image: url(/assets/icons/arrow_drop_down_blue.svg);
+    }
+  }
+
+  &.clicked {
+    .icon-expansion {
+      transform: rotate(0deg);
+    }
+  }
 }
 
 .channel-add {
@@ -111,13 +154,198 @@
   padding: 3px;
   align-items: center;
   gap: 10px;
-}
+  margin-top: 13px;
 
-.add-icon {
-  background-image: url(/assets/icons/add.svg);
-  background-size: 24px;
+  .add-icon {
+    background-image: url(/assets/icons/add.svg);
+    background-size: 24px;
+    cursor: pointer;
+  }
+
+  &:hover {
+    .add-icon {
+      background-image: url(/assets/icons/add_blue.svg);
+    }
+    border-radius: 20px;
+    background: var(--Bg-color, #eceefe);
+  }
 }
 
 .ng-trigger-indicatorRotate {
   display: none !important;
+}
+
+.channels-container {
+  height: 160px;
+  overflow: scroll;
+}
+
+.channels-list-container {
+  padding-top: 20px;
+  padding-bottom: 13px;
+  gap: 13px;
+  display: flex;
+  flex-direction: column;
+}
+
+.channels-list {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 12px;
+  cursor: pointer;
+
+  div {
+    background-image: url(/assets/icons/tag.svg);
+    background-size: cover;
+    padding-left: 25px;
+    height: 24px;
+  }
+
+  a {
+    color: var(--Black, #000);
+    font-size: 18px;
+  }
+
+  &:hover {
+    div {
+      background-image: url(/assets/icons/tag_blue.svg);
+    }
+
+    a {
+      color: var(--Purple-3, #535af1);
+    }
+    background: var(--Bg-color, #eceefe);
+    border-radius: 20px;
+  }
+}
+
+.add-new-chanel {
+  display: inline-flex;
+  padding: 4px 10px;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  width: fit-content;
+
+  div {
+    background-image: url(/assets/icons/add_circle.svg);
+    background-size: cover;
+    padding-left: 25px;
+    height: 24px;
+  }
+
+  a {
+    color: var(--Black, #000);
+    font-size: 18px;
+  }
+
+  &:hover {
+    div {
+      background-image: url(/assets/icons/add_circle_blue.svg);
+    }
+
+    a {
+      color: var(--Purple-3, #535af1);
+    }
+  }
+}
+
+.directmessages-menu {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 25px;
+}
+
+.dm-container {
+  height: 390px;
+  overflow: scroll;
+}
+
+.dm-container-head {
+  padding: 3px 0px !important;
+  span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+  }
+}
+
+.dm-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  .icon-expansion {
+    background-image: url(/assets/icons/arrow_drop_down.svg);
+    background-position: center;
+    padding-right: 15px;
+    transform: rotate(-90deg);
+  }
+
+  .icon-account {
+    background-image: url(/assets/icons/account_circle.svg);
+    padding-right: 10px;
+    background-size: 24px;
+  }
+
+  .channels-title {
+    color: var(--Black, #000);
+    font-size: 20px;
+  }
+
+  &:hover {
+    .channels-title {
+      color: var(--Purple-3, #535af1);
+    }
+
+    .icon-account {
+      background-image: url(/assets/icons/account_circle_blue.svg);
+    }
+
+    .icon-expansion {
+      background-image: url(/assets/icons/arrow_drop_down_blue.svg);
+    }
+  }
+
+  &.clicked {
+    .icon-expansion {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.dm-list {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 20px;
+  cursor: pointer;
+
+  div {
+    background-image: url(/assets/profil-img/profile_bild.svg);
+    background-size: cover;
+    height: 50px;
+    width: 50px;
+  }
+
+  a {
+    color: var(--Black, #000);
+    font-size: 18px;
+  }
+
+  &:hover {
+    a {
+      color: var(--Purple-3, #535af1);
+    }
+    background: var(--Bg-color, #eceefe);
+    border-radius: 35px;
+  }
 }

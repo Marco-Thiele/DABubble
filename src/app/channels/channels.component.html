@@ -1,3 +1,4 @@
+<!--Channels title-->
 <div class="title-container">
   <div class="channel-name">
     <div class="channel-logo">
@@ -8,30 +9,68 @@
     </div>
   </div>
   <div class="edit-icon">
-    <img class="icon" src="assets/icons/edit.svg" alt="">
+    <mat-icon class="icon"></mat-icon>
   </div>
 </div>
 
+<!--Channels menu-->
 <div class="final-menu">
   <div class="channels-menu">
     <mat-accordion class="channels-menu-up">
-      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle>
-        <mat-expansion-panel-header class="channel-container">
-          <div class="channels-title-container">
+      <mat-expansion-panel #expansionPanel hideToggle>
+        <mat-expansion-panel-header class="channel-container-head">
+          <div class="channels-title-container" [ngClass]="{'clicked': isClicked}" (click)="openMenuChannels()">
             <mat-icon class="icon-expansion"></mat-icon>
             <mat-icon class="workspaces"></mat-icon>
             <mat-panel-title class="channels-title font700-normal">
               Channels
             </mat-panel-title>
           </div>
-          <div class="channel-add">
-            <mat-icon class="add-icon"></mat-icon>
+        </mat-expansion-panel-header>
+        <div class="channels-container">
+          <div class="channels-list-container">
+            <div class="channels-list">
+              <div></div>
+              <a class="font400-normal">New Channel</a>
+            </div>
+            <div class="channels-list">
+              <div></div>
+              <a class="font400-normal">New Channel</a>
+            </div>
+          </div>
+          <div class="add-new-chanel">
+            <div></div>
+            <a class="font400-normal">Channel hinzufügen</a>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="channel-add" (click)="openNewChannel()">
+      <mat-icon class="add-icon"></mat-icon>
+    </div>
+  </div>
+  <!--Direct messages menu-->
+  <div class="directmessages-menu">
+    <mat-accordion class="channel-menu-up">
+      <mat-expansion-panel #expansionPanel hideToggle>
+        <mat-expansion-panel-header class="dm-container-head">
+          <div class="dm-title-container" [ngClass]="{'clicked': isClicked}" (click)="openDirectMessages()">
+            <mat-icon class="icon-expansion"></mat-icon>
+            <mat-icon class="icon-account"></mat-icon>
+            <mat-panel-title class="channels-title font700-normal">
+              Direktnachrichten
+            </mat-panel-title>
           </div>
         </mat-expansion-panel-header>
-        <p>I'm visible because I am open</p>
+        <div class="dm-container">
+          <div class="channels-list-container">
+            <div class="dm-list">
+              <div></div>
+              <a class="font400-normal">Frederik Beck (Du)</a>
+            </div>
+          </div>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-
-  <div></div>
 </div>
