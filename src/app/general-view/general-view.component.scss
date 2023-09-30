@@ -31,3 +31,62 @@
   background-color: #fff;
   border-radius: 30px;
 }
+
+// Workspace menü botton
+
+.workspace-menu-cont {
+  position: absolute;
+  left: -160px;
+  bottom: 210px;
+  width: 324px;
+  height: 46px;
+  display: inline-flex;
+  padding: 14px 23px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 0px 0px 30px 30px;
+  background: var(--White, #fff);
+  box-shadow: -4px 4px 7px 0px rgba(0, 0, 0, 0.2);
+  transform: rotate(-90deg);
+}
+
+.workspace-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  cursor: pointer;
+
+  span {
+    display: flex;
+    width: 260px;
+    color: var(--Black, #000);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+  }
+
+  div {
+    background-image: url(/assets/icons/menu-close.svg);
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+    transform: rotate(90deg);
+  }
+
+  &:hover {
+    span {
+      color: var(--Blue, #3f51b5);
+    }
+    div {
+      background-image: url(/assets/icons/menu-close-blue.svg);
+      background-size: cover;
+      width: 17px;
+      height: 17px;
+    }
+  }
+}
