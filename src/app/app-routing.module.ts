@@ -8,11 +8,15 @@ import { MainChatComponent } from './main-chat/main-chat.component';
 import { SecondaryChatComponent } from './secondary-chat/secondary-chat.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { MailPasswordResetComponent } from './mail-password-reset/mail-password-reset.component';
+import { PickAvatarComponent } from './pick-avatar/pick-avatar.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: CreateAccountComponent},
-  { path: 'recover', component: PasswordResetComponent},
+  { path: 'register', component: CreateAccountComponent },
+  { path: 'pick-avatar', component: PickAvatarComponent },
+  { path: 'recover', component: PasswordResetComponent },
+  { path: 'mail-recover', component: MailPasswordResetComponent },
   {
     path: 'index',
     component: GeneralViewComponent,

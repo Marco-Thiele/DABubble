@@ -6,7 +6,6 @@
   </div>
 
   <div class="login-container">
-    
     <div class="greet">
       <h1>Anmeldung</h1>
       <span
@@ -15,38 +14,48 @@
       </span>
     </div>
 
-
     <form (submit)="loginUser()" #loginUserForm ngNativeValidate>
-        <div class="email-container" [class.focused]="isEmailFocused">
-            <img src="../../assets/img/mail.svg">
-            <input required id="email" type="email" placeholder="beispielname@email.com" (focus)="onFocusEmail()" (blur)="onBlurMail()" />
-        </div>
-        <div class="pwd-container" [class.focused]="isPwdFocused">
-            <img src="../../assets/img/lock.svg">
-      <input required id="password" type="password" placeholder="Passwort" (focus)="onFocusPwd()" (blur)="onBlurPwd()" />
-            </div>
+      <div class="email-container" [class.focused]="isEmailFocused">
+        <img src="../../assets/img/mail.svg" />
+        <input
+          required
+          id="email"
+          type="email"
+          placeholder="beispielname@email.com"
+          (focus)="onFocusEmail()"
+          (blur)="onBlurMail()"
+        />
+      </div>
+      <div class="pwd-container" [class.focused]="isPwdFocused">
+        <img src="../../assets/img/lock.svg" />
+        <input
+          required
+          id="password"
+          type="password"
+          placeholder="Passwort"
+          (focus)="onFocusPwd()"
+          (blur)="onBlurPwd()"
+        />
+      </div>
 
-        <a class="reset" routerLink="/recover">Passwort vergessen?</a>
-    
+      <a class="reset" routerLink="/recover">Passwort vergessen?</a>
 
-    <div class="or-container">
+      <div class="or-container">
         <div class="divider"></div>
         <span>ODER</span>
         <div class="divider"></div>
-    </div>
+      </div>
 
-    <div class="google">
-        <img src="../../assets/img/google.svg">
+      <div class="google">
+        <img src="../../assets/img/google.svg" />
         <span>Anmelden mit Google</span>
-    </div>
+      </div>
 
-    <div class="btn-container">
-        <button class="submit" type="submit">
-            Anmelden
-        </button>
+      <div class="btn-container">
+        <button class="submit" type="submit">Anmelden</button>
         <button class="guest" type="button">Gäste-Login</button>
-    </div>
-</form>
+      </div>
+    </form>
   </div>
 
   <div class="policies">

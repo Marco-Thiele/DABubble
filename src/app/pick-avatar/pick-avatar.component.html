@@ -1,0 +1,38 @@
+<div class="container">
+  <img class="logo" src="../../assets/img/logo_with_text.svg" />
+
+  <div class="avatar-container">
+    <div class="greet">
+      <a routerLink="/login" class="return-arrow">
+        <img src="../../assets/img/arrow_back.svg" />
+      </a>
+      <h1>Wähle deinen Avatar</h1>
+    </div>
+
+    <div class="inner-container">
+      <div class="person">
+        <img src="../../assets/img/avatars/{{ picked_avatar }}" />
+      </div>
+      <h2>Frederik Beck</h2>
+      <span>Aus der Liste wählen</span>
+      <div class="avatar-picker">
+        <img
+          *ngFor="let img of avatar_list"
+          (click)="chooseAvatar(img)"
+          src="../../assets/img/avatars/{{ img }}"
+        />
+      </div>
+
+      <div class="upload">
+        <div class="text">eigenes Bild verwenden</div>
+        <button class="upload-btn">Datei hochladen</button>
+      </div>
+      <button class="submit" [disabled]="true" type="submit">Weiter</button>
+    </div>
+  </div>
+
+  <div class="policies">
+    <a href="#">Impressum</a>
+    <a href="#">Datenschutz</a>
+  </div>
+</div>

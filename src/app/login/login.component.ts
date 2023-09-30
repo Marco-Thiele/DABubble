@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   isEmailFocused: boolean = false;
@@ -13,16 +13,16 @@ export class LoginComponent {
     this.isEmailFocused = true;
   }
 
-  onFocusPwd(){
+  onFocusPwd() {
     this.isPwdFocused = true;
   }
 
-  onBlurMail(){
+  onBlurMail() {
     this.isEmailFocused = false;
   }
   onBlurPwd() {
     this.isPwdFocused = false;
   }
 
-  loginUser(){}
+  loginUser() {}
 }

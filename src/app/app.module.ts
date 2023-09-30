@@ -27,6 +27,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { HeaderComponent } from './header/header.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { MailPasswordResetComponent } from './mail-password-reset/mail-password-reset.component';
+import { PickAvatarComponent } from './pick-avatar/pick-avatar.component';
 
 
 
@@ -41,6 +43,8 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
     HeaderComponent,
     CreateAccountComponent,
     PasswordResetComponent,
+    MailPasswordResetComponent,
+    PickAvatarComponent,
   ],
   imports: [
     BrowserModule,
