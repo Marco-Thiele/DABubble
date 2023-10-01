@@ -1,1 +1,52 @@
-<p>main-chat works!</p>
+<div class="head-member-container">
+  <div class="head-title-channel" (click)="showMembers()">
+    <div class="title-channel">
+      <div class="title-hashtag">
+        <div class="hashtag"></div>
+        <span class="title font700-normal">Entwicklerteam</span>
+        <div class="head-arrow-cont">
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="members-add-container">
+    <div class="members-cont" (click)="addMembers()">
+      <div class="members">
+        <img src="assets/profil-img/profile_bild.svg">
+        <img src="assets/profil-img/profile_bild.svg">
+        <img src="assets/profil-img/profile_bild.svg">
+      </div>
+      <span class="font600-normal">1</span>
+    </div>
+    <div class="add-member-cont">
+      <div></div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="message-box-cont">
+  <div class="message-box">
+    <textarea class="font400-normal auto-resizable-textarea" placeholder="Nachricht an #Entwicklerteam"
+      (input)="onTextareaInput($event)"></textarea>
+    <div class="send-mesg-box">
+      <div class="send-msg-icons">
+        <div class="icon-plus icons">
+          <div></div>
+        </div>
+        <div class="icons-line"></div>
+        <div class="icon-s icons">
+          <div></div>
+        </div>
+        <div class="icon-et icons">
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

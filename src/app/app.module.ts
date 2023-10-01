@@ -29,11 +29,7 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { MailPasswordResetComponent } from './mail-password-reset/mail-password-reset.component';
 import { PickAvatarComponent } from './pick-avatar/pick-avatar.component';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideDatabase, getDatabase } from '@angular/fire/database';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { environment } from 'src/environments/environment';
+import { ChannelErstellenComponent } from './channel-erstellen/channel-erstellen.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +44,7 @@ import { environment } from 'src/environments/environment';
     PasswordResetComponent,
     MailPasswordResetComponent,
     PickAvatarComponent,
+    ChannelErstellenComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,10 +65,6 @@ import { environment } from 'src/environments/environment';
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideDatabase(() => getDatabase()),
-    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatDialog } from '@angular/material/dialog';
+import { ChannelErstellenComponent } from '../channel-erstellen/channel-erstellen.component';
 
 @Component({
   selector: 'app-channels',
@@ -12,16 +12,28 @@ export class ChannelsComponent implements OnInit {
   panelOpenState = false;
   isClicked = false;
 
-  constructor() {}
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit(): void {}
 
+  /**
+   * Opens the menu of the channels.
+   */
   openMenuChannels() {
     this.isClicked = !this.isClicked;
   }
+
+  /**
+   * Opens the menu of the direct messages.
+   */
   openDirectMessages() {
     this.isClicked = !this.isClicked;
   }
 
-  openNewChannel() {}
+  /**
+   * Opens the dialog for creating a channel.
+   */
+  openNewChannel() {
+    this.dialog.open(ChannelErstellenComponent, {});
+  }
 }

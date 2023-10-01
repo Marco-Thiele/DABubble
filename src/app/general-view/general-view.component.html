@@ -2,14 +2,16 @@
   <app-header></app-header>
 </div>
 <div class="general-view-container">
-  <app-channels class="channels-container"></app-channels>
-  <app-main-chat class="main-chat-container"></app-main-chat>
+  <app-channels class="channels-container" [class.closed]="isChannelsClosed" [class.open]="isChannelOpen"
+    [ngStyle]="{ 'display': channelDisplay }"></app-channels>
+  <app-main-chat class="main-chat-container" [class.bigger]="isMainChatBigger"
+    [class.smaller]="isMainChatSmaller"></app-main-chat>
   <app-secondary-chat class="secondary-chat-container"></app-secondary-chat>
 </div>
 
-<div class="workspace-menu-cont">
+<div class="workspace-menu-cont" (click)="openCloseWorkspace()">
   <div class="workspace-menu">
-    <span>Workspace-Menü schließen</span>
-    <div></div>
+    <span>{{ buttonText }}</span>
+    <div [ngClass]="{ 'open': isMenuOpen, 'closed': !isMenuOpen }"></div>
   </div>
 </div>

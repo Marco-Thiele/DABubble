@@ -17,6 +17,11 @@ body {
   line-height: normal;
 }
 
+.font600-normal {
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
 .font400-normal {
   font-style: normal;
   font-weight: 400;
@@ -25,4 +30,11 @@ body {
 
 ::-webkit-scrollbar {
   width: 0;
+}
+
+.auto-resizable-textarea {
+  min-height: 25px;
+  resize: none;
+  overflow-y: hidden;
+  width: 100%;
 }

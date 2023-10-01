@@ -7,22 +7,46 @@
 }
 
 .channels-container {
-  width: 19%;
   height: -webkit-fill-available;
   background-color: #fff;
   border-radius: 30px;
-  padding: 32px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 25px;
 }
 
+.channels-container.open {
+  width: 19%;
+  padding: 32px 30px;
+  opacity: 1;
+  overflow: hidden;
+  transition: all 1s ease-in-out;
+}
+
+.channels-container.closed {
+  width: 0;
+  padding: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 1s ease-in-out;
+}
+
 .main-chat-container {
-  width: 51.5%;
   height: -webkit-fill-available;
   background-color: #fff;
   border-radius: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-chat-container.bigger {
+  width: 74.8%;
+}
+
+.main-chat-container.smaller {
+  width: 51.5%;
 }
 
 .secondary-chat-container {
@@ -70,8 +94,16 @@
     line-height: 120%;
   }
 
-  div {
+  div.open {
     background-image: url(/assets/icons/menu-close.svg);
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+    transform: rotate(90deg);
+  }
+
+  div.closed {
+    background-image: url(/assets/icons/menu-open.svg);
     background-size: cover;
     width: 16px;
     height: 16px;
@@ -82,11 +114,22 @@
     span {
       color: var(--Blue, #3f51b5);
     }
-    div {
+    div.open {
       background-image: url(/assets/icons/menu-close-blue.svg);
       background-size: cover;
       width: 17px;
       height: 17px;
     }
+
+    div.closed {
+      background-image: url(/assets/icons/menu-open-blue.svg);
+      background-size: cover;
+      width: 17px;
+      height: 17px;
+    }
   }
+}
+
+.display-none {
+  display: none;
 }
