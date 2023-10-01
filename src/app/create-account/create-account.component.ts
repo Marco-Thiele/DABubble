@@ -1,20 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { inject } from '@angular/core';
+import { Firestore } from '@angular/fire/firestore';
+import { getAuth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
-  styleUrls: ['./create-account.component.scss']
+  styleUrls: ['./create-account.component.scss'],
 })
-export class CreateAccountComponent {
+export class CreateAccountComponent implements OnInit {
+  ngOnInit() {}
   isEmailFocused: boolean = false;
   isPwdFocused: boolean = false;
   isNameFocused: boolean = false;
+  firestore: Firestore = inject(Firestore);
+  auth = getAuth();
+  email: string = '';
+  password: string = '';
+  name: string = '';
 
   onFocusEmail() {
     this.isEmailFocused = true;
   }
 
-  onFocusPwd(){
+  onFocusPwd() {
     this.isPwdFocused = true;
   }
 
@@ -22,7 +31,7 @@ export class CreateAccountComponent {
     this.isNameFocused = true;
   }
 
-  onBlurMail(){
+  onBlurMail() {
     this.isEmailFocused = false;
   }
   onBlurPwd() {
@@ -33,5 +42,17 @@ export class CreateAccountComponent {
     this.isNameFocused = false;
   }
 
-  registerUser(){}
+  registerUser() {
+    createUserWithEmailAndPassword(this.auth, this.email, this.password)
+      .then((userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  }
 }
