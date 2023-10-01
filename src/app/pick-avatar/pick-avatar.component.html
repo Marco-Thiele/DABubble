@@ -27,7 +27,14 @@
         <div class="text">eigenes Bild verwenden</div>
         <button class="upload-btn">Datei hochladen</button>
       </div>
-      <button class="submit" [disabled]="true" type="submit">Weiter</button>
+      <button
+        class="submit"
+        [disabled]="isButtonDisabled"
+        type="button"
+        (click)="updateUser()"
+      >
+        Weiter
+      </button>
     </div>
   </div>
 

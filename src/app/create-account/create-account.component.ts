@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { getAuth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-create-account',
@@ -9,6 +11,8 @@ import { getAuth, createUserWithEmailAndPassword } from '@angular/fire/auth';
   styleUrls: ['./create-account.component.scss'],
 })
 export class CreateAccountComponent implements OnInit {
+  constructor(private _router: Router, private UserService: UserService) {}
+
   ngOnInit() {}
   isEmailFocused: boolean = false;
   isPwdFocused: boolean = false;
@@ -47,12 +51,14 @@ export class CreateAccountComponent implements OnInit {
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        console.log(user);
+        this.UserService.name = this.name;
+        this._router.navigateByUrl('/pick-avatar');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         // ..
+        console.log('error while creating account');
       });
   }
 }
