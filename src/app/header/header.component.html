@@ -9,7 +9,7 @@
             </div>
             <div class="position-profil-contant" (click)="showInfo()">
                 <div class="profil-name">
-                    Frederik Beck
+                    <!--Frederik Beck--> [(ngModel)]="profilName"
                 </div>
                 <div>
                     <img src="../../assets/profil-img/Profile bild.svg" alt="">
@@ -22,12 +22,12 @@
 
     </div>
 </div>
-<div id="profilLogout" class="position-profil-logout d-none" (click)="removeInfo()">
-    <div id="profilLogoutContant" class="position-profile-contant">
-        <div>
+<div *ngIf="show" id="profilLogout" class="position-profil-logout" (click)="removeInfo()">
+    <div (click)="notRemoveInfo($event)" class="position-profile-contant">
+        <div (click)="showProfil()">
             Profil
         </div>
-        <div>
+        <div (click)="logOut()">
             Log Out
         </div>
     </div>

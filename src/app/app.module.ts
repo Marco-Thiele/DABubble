@@ -74,6 +74,7 @@ import { SharedService } from './shared.service';
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
+    FormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
