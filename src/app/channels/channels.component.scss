@@ -198,12 +198,13 @@
   gap: 10px;
   padding: 4px 12px;
   cursor: pointer;
+  border-radius: 20px;
 
   div {
     background-image: url(/assets/icons/tag.svg);
     background-size: cover;
-    padding-left: 25px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
   }
 
   a {
@@ -213,14 +214,13 @@
 
   &:hover {
     div {
-      background-image: url(/assets/icons/tag_blue.svg);
+      background-image: url(/assets/icons/tag_blue.svg) !important;
     }
 
     a {
-      color: var(--Purple-3, #535af1);
+      color: var(--Purple-3, #535af1) !important;
     }
-    background: var(--Bg-color, #eceefe);
-    border-radius: 20px;
+    background: var(--Bg-color, #eceefe) !important;
   }
 }
 

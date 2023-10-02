@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-main-chat',
@@ -16,15 +17,23 @@ export class MainChatComponent implements OnInit {
   message = '';
   showEmojiPicker = false;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit(): void {}
+
+  isEditChannelOpen(): boolean {
+    return this.sharedService.getIsEditChannelOpen();
+  }
 
   /**
    * Shows the edit Channel component
    */
   editChannel() {
     this.dialog.open(ChannelEditComponent, {});
+    this.sharedService.setIsEditChannelOpen(true);
   }
 
   showMembers() {}

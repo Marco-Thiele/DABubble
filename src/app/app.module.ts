@@ -37,6 +37,7 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ChannelEditComponent } from './channel-edit/channel-edit.component';
+import { SharedService } from './shared.service';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,7 @@ import { ChannelEditComponent } from './channel-edit/channel-edit.component';
     provideFirestore(() => getFirestore()),
     PickerModule,
   ],
-  providers: [],
+  providers: [SharedService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

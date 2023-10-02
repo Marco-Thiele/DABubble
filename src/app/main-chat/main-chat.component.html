@@ -1,11 +1,17 @@
 <div class="head-member-container">
-  <div class="head-title-channel" (click)="editChannel()">
+  <div class="head-title-channel" (click)="editChannel()"
+    [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
     <div class="title-channel">
       <div class="title-hashtag">
-        <div class="hashtag"></div>
-        <span class="title font700-normal">Entwicklerteam</span>
+        <div class="hashtag"
+          [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/tag_blue.svg)' : 'url(/assets/icons/tag.svg)'">
+        </div>
+        <span class="title font700-normal"
+          [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'">Entwicklerteam</span>
         <div class="head-arrow-cont">
-          <div></div>
+          <div
+            [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/keyboard_arrow_down_blue.svg)' : 'url(/assets/icons/keyboard_arrow_down.svg)'">
+          </div>
         </div>
       </div>
     </div>

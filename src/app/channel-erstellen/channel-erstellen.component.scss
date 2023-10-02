@@ -28,16 +28,25 @@
 
 .close-create-channel {
   display: flex;
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
   padding: 8px;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 
-  img {
+  div {
+    background-image: url(/assets/icons/close.svg);
+    background-size: cover;
     width: 24px;
     height: 24px;
-    cursor: pointer;
+  }
+  &:hover {
+    div {
+      background-image: url(/assets/icons/close_blue.svg);
+    }
+    border-radius: 20px;
+    background: var(--Bg-color, #eceefe);
   }
 }
 
@@ -124,5 +133,9 @@
   span {
     color: #fff;
     font-size: 18px;
+  }
+
+  &:hover {
+    background: var(--Purple-2, #797ef3);
   }
 }

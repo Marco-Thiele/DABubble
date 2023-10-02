@@ -29,9 +29,12 @@
         </mat-expansion-panel-header>
         <div class="channels-container">
           <div class="channels-list-container">
-            <div class="channels-list">
-              <div></div>
-              <a class="font400-normal">New Channel</a>
+            <div class="channels-list"
+              [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
+              <div
+                [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/tag_blue.svg)' : 'url(/assets/icons/tag.svg)'">
+              </div>
+              <a class="font400-normal" [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'">New Channel</a>
             </div>
           </div>
           <div class="add-new-chanel">

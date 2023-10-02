@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelErstellenComponent } from '../channel-erstellen/channel-erstellen.component';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-channels',
@@ -12,9 +13,16 @@ export class ChannelsComponent implements OnInit {
   panelOpenState = false;
   isClicked = false;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit(): void {}
+
+  isEditChannelOpen(): boolean {
+    return this.sharedService.getIsEditChannelOpen();
+  }
 
   /**
    * Opens the menu of the channels.

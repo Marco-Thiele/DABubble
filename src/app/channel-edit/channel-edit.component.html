@@ -1,3 +1,76 @@
 <div class="edit-channel-container">
+  <div class="edit-channel-head">
+    <div class="head-left">
+      <div></div>
+      <span class="font700-normal">Entwicklerteam</span>
+    </div>
+    <div class="head-right" (click)="closeEditChannelContainer()">
+      <div></div>
+    </div>
+  </div>
+
+  <div class="edit-channel-name" *ngIf="!isEditingName">
+    <div class="edit-title-cont">
+      <span class="font700-normal">Channel-Name</span>
+      <div class="edit-editing" (click)="editName()">
+        <span class="font600-normal">Bearbeiten</span>
+      </div>
+    </div>
+    <div class="edit-title-name">
+      <div></div>
+      <span class="font400-normal">Entwicklerteam</span>
+    </div>
+  </div>
+
+  <div class="new-channel-name" *ngIf="isEditingName">
+    <div class="edit-title-cont">
+      <span class="font700-normal">Channel-Name</span>
+      <div class="edit-editing" (click)="saveName()">
+        <span class="font600-normal">Speichern</span>
+      </div>
+    </div>
+    <div class="new-title-name">
+      <div></div>
+      <input class="font400-normal" placeholder="Entwicklerteam">
+    </div>
+  </div>
+
+  <div class="edit-channel-description" *ngIf="!isEditingDescription">
+    <div class="edit-title-cont">
+      <span class="font700-normal">Beschreibung</span>
+      <div class="edit-editing" (click)="editDescription()">
+        <span class="font600-normal">Bearbeiten</span>
+      </div>
+    </div>
+    <span class="font400-normal">Dieser Channel ist für alles rund um #dfsdf vorgesehen. Hier kannst du zusammen mit
+      deinem Team Meetings abhalten, Dokumente teilen und Entscheidungen treffen.</span>
+    <div class="description-line"></div>
+    <div class="edit-title-users">
+      <span class="font700-normal">Erstellt von</span>
+      <span class="font400-normal edit-users">Noah Braun</span>
+    </div>
+  </div>
+
+  <div class="new-channel-name" *ngIf="isEditingDescription">
+    <div class="edit-title-cont">
+      <span class="font700-normal">Beschreibung</span>
+      <div class="edit-editing" (click)="saveDescription()">
+        <span class="font600-normal">Speichern</span>
+      </div>
+    </div>
+    <div class="new-title-name">
+      <div></div>
+      <input class="font400-normal" placeholder="Dein Text hier">
+    </div>
+    <div class="description-line"></div>
+    <div class="edit-title-users">
+      <span class="font700-normal">Erstellt von</span>
+      <span class="font400-normal edit-users">Noah Braun</span>
+    </div>
+  </div>
+
+  <div class="button-create-cont">
+    <span class="font700-normal" (click)="leaveChannel()">Channel verlassen</span>
+  </div>
 
 </div>
