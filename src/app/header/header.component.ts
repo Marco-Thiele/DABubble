@@ -10,7 +10,7 @@ import { UserService } from '../user.service';
 })
 export class HeaderComponent {
   show: boolean = false;
-  profilName:any;
+  profilName:string;
 
   constructor(public UserService: UserService) { 
     this.profilName = UserService.getName()
