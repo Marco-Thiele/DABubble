@@ -1,5 +1,5 @@
 <div class="head-member-container">
-  <div class="head-title-channel" (click)="showMembers()">
+  <div class="head-title-channel" (click)="editChannel()">
     <div class="title-channel">
       <div class="title-hashtag">
         <div class="hashtag"></div>
@@ -12,7 +12,7 @@
   </div>
 
   <div class="members-add-container">
-    <div class="members-cont" (click)="addMembers()">
+    <div class="members-cont" (click)="showMembers()">
       <div class="members">
         <img src="assets/profil-img/profile_bild.svg">
         <img src="assets/profil-img/profile_bild.svg">
@@ -20,33 +20,52 @@
       </div>
       <span class="font600-normal">1</span>
     </div>
-    <div class="add-member-cont">
+    <div class="add-member-cont" (click)="addMembers()">
       <div></div>
+    </div>
+  </div>
+</div>
+
+<div class="chat-container">
+  <div class="time-separator">
+    <div class="time-line">
+    </div>
+    <div class="time-day">
+      <span class="font400-normal">Monday, 2 Oktober</span>
     </div>
   </div>
 </div>
 
 
 
-
-
 <div class="message-box-cont">
   <div class="message-box">
     <textarea class="font400-normal auto-resizable-textarea" placeholder="Nachricht an #Entwicklerteam"
-      (input)="onTextareaInput($event)"></textarea>
+      (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="onFocus()"></textarea>
+    <div class="image-preview-cont" #imagePreviewCont>
+      <img id="image-preview" #imagePreview />
+    </div>
+
     <div class="send-mesg-box">
       <div class="send-msg-icons">
-        <div class="icon-plus icons">
+        <div class="icon-plus icons" (click)="fileInput.click()">
+          <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none" />
           <div></div>
         </div>
         <div class="icons-line"></div>
-        <div class="icon-s icons">
+        <div class="icon-s icons" (click)="toggleEmojiPicker()">
           <div></div>
+        </div>
+        <div>
+          <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
+            title="Pick your emoji…"></emoji-mart>
         </div>
         <div class="icon-et icons">
           <div></div>
         </div>
       </div>
+
+      <div class="send-msg"></div>
     </div>
   </div>
 </div>

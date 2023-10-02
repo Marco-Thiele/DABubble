@@ -1,0 +1,16 @@
+.edit-channel-container {
+  display: flex;
+  width: 872px;
+  padding: 40px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
+  border-radius: 0px 30px 30px 30px;
+  background: var(--White, #fff);
+  box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 0 30px 30px 30px !important;
+}
