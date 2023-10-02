@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { UserService } from '../user.service';
 
 
 @Component({
@@ -8,14 +9,36 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
- 
-  constructor(public dialog: MatDialog) {}
-  showInfo(){
-    document.getElementById('profilLogout')?.classList.toggle('d-none')
+  show: boolean = false;
+  profilName:any;
+
+  constructor(public UserService: UserService) { 
+    this.profilName = UserService.getName()
+  }
+  
+  showInfo() {
+    this.show = true;
   }
 
-  removeInfo(){
-    document.getElementById('profilLogout')?.classList.toggle('d-none')
+
+  removeInfo() {
+    this.show = false;
+    
+  }
+
+
+  notRemoveInfo(event:Event){
+    event.stopPropagation()
+  }
+
+
+  showProfil(){
+
+  }
+
+
+  logOut(){
+
   }
 
 }
