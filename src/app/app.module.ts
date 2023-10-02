@@ -35,6 +35,8 @@ import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { ChannelEditComponent } from './channel-edit/channel-edit.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
     MailPasswordResetComponent,
     PickAvatarComponent,
     ChannelErstellenComponent,
+    ChannelEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +77,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
+    PickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
