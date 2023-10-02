@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class PasswordResetComponent {
   firestore: Firestore = inject(Firestore);
   auth = getAuth();
-  email: string = '';
+  email = '';
   isEmailFocused: boolean = false;
 
   constructor(private UserService: UserService, private _router: Router) {

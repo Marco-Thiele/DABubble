@@ -73,6 +73,7 @@ import { ChannelEditComponent } from './channel-edit/channel-edit.component';
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
+    FormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
