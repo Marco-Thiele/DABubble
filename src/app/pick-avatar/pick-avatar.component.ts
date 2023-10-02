@@ -42,7 +42,7 @@ export class PickAvatarComponent {
         photoURL: this.UserService.photoURL,
       })
         .then(() => {
-          console.log('Profile Updated');
+          console.log('Profile Updated with');
           this._router.navigateByUrl('/index');
         })
         .catch((error) => {
