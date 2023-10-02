@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
 import { SharedService } from '../shared.service';
+import { ChannelMembersComponent } from '../channel-members/channel-members.component';
 
 @Component({
   selector: 'app-main-chat',
@@ -36,7 +37,9 @@ export class MainChatComponent implements OnInit {
     this.sharedService.setIsEditChannelOpen(true);
   }
 
-  showMembers() {}
+  showMembers() {
+    this.dialog.open(ChannelMembersComponent, {});
+  }
 
   addMembers() {}
 

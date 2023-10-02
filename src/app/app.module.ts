@@ -38,6 +38,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ChannelEditComponent } from './channel-edit/channel-edit.component';
 import { SharedService } from './shared.service';
+import { ChannelMembersComponent } from './channel-members/channel-members.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { SharedService } from './shared.service';
     PickAvatarComponent,
     ChannelErstellenComponent,
     ChannelEditComponent,
+    ChannelMembersComponent,
   ],
   imports: [
     BrowserModule,
