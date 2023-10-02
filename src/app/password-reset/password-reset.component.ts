@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class PasswordResetComponent {
   firestore: Firestore = inject(Firestore);
   auth = getAuth();
-  email = '';
+  email: string = '';
   isEmailFocused: boolean = false;
 
   constructor(private UserService: UserService, private _router: Router) {
@@ -29,10 +29,9 @@ export class PasswordResetComponent {
   }
 
   recoverUser() {
-    const auth = getAuth();
-    sendPasswordResetEmail(auth, this.email)
+    sendPasswordResetEmail(this.auth, this.email)
       .then(() => {
-        console.log('password reset sent!');
+        this._router.navigateByUrl('/login');
       })
       .catch((error) => {
         const errorCode = error.code;
