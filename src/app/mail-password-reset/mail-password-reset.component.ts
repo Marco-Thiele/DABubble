@@ -21,7 +21,8 @@ export class MailPasswordResetComponent {
   firestore: Firestore = inject(Firestore);
   auth = getAuth();
   oobCode: string = '';
-
+  pwdMatch: boolean = true;
+  passwordLengthError: boolean = false;
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.queryParams.subscribe((params) => {
       this.oobCode = params['oobCode'];
@@ -46,15 +47,30 @@ export class MailPasswordResetComponent {
 
   resetPassword() {
     if (this.newPassword === this.confirmedPassword) {
-      confirmPasswordReset(this.auth, this.oobCode, this.newPassword)
-        .then(() => {
-          this.router.navigateByUrl('/login');
-        })
-        .catch((error) => {
-          console.error('Password reset error:', error);
-        });
+      this.pwdMatch = true;
+      if (!this.checkPasswordLength()) {
+        this.passwordLengthError = true;
+      }
+      if (this.checkPasswordLength())
+        confirmPasswordReset(this.auth, this.oobCode, this.newPassword)
+          .then(() => {
+            this.router.navigateByUrl('/login');
+          })
+          .catch((error) => {
+            console.error('Password reset error:', error);
+          });
     } else {
-      console.error('Passwords do not match');
+      this.pwdMatch = false;
     }
+  }
+
+  checkPasswordLength() {
+    if (this.newPassword.length < 8 && this.confirmedPassword.length < 8) {
+      return false;
+    }
+    if (this.newPassword.length >= 8 && this.confirmedPassword.length >= 8) {
+      return true;
+    }
+    return false;
   }
 }
