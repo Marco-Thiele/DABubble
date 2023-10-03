@@ -46,9 +46,12 @@ export class LoginComponent {
   loginUser() {
     signInWithEmailAndPassword(this.auth, this.email, this.password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
-        this._router.navigateByUrl('/index');
+        if (user.displayName && user.photoURL) {
+          this.UserService.name = user.displayName;
+          this.UserService.photoURL = user.photoURL;
+          this._router.navigateByUrl('/index');
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -73,13 +76,10 @@ export class LoginComponent {
   googleLogin() {
     signInWithPopup(this.auth, this.provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        if (credential != null) {
-          const token = credential.accessToken;
-          // The signed-in user info.
-          const user = result.user;
-          // IdP data available using getAdditionalUserInfo(result)
+        const user = result.user;
+        if (user.displayName && user.photoURL) {
+          this.UserService.name = user.displayName;
+          this.UserService.photoURL = user.photoURL;
           this._router.navigateByUrl('/index');
         }
       })
