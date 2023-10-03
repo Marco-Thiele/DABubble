@@ -27,6 +27,10 @@ export class LoginComponent {
   password: string = '';
   isEmailFocused: boolean = false;
   isPwdFocused: boolean = false;
+  pwdError: boolean = false;
+  mailError: boolean = false;
+  loginCredentialsError: boolean = false;
+  requestsError: boolean = false;
 
   onFocusEmail() {
     this.isEmailFocused = true;
@@ -54,8 +58,10 @@ export class LoginComponent {
         }
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        this.checkMail(error.code);
+        this.checkPassword(error.code);
+        this.checkLogin(error.code);
+        this.checkRequests(error.code);
       });
   }
 
@@ -93,5 +99,38 @@ export class LoginComponent {
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
       });
+  }
+
+  checkMail(error: string) {
+    if (error === 'auth/invalid-email') {
+      this.mailError = true;
+    }
+    if (error != 'auth/invalid-email') {
+      this.mailError = false;
+    }
+  }
+
+  checkPassword(error: string) {
+    if (error === 'auth/missing-password') {
+      this.pwdError = true;
+    }
+  }
+
+  checkLogin(error: string) {
+    if (error === 'auth/invalid-login-credentials') {
+      this.loginCredentialsError = true;
+    }
+    if (error != 'auth/invalid-login-credentials') {
+      this.loginCredentialsError = false;
+    }
+  }
+
+  checkRequests(error: string) {
+    if (error === 'auth/too-many-requests') {
+      this.requestsError = true;
+    }
+    if (error != 'auth/too-many-requests') {
+      this.requestsError = false;
+    }
   }
 }

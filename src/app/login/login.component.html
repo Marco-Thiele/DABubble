@@ -15,31 +15,47 @@
     </div>
 
     <form (submit)="loginUser()" #loginUserForm ngNativeValidate>
-      <div class="email-container" [class.focused]="isEmailFocused">
-        <img src="../../assets/img/mail.svg" />
-        <input
-          required
-          id="email"
-          type="email"
-          placeholder="beispielname@email.com"
-          [(ngModel)]="email"
-          name="email"
-          (focus)="onFocusEmail()"
-          (blur)="onBlurMail()"
-        />
+      <div class="wrapper">
+        <div class="email-container" [class.focused]="isEmailFocused">
+          <img src="../../assets/img/mail.svg" />
+          <input
+            required
+            id="email"
+            type="email"
+            placeholder="beispielname@email.com"
+            [(ngModel)]="email"
+            name="email"
+            (focus)="onFocusEmail()"
+            (blur)="onBlurMail()"
+          />
+        </div>
+        <span *ngIf="mailError" class="error"
+          >*Diese E-Mail-Adresse ist leider ungültig.</span
+        >
+        <span class="error" *ngIf="loginCredentialsError">
+          *Bitte prüfe deine Email Adresse.
+        </span>
       </div>
-      <div class="pwd-container" [class.focused]="isPwdFocused">
-        <img src="../../assets/img/lock.svg" />
-        <input
-          required
-          id="password"
-          type="password"
-          [(ngModel)]="password"
-          name="password"
-          placeholder="Passwort"
-          (focus)="onFocusPwd()"
-          (blur)="onBlurPwd()"
-        />
+      <div class="wrapper">
+        <div class="pwd-container" [class.focused]="isPwdFocused">
+          <img src="../../assets/img/lock.svg" />
+          <input
+            required
+            id="password"
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Passwort"
+            (focus)="onFocusPwd()"
+            (blur)="onBlurPwd()"
+          />
+        </div>
+        <span *ngIf="pwdError || loginCredentialsError" class="error"
+          >Falsches Passwort. Bitte noch einmal versuchen.</span
+        >
+        <span class="erorr" *ngIf="requestsError">
+          Zu viele Versuche. Bitte versuche es später noch einmal.
+        </span>
       </div>
 
       <a class="reset" routerLink="/recover">Passwort vergessen?</a>

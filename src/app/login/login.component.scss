@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  a{
+  a {
     text-decoration: none;
   }
 }
@@ -19,7 +19,7 @@
 .container {
   width: 100vw;
   max-width: 100%;
-  
+
   padding: 75px;
   padding-top: 0;
   flex-direction: column;
@@ -32,7 +32,7 @@
 }
 
 .login-container {
-margin-top: 130px;
+  margin-top: 130px;
   width: 606px;
   height: 769px;
   border-radius: 30px;
@@ -232,9 +232,13 @@ form {
     font-weight: 400;
     text-decoration: none;
     border: 1px solid transparent;
-    &:hover{
-        border: 0.5px solid gray;
-        border-radius: 14px;
+    &:hover {
+      border: 0.5px solid gray;
+      border-radius: 14px;
     }
   }
+}
+
+.error {
+  color: red;
 }
