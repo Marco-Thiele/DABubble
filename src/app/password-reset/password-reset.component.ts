@@ -15,7 +15,7 @@ export class PasswordResetComponent {
   auth = getAuth();
   email: string = '';
   isEmailFocused: boolean = false;
-
+  mailError: boolean = false;
   constructor(private UserService: UserService, private _router: Router) {
     this.auth.languageCode = 'de';
   }
@@ -29,14 +29,28 @@ export class PasswordResetComponent {
   }
 
   recoverUser() {
-    sendPasswordResetEmail(this.auth, this.email)
-      .then(() => {
-        this._router.navigateByUrl('/login');
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(error.code);
-      });
+    if (this.checkMail()) {
+      sendPasswordResetEmail(this.auth, this.email)
+        .then(() => {
+          this._router.navigateByUrl('/login');
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(error.code);
+        });
+    }
+  }
+
+  checkMail() {
+    if (this.email.length > 3 && this.email.includes('@')) {
+      this.mailError = false;
+      return true;
+    }
+    if (this.email.length <= 3 || !this.email.includes('@')) {
+      this.mailError = true;
+      return false;
+    }
+    return false;
   }
 }
