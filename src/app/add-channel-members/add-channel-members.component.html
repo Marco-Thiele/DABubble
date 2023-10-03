@@ -1,0 +1,22 @@
+<div class="add-channel-members-cont">
+  <div class="add-members-head">
+    <div class="head-title">
+      <span class="font700-normal">Leute Hinzufügen</span>
+      <div class="channel-close" (click)="closeAddMembers()">
+        <div></div>
+      </div>
+    </div>
+    <div class="add-members-channel-name">
+      <div></div>
+      <span class="font400-normal">Entwicklerteam</span>
+    </div>
+  </div>
+
+  <div class="add-member-add-name">
+    <input placeholder="Name eingeben" (change)="lookForUser()">
+  </div>
+
+  <div class="add-members-button" (click)="addMember()" [ngClass]="{'user-found': userFound}">
+    <span class="font700-normal">Hinzufügen</span>
+  </div>
+</div>

@@ -1,3 +1,37 @@
 <div class="channel-member-container">
-  <div class="channel-members-title"></div>
+  <div class="channel-members-title">
+    <span class="font700-normal">Mitglieder</span>
+    <div class="channel-close" (click)="closeMembers()">
+      <div></div>
+    </div>
+  </div>
+
+  <div class="channel-members-users">
+    <div class="channel-members-cont">
+      <div class="channel-member">
+        <div class="channel-photo">
+          <div class="online"></div>
+        </div>
+        <span class="font400-normal">Frederik Beck (Du)</span>
+      </div>
+      <div class="channel-member">
+        <div class="channel-photo">
+          <div class="online"></div>
+        </div>
+        <span class="font400-normal">Frederik Beck (Du)</span>
+      </div>
+      <div class="channel-member">
+        <div class="channel-photo">
+          <div class="online"></div>
+        </div>
+        <span class="font400-normal">Frederik Beck (Du)</span>
+      </div>
+    </div>
+    <div class="add-member" (click)="addMember()">
+      <div class="add-icon">
+        <div></div>
+      </div>
+      <span class="font400-normal">Mitglieder hinzufügen</span>
+    </div>
+  </div>
 </div>

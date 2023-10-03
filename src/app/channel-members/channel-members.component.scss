@@ -10,5 +10,139 @@
 }
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
-  border-radius: 20px;
+  border-radius: 20px 0px 20px 20px !important;
+}
+
+.channel-members-title {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+
+  span {
+    font-size: 24px;
+  }
+}
+
+.channel-close {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  div {
+    background-image: url(/assets/icons/close.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+  }
+  &:hover {
+    div {
+      background-image: url(/assets/icons/close_blue.svg);
+    }
+    border-radius: 20px;
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+.channel-members-users {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.channel-members-cont {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 13px;
+  max-height: 220px;
+  overflow: scroll;
+}
+
+.channel-member {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 4px 20px;
+  border-radius: 35px;
+  cursor: pointer;
+
+  .channel-photo {
+    background-image: url(/assets/profil-img/profile_bild.svg);
+    background-size: cover;
+    height: 50px;
+    width: 50px;
+    border-radius: 30px;
+    position: relative;
+  }
+
+  span {
+    color: var(--Black, #000);
+    font-size: 18px;
+  }
+
+  &:hover {
+    span {
+      color: var(--Purple-3, #535af1);
+    }
+    background: var(--Bg-color, #eceefe);
+    border-radius: 35px;
+  }
+}
+
+.online {
+  width: 14px;
+  height: 14px;
+  background-color: var(--online-green, #92c83e);
+  z-index: 100;
+  display: flex;
+  position: absolute;
+  border-radius: 10px;
+  bottom: 0;
+  right: 0;
+}
+
+.add-member {
+  display: flex;
+  padding: 12px 29px;
+  align-items: center;
+  gap: 15px;
+  border-radius: 100px;
+  cursor: pointer;
+
+  span {
+    font-size: 18px;
+  }
+
+  .add-icon {
+    background: #eceefe;
+    border-radius: 20px;
+    padding: 4px;
+
+    div {
+      background-image: url(/assets/icons/person_add.svg);
+      background-size: cover;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &:hover {
+    .add-icon {
+      div {
+        background-image: url(/assets/icons/person_add_blue.svg);
+      }
+    }
+
+    span {
+      color: var(--Purple-3, #535af1);
+    }
+    background: var(--Bg-color, #eceefe);
+  }
 }
