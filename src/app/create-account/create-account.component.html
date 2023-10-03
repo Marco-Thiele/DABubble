@@ -14,44 +14,56 @@
     </div>
 
     <form (submit)="registerUser()" #createUserForm ngNativeValidate>
-      <div class="name-container" [class.focused]="isNameFocused">
-        <img src="../../assets/img/person_filled.svg" />
-        <input
-          [(ngModel)]="name"
-          name="name"
-          required
-          id="name"
-          type="text"
-          placeholder="Name und Nachname"
-          (focus)="onFocusName()"
-          (blur)="onBlurName()"
-        />
+      <div class="wrapper">
+        <div class="name-container" [class.focused]="isNameFocused">
+          <img src="../../assets/img/person_filled.svg" />
+          <input
+            [(ngModel)]="name"
+            name="name"
+            id="name"
+            type="text"
+            placeholder="Name und Nachname"
+            (focus)="onFocusName()"
+            (blur)="onBlurName()"
+          />
+        </div>
+        <span *ngIf="nameError" class="error"
+          >*Bitte geben Sie einen Namen ein.</span
+        >
       </div>
-      <div class="email-container" [class.focused]="isEmailFocused">
-        <img src="../../assets/img/mail.svg" />
-        <input
-          [(ngModel)]="email"
-          name="email"
-          required
-          id="email"
-          type="email"
-          placeholder="beispielname@email.com"
-          (focus)="onFocusEmail()"
-          (blur)="onBlurMail()"
-        />
+      <div class="wrapper">
+        <div class="email-container" [class.focused]="isEmailFocused">
+          <img src="../../assets/img/mail.svg" />
+          <input
+            [(ngModel)]="email"
+            name="email"
+            id="email"
+            type="email"
+            placeholder="beispielname@email.com"
+            (focus)="onFocusEmail()"
+            (blur)="onBlurMail()"
+          />
+        </div>
+        <span *ngIf="mailError" class="error"
+          >*Diese E-Mail-Adresse ist leider ungültig.</span
+        >
       </div>
-      <div class="pwd-container" [class.focused]="isPwdFocused">
-        <img src="../../assets/img/lock.svg" />
-        <input
-          [(ngModel)]="password"
-          name="password"
-          required
-          id="password"
-          type="password"
-          placeholder="Passwort"
-          (focus)="onFocusPwd()"
-          (blur)="onBlurPwd()"
-        />
+      <div class="wrapper">
+        <div class="pwd-container" [class.focused]="isPwdFocused">
+          <img src="../../assets/img/lock.svg" />
+          <input
+            [(ngModel)]="password"
+            name="password"
+            id="password"
+            type="password"
+            placeholder="Passwort"
+            (focus)="onFocusPwd()"
+            (blur)="onBlurPwd()"
+          />
+        </div>
+        <span *ngIf="pwdError" class="error"
+          >Bitte geben Sie ein Passwort ein mit mind. 8 Zeichen.</span
+        >
       </div>
       <div class="data-policy-container">
         <input id="data-policy" type="checkbox" required />

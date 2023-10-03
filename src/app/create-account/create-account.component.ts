@@ -22,7 +22,9 @@ export class CreateAccountComponent implements OnInit {
   email: string = '';
   password: string = '';
   name: string = '';
-
+  mailError: boolean = false;
+  pwdError: boolean = false;
+  nameError: boolean = false;
   onFocusEmail() {
     this.isEmailFocused = true;
   }
@@ -55,10 +57,37 @@ export class CreateAccountComponent implements OnInit {
         this._router.navigateByUrl('/pick-avatar');
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-        console.log('error while creating account');
+        this.checkNameError();
+        this.checkEmailError();
+        this.checkPwdError();
+        if (!this.mailError && !this.pwdError && !this.nameError) {
+          this.mailError = true;
+        }
       });
+  }
+
+  checkNameError() {
+    if (this.name.length < 1) {
+      this.nameError = true;
+    }
+    if (this.name.length > 1) {
+      this.nameError = false;
+    }
+  }
+
+  checkEmailError() {
+    if (this.email.includes('@')) {
+      this.mailError = false;
+    }
+    if (!this.email.includes('@')) this.mailError = true;
+  }
+
+  checkPwdError() {
+    if (this.password.length < 8) {
+      this.pwdError = true;
+      if (this.password.length >= 8) {
+        this.pwdError = false;
+      }
+    }
   }
 }
