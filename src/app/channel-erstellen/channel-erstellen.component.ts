@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { NewChannelMembersComponent } from '../new-channel-members/new-channel-members.component';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-channel-erstellen',
@@ -11,7 +13,11 @@ export class ChannelErstellenComponent implements OnInit {
   isInputNameFocused = false;
   isInputDescriptionFocused = false;
 
-  constructor(public dialogRef: MatDialogRef<ChannelErstellenComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<ChannelErstellenComponent>,
+    private dialog: MatDialog,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -36,5 +42,6 @@ export class ChannelErstellenComponent implements OnInit {
    */
   createChannel() {
     this.dialogRef.close();
+    this.dialog.open(NewChannelMembersComponent, {});
   }
 }

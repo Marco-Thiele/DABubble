@@ -1,0 +1,33 @@
+<div class="new-channel-members-cont">
+  <div class="head-title">
+    <span class="font700-normal">Leute Hinzufügen</span>
+    <div class="channel-close" (click)="closeAddNewChannelMembers()">
+      <div></div>
+    </div>
+  </div>
+
+  <div class="new-channel-choose-members-cont">
+    <mat-radio-group [(ngModel)]="labelPosition" class="new-channel-select-group">
+      <mat-radio-button class="select-group-check" value="after"
+        (click)="onChangeRadioButton('after')"></mat-radio-button>
+      <mat-radio-button class="select-group-check" value="before"
+        (click)="onChangeRadioButton('before')"></mat-radio-button>
+    </mat-radio-group>
+    <div class="new-channel-members-opt">
+      <span class="font400-normal">Alle Mitglieder von <a class="font400-normal">OfficeTeam</a> hinzufügen</span>
+      <span class="font400-normal">Bestimmte Leute hinzufügen</span>
+    </div>
+  </div>
+
+  <mat-checkbox class="new-channel-look-for-members" *ngIf="showCheckbox" [(ngModel)]="checked"
+    [(indeterminate)]="indeterminate" labelPosition="before" [disabled]="disabled">
+    <input type="text" placeholder="Name eingeben" class="font400-normal">
+  </mat-checkbox>
+
+
+  <div class="add-members-button" (click)="addNewChannelMembers()" [style.background-color]="buttonColor"
+    [attr.disabled]="isButtonDisabled ? true : null">
+    <span class="font700-normal">Erstellen</span>
+  </div>
+
+</div>

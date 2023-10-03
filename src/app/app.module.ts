@@ -42,6 +42,9 @@ import { ChannelMembersComponent } from './channel-members/channel-members.compo
 import { ProfilComponent } from './profil/profil.component';
 import { AddChannelMembersComponent } from './add-channel-members/add-channel-members.component';
 import { EditProfilComponent } from './edit-profil/edit-profil.component';
+import { NewChannelMembersComponent } from './new-channel-members/new-channel-members.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -88,6 +91,9 @@ import { EditProfilComponent } from './edit-profil/edit-profil.component';
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
     PickerModule,
+    NewChannelMembersComponent,
+    MatCheckboxModule,
+    MatRadioModule,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent],
