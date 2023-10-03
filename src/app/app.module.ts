@@ -40,6 +40,7 @@ import { ChannelEditComponent } from './channel-edit/channel-edit.component';
 import { SharedService } from './shared.service';
 import { ChannelMembersComponent } from './channel-members/channel-members.component';
 import { ProfilComponent } from './profil/profil.component';
+import { AddChannelMembersComponent } from './add-channel-members/add-channel-members.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ProfilComponent } from './profil/profil.component';
     ChannelEditComponent,
     ChannelMembersComponent,
     ProfilComponent,
+    AddChannelMembersComponent,
   ],
   imports: [
     BrowserModule,

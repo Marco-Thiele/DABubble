@@ -40,3 +40,7 @@ body {
   overflow-y: hidden;
   width: 100%;
 }
+
+body.dialog-open {
+  overflow: hidden;
+}

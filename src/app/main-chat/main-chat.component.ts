@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
 import { SharedService } from '../shared.service';
 import { ChannelMembersComponent } from '../channel-members/channel-members.component';
+import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
 
 @Component({
   selector: 'app-main-chat',
@@ -37,11 +38,19 @@ export class MainChatComponent implements OnInit {
     this.sharedService.setIsEditChannelOpen(true);
   }
 
+  /**
+   * Shows the members component
+   */
   showMembers() {
     this.dialog.open(ChannelMembersComponent, {});
   }
 
-  addMembers() {}
+  /**
+   * Shows the add members component
+   */
+  addMembers() {
+    this.dialog.open(AddChannelMembersComponent, {});
+  }
 
   /**
    * Regulaces the height of the textarea
