@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../user.service';
+import { ProfilComponent } from '../profil/profil.component';
+import { DialogService } from '../dialog.service';
 
 
 @Component({
@@ -12,7 +14,7 @@ export class HeaderComponent {
   show: boolean = false;
   profilName:string;
 
-  constructor(public UserService: UserService) { 
+  constructor(public UserService: UserService, private dialogService: DialogService) { 
     this.profilName = UserService.getName()
   }
   
@@ -22,8 +24,7 @@ export class HeaderComponent {
 
 
   removeInfo() {
-    this.show = false;
-    
+    this.show = false; 
   }
 
 
@@ -33,7 +34,8 @@ export class HeaderComponent {
 
 
   showProfil(){
-
+    this.dialogService.openDialog();
+    this.show = false;
   }
 
 

@@ -39,6 +39,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ChannelEditComponent } from './channel-edit/channel-edit.component';
 import { SharedService } from './shared.service';
 import { ChannelMembersComponent } from './channel-members/channel-members.component';
+import { ProfilComponent } from './profil/profil.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ChannelMembersComponent } from './channel-members/channel-members.compo
     ChannelErstellenComponent,
     ChannelEditComponent,
     ChannelMembersComponent,
+    ProfilComponent,
   ],
   imports: [
     BrowserModule,
