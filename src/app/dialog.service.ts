@@ -11,7 +11,7 @@ export class DialogService {
 overlayRef:any;
   constructor(private overlay: Overlay) {}
 
-  openDialog() {
+  openDialog(Component:any) {
     // Erstellen Sie ein Overlay-Ref
     this.overlayRef = this.overlay.create({
       positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
@@ -19,7 +19,7 @@ overlayRef:any;
     });
 
     // Erstellen Sie ein Portal für Ihre Dialogkomponente
-    const portal = new ComponentPortal(ProfilComponent);
+    const portal = new ComponentPortal(Component);
 
     // Attachieren Sie das Portal an das Overlay-Ref
     const componentRef = this.overlayRef.attach(portal);

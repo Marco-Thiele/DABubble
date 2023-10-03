@@ -13,24 +13,26 @@
 
     <div class="profil-name">
         <div class="name">
-            Frederik Beck 
+            <img src="../../assets/icons/account_circle.svg" alt="">
+            Vollständiger Name
         </div>
-        <div class="edit" (click)="editProfil()">
-            bearbeiten
+        <div>
+            <input type="text" placeholder="Frederik Beck">
         </div>
     </div>
-    <div class="active">
-        <img src="../../assets/icons/Online.svg" alt="">
-        Aktive
-    </div>
+
     <div class="profil-email">
+       <div>
         <img src="../../assets/icons/mail.svg" alt="">
         E-Mail-Adresse
+       </div> 
+        <div>
+            <input type="email" placeholder="fred.beck@email.com">
+        </div>
     </div>
-    <div class="current-email">
-        fred.beck@email.com
+
+    <div class="position-btn">
+        <button class="btn-cancel">Abbrechen</button>
+        <button class="btn-save">Speichern</button>
     </div>
-
-
-
 </div>

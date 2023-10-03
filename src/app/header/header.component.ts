@@ -34,7 +34,7 @@ export class HeaderComponent {
 
 
   showProfil(){
-    this.dialogService.openDialog();
+    this.dialogService.openDialog(ProfilComponent);
     this.show = false;
   }
 
