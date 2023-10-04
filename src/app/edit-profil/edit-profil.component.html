@@ -17,7 +17,7 @@
             Vollständiger Name
         </div>
         <div>
-            <input type="text" placeholder="{{ profilName }}">
+            <input type="text" [(ngModel)]="newName" placeholder="{{ profilName }}">
         </div>
     </div>
 
@@ -33,6 +33,6 @@
 
     <div class="position-btn">
         <button class="btn-cancel"(click)="closeDialog()">Abbrechen</button>
-        <button class="btn-save">Speichern</button>
+        <button class="btn-save" (click)="saveChanges()">Speichern</button>
     </div>
 </div>
