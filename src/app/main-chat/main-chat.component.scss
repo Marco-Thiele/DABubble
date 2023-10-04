@@ -159,7 +159,7 @@
   align-items: center;
   justify-content: flex-end;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .beginning-chat-cont {
@@ -169,6 +169,7 @@
   align-items: flex-start;
   gap: 7px;
   align-self: flex-start;
+  position: relative;
 }
 
 .beginning-description {
@@ -378,4 +379,211 @@
   bottom: 30px;
   font-family: Nunito;
   z-index: 100;
+}
+
+.message-user-box-cont {
+  position: relative;
+  display: flex;
+  width: -webkit-fill-available;
+  padding: 10px 45px 10px 146px;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 30px;
+
+  &:hover {
+    .message-reaction-people {
+      display: flex;
+    }
+    background: #eceefe;
+  }
+}
+
+.message-reaction-people {
+  display: none;
+  padding: 3px 15px 3px 20px;
+  align-items: flex-start;
+  gap: 5px;
+  border-radius: 25px 25px 0px 25px;
+  border: 1px solid var(--ligth-purple-lines, #adb0d9);
+  background: var(--White, #fff);
+  position: absolute;
+  left: 10px;
+  top: -20px;
+}
+
+.reaction-icon {
+  display: flex;
+  padding: 10px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 20px;
+  div {
+    cursor: pointer;
+  }
+  &:hover {
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+.icon-tick {
+  background-image: url(/assets/icons/tick.svg);
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+}
+
+.icon-hands {
+  background-image: url(/assets/icons/hands.svg);
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+}
+
+.icon-smile {
+  background-image: url(/assets/icons/add_reaction.svg);
+  background-size: cover;
+  width: 24px;
+  height: 24px;
+  &:hover {
+    background-image: url(/assets/icons/add_reaction_blue.svg);
+  }
+}
+
+.icon-message {
+  background-image: url(/assets/icons/comment.svg);
+  background-size: cover;
+  width: 24px;
+  height: 24px;
+  &:hover {
+    background-image: url(/assets/icons/comment_blue.svg);
+  }
+}
+
+.icon-points {
+  background-image: url(/assets/icons/points_black.svg);
+  background-size: cover;
+  width: 24px;
+  height: 24px;
+  &:hover {
+    background-image: url(/assets/icons/points_blue.svg);
+  }
+}
+
+.message-user-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex: 1 0 0;
+}
+
+.message-user-name {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  span {
+    color: #686868;
+    font-size: 14px;
+  }
+
+  a {
+    color: black;
+    font-size: 18px;
+  }
+}
+
+.message-user-speech {
+  display: flex;
+  padding: 15px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 30px 0px 30px 30px;
+  background: var(--Purple-2, #797ef3);
+
+  span {
+    align-self: stretch;
+    color: #fff;
+    font-size: 18px;
+  }
+}
+
+.message-user-reaction {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.reaction {
+  display: flex;
+  padding: 5px 10px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 20px;
+  border: 1px solid var(--ligth-purple-lines, #adb0d9);
+  background: var(--White, #fff);
+  cursor: pointer;
+
+  span {
+    font-size: 16px;
+  }
+
+  &:hover {
+    border: 1px solid #444df2;
+  }
+}
+
+.rocket {
+  background-image: url(/assets/icons/rocket.svg);
+  background-size: cover;
+  width: 24px;
+  height: 24px;
+}
+
+.tick {
+  background-image: url(/assets/icons/tick.svg);
+  background-size: cover;
+  width: 24px;
+  height: 24px;
+}
+
+.add-reaction {
+  display: flex;
+  padding: 5px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 20px;
+  background: var(--White, #fff);
+  cursor: pointer;
+
+  div {
+    background-image: url(/assets/icons/add_reaction.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    div {
+      background-image: url(/assets/icons/add_reaction_blue.svg);
+    }
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+.message-user-img {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 35px;
+  background: var(--White, #fff);
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1);
+  div {
+    background-image: url(/assets/profil-img/profile_bild.svg);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+  }
 }
