@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="profil-img">
-        <img src="../../assets/profil-img/Profile bild.svg" alt="">
+        <img src="../../assets/img/avatars/{{profilImg}}" alt="">
     </div>
 
     <div class="profil-name">
@@ -17,7 +17,7 @@
             Vollständiger Name
         </div>
         <div>
-            <input type="text" placeholder="Frederik Beck">
+            <input type="text" placeholder="{{ profilName }}">
         </div>
     </div>
 
@@ -32,7 +32,7 @@
     </div>
 
     <div class="position-btn">
-        <button class="btn-cancel">Abbrechen</button>
+        <button class="btn-cancel"(click)="closeDialog()">Abbrechen</button>
         <button class="btn-save">Speichern</button>
     </div>
 </div>

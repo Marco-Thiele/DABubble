@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DialogService } from '../dialog.service';
 import { EditProfilComponent } from '../edit-profil/edit-profil.component';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-profil',
@@ -9,7 +10,13 @@ import { EditProfilComponent } from '../edit-profil/edit-profil.component';
 })
 export class ProfilComponent {
 
-  constructor(private dialogService: DialogService) {}
+  profilName:string;
+  profilImg:any;
+
+  constructor(private dialogService: DialogService, public UserService: UserService) {
+    this.profilName = UserService.getName()
+    this.profilImg = UserService.getPhoto()
+  }
 
 
   closeDialog() {
@@ -18,6 +25,7 @@ export class ProfilComponent {
 
 
   editProfil(){
+    this.dialogService.closeDialog();
     this.dialogService.openDialog(EditProfilComponent);
   }
 }

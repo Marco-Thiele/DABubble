@@ -13,9 +13,12 @@ import { DialogService } from '../dialog.service';
 export class HeaderComponent {
   show: boolean = false;
   profilName:string;
+  profilImg:any;
 
   constructor(public UserService: UserService, private dialogService: DialogService) { 
     this.profilName = UserService.getName()
+    this.profilImg = UserService.getPhoto()
+    console.log(this.profilImg)
   }
   
   showInfo() {
@@ -35,7 +38,6 @@ export class HeaderComponent {
 
   showProfil(){
     this.dialogService.openDialog(ProfilComponent);
-    this.show = false;
   }
 
 

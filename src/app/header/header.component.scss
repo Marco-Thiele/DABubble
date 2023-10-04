@@ -14,6 +14,12 @@
     padding-right: 32px;
   }
   
+  .profil-img{
+    width: 70px;
+    height: 70px;
+    border-radius: 360px;
+  }
+
   .input-field{
     border-radius: 42px;
     padding: 17px 45px 17px 45px;
@@ -59,8 +65,8 @@
 
   .position-profile-contant{
     position: absolute;
-    top: 100px;
-    right: 35px;
+    top: 105px;
+    right: 50px;
     background-color: white;
     height: 181px;
     width: 282px;
