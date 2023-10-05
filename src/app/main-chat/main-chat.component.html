@@ -1,3 +1,4 @@
+<!--Main chat-head-->
 <div class="head-member-container">
   <div class="head-title-channel" (click)="editChannel()"
     [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
@@ -32,100 +33,129 @@
   </div>
 </div>
 
+<!--Main chat principal-->
 <div class="chat-container">
-  <div class="beginning-chat-cont">
-    <div class="title-hashtag">
-      <div class="hashtag">
-      </div>
-      <span class="title font700-normal">Entwicklerteam</span>
-    </div>
-    <div class="beginning-description">
-      <span class="font400-normal descrip-text">Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels
-        <span class="font400-normal"><a style="font-size: 22px;">#</a>&nbsp;<a>Office-team</a>.</span>
-      </span>
-    </div>
-  </div>
-
-  <div class="time-separator">
-    <div class="time-line">
-    </div>
-    <div class="time-day">
-      <span class="font400-normal">Monday, 2 Oktober</span>
-    </div>
-  </div>
-
-  <div class="message-user-box-cont">
-    <div class="message-reaction-people">
-      <div class="reaction-icon">
-        <div class="icon-tick"></div>
-      </div>
-      <div class="reaction-icon">
-        <div class="icon-hands"></div>
-      </div>
-      <div class="reaction-icon">
-        <div class="icon-smile"></div>
-      </div>
-      <div class="reaction-icon">
-        <div class="icon-message"></div>
-      </div>
-      <div class="reaction-icon">
-        <div class="icon-points"></div>
-      </div>
-    </div>
-    <div class="message-user-box">
-      <div class="message-user-name">
-        <span class="font400-normal">15:06 Uhr</span>
-        <a class="font700-normal">Frederick Beck</a>
-      </div>
-      <div class="message-user-speech">
-        <span class="font400-normal">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni ab illum, nemo
-          quaerat non ut corporis sapiente? Ipsa placeat nemo eos nobis, fuga deleniti cum sapiente alias ratione
-          similique esse.</span>
-      </div>
-      <div class="message-user-reaction">
-        <div>
-          <div class="reaction-usser">
-            <div class="reaction-usser-icon"></div>
-            <div class="reaction-names-cont">
-              <span class="reaction-name font700-normal">Sofia Müller</span>
-              <span class="reaction-text font400-normal">hat reagiert</span>
-            </div>
-          </div>
-          <div class="reaction">
-            <div class="rocket"></div>
-            <span class="font400-normal">1</span>
-          </div>
+  <div class="inner-container">
+    <!--Text for the beginning of creating a channel.-->
+    <div class="beginning-chat-cont">
+      <div class="title-hashtag">
+        <div class="hashtag">
         </div>
-        <div>
+        <span class="title font700-normal">Entwicklerteam</span>
+      </div>
+      <div class="beginning-description">
+        <span class="font400-normal descrip-text">Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels
+          <span class="font400-normal"><a style="font-size: 22px;">#</a>&nbsp;<a>Office-team</a>.</span>
+        </span>
+      </div>
+    </div>
 
-          <div class="reaction-usser">
-            <div class="reaction-usser-icon"></div>
-            <div class="reaction-names-cont">
-              <span class="reaction-name font700-normal">Sofia Müller</span>
-              <span class="reaction-text font400-normal">hat reagiert</span>
+    <!--Container for the member's chat-->
+    <div class="message-members-box-cont">
+      <div class="message-reaction-people">
+        <div class="reaction-icon">
+          <div class="icon-tick"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-hands"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-smile"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-message"></div>
+        </div>
+      </div>
+      <div class="message-user-img">
+        <div></div>
+      </div>
+      <div class="message-members-box">
+        <div class="message-user-name">
+          <a class="font700-normal">Noah Braun</a>
+          <span class="font400-normal">14:25 Uhr</span>
+        </div>
+        <div class="message-members-speech">
+          <span class="font400-normal">Welche Version ist aktuell von Angular?</span>
+        </div>
+        <div class="message-members-answers">
+          <span class="font400-normal">2 Antworten</span>
+          <a class="font400-normal">Letzte Antwort 14:56</a>
+        </div>
+      </div>
+    </div>
+
+    <!--Time-line-->
+    <div class="time-separator">
+      <div class="time-line">
+      </div>
+      <div class="time-day">
+        <span class="font400-normal">Monday, 2 Oktober</span>
+      </div>
+    </div>
+
+    <!--Container for the user's chat-->
+    <div class="message-user-box-cont">
+      <div class="message-reaction-people">
+        <div class="reaction-icon">
+          <div class="icon-tick"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-hands"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-smile"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-message"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-points"></div>
+        </div>
+      </div>
+      <div class="message-user-box">
+        <div class="message-user-name">
+          <span class="font400-normal">15:06 Uhr</span>
+          <a class="font700-normal">Frederick Beck</a>
+        </div>
+        <div class="message-user-speech">
+          <span class="font400-normal">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni ab illum, nemo
+            quaerat non ut corporis sapiente? Ipsa placeat nemo eos nobis, fuga deleniti cum sapiente alias ratione
+            similique esse.</span>
+        </div>
+        <div class="message-user-reaction">
+          <div>
+            <div class="reaction">
+              <div class="reaction-usser">
+                <div class="reaction-usser-icon"></div>
+                <div class="reaction-names-cont">
+                  <span class="reaction-name font700-normal">Sofia Müller</span>
+                  <span class="reaction-text font400-normal">hat reagiert</span>
+                </div>
+              </div>
+              <div class="rocket"></div>
+              <span class="font400-normal">1</span>
             </div>
           </div>
+          <div>
 
-          <div class="reaction">
+            <!-- <div class="reaction">
             <div class="tick"></div>
             <span class="font400-normal">1</span>
+          </div> -->
+          </div>
+          <div class="add-reaction">
+            <div></div>
           </div>
         </div>
-        <div class="add-reaction">
-          <div></div>
-        </div>
+      </div>
+      <div class="message-user-img">
+        <div></div>
       </div>
     </div>
-    <div class="message-user-img">
-      <div></div>
-    </div>
   </div>
-
-  <div class="message-user-img"></div>
 </div>
 
-
-
+<!--Container to write in chat-->
 <div class="message-box-cont">
   <div class="message-box">
     <textarea class="font400-normal auto-resizable-textarea" placeholder="Nachricht an #Entwicklerteam"
