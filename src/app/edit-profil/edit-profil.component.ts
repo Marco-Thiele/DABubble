@@ -42,7 +42,10 @@ export class EditProfilComponent {
       })
         .then(() => {
           console.log('Profile Updated with');
-          this.closeDialog()
+          this.closeDialog();
+        this.UserService.name = this.newName;
+        console.log(this.UserService.name);
+        
         })
         .catch((error) => {
           console.log('Update Error');

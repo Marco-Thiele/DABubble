@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../user.service';
 import { ProfilComponent } from '../profil/profil.component';
 import { DialogService } from '../dialog.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class HeaderComponent {
   profilName:string;
   profilImg:any;
 
-  constructor(public UserService: UserService, private dialogService: DialogService) { 
+  constructor(public UserService: UserService, private dialogService: DialogService, private _router: Router) { 
     this.profilName = UserService.getName()
     this.profilImg = UserService.getPhoto()
     console.log(this.profilImg)
@@ -42,7 +43,7 @@ export class HeaderComponent {
 
 
   logOut(){
-
+    this._router.navigateByUrl('/login');
   }
 
 }
