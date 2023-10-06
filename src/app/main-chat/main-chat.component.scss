@@ -1,7 +1,7 @@
 // Design from the head of main chat
 .head-member-container {
   width: -webkit-fill-available;
-  display: none;
+  display: flex;
   padding: 25px 45px;
   justify-content: space-between;
   align-items: flex-start;
@@ -154,7 +154,7 @@
 // Design from the head of a new chat
 
 .head-new-message-cont {
-  display: none;
+  display: flex;
   width: -webkit-fill-available;
   padding: 32px 45px 20px 45px;
   flex-direction: column;
@@ -263,12 +263,11 @@
   width: -webkit-fill-available;
   padding-left: 35px;
   padding-right: 35px;
-  overflow: auto;
   position: relative;
 }
 
 .inner-container {
-  display: none;
+  display: flex;
   flex-direction: column;
   max-height: 500px;
   overflow-y: auto;
@@ -278,7 +277,7 @@
 // Design the text for the beginning of creating a channel.
 .beginning-chat-cont {
   width: 100%;
-  display: inline-flex;
+  display: none;
   flex-direction: column;
   align-items: flex-start;
   gap: 7px;
@@ -831,10 +830,11 @@
   justify-content: center;
   align-items: flex-start;
   gap: 24px;
+  margin-top: 300px;
 }
 
 .private-chat-member {
-  display: none;
+  display: flex;
   align-items: flex-end;
   gap: 25px;
 

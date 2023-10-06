@@ -8,7 +8,7 @@
       <span class="title font700-normal">Code learning</span>
     </div>
   </div>
-  <div class="edit-icon">
+  <div class="edit-icon" (click)="openNewMessage()">
     <mat-icon class="icon"></mat-icon>
   </div>
 </div>
@@ -29,7 +29,7 @@
         </mat-expansion-panel-header>
         <div class="channels-container">
           <div class="channels-list-container">
-            <div class="channels-list"
+            <div class="channels-list" (click)="openChannel()"
               [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
               <div
                 [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/tag_blue.svg)' : 'url(/assets/icons/tag.svg)'">
@@ -63,7 +63,7 @@
         </mat-expansion-panel-header>
         <div class="dm-container">
           <div class="channels-list-container">
-            <div class="channel-member">
+            <div class="channel-member" (click)="openPrivateContainer()">
               <div class="channel-photo">
                 <div class="online"></div>
               </div>

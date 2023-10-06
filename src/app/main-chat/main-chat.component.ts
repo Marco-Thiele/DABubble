@@ -1,4 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  AfterViewChecked,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
 import { SharedService } from '../shared.service';
@@ -13,6 +19,7 @@ import { AddChannelMembersComponent } from '../add-channel-members/add-channel-m
 export class MainChatComponent implements OnInit {
   @ViewChild('imagePreviewCont') imagePreviewCont: ElementRef | undefined;
   @ViewChild('imagePreview') imagePreview: ElementRef | undefined;
+  @ViewChild('chatContainer') chatContainer: ElementRef | undefined;
 
   showIconCatalog = false;
   name = 'Angular';
@@ -20,11 +27,37 @@ export class MainChatComponent implements OnInit {
   showEmojiPicker = false;
   isFocused = false;
   taIsFocused = false;
+  isChannelVisible = true;
+  isNewMessageVisible = false;
+  isPrivatChatContainerVisible = false;
+  isChatWithMemberVisible = false;
+  isPrivateChatVisible = false;
 
-  constructor(
-    private dialog: MatDialog,
-    private sharedService: SharedService
-  ) {}
+  constructor(private dialog: MatDialog, private sharedService: SharedService) {
+    this.sharedService.openNewMessageEvent$.subscribe(() => {
+      this.isNewMessageVisible = true;
+      this.isChannelVisible = false;
+      this.isPrivatChatContainerVisible = false;
+      this.isPrivatChatContainerVisible = false;
+      this.isPrivateChatVisible = false;
+    });
+
+    this.sharedService.openChannelEvent$.subscribe(() => {
+      this.isChannelVisible = true;
+      this.isPrivatChatContainerVisible = false;
+      this.isNewMessageVisible = false;
+      this.isPrivatChatContainerVisible = false;
+      this.isPrivateChatVisible = false;
+    });
+
+    this.sharedService.openPrivateContainerEvent$.subscribe(() => {
+      this.isPrivatChatContainerVisible = true;
+      this.isPrivateChatVisible = true;
+      this.isChannelVisible = false;
+      this.isNewMessageVisible = false;
+      this.isChatWithMemberVisible = false;
+    });
+  }
 
   ngOnInit(): void {}
 
@@ -133,5 +166,22 @@ export class MainChatComponent implements OnInit {
    */
   textAreaBlurred() {
     this.taIsFocused = false;
+  }
+
+  /**
+   * Scrolls to the bottom of the chat
+   */
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  /**
+   * Scrolls to the bottom of the chat
+   */
+  scrollToBottom() {
+    if (this.chatContainer) {
+      this.chatContainer.nativeElement.scrollTop =
+        this.chatContainer.nativeElement.scrollHeight;
+    }
   }
 }

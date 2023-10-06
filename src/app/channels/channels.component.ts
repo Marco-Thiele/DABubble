@@ -44,4 +44,25 @@ export class ChannelsComponent implements OnInit {
   openNewChannel() {
     this.dialog.open(ChannelErstellenComponent, {});
   }
+
+  /**
+   * Opens the new message container in main chat.
+   */
+  openNewMessage() {
+    this.sharedService.emitOpenNewMessage();
+  }
+
+  /**
+   * Opens the channel container in main chat.
+   */
+  openChannel() {
+    this.sharedService.emitOpenChannel();
+  }
+
+  /**
+   * Opens the private container in main chat.
+   */
+  openPrivateContainer() {
+    this.sharedService.emitOpenPrivateContainer();
+  }
 }

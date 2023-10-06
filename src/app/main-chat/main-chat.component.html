@@ -1,5 +1,5 @@
 <!--Main chat-head channel-->
-<div class="head-member-container">
+<div class="head-member-container" *ngIf="isChannelVisible">
   <div class="head-title-channel" (click)="editChannel()"
     [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
     <div class="title-channel">
@@ -34,7 +34,7 @@
 </div>
 
 <!--Main chat-head new chat-->
-<div class="head-new-message-cont">
+<div class="head-new-message-cont" *ngIf="isNewMessageVisible">
   <div class="head-new-message-title">
     <span class="font700-normal">Neue Nachricht</span>
   </div>
@@ -44,20 +44,20 @@
   </div>
 </div>
 
-<div class="head-new-direct-message-cont">
+<div class="head-new-direct-message-cont" *ngIf="isPrivateChatVisible">
   <div class="head-new-direct-message">
     <div class="new-direct-message-img">
       <div class="img">
         <div class="online"></div>
       </div>
     </div>
-    <span class="font700-normal">Sofia Müller</span>
+    <span class="font700-normal">Frederick Beck(Du)</span>
   </div>
 </div>
 
 <div class="chat-container">
   <!--Main chat principal-->
-  <div class="inner-container">
+  <div class="inner-container" *ngIf="isChannelVisible" #chatContainer>
     <!--Text for the beginning of creating a channel.-->
     <div class="beginning-chat-cont">
       <div class="title-hashtag">
@@ -73,6 +73,38 @@
     </div>
 
     <!--Container for the member's chat-->
+    <div class="message-members-box-cont">
+      <div class="message-reaction-people">
+        <div class="reaction-icon">
+          <div class="icon-tick"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-hands"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-smile"></div>
+        </div>
+        <div class="reaction-icon">
+          <div class="icon-message"></div>
+        </div>
+      </div>
+      <div class="message-user-img">
+        <div></div>
+      </div>
+      <div class="message-members-box">
+        <div class="message-user-name">
+          <a class="font700-normal">Noah Braun</a>
+          <span class="font400-normal">14:25 Uhr</span>
+        </div>
+        <div class="message-members-speech">
+          <span class="font400-normal">Welche Version ist aktuell von Angular?</span>
+        </div>
+        <div class="message-members-answers">
+          <span class="font400-normal">2 Antworten</span>
+          <a class="font400-normal">Letzte Antwort 14:56</a>
+        </div>
+      </div>
+    </div>
     <div class="message-members-box-cont">
       <div class="message-reaction-people">
         <div class="reaction-icon">
@@ -178,9 +210,9 @@
 
   <!--Container to write private messages-->
 
-  <div class="privat-chat-container">
+  <div class="privat-chat-container" *ngIf="isPrivatChatContainerVisible">
     <div class="beginning-private-chat">
-      <div class="private-chat-member">
+      <div class="private-chat-member" *ngIf="isChatWithMemberVisible">
         <div class="private-message-img">
           <div class="img">
           </div>
@@ -191,7 +223,7 @@
         <span class="font400-normal">Diese Unterhaltung findet nur zwischen <a class="font400-normal">@Sofia
             Müller &nbsp;</a>und dir statt.</span>
       </div>
-      <div class="private-chat-user">
+      <div class="private-chat-user" *ngIf="isPrivateChatVisible">
         <div class="private-message-img">
           <div class="img">
           </div>
