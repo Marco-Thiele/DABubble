@@ -18,6 +18,8 @@ export class MainChatComponent implements OnInit {
   name = 'Angular';
   message = '';
   showEmojiPicker = false;
+  isFocused = false;
+  taIsFocused = false;
 
   constructor(
     private dialog: MatDialog,
@@ -103,5 +105,33 @@ export class MainChatComponent implements OnInit {
    */
   onFocus() {
     this.showEmojiPicker = false;
+  }
+
+  /**
+   * Changes the color in input when it is focused
+   */
+  inputFocused() {
+    this.isFocused = true;
+  }
+
+  /**
+   * Changes the color in input when it is blured
+   */
+  inputBlurred() {
+    this.isFocused = false;
+  }
+
+  /**
+   * Changes the color in textarea when it is focused
+   */
+  textAreaFocused() {
+    this.taIsFocused = true;
+  }
+
+  /**
+   * Changes the color in textarea when it is blured
+   */
+  textAreaBlurred() {
+    this.taIsFocused = false;
   }
 }

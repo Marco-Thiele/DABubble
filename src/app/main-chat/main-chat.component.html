@@ -1,4 +1,4 @@
-<!--Main chat-head-->
+<!--Main chat-head channel-->
 <div class="head-member-container">
   <div class="head-title-channel" (click)="editChannel()"
     [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
@@ -33,8 +33,30 @@
   </div>
 </div>
 
-<!--Main chat principal-->
+<!--Main chat-head new chat-->
+<div class="head-new-message-cont">
+  <div class="head-new-message-title">
+    <span class="font700-normal">Neue Nachricht</span>
+  </div>
+  <div class="head-new-message-searchbar" [class.focused]="isFocused">
+    <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" (focus)="inputFocused()"
+      (blur)="inputBlurred()">
+  </div>
+</div>
+
+<div class="head-new-direct-message-cont">
+  <div class="head-new-direct-message">
+    <div class="new-direct-message-img">
+      <div class="img">
+        <div class="online"></div>
+      </div>
+    </div>
+    <span class="font700-normal">Sofia Müller</span>
+  </div>
+</div>
+
 <div class="chat-container">
+  <!--Main chat principal-->
   <div class="inner-container">
     <!--Text for the beginning of creating a channel.-->
     <div class="beginning-chat-cont">
@@ -153,13 +175,45 @@
       </div>
     </div>
   </div>
+
+  <!--Container to write private messages-->
+
+  <div class="privat-chat-container">
+    <div class="beginning-private-chat">
+      <div class="private-chat-member">
+        <div class="private-message-img">
+          <div class="img">
+          </div>
+        </div>
+        <a class="font700-normal">Sofia Müller</a>
+      </div>
+      <div class="description-private-msg">
+        <span class="font400-normal">Diese Unterhaltung findet nur zwischen <a class="font400-normal">@Sofia
+            Müller &nbsp;</a>und dir statt.</span>
+      </div>
+      <div class="private-chat-user">
+        <div class="private-message-img">
+          <div class="img">
+          </div>
+        </div>
+        <a class="font700-normal">Frederick Beck(Du)</a>
+      </div>
+      <div class="description-private-msg-user">
+        <span class="font700-normal">Dieser Raum ist nur für dich da. <a class="font400-normal">ache dir Notizen, liste
+            deine To-dos auf oder
+            bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst
+            besprechen.</a></span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!--Container to write in chat-->
 <div class="message-box-cont">
-  <div class="message-box">
+  <div class="message-box" [class.focused]="taIsFocused">
     <textarea class="font400-normal auto-resizable-textarea" placeholder="Nachricht an #Entwicklerteam"
-      (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="onFocus()"></textarea>
+      (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="inputFocused()" (focus)="textAreaFocused()"
+      (blur)="textAreaBlurred()"></textarea>
     <div class="image-preview-cont" #imagePreviewCont>
       <img id="image-preview" #imagePreview />
     </div>
