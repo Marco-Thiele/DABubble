@@ -81,4 +81,10 @@
     <a href="#">Impressum</a>
     <a href="#">Datenschutz</a>
   </div>
+  <div *ngIf="showAnimationContainer" class="animation-container">
+    <img
+      [@slideAnimation]="animationState"
+      src="../../assets/img/acc-creation-logo.svg"
+    />
+  </div>
 </div>

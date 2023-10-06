@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 import {
@@ -6,12 +6,27 @@ import {
   verifyPasswordResetCode,
   confirmPasswordReset,
 } from '@angular/fire/auth';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-mail-password-reset',
   templateUrl: './mail-password-reset.component.html',
   styleUrls: ['./mail-password-reset.component.scss'],
+  animations: [
+    trigger('slideAnimation', [
+      state('hidden', style({ transform: 'translateX(0%)' })),
+      state('visible', style({ transform: 'translateX(150%)' })),
+      transition('hidden => visible', animate('0.5s ease-in')),
+      transition('visible => hidden', animate('0.5s ease-out')),
+    ]),
+  ],
 })
 export class MailPasswordResetComponent {
   isPwdFocusedFirst: boolean = false;
@@ -23,7 +38,10 @@ export class MailPasswordResetComponent {
   oobCode: string = '';
   pwdMatch: boolean = true;
   passwordLengthError: boolean = false;
-  constructor(private route: ActivatedRoute, private router: Router) {
+  showAnimationContainer: boolean = false;
+  animationState: string = 'hidden';
+
+  constructor(private route: ActivatedRoute, private _router: Router) {
     this.route.queryParams.subscribe((params) => {
       this.oobCode = params['oobCode'];
     });
@@ -54,7 +72,8 @@ export class MailPasswordResetComponent {
       if (this.checkPasswordLength())
         confirmPasswordReset(this.auth, this.oobCode, this.newPassword)
           .then(() => {
-            this.router.navigateByUrl('/login');
+            this.startAnimation();
+            this.routeToLogin();
           })
           .catch((error) => {
             console.error('Password reset error:', error);
@@ -72,5 +91,19 @@ export class MailPasswordResetComponent {
       return true;
     }
     return false;
+  }
+
+  startAnimation() {
+    this.showAnimationContainer = true;
+    this.animationState = 'visible';
+    setTimeout(() => {
+      this.animationState = 'hidden';
+    }, 500);
+  }
+
+  routeToLogin() {
+    setTimeout(() => {
+      this._router.navigateByUrl('/login');
+    }, 1500);
   }
 }

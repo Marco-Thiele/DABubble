@@ -1,14 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 import { getAuth, sendPasswordResetEmail } from '@angular/fire/auth';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-password-reset',
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.scss'],
+  animations: [
+    trigger('slideAnimation', [
+      state('hidden', style({ transform: 'translateX(0%)' })),
+      state('visible', style({ transform: 'translateX(150%)' })),
+      transition('hidden => visible', animate('0.5s ease-in')),
+      transition('visible => hidden', animate('0.5s ease-out')),
+    ]),
+  ],
 })
 export class PasswordResetComponent {
   firestore: Firestore = inject(Firestore);
@@ -16,6 +31,9 @@ export class PasswordResetComponent {
   email: string = '';
   isEmailFocused: boolean = false;
   mailError: boolean = false;
+  animationState: string = 'hidden';
+  showAnimationContainer: boolean = false;
+
   constructor(private UserService: UserService, private _router: Router) {
     this.auth.languageCode = 'de';
   }
@@ -32,7 +50,8 @@ export class PasswordResetComponent {
     if (this.checkMail()) {
       sendPasswordResetEmail(this.auth, this.email)
         .then(() => {
-          this._router.navigateByUrl('/login');
+          this.startAnimation();
+          this.routeToLogin();
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -52,5 +71,19 @@ export class PasswordResetComponent {
       return false;
     }
     return false;
+  }
+
+  startAnimation() {
+    this.showAnimationContainer = true;
+    this.animationState = 'visible';
+    setTimeout(() => {
+      this.animationState = 'hidden';
+    }, 500);
+  }
+
+  routeToLogin() {
+    setTimeout(() => {
+      this._router.navigateByUrl('/login');
+    }, 1500);
   }
 }
