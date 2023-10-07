@@ -1,5 +1,5 @@
 <!--Main chat-head channel-->
-<div class="head-member-container" *ngIf="isChannelVisible">
+<div class="head-member-container" *ngIf="isChannelVisible && selectedChannel">
   <div class="head-title-channel" (click)="editChannel()"
     [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
     <div class="title-channel">
@@ -7,8 +7,8 @@
         <div class="hashtag"
           [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/tag_blue.svg)' : 'url(/assets/icons/tag.svg)'">
         </div>
-        <span class="title font700-normal"
-          [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'">Entwicklerteam</span>
+        <span class="title font700-normal" [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'">{{
+          selectedChannel.name }}</span>
         <div class="head-arrow-cont">
           <div
             [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/keyboard_arrow_down_blue.svg)' : 'url(/assets/icons/keyboard_arrow_down.svg)'">
@@ -51,19 +51,19 @@
         <div class="online"></div>
       </div>
     </div>
-    <span class="font700-normal">{{ selectedMember.name }} {{ selectedMember.lastName }}</span>
+    <span class="font700-normal">{{ selectedMember.name }}</span>
   </div>
 </div>
 
 <div class="chat-container">
   <!--Main chat principal-->
-  <div class="inner-container" *ngIf="isChannelVisible" #chatContainer>
+  <div class="inner-container" *ngIf="isChannelVisible && selectedChannel" #chatContainer>
     <!--Text for the beginning of creating a channel.-->
     <div class="beginning-chat-cont">
       <div class="title-hashtag">
         <div class="hashtag">
         </div>
-        <span class="title font700-normal">Entwicklerteam</span>
+        <span class="title font700-normal">{{ selectedChannel.name }}</span>
       </div>
       <div class="beginning-description">
         <span class="font400-normal descrip-text">Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels
@@ -217,18 +217,19 @@
           <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
           </div>
         </div>
-        <a class="font700-normal">{{ selectedMember.name }} {{ selectedMember.lastName }}</a>
+        <a class="font700-normal">{{ selectedMember.name }} </a>
       </div>
       <div class="description-private-msg" *ngIf="isChatWithMemberVisible">
         <span class="font400-normal">Diese Unterhaltung findet nur zwischen <a class="font400-normal">@{{
-            selectedMember.name }} {{ selectedMember.lastName }} &nbsp;</a>und dir statt.</span>
+            selectedMember.name }} &nbsp;</a>und dir statt.</span>
       </div>
       <div class="private-chat-user" *ngIf="isPrivateChatVisible">
         <div class="private-message-img">
-          <div class="img">
+          <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
           </div>
         </div>
-        <a class="font700-normal">Frederick Beck(Du)</a>
+        <a class="font700-normal">{{
+          selectedMember.name }}</a>
       </div>
       <div class="description-private-msg-user" *ngIf="isPrivateChatVisible">
         <span class="font700-normal">Dieser Raum ist nur für dich da. <a class="font400-normal">ache dir Notizen, liste

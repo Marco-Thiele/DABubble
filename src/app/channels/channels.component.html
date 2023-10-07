@@ -29,7 +29,7 @@
         </mat-expansion-panel-header>
         <div class="channels-container">
           <div class="channels-list-container" *ngFor="let channel of channels">
-            <div class="channels-list" (click)="openChannel()"
+            <div class="channels-list" (click)="openChannel(channel)"
               [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
               <div
                 [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/tag_blue.svg)' : 'url(/assets/icons/tag.svg)'">
@@ -68,7 +68,7 @@
               <div class="channel-photo" [style.background-image]="'url(' + member.imgProfil + ')'">
                 <div class="online"></div>
               </div>
-              <span class="font400-normal">{{member.name}} {{member.lastName}}</span>
+              <span class="font400-normal">{{member.name}}</span>
             </div>
           </div>
         </div>

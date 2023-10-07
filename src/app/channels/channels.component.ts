@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelErstellenComponent } from '../channel-erstellen/channel-erstellen.component';
 import { SharedService } from '../shared.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-channels',
@@ -11,61 +12,63 @@ import { SharedService } from '../shared.service';
 })
 export class ChannelsComponent implements OnInit {
   uniqueId = this.sharedService.generateUniqueId();
+  profilName: string;
+  profilImg: any;
   panelOpenState = false;
   isClicked = false;
   channels: any[] = [];
-  members: any[] = [
-    {
-      id: this.uniqueId,
-      name: 'Frederick',
-      lastName: 'Beck (Du)',
-      imgProfil: 'assets/profil-img/profile_bild.svg',
-      type: 'user',
-    },
-    {
-      id: this.uniqueId,
-      name: 'Sofia',
-      lastName: 'Müller',
-      imgProfil: 'assets/profil-img/Sofia.svg',
-      type: 'member',
-    },
-    {
-      id: this.uniqueId,
-      name: 'Noah',
-      lastName: 'Braun',
-      imgProfil: 'assets/profil-img/Noah.svg',
-      type: 'member',
-    },
-    {
-      id: this.uniqueId,
-      name: 'Elise',
-      lastName: 'Roth',
-      imgProfil: 'assets/profil-img/Elise.svg',
-      type: 'member',
-    },
-    {
-      id: this.uniqueId,
-      name: 'Elias',
-      lastName: 'Neumann',
-      imgProfil: 'assets/profil-img/Elias.svg',
-      type: 'member',
-    },
-    {
-      id: this.uniqueId,
-      name: 'Steffen',
-      lastName: 'Hoffmann',
-      imgProfil: 'assets/profil-img/Steffen.svg',
-      type: 'member',
-    },
-  ];
+  members: any[] = [];
 
   constructor(
     private dialog: MatDialog,
-    private sharedService: SharedService
-  ) {}
+    private sharedService: SharedService,
+    public userService: UserService
+  ) {
+    this.profilName = this.userService.getName();
+    this.profilImg = this.userService.getPhoto();
+  }
 
   ngOnInit(): void {
     this.channels = this.sharedService.getChannels();
+    console.log(this.profilName);
+    this.members = [
+      {
+        id: this.uniqueId,
+        name: this.profilName + '(Du)',
+        imgProfil: this.profilImg,
+        type: 'user',
+      },
+      {
+        id: this.uniqueId,
+        name: 'Sofia Müller',
+        imgProfil: 'assets/img/avatars/sofiamueller.svg',
+        type: 'member',
+      },
+      {
+        id: this.uniqueId,
+        name: 'Noah Braun',
+        imgProfil: 'assets/img/avatars/noahbraun.svg',
+        type: 'member',
+      },
+      {
+        id: this.uniqueId,
+        name: 'Elise Roth',
+        imgProfil: 'assets/img/avatars/eliseroth.svg',
+        type: 'member',
+      },
+      {
+        id: this.uniqueId,
+        name: 'Elias Neumann',
+        imgProfil: 'assets/img/avatars/eliasneumann.svg',
+        type: 'member',
+      },
+      {
+        id: this.uniqueId,
+        name: 'Steffen Hoffmann',
+        imgProfil: 'assets/img/avatars/steffenhoffmann.svg',
+        type: 'member',
+      },
+    ];
   }
 
   /**
@@ -107,8 +110,8 @@ export class ChannelsComponent implements OnInit {
   /**
    * Opens the channel container in main chat.
    */
-  openChannel() {
-    this.sharedService.emitOpenChannel();
+  openChannel(channel: any) {
+    this.sharedService.emitOpenChannel(channel);
   }
 
   /**

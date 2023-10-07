@@ -27,6 +27,7 @@ export class MainChatComponent implements OnInit {
   isChatWithMemberVisible = false;
   isPrivateChatVisible = false;
   selectedMember: any;
+  selectedChannel: any;
 
   constructor(private dialog: MatDialog, private sharedService: SharedService) {
     this.sharedService.openNewMessageEvent$.subscribe(() => {
@@ -37,12 +38,13 @@ export class MainChatComponent implements OnInit {
       this.isPrivateChatVisible = false;
     });
 
-    this.sharedService.openChannelEvent$.subscribe(() => {
+    this.sharedService.openChannelEvent$.subscribe((channel: any) => {
       this.isChannelVisible = true;
       this.isPrivatChatContainerVisible = false;
       this.isNewMessageVisible = false;
       this.isPrivatChatContainerVisible = false;
       this.isPrivateChatVisible = false;
+      this.selectedChannel = channel;
     });
 
     this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {

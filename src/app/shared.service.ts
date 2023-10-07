@@ -54,12 +54,12 @@ export class SharedService {
   /**
    * Emits an event to open the channel component from Main-Chat to Channel
    */
-  private openChannelEvent = new Subject<void>();
+  private openChannelEvent = new Subject<any>();
 
   openChannelEvent$ = this.openChannelEvent.asObservable();
 
-  emitOpenChannel() {
-    this.openChannelEvent.next();
+  emitOpenChannel(channel: any) {
+    this.openChannelEvent.next(channel);
   }
 
   /**
