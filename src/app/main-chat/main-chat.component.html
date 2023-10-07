@@ -20,12 +20,10 @@
 
   <div class="members-add-container">
     <div class="members-cont" (click)="showMembers()">
-      <div class="members">
-        <img src="assets/profil-img/profile_bild.svg">
-        <img src="assets/profil-img/profile_bild.svg">
-        <img src="assets/profil-img/profile_bild.svg">
+      <div class="members" *ngFor="let member of selectedChannel.members">
+        <img>
       </div>
-      <span class="font600-normal">1</span>
+      <span class="font600-normal">{{ selectedChannel.members.length }}</span>
     </div>
     <div class="add-member-cont" (click)="addMembers()">
       <div></div>
@@ -59,7 +57,7 @@
   <!--Main chat principal-->
   <div class="inner-container" *ngIf="isChannelVisible && selectedChannel" #chatContainer>
     <!--Text for the beginning of creating a channel.-->
-    <div class="beginning-chat-cont">
+    <div class="beginning-chat-cont" *ngIf="isChannelVisible">
       <div class="title-hashtag">
         <div class="hashtag">
         </div>
@@ -73,38 +71,6 @@
     </div>
 
     <!--Container for the member's chat-->
-    <div class="message-members-box-cont">
-      <div class="message-reaction-people">
-        <div class="reaction-icon">
-          <div class="icon-tick"></div>
-        </div>
-        <div class="reaction-icon">
-          <div class="icon-hands"></div>
-        </div>
-        <div class="reaction-icon">
-          <div class="icon-smile"></div>
-        </div>
-        <div class="reaction-icon">
-          <div class="icon-message"></div>
-        </div>
-      </div>
-      <div class="message-user-img">
-        <div></div>
-      </div>
-      <div class="message-members-box">
-        <div class="message-user-name">
-          <a class="font700-normal">Noah Braun</a>
-          <span class="font400-normal">14:25 Uhr</span>
-        </div>
-        <div class="message-members-speech">
-          <span class="font400-normal">Welche Version ist aktuell von Angular?</span>
-        </div>
-        <div class="message-members-answers">
-          <span class="font400-normal">2 Antworten</span>
-          <a class="font400-normal">Letzte Antwort 14:56</a>
-        </div>
-      </div>
-    </div>
     <div class="message-members-box-cont">
       <div class="message-reaction-people">
         <div class="reaction-icon">

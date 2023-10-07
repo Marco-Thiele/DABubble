@@ -37,36 +37,42 @@ export class ChannelsComponent implements OnInit {
         name: this.profilName + '(Du)',
         imgProfil: this.profilImg,
         type: 'user',
+        channels: ['Office-team'],
       },
       {
         id: this.uniqueId,
         name: 'Sofia Müller',
         imgProfil: 'assets/img/avatars/sofiamueller.svg',
         type: 'member',
+        channels: ['Office-team'],
       },
       {
         id: this.uniqueId,
         name: 'Noah Braun',
         imgProfil: 'assets/img/avatars/noahbraun.svg',
         type: 'member',
+        channels: ['Office-team'],
       },
       {
         id: this.uniqueId,
         name: 'Elise Roth',
         imgProfil: 'assets/img/avatars/eliseroth.svg',
         type: 'member',
+        channels: ['Office-team'],
       },
       {
         id: this.uniqueId,
         name: 'Elias Neumann',
         imgProfil: 'assets/img/avatars/eliasneumann.svg',
         type: 'member',
+        channels: ['Office-team'],
       },
       {
         id: this.uniqueId,
         name: 'Steffen Hoffmann',
         imgProfil: 'assets/img/avatars/steffenhoffmann.svg',
         type: 'member',
+        channels: ['Office-team'],
       },
     ];
   }
@@ -97,7 +103,9 @@ export class ChannelsComponent implements OnInit {
    * Opens the dialog for creating a channel.
    */
   openNewChannel() {
-    this.dialog.open(ChannelErstellenComponent, {});
+    this.dialog.open(ChannelErstellenComponent, {
+      data: { members: this.members },
+    });
   }
 
   /**

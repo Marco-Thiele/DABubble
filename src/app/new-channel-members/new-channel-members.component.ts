@@ -31,6 +31,8 @@ export class NewChannelMembersComponent implements OnInit {
   isButtonDisabled: boolean = false;
   buttonColor: string = '#444df2';
   channel: any;
+  membersToAdd: any[] = [];
+  members: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<NewChannelMembersComponent>,
@@ -39,9 +41,12 @@ export class NewChannelMembersComponent implements OnInit {
   ) {
     this.labelPosition = 'after';
     this.channel = data.channel;
+    this.members = data.members;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.members);
+  }
 
   /**
    * Close the dialog
@@ -59,6 +64,17 @@ export class NewChannelMembersComponent implements OnInit {
    */
   addNewChannelMembers() {
     if (this.channel.name) {
+      if (this.labelPosition === 'after') {
+        // Lógica para agregar todos los miembros que tienen "channels: ['Office-team']" al canal
+        const membersToAdd = this.members.filter((member) =>
+          member.channels.includes('Office-team')
+        );
+        this.channel.members = [...this.channel.members, ...membersToAdd];
+      }
+      console.log(this.channel.members);
+      this.sharedService.addChannel(this.channel);
+      this.dialogRef.close(true);
+    } else {
       this.sharedService.addChannel(this.channel);
       this.dialogRef.close(true);
     }

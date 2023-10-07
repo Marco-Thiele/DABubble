@@ -64,12 +64,32 @@ export class MainChatComponent implements OnInit {
         this.selectedMember = member;
       }
     });
+
+    this.loadChannel();
   }
 
   ngOnInit(): void {}
 
   isEditChannelOpen(): boolean {
     return this.sharedService.getIsEditChannelOpen();
+  }
+
+  /**
+   * Loads the channel
+   */
+  loadChannel() {
+    const channels = this.sharedService.getChannels();
+    if (channels.length === 0) {
+      this.isNewMessageVisible = true;
+      this.isChannelVisible = false;
+    } else {
+      this.selectChannel(channels[0]);
+    }
+  }
+
+  selectChannel(channel: any) {
+    this.isChannelVisible = true;
+    this.selectedChannel = channel;
   }
 
   /**

@@ -278,13 +278,14 @@
 // Design the text for the beginning of creating a channel.
 .beginning-chat-cont {
   width: 100%;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 7px;
   align-self: flex-start;
   position: relative;
   padding-top: 20px;
+  margin-top: 375px;
 }
 
 .beginning-description {
@@ -318,7 +319,7 @@
 .time-separator {
   width: -webkit-fill-available;
   height: 35px;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   padding-top: 40px;
@@ -501,7 +502,7 @@
 
 .message-user-box-cont {
   position: relative;
-  display: flex;
+  display: none;
   width: -webkit-fill-available;
   padding: 10px 45px 10px 146px;
   justify-content: flex-end;
@@ -748,7 +749,7 @@
 
 .message-members-box-cont {
   position: relative;
-  display: flex;
+  display: none;
   width: -webkit-fill-available;
   padding: 10px 145px 10px 45px;
   justify-content: flex-end;
