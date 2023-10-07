@@ -10,7 +10,7 @@
 
     <div class="inner-container">
       <div class="person">
-        <img src="../../assets/img/avatars/{{ picked_avatar }}" />
+        <img src="{{ picked_avatar }}" />
       </div>
       <h2>Frederik Beck</h2>
       <span>Aus der Liste wählen</span>
@@ -18,7 +18,7 @@
         <img
           *ngFor="let img of avatar_list"
           (click)="chooseAvatar(img)"
-          src="../../assets/img/avatars/{{ img }}"
+          src="{{ img }}"
         />
       </div>
 
