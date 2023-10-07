@@ -4,6 +4,21 @@
   <a routerLink="/register">Konto erstellen</a>
 </div>
 <div class="container">
+  <!-- Intro -->
+  <div
+    [@backgroundAnimation]="backgroundState"
+    [class.none]="setNone"
+    class="start-animation"
+  >
+    <div class="content" [@moveAnimation]="moveState">
+      <img [@slideAnimation]="svgTransform" src="../../assets/img/Logo.svg" />
+      <div class="text">
+        <span [@textAnimation]="textState">DABubble</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Întro END -->
   <div class="login-container">
     <div class="greet">
       <h1>Anmeldung</h1>
