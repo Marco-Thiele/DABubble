@@ -116,7 +116,7 @@ export class LoginComponent implements OnInit {
     signInAnonymously(this.auth)
       .then(() => {
         this.UserService.name = 'Guest';
-        this.UserService.photoURL = 'person.svg';
+        this.UserService.photoURL = '../../assets/img/avatars/person.svg';
         this._router.navigateByUrl('/index');
       })
       .catch((error) => {
