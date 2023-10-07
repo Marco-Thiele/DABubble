@@ -2,33 +2,37 @@
   <div>
     <div class="header-position">
       <div class="position-icon">
-        <img src="../../assets/img/logo_with_text.svg" alt="">
+        <img src="../../assets/img/logo_with_text.svg" alt="" />
       </div>
       <div class="input-position">
-        <input class="input-field" type="text" placeholder="Code learning durchsuchen">
+        <input
+          class="input-field"
+          type="text"
+          placeholder="Code learning durchsuchen"
+        />
       </div>
       <div class="position-profil-contant" (click)="showInfo()">
         <div class="profil-name">
           {{ profilName }}
         </div>
         <div>
-          <img class="profil-img" src="../../assets/img/avatars/{{profilImg}}" alt="">
+          <img class="profil-img" src="{{ profilImg }}" alt="" />
         </div>
         <div>
-          <img src="../../assets/icons/keyboard_arrow_down.svg" alt="">
+          <img src="../../assets/icons/keyboard_arrow_down.svg" alt="" />
         </div>
       </div>
     </div>
-
   </div>
 </div>
-<div *ngIf="show" id="profilLogout" class="position-profil-logout" (click)="removeInfo()">
+<div
+  *ngIf="show"
+  id="profilLogout"
+  class="position-profil-logout"
+  (click)="removeInfo()"
+>
   <div (click)="notRemoveInfo($event)" class="position-profile-contant">
-    <div (click)="showProfil()">
-      Profil
-    </div>
-    <div (click)="logOut()">
-      Log Out
-    </div>
+    <div (click)="showProfil()">Profil</div>
+    <div (click)="logOut()">Log Out</div>
   </div>
 </div>
