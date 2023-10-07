@@ -14,7 +14,7 @@
     <div class="input-channel-name-cont" [ngClass]="{'focused': isInputNameFocused}">
       <img src="assets/icons/tag-grey.svg">
       <input type="text" placeholder="z.B. Kooperationsprojekte" (focus)="isInputNameFocused = true"
-        (blur)="isInputNameFocused = false" class="font400-normal">
+        (blur)="isInputNameFocused = false" class="font400-normal" [(ngModel)]="channel.name">
     </div>
   </div>
   <div class="create-channel-name">
@@ -22,7 +22,7 @@
     <div class="input-channel-name-cont" [ngClass]="{'focused': isInputDescriptionFocused}">
       <textarea type="text" placeholder="Dein Text hier" (focus)="isInputDescriptionFocused = true"
         (blur)="isInputDescriptionFocused = false" class="font400-normal auto-resizable-textarea"
-        (input)="onTextareaInput($event)"></textarea>
+        (input)="onTextareaInput($event)" [(ngModel)]="channel.description"></textarea>
     </div>
   </div>
   <div class="button-create-cont">

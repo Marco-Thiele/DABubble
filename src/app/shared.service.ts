@@ -1,18 +1,41 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedService {
-  constructor() {}
-
+  private channels: any[] = [];
   private isEditChannelOpen = false;
 
+  constructor() {
+    const storedChannels = localStorage.getItem('channels');
+    if (storedChannels) {
+      this.channels = JSON.parse(storedChannels);
+    }
+  }
+
+  /**
+   * Generates a unique id.
+   * @returns a unique id
+   */
+  generateUniqueId(): string {
+    return uuidv4();
+  }
+
+  /**
+   * Gets the value of the edit channel component.
+   * @returns true if the edit channel component is open, false otherwise
+   */
   getIsEditChannelOpen(): boolean {
     return this.isEditChannelOpen;
   }
 
+  /**
+   * Sets the value of the edit channel component.
+   * @param value the value to set
+   */
   setIsEditChannelOpen(value: boolean): void {
     this.isEditChannelOpen = value;
   }
@@ -39,11 +62,40 @@ export class SharedService {
     this.openChannelEvent.next();
   }
 
-  private openPrivateContainerEvent = new Subject<void>();
+  /**
+   * Emits an event to open the private container from Main-Chat to Private
+   */
+  private openPrivateContainerEvent = new Subject<any>();
 
   openPrivateContainerEvent$ = this.openPrivateContainerEvent.asObservable();
 
-  emitOpenPrivateContainer() {
-    this.openPrivateContainerEvent.next();
+  emitOpenPrivateContainer(member: any) {
+    this.openPrivateContainerEvent.next(member);
+  }
+
+  /**
+   * Adds a channel to the list of channels.
+   * @param channel the channel to add
+   */
+  addChannel(channel: any) {
+    this.channels.push(channel);
+    this.saveChannelToLocalStorage();
+  }
+
+  /**
+   * Gets the list of channels.
+   * @returns the list of channels
+   */
+  getChannels() {
+    return this.channels;
+  }
+
+  /**
+   * Saves the channel to local storage.
+   * @param id the id of the channel
+   * @returns the channel
+   */
+  private saveChannelToLocalStorage() {
+    localStorage.setItem('channels', JSON.stringify(this.channels));
   }
 }

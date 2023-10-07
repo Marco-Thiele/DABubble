@@ -28,13 +28,14 @@
           </div>
         </mat-expansion-panel-header>
         <div class="channels-container">
-          <div class="channels-list-container">
+          <div class="channels-list-container" *ngFor="let channel of channels">
             <div class="channels-list" (click)="openChannel()"
               [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
               <div
                 [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/tag_blue.svg)' : 'url(/assets/icons/tag.svg)'">
               </div>
-              <a class="font400-normal" [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'">Entwicklerteam</a>
+              <a class="font400-normal" [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'"> {{channel.name}}
+              </a>
             </div>
           </div>
           <div class="add-new-chanel">
@@ -62,14 +63,13 @@
           </div>
         </mat-expansion-panel-header>
         <div class="dm-container">
-          <div class="channels-list-container">
-            <div class="channel-member" (click)="openPrivateContainer()">
-              <div class="channel-photo">
+          <div class="channels-list-container" *ngFor="let member of members">
+            <div class="channel-member" (click)="openPrivateContainer(member)">
+              <div class="channel-photo" [style.background-image]="'url(' + member.imgProfil + ')'">
                 <div class="online"></div>
               </div>
-              <span class="font400-normal">Frederik Beck (Du)</span>
+              <span class="font400-normal">{{member.name}} {{member.lastName}}</span>
             </div>
-
           </div>
         </div>
       </mat-expansion-panel>

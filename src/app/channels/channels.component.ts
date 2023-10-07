@@ -10,16 +10,68 @@ import { SharedService } from '../shared.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ChannelsComponent implements OnInit {
+  uniqueId = this.sharedService.generateUniqueId();
   panelOpenState = false;
   isClicked = false;
+  channels: any[] = [];
+  members: any[] = [
+    {
+      id: this.uniqueId,
+      name: 'Frederick',
+      lastName: 'Beck (Du)',
+      imgProfil: 'assets/profil-img/profile_bild.svg',
+      type: 'user',
+    },
+    {
+      id: this.uniqueId,
+      name: 'Sofia',
+      lastName: 'Müller',
+      imgProfil: 'assets/profil-img/Sofia.svg',
+      type: 'member',
+    },
+    {
+      id: this.uniqueId,
+      name: 'Noah',
+      lastName: 'Braun',
+      imgProfil: 'assets/profil-img/Noah.svg',
+      type: 'member',
+    },
+    {
+      id: this.uniqueId,
+      name: 'Elise',
+      lastName: 'Roth',
+      imgProfil: 'assets/profil-img/Elise.svg',
+      type: 'member',
+    },
+    {
+      id: this.uniqueId,
+      name: 'Elias',
+      lastName: 'Neumann',
+      imgProfil: 'assets/profil-img/Elias.svg',
+      type: 'member',
+    },
+    {
+      id: this.uniqueId,
+      name: 'Steffen',
+      lastName: 'Hoffmann',
+      imgProfil: 'assets/profil-img/Steffen.svg',
+      type: 'member',
+    },
+  ];
 
   constructor(
     private dialog: MatDialog,
     private sharedService: SharedService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.channels = this.sharedService.getChannels();
+  }
 
+  /**
+   * Gets the value of the edit channel component.
+   * @returns true if the edit channel component is open, false otherwise
+   */
   isEditChannelOpen(): boolean {
     return this.sharedService.getIsEditChannelOpen();
   }
@@ -62,7 +114,7 @@ export class ChannelsComponent implements OnInit {
   /**
    * Opens the private container in main chat.
    */
-  openPrivateContainer() {
-    this.sharedService.emitOpenPrivateContainer();
+  openPrivateContainer(member: any) {
+    this.sharedService.emitOpenPrivateContainer(member);
   }
 }

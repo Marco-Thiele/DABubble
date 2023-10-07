@@ -12,6 +12,7 @@ import { SharedService } from '../shared.service';
 export class ChannelErstellenComponent implements OnInit {
   isInputNameFocused = false;
   isInputDescriptionFocused = false;
+  channel: any = {};
 
   constructor(
     public dialogRef: MatDialogRef<ChannelErstellenComponent>,
@@ -41,7 +42,22 @@ export class ChannelErstellenComponent implements OnInit {
    * Creates a channel.
    */
   createChannel() {
-    this.dialogRef.close();
-    this.dialog.open(NewChannelMembersComponent, {});
+    if (this.channel.name) {
+      const uniqueId = this.sharedService.generateUniqueId();
+      const channelData = {
+        id: uniqueId,
+        name: this.channel.name,
+        description: this.channel.description,
+        members: [],
+        chat: [],
+      };
+
+      this.dialogRef.close();
+      this.dialog.open(NewChannelMembersComponent, {
+        data: { channel: channelData },
+      });
+    } else {
+      alert('Por favor, introduce un nombre para el canal');
+    }
   }
 }

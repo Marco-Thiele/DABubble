@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  ViewChild,
-  AfterViewChecked,
-} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
 import { SharedService } from '../shared.service';
@@ -32,6 +26,7 @@ export class MainChatComponent implements OnInit {
   isPrivatChatContainerVisible = false;
   isChatWithMemberVisible = false;
   isPrivateChatVisible = false;
+  selectedMember: any;
 
   constructor(private dialog: MatDialog, private sharedService: SharedService) {
     this.sharedService.openNewMessageEvent$.subscribe(() => {
@@ -50,12 +45,22 @@ export class MainChatComponent implements OnInit {
       this.isPrivateChatVisible = false;
     });
 
-    this.sharedService.openPrivateContainerEvent$.subscribe(() => {
-      this.isPrivatChatContainerVisible = true;
-      this.isPrivateChatVisible = true;
-      this.isChannelVisible = false;
-      this.isNewMessageVisible = false;
-      this.isChatWithMemberVisible = false;
+    this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
+      if (member && member.type === 'user') {
+        this.isPrivatChatContainerVisible = true;
+        this.isPrivateChatVisible = true;
+        this.isChatWithMemberVisible = false;
+        this.isChannelVisible = false;
+        this.isNewMessageVisible = false;
+        this.selectedMember = member;
+      } else {
+        this.isPrivatChatContainerVisible = true;
+        this.isChatWithMemberVisible = true;
+        this.isPrivateChatVisible = false;
+        this.isChannelVisible = false;
+        this.isNewMessageVisible = false;
+        this.selectedMember = member;
+      }
     });
   }
 

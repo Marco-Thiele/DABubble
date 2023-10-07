@@ -44,14 +44,14 @@
   </div>
 </div>
 
-<div class="head-new-direct-message-cont" *ngIf="isPrivateChatVisible">
+<div class="head-new-direct-message-cont" *ngIf="isChatWithMemberVisible || isPrivateChatVisible && selectedMember">
   <div class="head-new-direct-message">
     <div class="new-direct-message-img">
-      <div class="img">
+      <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
         <div class="online"></div>
       </div>
     </div>
-    <span class="font700-normal">Frederick Beck(Du)</span>
+    <span class="font700-normal">{{ selectedMember.name }} {{ selectedMember.lastName }}</span>
   </div>
 </div>
 
@@ -214,14 +214,14 @@
     <div class="beginning-private-chat">
       <div class="private-chat-member" *ngIf="isChatWithMemberVisible">
         <div class="private-message-img">
-          <div class="img">
+          <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
           </div>
         </div>
-        <a class="font700-normal">Sofia Müller</a>
+        <a class="font700-normal">{{ selectedMember.name }} {{ selectedMember.lastName }}</a>
       </div>
-      <div class="description-private-msg">
-        <span class="font400-normal">Diese Unterhaltung findet nur zwischen <a class="font400-normal">@Sofia
-            Müller &nbsp;</a>und dir statt.</span>
+      <div class="description-private-msg" *ngIf="isChatWithMemberVisible">
+        <span class="font400-normal">Diese Unterhaltung findet nur zwischen <a class="font400-normal">@{{
+            selectedMember.name }} {{ selectedMember.lastName }} &nbsp;</a>und dir statt.</span>
       </div>
       <div class="private-chat-user" *ngIf="isPrivateChatVisible">
         <div class="private-message-img">
@@ -230,7 +230,7 @@
         </div>
         <a class="font700-normal">Frederick Beck(Du)</a>
       </div>
-      <div class="description-private-msg-user">
+      <div class="description-private-msg-user" *ngIf="isPrivateChatVisible">
         <span class="font700-normal">Dieser Raum ist nur für dich da. <a class="font400-normal">ache dir Notizen, liste
             deine To-dos auf oder
             bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst

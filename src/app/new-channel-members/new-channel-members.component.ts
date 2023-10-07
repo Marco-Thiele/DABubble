@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-new-channel-members',
@@ -29,9 +30,15 @@ export class NewChannelMembersComponent implements OnInit {
   indeterminate = false;
   isButtonDisabled: boolean = false;
   buttonColor: string = '#444df2';
+  channel: any;
 
-  constructor(public dialogRef: MatDialogRef<NewChannelMembersComponent>) {
+  constructor(
+    public dialogRef: MatDialogRef<NewChannelMembersComponent>,
+    private sharedService: SharedService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.labelPosition = 'after';
+    this.channel = data.channel;
   }
 
   ngOnInit(): void {}
@@ -43,11 +50,18 @@ export class NewChannelMembersComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  // addMembers() {
+  //   this.channel.members.push(member)
+  // }
+
   /**
    * Add members to the channel
    */
   addNewChannelMembers() {
-    this.dialogRef.close();
+    if (this.channel.name) {
+      this.sharedService.addChannel(this.channel);
+      this.dialogRef.close(true);
+    }
   }
 
   /**
