@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
   backgroundState: string = 'inital';
   setNone: boolean = false;
   moveState: string = 'middle';
-  animationPlayed = false;
+  animationPlayed: boolean = false;
 
   ngOnInit(): void {
     if (!this.animationPlayed) {
