@@ -21,8 +21,19 @@
 
   <mat-checkbox class="new-channel-look-for-members" *ngIf="showCheckbox" [(ngModel)]="checked"
     [(indeterminate)]="indeterminate" labelPosition="before" [disabled]="disabled">
-    <input type="text" placeholder="Name eingeben" class="font400-normal">
+    <input type="text" placeholder="Name eingeben" [(ngModel)]="memberName" (input)="searchMembers()"
+      class="font400-normal">
   </mat-checkbox>
+
+  <div *ngIf="memberName && memberMatches.length > 0" class="member-matches">
+    <ul>
+      <li *ngFor="let match of memberMatches">
+        <label>
+          <input type="checkbox" [(ngModel)]="match.selected"> {{ match.name }}
+        </label>
+      </li>
+    </ul>
+  </div>
 
 
   <div class="add-members-button" (click)="addNewChannelMembers()" [style.background-color]="buttonColor"

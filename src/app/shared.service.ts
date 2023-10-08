@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class SharedService {
   private channels: any[] = [];
   private isEditChannelOpen = false;
+  private members: any[] = [];
 
   constructor() {
     const storedChannels = localStorage.getItem('channels');
@@ -97,5 +98,19 @@ export class SharedService {
    */
   private saveChannelToLocalStorage() {
     localStorage.setItem('channels', JSON.stringify(this.channels));
+  }
+
+  addMember(member: any) {
+    this.members.push(member);
+    this.saveMembersToLocalStorage();
+  }
+
+  getMembers(): any[] {
+    const storedMembers = localStorage.getItem('members');
+    return storedMembers ? JSON.parse(storedMembers) : [];
+  }
+
+  private saveMembersToLocalStorage() {
+    localStorage.setItem('members', JSON.stringify(this.members));
   }
 }

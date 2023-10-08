@@ -31,8 +31,9 @@ export class NewChannelMembersComponent implements OnInit {
   isButtonDisabled: boolean = false;
   buttonColor: string = '#444df2';
   channel: any;
-  membersToAdd: any[] = [];
-  members: any[] = [];
+  memberName: string = '';
+  memberMatches: any[] = [];
+  selectedMembers: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<NewChannelMembersComponent>,
@@ -41,12 +42,9 @@ export class NewChannelMembersComponent implements OnInit {
   ) {
     this.labelPosition = 'after';
     this.channel = data.channel;
-    this.members = data.members;
   }
 
-  ngOnInit(): void {
-    console.log(this.members);
-  }
+  ngOnInit(): void {}
 
   /**
    * Close the dialog
@@ -59,25 +57,81 @@ export class NewChannelMembersComponent implements OnInit {
   //   this.channel.members.push(member)
   // }
 
+  searchMembers() {
+    this.memberMatches = []; // Restablecer la lista de coincidencias
+
+    // Obtener el nombre ingresado por el usuario desde el input
+    const memberName = this.memberName.trim(); // Obtén el nombre ingresado
+
+    // Validar que el nombre no esté vacío
+    if (memberName === '') {
+      // Mostrar una alerta o manejar el caso de nombre vacío
+      return;
+    }
+
+    // Obtener la lista de miembros del localStorage
+    const members = this.sharedService.getMembers();
+
+    // Buscar miembros que coincidan parcialmente con el nombre ingresado
+    this.memberMatches = members.filter((member) =>
+      member.name.toLowerCase().includes(memberName.toLowerCase())
+    );
+
+    // Actualizar el estado del botón según si se encontraron coincidencias
+    this.isButtonDisabled = this.memberMatches.length === 0;
+    this.buttonColor = this.isButtonDisabled ? '#686868' : '#444df2';
+  }
+
+  addMemberToChannel(member: any) {
+    this.channel.members.push(member);
+
+    // Guardar el canal actualizado en el localStorage
+    this.sharedService.addChannel(this.channel);
+
+    // Limpiar el input y restablecer el estado del botón
+    this.memberName = '';
+    this.isButtonDisabled = true;
+    this.buttonColor = '#686868';
+
+    // Limpiar las coincidencias
+    this.memberMatches = [];
+  }
+
   /**
    * Add members to the channel
    */
   addNewChannelMembers() {
-    if (this.channel.name) {
-      if (this.labelPosition === 'after') {
-        // Lógica para agregar todos los miembros que tienen "channels: ['Office-team']" al canal
-        const membersToAdd = this.members.filter((member) =>
-          member.channels.includes('Office-team')
-        );
-        this.channel.members = [...this.channel.members, ...membersToAdd];
-      }
-      console.log(this.channel.members);
-      this.sharedService.addChannel(this.channel);
-      this.dialogRef.close(true);
+    if (this.labelPosition === 'after') {
+      // Opción 1: Agregar miembros de 'Office-team'
+
+      // Obtener la lista de miembros del localStorage
+      const members = this.sharedService.getMembers();
+
+      // Filtrar los miembros que tienen 'channels' igual a ['Office-team']
+      const officeTeamMembers = members.filter((member) =>
+        member.channels.includes('Office-team')
+      );
+
+      // Agregar los miembros filtrados al canal
+      this.channel.members.push(...officeTeamMembers);
     } else {
-      this.sharedService.addChannel(this.channel);
-      this.dialogRef.close(true);
+      const selectedMembers = this.memberMatches.filter(
+        (match) => match.selected
+      );
+
+      // Agregar los miembros seleccionados al canal
+      this.channel.members.push(...selectedMembers);
+
+      // Limpiar la lista de coincidencias y los miembros seleccionados
+      this.memberMatches = [];
+      this.selectedMembers = [];
     }
+
+    // Guardar el canal actualizado en el localStorage
+    this.sharedService.addChannel(this.channel);
+
+    // Cerrar el diálogo
+    this.dialogRef.close(true);
   }
 
   /**
@@ -101,7 +155,7 @@ export class NewChannelMembersComponent implements OnInit {
   /**
    * Disable the button if the user finds a member
    */
-  loofForMember() {
+  lookForMember() {
     this.isButtonDisabled = false;
     this.buttonColor = '#444df2';
   }

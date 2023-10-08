@@ -13,7 +13,6 @@ export class ChannelErstellenComponent implements OnInit {
   isInputNameFocused = false;
   isInputDescriptionFocused = false;
   channel: any = {};
-  members: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ChannelErstellenComponent>,
@@ -21,9 +20,7 @@ export class ChannelErstellenComponent implements OnInit {
     private sharedService: SharedService
   ) {}
 
-  ngOnInit(): void {
-    console.log(this.members);
-  }
+  ngOnInit(): void {}
 
   /**
    * Closes the dialog for creating a channel.
@@ -56,13 +53,14 @@ export class ChannelErstellenComponent implements OnInit {
       };
 
       const dialogRef = this.dialog.open(NewChannelMembersComponent, {
-        data: { channel: channelData, members: this.members },
+        data: { channel: channelData },
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
           this.dialogRef.close();
         }
       });
+      this.dialogRef.close();
     } else {
       alert('Por favor, introduce un nombre para el canal');
     }

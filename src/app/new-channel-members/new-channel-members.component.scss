@@ -9,6 +9,8 @@
   border-radius: 30px;
   background: var(--White, #fff);
   box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.2);
+
+  position: fixed;
 }
 
 .head-title {
@@ -156,4 +158,24 @@
 
 .mdc-checkbox {
   display: none !important;
+}
+
+//look for members
+
+.member-matches {
+  display: flex;
+  padding: 20px 25px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  position: absolute;
+  left: 40px;
+  bottom: -20px;
+  border-radius: 0px 20px 20px 20px;
+  border: 1px solid var(--ligth-purple-lines, #adb0d9);
+  background: var(--White, #fff);
+
+  /* header */
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
 }
