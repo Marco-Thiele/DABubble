@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserService {
-  name: string = '';
+  name: string = 'Guest';
   photoURL: string = '../../assets/img/avatars/person.svg';
   currentUser: any;
   constructor() {}
