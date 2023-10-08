@@ -34,6 +34,7 @@ export class NewChannelMembersComponent implements OnInit {
   memberName: string = '';
   memberMatches: any[] = [];
   selectedMembers: any[] = [];
+  selectedMember: any = null;
 
   constructor(
     public dialogRef: MatDialogRef<NewChannelMembersComponent>,
@@ -53,47 +54,40 @@ export class NewChannelMembersComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  // addMembers() {
-  //   this.channel.members.push(member)
-  // }
-
   searchMembers() {
-    this.memberMatches = []; // Restablecer la lista de coincidencias
-
-    // Obtener el nombre ingresado por el usuario desde el input
-    const memberName = this.memberName.trim(); // Obtén el nombre ingresado
-
-    // Validar que el nombre no esté vacío
+    this.memberMatches = [];
+    const memberName = this.memberName.trim();
     if (memberName === '') {
-      // Mostrar una alerta o manejar el caso de nombre vacío
       return;
     }
 
-    // Obtener la lista de miembros del localStorage
     const members = this.sharedService.getMembers();
 
-    // Buscar miembros que coincidan parcialmente con el nombre ingresado
-    this.memberMatches = members.filter((member) =>
+    // Excluir el primer miembro de la lista cargada del localStorage
+    const filteredMembers = members.slice(1); // Excluye el primer miembro
+    this.memberMatches = filteredMembers.filter((member) =>
       member.name.toLowerCase().includes(memberName.toLowerCase())
     );
 
-    // Actualizar el estado del botón según si se encontraron coincidencias
-    this.isButtonDisabled = this.memberMatches.length === 0;
-    this.buttonColor = this.isButtonDisabled ? '#686868' : '#444df2';
+    this.memberMatches.forEach((match) => {
+      match.imgProfil = this.getImgProfil(match);
+    });
+  }
+
+  getImgProfil(member: any): string {
+    if (member.imgProfil && member.imgProfil !== '') {
+      return member.imgProfil;
+    } else {
+      return 'assets/img/avatars/avatar-1.png';
+    }
   }
 
   addMemberToChannel(member: any) {
     this.channel.members.push(member);
-
-    // Guardar el canal actualizado en el localStorage
     this.sharedService.addChannel(this.channel);
-
-    // Limpiar el input y restablecer el estado del botón
     this.memberName = '';
     this.isButtonDisabled = true;
     this.buttonColor = '#686868';
-
-    // Limpiar las coincidencias
     this.memberMatches = [];
   }
 
@@ -102,36 +96,45 @@ export class NewChannelMembersComponent implements OnInit {
    */
   addNewChannelMembers() {
     if (this.labelPosition === 'after') {
-      // Opción 1: Agregar miembros de 'Office-team'
-
-      // Obtener la lista de miembros del localStorage
       const members = this.sharedService.getMembers();
-
-      // Filtrar los miembros que tienen 'channels' igual a ['Office-team']
       const officeTeamMembers = members.filter((member) =>
         member.channels.includes('Office-team')
       );
-
-      // Agregar los miembros filtrados al canal
       this.channel.members.push(...officeTeamMembers);
     } else {
       const selectedMembers = this.memberMatches.filter(
         (match) => match.selected
       );
-
-      // Agregar los miembros seleccionados al canal
-      this.channel.members.push(...selectedMembers);
-
-      // Limpiar la lista de coincidencias y los miembros seleccionados
+      this.channel.members.push(...this.selectedMembers);
       this.memberMatches = [];
       this.selectedMembers = [];
     }
+    if (this.channel.members.length > 0) {
+      this.sharedService.addChannel(this.channel);
+      this.dialogRef.close(true);
+    }
+  }
 
-    // Guardar el canal actualizado en el localStorage
-    this.sharedService.addChannel(this.channel);
+  toggleMemberSelection(member: any) {
+    if (this.selectedMembers.includes(member)) {
+    }
 
-    // Cerrar el diálogo
-    this.dialogRef.close(true);
+    member.selected = true;
+    this.selectedMembers.push(member);
+
+    this.isButtonDisabled = this.selectedMembers.length === 0;
+    this.buttonColor = this.isButtonDisabled ? '#686868' : '#444df2';
+  }
+
+  removeSelectedMember(member: any) {
+    member.selected = false;
+    this.selectedMembers = this.selectedMembers.filter((m) => m !== member);
+
+    this.isButtonDisabled = this.memberMatches.every(
+      (match) => !match.selected
+    );
+    this.isButtonDisabled = this.selectedMembers.length === 0;
+    this.buttonColor = this.isButtonDisabled ? '#686868' : '#444df2';
   }
 
   /**

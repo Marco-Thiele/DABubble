@@ -26,13 +26,18 @@
   </mat-checkbox>
 
   <div *ngIf="memberName && memberMatches.length > 0" class="member-matches">
-    <ul>
-      <li *ngFor="let match of memberMatches">
-        <label>
-          <input type="checkbox" [(ngModel)]="match.selected"> {{ match.name }}
-        </label>
-      </li>
-    </ul>
+    <div *ngFor="let match of memberMatches" class="member-match-cont">
+      <img [src]="match.imgProfil" [alt]="match.name">
+      <span (click)="toggleMemberSelection(match)" [class.selected]="match.selected"> {{ match.name }} </span>
+    </div>
+  </div>
+
+  <div *ngIf="selectedMembers.length > 0" class="selected-members">
+    <div *ngFor="let member of selectedMembers" class="selected-member">
+      <img [src]="member.imgProfil" [alt]="member.name">
+      <span class="font400-normal">{{ member.name }}</span>
+      <div class="cancelMember" (click)="removeSelectedMember(member)"></div>
+    </div>
   </div>
 
 
