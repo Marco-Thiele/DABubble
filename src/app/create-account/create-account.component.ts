@@ -70,11 +70,13 @@ export class CreateAccountComponent implements OnInit {
   registerUser() {
     createUserWithEmailAndPassword(this.auth, this.email, this.password)
       .then((userCredential) => {
-        // Signed up
         const user = userCredential.user;
-        this.UserService.name = this.name;
-        this.startAnimation();
-        this.routeToAvatarSelection();
+        if (user.email) {
+          this.UserService.name = this.name;
+          this.UserService.email = user.email;
+          this.startAnimation();
+          this.routeToAvatarSelection();
+        }
       })
       .catch((error) => {
         this.checkNameError();

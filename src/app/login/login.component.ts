@@ -98,9 +98,10 @@ export class LoginComponent implements OnInit {
     signInWithEmailAndPassword(this.auth, this.email, this.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        if (user.displayName && user.photoURL) {
+        if (user.displayName && user.photoURL && user.email) {
           this.UserService.name = user.displayName;
           this.UserService.photoURL = user.photoURL;
+          this.UserService.email = user.email;
           this._router.navigateByUrl('/index');
         }
       })
@@ -117,6 +118,7 @@ export class LoginComponent implements OnInit {
       .then(() => {
         this.UserService.name = 'Guest';
         this.UserService.photoURL = '../../assets/img/avatars/person.svg';
+        this.UserService.email = 'guest@guest.de';
         this._router.navigateByUrl('/index');
       })
       .catch((error) => {
@@ -130,9 +132,10 @@ export class LoginComponent implements OnInit {
     signInWithPopup(this.auth, this.provider)
       .then((result) => {
         const user = result.user;
-        if (user.displayName && user.photoURL) {
+        if (user.displayName && user.photoURL && user.email) {
           this.UserService.name = user.displayName;
           this.UserService.photoURL = user.photoURL;
+          this.UserService.email = user.email;
           this._router.navigateByUrl('/index');
         }
       })
