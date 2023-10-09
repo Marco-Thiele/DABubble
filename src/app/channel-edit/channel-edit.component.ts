@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedService } from '../shared.service';
 
 @Component({
@@ -11,14 +11,28 @@ import { SharedService } from '../shared.service';
 export class ChannelEditComponent implements OnInit {
   isEditingName = false;
   isEditingDescription = false;
+  selectedChannel: any;
+  editedChannelName: string = '';
+  editedChannelDescription: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<ChannelEditComponent>,
-    private sharedService: SharedService
-  ) {}
+    private sharedService: SharedService,
+    @Inject(MAT_DIALOG_DATA) public data: { selectedChannel: any }
+  ) {
+    this.selectedChannel = this.data.selectedChannel;
+    this.editedChannelName = this.selectedChannel.name;
+    this.editedChannelDescription = this.selectedChannel.description;
+  }
 
   ngOnInit(): void {}
 
+  editChannelContainer(channel: any) {
+    this.sharedService.openChannelEvent$.subscribe((channel: any) => {
+      this.selectedChannel = channel;
+      console.log(channel);
+    });
+  }
   /**
    * Close the edit channel container
    */
@@ -38,6 +52,8 @@ export class ChannelEditComponent implements OnInit {
    * Save the channel name
    */
   saveName() {
+    this.selectedChannel.name = this.editedChannelName;
+    this.sharedService.updateChannel(this.selectedChannel);
     this.isEditingName = false;
   }
 
@@ -52,6 +68,8 @@ export class ChannelEditComponent implements OnInit {
    * Save the channel description
    */
   saveDescription() {
+    this.selectedChannel.description = this.editedChannelDescription;
+    this.sharedService.updateChannel(this.selectedChannel);
     this.isEditingDescription = false;
   }
 

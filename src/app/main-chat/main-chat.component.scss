@@ -93,7 +93,6 @@
   display: flex;
   padding: 3px 10px;
   align-items: center;
-  gap: 10px;
   cursor: pointer;
 
   span {
@@ -113,7 +112,6 @@
   display: flex;
   height: 40px;
   align-items: flex-start;
-  padding-right: 10px;
   flex-shrink: 0;
 
   img {
@@ -123,6 +121,10 @@
     flex: 1 0 0;
     align-self: stretch;
     margin-right: -10px;
+    border-radius: 30px;
+    border-radius: 30px;
+    border: 2px solid var(--White, #fff);
+    background: var(--White, #fff);
   }
 }
 

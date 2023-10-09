@@ -1,6 +1,6 @@
 <!--Main chat-head channel-->
 <div class="head-member-container" *ngIf="isChannelVisible && selectedChannel">
-  <div class="head-title-channel" (click)="editChannel()"
+  <div class="head-title-channel" (click)="editChannel(selectedChannel)"
     [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
     <div class="title-channel">
       <div class="title-hashtag">
@@ -21,10 +21,10 @@
   <div class="members-add-container">
     <div class="members-cont" (click)="showMembers()">
       <div class="members" *ngFor="let member of selectedChannel.members">
-        <img [style.background-image]="">
+        <img [src]="member.imgProfil">
       </div>
-      <span class="font600-normal">{{ selectedChannel.members.length }}</span>
     </div>
+    <span class="font600-normal">{{ selectedChannel.members.length }}</span>
     <div class="add-member-cont" (click)="addMembers()">
       <div></div>
     </div>

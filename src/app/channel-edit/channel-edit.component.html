@@ -1,8 +1,8 @@
-<div class="edit-channel-container">
+<div class="edit-channel-container" *ngIf="selectedChannel">
   <div class="edit-channel-head">
     <div class="head-left">
       <div></div>
-      <span class="font700-normal">Entwicklerteam</span>
+      <span class="font700-normal">{{selectedChannel.name}}</span>
     </div>
     <div class="head-right" (click)="closeEditChannelContainer()">
       <div></div>
@@ -18,7 +18,7 @@
     </div>
     <div class="edit-title-name">
       <div></div>
-      <span class="font400-normal">Entwicklerteam</span>
+      <span class="font400-normal">{{selectedChannel.name}}</span>
     </div>
   </div>
 
@@ -31,7 +31,7 @@
     </div>
     <div class="new-title-name">
       <div></div>
-      <input class="font400-normal" placeholder="Entwicklerteam">
+      <input class="font400-normal" [(ngModel)]="editedChannelName" placeholder="{{selectedChannel.name}}">
     </div>
   </div>
 
@@ -42,12 +42,11 @@
         <span class="font600-normal">Bearbeiten</span>
       </div>
     </div>
-    <span class="font400-normal">Dieser Channel ist für alles rund um #dfsdf vorgesehen. Hier kannst du zusammen mit
-      deinem Team Meetings abhalten, Dokumente teilen und Entscheidungen treffen.</span>
+    <span class="font400-normal">{{selectedChannel.description}}</span>
     <div class="description-line"></div>
     <div class="edit-title-users">
       <span class="font700-normal">Erstellt von</span>
-      <span class="font400-normal edit-users">Noah Braun</span>
+      <span class="font400-normal edit-users">{{ selectedChannel.owner }}</span>
     </div>
   </div>
 
@@ -60,12 +59,13 @@
     </div>
     <div class="new-title-name">
       <div></div>
-      <input class="font400-normal" placeholder="Dein Text hier">
+      <input class="font400-normal" [(ngModel)]="editedChannelDescription"
+        placeholder="{{selectedChannel.description}}">
     </div>
     <div class="description-line"></div>
     <div class="edit-title-users">
       <span class="font700-normal">Erstellt von</span>
-      <span class="font400-normal edit-users">Noah Braun</span>
+      <span class="font400-normal edit-users">{{ selectedChannel.owner }}</span>
     </div>
   </div>
 
