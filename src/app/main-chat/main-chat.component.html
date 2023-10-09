@@ -208,7 +208,7 @@
 </div>
 
 <!--Container to write in chat-->
-<div class="message-box-cont">
+<div class="message-box-cont" *ngIf="currentChannel">
   <div class="message-box" [class.focused]="taIsFocused">
     <textarea class="font400-normal auto-resizable-textarea" placeholder="Nachricht an #Entwicklerteam"
       (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="inputFocused()" (focus)="textAreaFocused()"
@@ -236,7 +236,7 @@
         </div>
       </div>
 
-      <div class="send-msg"></div>
+      <div class="send-msg" (click)="sendMessage()"></div>
     </div>
   </div>
 </div>

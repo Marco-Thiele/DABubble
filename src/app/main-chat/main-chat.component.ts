@@ -4,6 +4,7 @@ import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
 import { SharedService } from '../shared.service';
 import { ChannelMembersComponent } from '../channel-members/channel-members.component';
 import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-main-chat',
@@ -28,8 +29,13 @@ export class MainChatComponent implements OnInit {
   isPrivateChatVisible = false;
   selectedMember: any;
   selectedChannel: any;
+  currentChannel: any;
 
-  constructor(private dialog: MatDialog, private sharedService: SharedService) {
+  constructor(
+    private dialog: MatDialog,
+    private sharedService: SharedService,
+    public userService: UserService
+  ) {
     this.openNewMessage();
     this.openChannelContainer(this.selectedChannel);
     this.openPrivateContainerMessage(this.selectedMember);
@@ -118,6 +124,7 @@ export class MainChatComponent implements OnInit {
   selectChannel(channel: any) {
     this.isChannelVisible = true;
     this.selectedChannel = channel;
+    this.currentChannel = channel;
   }
 
   /**
@@ -240,6 +247,23 @@ export class MainChatComponent implements OnInit {
     if (this.chatContainer) {
       this.chatContainer.nativeElement.scrollTop =
         this.chatContainer.nativeElement.scrollHeight;
+    }
+  }
+
+  sendMessage() {
+    const messageText = this.message.trim();
+    if (messageText) {
+      const message = {
+        userName: this.userService.getName(),
+        text: messageText,
+        time: new Date().toLocaleTimeString(),
+        reactions: [],
+        answers: [],
+      };
+
+      const currentChannel = this.selectedChannel;
+      this.sharedService.saveMessageToLocalStorage(currentChannel.id, message);
+      this.message = '';
     }
   }
 }

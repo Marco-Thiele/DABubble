@@ -158,4 +158,16 @@ export class SharedService implements OnInit {
       console.log('Member updated:', updatedMember);
     }
   }
+
+  saveMessageToLocalStorage(channelId: string, message: any) {
+    const storedChannels = localStorage.getItem('channels');
+    const channels = storedChannels ? JSON.parse(storedChannels) : [];
+
+    const channel = channels.find((c: any) => c.id === channelId);
+
+    if (channel) {
+      channel.chat.push(message);
+      localStorage.setItem('channels', JSON.stringify(channels));
+    }
+  }
 }

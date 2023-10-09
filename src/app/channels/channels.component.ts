@@ -143,6 +143,22 @@ export class ChannelsComponent implements OnInit {
    * Opens the private container in main chat.
    */
   openPrivateContainer(member: any) {
+    const memberId = member.id;
+
+    const storedPrivateMessages = localStorage.getItem('privateMessages');
+    const privateMessages = storedPrivateMessages
+      ? JSON.parse(storedPrivateMessages)
+      : {};
+
+    if (!privateMessages[memberId]) {
+      privateMessages[memberId] = {
+        id: memberId,
+        member: member.name,
+        chat: [],
+      };
+    }
+
+    localStorage.setItem('privateMessages', JSON.stringify(privateMessages));
     this.sharedService.emitOpenPrivateContainer(member);
   }
 }
