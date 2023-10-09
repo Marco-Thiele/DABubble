@@ -42,6 +42,7 @@ export class EditProfilComponent {
       updateProfile(this.auth.currentUser!, {
         displayName: this.newName,
         photoURL: this.profilImg,
+        // email: this.newEmail,
       })
         .then(() => {
           console.log('Profile Updated with');
