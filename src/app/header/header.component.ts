@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../user.service';
 import { ProfilComponent } from '../profil/profil.component';
@@ -15,16 +15,18 @@ import {
   updateDoc,
   deleteDoc,
 } from '@angular/fire/firestore';
+import { getAuth, signOut } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   show: boolean = false;
   profilName: string | any;
   profilImg: any;
+  auth = getAuth();
   firestore: Firestore = inject(Firestore);
 
   constructor(
