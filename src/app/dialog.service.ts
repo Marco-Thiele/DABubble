@@ -12,10 +12,26 @@ export class DialogService {
   overlayRefEdidt: any;
   profil: boolean = false;
   editProfil: boolean = false;
+  showUserProfil: boolean = false;
+
   constructor(private overlay: Overlay) { }
 
   openDialog(Component: any) {
     // Erstellen Sie ein Overlay-Ref
+    if (this.showUserProfil == true) {
+      this.overlayRef = this.overlay.create({
+        positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+        hasBackdrop: true,
+      });
+      this.profil = true;
+      console.log('profil', this.profil)
+      // Erstellen Sie ein Portal für Ihre Dialogkomponente
+      const portal = new ComponentPortal(Component);
+
+      // Attachieren Sie das Portal an das Overlay-Ref
+      const componentRef = this.overlayRef.attach(portal);
+
+    }
     if (this.profil == false) {
       this.overlayRef = this.overlay.create({
         positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
@@ -75,7 +91,6 @@ export class DialogService {
       this.overlayRefEdidt.detach();
       this.editProfil = false;
     }
-
   }
 
 

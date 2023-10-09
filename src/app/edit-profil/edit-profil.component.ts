@@ -35,7 +35,7 @@ export class EditProfilComponent {
   saveChanges(){
     console.log(this.newName);
     this.updateUser()
-    this.changeEmail ()
+    //this.changeEmail ()
   }
 
 
@@ -62,15 +62,22 @@ export class EditProfilComponent {
   }
 
 
- changeEmail (){
-  updateEmail(this.auth.currentUser!, this.newEmail).then(() => {
-    // Email updated!
-    console.log('email updated', this.newEmail)
-  }).catch((error) => {
-    // An error occurred
-    console.log(error);
-    
-  });
- } 
+//  changeEmail (){
+//   user.sendEmailVerification()
+//   .then(() => {
+//     // E-Mail-Verifizierung erfolgreich gesendet
+//     console.log('E-Mail-Verifizierung an', this.newEmail, 'gesendet');
+
+//     // Nach dem Senden der Verifizierungs-E-Mail können Sie die E-Mail aktualisieren
+//     return user.updateEmail(this.newEmail);
+//   })
+//   .then(() => {
+//     // Email updated!
+//     console.log('email updated', this.newEmail)
+//   }).catch((error) => {
+//     // An error occurred
+//     console.log(error);
+//   });
+//  } 
 
 }
