@@ -12,10 +12,12 @@ export class ProfilComponent {
 
   profilName:string;
   profilImg:any;
+  profilEmail: string;
 
   constructor(private dialogService: DialogService, public UserService: UserService) {
-    this.profilName = UserService.getName()
-    this.profilImg = UserService.getPhoto()
+    this.profilName = UserService.getName();
+    this.profilImg = UserService.getPhoto();
+    this.profilEmail = UserService.getMail();
   }
 
 

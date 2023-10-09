@@ -14,11 +14,14 @@ export class EditProfilComponent {
   firestore: Firestore = inject(Firestore);
   profilName: string;
   profilImg: any;
+  profilEmail: string;;
   newName:any;
+  newEmail:any
 
   constructor(private dialogService: DialogService, public UserService: UserService,) {
-    this.profilName = UserService.getName()
-    this.profilImg = UserService.getPhoto()
+    this.profilName = UserService.getName();
+    this.profilImg = UserService.getPhoto();
+    this.profilEmail = UserService.getMail();
   }  
 
   auth = getAuth();
@@ -44,7 +47,9 @@ export class EditProfilComponent {
           console.log('Profile Updated with');
           this.closeDialog();
         this.UserService.name = this.newName;
+        this.UserService.email = this.newEmail;
         console.log(this.UserService.name);
+        console.log(this.UserService.email);
         
         })
         .catch((error) => {
