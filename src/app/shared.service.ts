@@ -1,20 +1,27 @@
-import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Injectable, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-
+import { Auth } from '@angular/fire/auth';
 @Injectable({
   providedIn: 'root',
 })
-export class SharedService {
+export class SharedService implements OnInit {
   private channels: any[] = [];
   private isEditChannelOpen = false;
   private members: any[] = [];
 
-  constructor() {
+  constructor(private auth: Auth) {
     const storedChannels = localStorage.getItem('channels');
     if (storedChannels) {
       this.channels = JSON.parse(storedChannels);
     }
+  }
+
+  ngOnInit(): void {}
+
+  getID(): string {
+    const uid = this.auth.currentUser?.uid ?? '';
+    return uid;
   }
 
   /**
@@ -91,6 +98,20 @@ export class SharedService {
     return this.channels;
   }
 
+  updateChannel(updatedChannel: any) {
+    const index = this.channels.findIndex(
+      (channel) => channel.id === updatedChannel.id
+    );
+    if (index !== -1) {
+      this.channels[index] = updatedChannel;
+      this.saveChannelsToLocalStorage();
+    }
+  }
+
+  private saveChannelsToLocalStorage() {
+    localStorage.setItem('channels', JSON.stringify(this.channels));
+  }
+
   /**
    * Saves the channel to local storage.
    * @param id the id of the channel
@@ -100,17 +121,41 @@ export class SharedService {
     localStorage.setItem('channels', JSON.stringify(this.channels));
   }
 
+  /**
+   * Adds a member to the list of members.
+   * @param member the member to add
+   */
   addMember(member: any) {
     this.members.push(member);
     this.saveMembersToLocalStorage();
   }
 
+  /**
+   * Gets the list of members.
+   * @returns the list of members
+   */
   getMembers(): any[] {
     const storedMembers = localStorage.getItem('members');
     return storedMembers ? JSON.parse(storedMembers) : [];
   }
 
+  /**
+   * Saves the member to local storage.
+   * @param id the id of the member
+   * @returns the member
+   */
   private saveMembersToLocalStorage() {
     localStorage.setItem('members', JSON.stringify(this.members));
+  }
+
+  updateMember(updatedMember: any) {
+    const index = this.members.findIndex(
+      (member) => member.id === updatedMember.id
+    );
+    if (index !== -1) {
+      this.members[index] = updatedMember;
+      this.saveMembersToLocalStorage();
+      console.log('Member updated:', updatedMember);
+    }
   }
 }

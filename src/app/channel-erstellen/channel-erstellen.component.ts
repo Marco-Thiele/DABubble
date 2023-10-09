@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { NewChannelMembersComponent } from '../new-channel-members/new-channel-members.component';
 import { SharedService } from '../shared.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-channel-erstellen',
@@ -17,7 +18,8 @@ export class ChannelErstellenComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ChannelErstellenComponent>,
     private dialog: MatDialog,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    public userService: UserService
   ) {}
 
   ngOnInit(): void {}
@@ -50,6 +52,7 @@ export class ChannelErstellenComponent implements OnInit {
         description: this.channel.description,
         members: [],
         chat: [],
+        owner: this.userService.getName(),
       };
 
       const dialogRef = this.dialog.open(NewChannelMembersComponent, {

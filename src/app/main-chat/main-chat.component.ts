@@ -30,6 +30,18 @@ export class MainChatComponent implements OnInit {
   selectedChannel: any;
 
   constructor(private dialog: MatDialog, private sharedService: SharedService) {
+    this.openNewMessage();
+    this.openChannelContainer(this.selectedChannel);
+    this.openPrivateContainerMessage(this.selectedMember);
+    this.loadChannel();
+  }
+
+  ngOnInit(): void {}
+
+  /**
+   * Opens the new message component which is used to create a new channel or to start a new chat with a member
+   */
+  openNewMessage() {
     this.sharedService.openNewMessageEvent$.subscribe(() => {
       this.isNewMessageVisible = true;
       this.isChannelVisible = false;
@@ -37,7 +49,13 @@ export class MainChatComponent implements OnInit {
       this.isPrivatChatContainerVisible = false;
       this.isPrivateChatVisible = false;
     });
+  }
 
+  /**
+   * Opens the channel container
+   * @param channel the channel to open
+   */
+  openChannelContainer(channel: any) {
     this.sharedService.openChannelEvent$.subscribe((channel: any) => {
       this.isChannelVisible = true;
       this.isPrivatChatContainerVisible = false;
@@ -46,7 +64,13 @@ export class MainChatComponent implements OnInit {
       this.isPrivateChatVisible = false;
       this.selectedChannel = channel;
     });
+  }
 
+  /**
+   * Opens the private container with a member
+   * @param member the member to open
+   */
+  openPrivateContainerMessage(member: any) {
     this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
       if (member && member.type === 'user') {
         this.isPrivatChatContainerVisible = true;
@@ -64,12 +88,12 @@ export class MainChatComponent implements OnInit {
         this.selectedMember = member;
       }
     });
-
-    this.loadChannel();
   }
 
-  ngOnInit(): void {}
-
+  /**
+   * Gets the value of the edit channel component.
+   * @returns true if the edit channel component is open, false otherwise
+   */
   isEditChannelOpen(): boolean {
     return this.sharedService.getIsEditChannelOpen();
   }
@@ -87,6 +111,10 @@ export class MainChatComponent implements OnInit {
     }
   }
 
+  /**
+   * Selects a channel
+   * @param channel the channel to select
+   */
   selectChannel(channel: any) {
     this.isChannelVisible = true;
     this.selectedChannel = channel;
@@ -95,9 +123,12 @@ export class MainChatComponent implements OnInit {
   /**
    * Shows the edit Channel component
    */
-  editChannel() {
-    this.dialog.open(ChannelEditComponent, {});
+  editChannel(selectedChannel: any) {
+    this.dialog.open(ChannelEditComponent, {
+      data: { selectedChannel },
+    });
     this.sharedService.setIsEditChannelOpen(true);
+    console.log(selectedChannel);
   }
 
   /**

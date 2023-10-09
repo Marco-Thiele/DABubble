@@ -14,6 +14,7 @@ export class ChannelsComponent implements OnInit {
   uniqueId = this.sharedService.generateUniqueId();
   profilName: string;
   profilImg: any;
+  profilID: string;
   panelOpenState = false;
   isClicked = false;
   channels: any[] = [];
@@ -26,60 +27,72 @@ export class ChannelsComponent implements OnInit {
   ) {
     this.profilName = this.userService.getName();
     this.profilImg = this.userService.getPhoto();
+    this.profilID = this.sharedService.getID();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.channels = this.sharedService.getChannels();
-    this.members = this.sharedService.getMembers();
+    this.members = await this.sharedService.getMembers();
+
+    console.log(this.members);
 
     if (this.members.length === 0) {
       this.members = [
         {
-          id: this.uniqueId,
+          id: this.profilID,
           name: this.profilName + '(Du)',
           imgProfil: this.profilImg,
           type: 'user',
           channels: ['Office-team'],
+          chat: [],
         },
         {
-          id: this.uniqueId,
+          id: this.sharedService.generateUniqueId(),
           name: 'Sofia Müller',
           imgProfil: 'assets/img/avatars/sofiamueller.svg',
           type: 'member',
           channels: ['Office-team'],
+          chat: [],
         },
         {
-          id: this.uniqueId,
+          id: this.sharedService.generateUniqueId(),
           name: 'Noah Braun',
           imgProfil: 'assets/img/avatars/noahbraun.svg',
           type: 'member',
           channels: ['Office-team'],
+          chat: [],
         },
         {
-          id: this.uniqueId,
+          id: this.sharedService.generateUniqueId(),
           name: 'Elise Roth',
           imgProfil: 'assets/img/avatars/eliseroth.svg',
           type: 'member',
           channels: ['Office-team'],
+          chat: [],
         },
         {
-          id: this.uniqueId,
+          id: this.sharedService.generateUniqueId(),
           name: 'Elias Neumann',
           imgProfil: 'assets/img/avatars/eliasneumann.svg',
           type: 'member',
           channels: ['Office-team'],
+          chat: [],
         },
         {
-          id: this.uniqueId,
+          id: this.sharedService.generateUniqueId(),
           name: 'Steffen Hoffmann',
           imgProfil: 'assets/img/avatars/steffenhoffmann.svg',
           type: 'member',
           channels: ['Office-team'],
+          chat: [],
         },
       ];
       this.members.forEach((member) => {
         this.sharedService.addMember(member);
       });
+    } else {
+      this.members[0].imgProfil = this.profilImg;
+      this.members[0].name = this.profilName + '(Du)';
     }
   }
 

@@ -54,6 +54,9 @@ export class NewChannelMembersComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /**
+   * the function is called when the user types in the input field to look for a member
+   */
   searchMembers() {
     this.memberMatches = [];
     const memberName = this.memberName.trim();
@@ -62,9 +65,7 @@ export class NewChannelMembersComponent implements OnInit {
     }
 
     const members = this.sharedService.getMembers();
-
-    // Excluir el primer miembro de la lista cargada del localStorage
-    const filteredMembers = members.slice(1); // Excluye el primer miembro
+    const filteredMembers = members.slice(1);
     this.memberMatches = filteredMembers.filter((member) =>
       member.name.toLowerCase().includes(memberName.toLowerCase())
     );
@@ -74,6 +75,10 @@ export class NewChannelMembersComponent implements OnInit {
     });
   }
 
+  /**
+   * the function takes the foto of the member if it exists, otherwise it takes the default foto
+   * @param member the member to get the foto
+   */
   getImgProfil(member: any): string {
     if (member.imgProfil && member.imgProfil !== '') {
       return member.imgProfil;
@@ -82,14 +87,18 @@ export class NewChannelMembersComponent implements OnInit {
     }
   }
 
-  addMemberToChannel(member: any) {
-    this.channel.members.push(member);
-    this.sharedService.addChannel(this.channel);
-    this.memberName = '';
-    this.isButtonDisabled = true;
-    this.buttonColor = '#686868';
-    this.memberMatches = [];
-  }
+  // /**
+  //  * Add a member to the channel
+  //  * @param member the member to add to the channel
+  //  */
+  // addMemberToChannel(member: any) {
+  //   this.channel.members.push(member);
+  //   this.sharedService.addChannel(this.channel);
+  //   this.memberName = '';
+  //   this.isButtonDisabled = true;
+  //   this.buttonColor = '#686868';
+  //   this.memberMatches = [];
+  // }
 
   /**
    * Add members to the channel
@@ -106,6 +115,7 @@ export class NewChannelMembersComponent implements OnInit {
         (match) => match.selected
       );
       this.channel.members.push(...this.selectedMembers);
+
       this.memberMatches = [];
       this.selectedMembers = [];
     }
@@ -115,21 +125,26 @@ export class NewChannelMembersComponent implements OnInit {
     }
   }
 
+  /**
+   * Toggle the selection of a member when the user looks for a member
+   * @param member the member to toggle the selection
+   */
   toggleMemberSelection(member: any) {
     if (this.selectedMembers.includes(member)) {
     }
-
     member.selected = true;
     this.selectedMembers.push(member);
-
     this.isButtonDisabled = this.selectedMembers.length === 0;
     this.buttonColor = this.isButtonDisabled ? '#686868' : '#444df2';
   }
 
+  /**
+   * the function removes a member from the selected members
+   * @param member the member to remove
+   */
   removeSelectedMember(member: any) {
     member.selected = false;
     this.selectedMembers = this.selectedMembers.filter((m) => m !== member);
-
     this.isButtonDisabled = this.memberMatches.every(
       (match) => !match.selected
     );
