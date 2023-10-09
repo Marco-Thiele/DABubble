@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DialogService } from '../dialog.service';
 import { UserService } from '../user.service';
-import { getAuth, updateProfile } from '@angular/fire/auth';
+import { getAuth, updateEmail, updateProfile } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 
@@ -16,7 +16,9 @@ export class EditProfilComponent {
   profilImg: any;
   profilEmail: string;;
   newName:any;
-  newEmail:any
+  newEmail:any;
+  auth = getAuth();
+  currentUser = this.auth.currentUser;
 
   constructor(private dialogService: DialogService, public UserService: UserService,) {
     this.profilName = UserService.getName();
@@ -24,16 +26,16 @@ export class EditProfilComponent {
     this.profilEmail = UserService.getMail();
   }  
 
-  auth = getAuth();
-  currentUser = this.auth.currentUser;
   
   closeDialog() {
     this.dialogService.closeDialog();
   }
 
+
   saveChanges(){
     console.log(this.newName);
     this.updateUser()
+    this.changeEmail ()
   }
 
 
@@ -58,4 +60,17 @@ export class EditProfilComponent {
         });
     }
   }
+
+
+ changeEmail (){
+  updateEmail(this.auth.currentUser!, this.newEmail).then(() => {
+    // Email updated!
+    console.log('email updated', this.newEmail)
+  }).catch((error) => {
+    // An error occurred
+    console.log(error);
+    
+  });
+ } 
+
 }

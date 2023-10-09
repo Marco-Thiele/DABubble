@@ -45,6 +45,7 @@ import { EditProfilComponent } from './edit-profil/edit-profil.component';
 import { NewChannelMembersComponent } from './new-channel-members/new-channel-members.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
+import { UserProfilComponent } from './user-profil/user-profil.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { MatRadioModule } from '@angular/material/radio';
     ProfilComponent,
     AddChannelMembersComponent,
     EditProfilComponent,
+    UserProfilComponent,
   ],
   imports: [
     BrowserModule,
