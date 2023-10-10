@@ -1,4 +1,4 @@
-<div>
+<div class="position-thread-contant">
     <div class="position-header">
         <div class="thread-contant">
             <div class="thread">
@@ -12,75 +12,152 @@
             <img src="../../assets/icons/close.svg" alt="">
         </div>
     </div>
-
-    <div class="position-question-contant">
-        <div class="profil-img">
-            <img src="../../assets/img/avatars/eliasneumann.svg" alt="">
-        </div>
-        <div>
-            <div class="position-contant">
-                <div class="info">
-                    <div class="name"  (click)="showUserProfil()">
-                        Name
+    <div class="contant-scrollbar">
+        <div class="position-question-contant">
+            <div class="profil-img">
+                <img src="../../assets/img/avatars/eliasneumann.svg" alt="">
+            </div>
+            <div>
+                <div class="position-contant">
+                    <div class="info">
+                        <div class="name" (click)="showUserProfil()">
+                            Name
+                        </div>
+                        <div>
+                            14:25 Uhr
+                        </div>
+                        <div class="img-react">
+                        </div>
                     </div>
-                    <div>
-                        14:25 Uhr
+                    <div class="question">
+                        Welche Version ist aktuell von Angular?
+                    </div>
+                    <div class="answer-icons">
+                        <div class="answer-reaction">
+                            <img src="../../assets/icons/51. Emojis.svg" alt="">
+                            <div>
+                                1
+                            </div>
+                        </div>
+                        <div class="answer-emojis">
+                            <!-- <img src="../../assets/icons/add_reaction.svg" alt=""> -->
+                        </div>
                     </div>
                 </div>
-                <div class="question">
-                    Welche Version ist aktuell von Angular?
+            </div>
+        </div>
+
+        <div class="separate">
+            <div class="separate-answer">
+                2 Antworten
+            </div>
+            <div class="seperate-line">
+            </div>
+        </div>
+
+        <div class="position-question-contant">
+            <div class="profil-img">
+                <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
+            </div>
+            <div>
+                <div class="position-contant">
+                    <div class="info">
+                        <div class="name" (click)="showUserProfil()">
+                            Name
+                        </div>
+                        <div>
+                            14:30 Uhr
+                        </div>
+                        <div class="img-react">
+                        </div>
+                    </div>
+                    <div class="question">
+                        Ich habe die gleiche Frage. Ich habe gegoogelt und es scheint, dass die aktuelle Version Angular
+                        13 ist. Vielleicht weiß Frederik, ob es wahr ist.
+                    </div>
+                    <div class="answer-icons">
+                        <div class="answer-reaction">
+                            <img src="../../assets/icons/51. Emojis.svg" alt="">
+                            <div>
+                                1
+                            </div>
+                        </div>
+                        <div class="answer-emojis">
+                            <!-- <img src="../../assets/icons/add_reaction.svg" alt=""> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="position-question-contant-reverse">
+            <div class="profil-img">
+                <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
+            </div>
+            <div>
+                <div class="position-contant">
+                    <div class="info">
+                        <div class="name" (click)="showUserProfil()">
+                            Name
+                        </div>
+                        <div>
+                            14:30 Uhr
+                        </div>
+                        <div class="img-react">
+                        </div>
+                    </div>
+                    <div class="question-reverse">
+                        Ja das ist es.
+                    </div>
+                    <div class="answer-icons">
+                        <div class="answer-reaction">
+                            <img src="../../assets/icons/51. Emojis.svg" alt="">
+                            <div>
+                                1
+                            </div>
+                        </div>
+                        <div class="answer-emojis">
+                            <!-- <img src="../../assets/icons/add_reaction.svg" alt=""> -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="separate">
-        <div class="separate-answer">
-            2 Antworten
-        </div>
-        <div class="seperate-line">
-        </div>
-    </div>
+    <!--Container to write in chat-->
+    <div class="message-box-cont" *ngIf="messageBox">
+        <div class="message-box" [class.focused]="taIsFocused">
+            <textarea class="font400-normal auto-resizable-textarea" placeholder="Antworten..."
+                (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="inputFocused()"
+                (focus)="textAreaFocused()" (blur)="textAreaBlurred()"></textarea>
+            <div class="image-preview-cont" #imagePreviewCont>
+                <img id="image-preview" #imagePreview />
+            </div>
 
-    <div class="position-question-contant">
-        <div class="profil-img">
-            <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
-        </div>
-        <div>
-            <div class="position-contant">
-                <div class="info">
-                    <div class="name"  (click)="showUserProfil()">
-                        Name
+            <div class="send-mesg-box">
+                <div class="send-msg-icons">
+                    <div class="icon-plus icons" (click)="fileInput.click()">
+                        <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none" />
+                        <div></div>
+                    </div>
+                    <div class="icons-line"></div>
+                    <div class="icon-s icons" (click)="toggleEmojiPicker()">
+                        <div></div>
                     </div>
                     <div>
-                        14:30 Uhr
+                        <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
+                            title="Pick your emoji…"></emoji-mart>
+                    </div>
+                    <div class="icon-et icons">
+                        <div></div>
                     </div>
                 </div>
-                <div class="question">
-                    Ich habe die gleiche Frage. Ich habe gegoogelt und es scheint, dass die aktuelle Version Angular 13 ist. Vielleicht weiß Frederik, ob es wahr ist.
-                </div>
+
+                <div class="send-msg" (click)="sendChannelMsg()"></div>
+
             </div>
         </div>
     </div>
 
-    <div class="position-question-contant-reverse">
-        <div class="profil-img">
-            <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
-        </div>
-        <div>
-            <div class="position-contant">
-                <div class="info">
-                    <div class="name" (click)="showUserProfil()">
-                        Name
-                    </div>
-                    <div>
-                        14:30 Uhr
-                    </div>
-                </div>
-                <div class="question">
-                    Ja das ist es.
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
