@@ -38,7 +38,7 @@
   </div>
   <div class="head-new-message-searchbar" [class.focused]="isFocused">
     <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" (focus)="inputFocused()"
-      (blur)="inputBlurred()">
+      (blur)="inputBlurred()" (input)="searchInLocalStorage($event)">
   </div>
 </div>
 
@@ -55,7 +55,20 @@
 
 <div class="chat-container">
   <!--Main chat principal-->
-  <div class="inner-container" *ngIf="isChannelVisible && selectedChannel" #chatContainer>
+  <div class="inner-container" *ngIf="isChannelVisible && selectedChannel || isNewMessageVisible" #chatContainer>
+
+    <div *ngIf="isNewMessageVisible">
+      <div *ngIf="memberMatches.length > 0">
+        <div *ngFor="let member of memberMatches">
+          <span>{{member.name}}</span>
+        </div>
+      </div>
+      <div *ngIf="channelMatches.length > 0">
+        <div *ngFor="let channel of channelMatches">
+          <span>{{channel.name}}</span>
+        </div>
+      </div>
+    </div>
     <!--Text for the beginning of creating a channel.-->
     <div class="beginning-chat-cont" *ngIf="isChannelVisible">
       <div class="title-hashtag">
@@ -208,9 +221,9 @@
 </div>
 
 <!--Container to write in chat-->
-<div class="message-box-cont" *ngIf="currentChannel">
+<div class="message-box-cont" *ngIf="messageBox">
   <div class="message-box" [class.focused]="taIsFocused">
-    <textarea class="font400-normal auto-resizable-textarea" placeholder="Nachricht an #Entwicklerteam"
+    <textarea class="font400-normal auto-resizable-textarea" placeholder="{{placeholderMessageBox}}"
       (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="inputFocused()" (focus)="textAreaFocused()"
       (blur)="textAreaBlurred()"></textarea>
     <div class="image-preview-cont" #imagePreviewCont>
@@ -236,7 +249,8 @@
         </div>
       </div>
 
-      <div class="send-msg" (click)="sendMessage()"></div>
+      <div class="send-msg" *ngIf="sendChannel" (click)="sendChannelMsg()"></div>
+      <div class="send-msg" *ngIf="sendPrivate" (click)="sendPrivateMsg()"></div>
     </div>
   </div>
 </div>

@@ -19,6 +19,7 @@ export class ChannelsComponent implements OnInit {
   isClicked = false;
   channels: any[] = [];
   members: any[] = [];
+  selectedMember: any;
 
   constructor(
     private dialog: MatDialog,
@@ -143,6 +144,7 @@ export class ChannelsComponent implements OnInit {
    * Opens the private container in main chat.
    */
   openPrivateContainer(member: any) {
+    this.selectedMember = member;
     const memberId = member.id;
 
     const storedPrivateMessages = localStorage.getItem('privateMessages');

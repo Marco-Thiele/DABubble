@@ -30,6 +30,12 @@ export class MainChatComponent implements OnInit {
   selectedMember: any;
   selectedChannel: any;
   currentChannel: any;
+  placeholderMessageBox = 'Starte eine neue Nachricht';
+  messageBox = true;
+  sendPrivate = false;
+  sendChannel = false;
+  memberMatches: any[] = [];
+  channelMatches: any[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -37,12 +43,14 @@ export class MainChatComponent implements OnInit {
     public userService: UserService
   ) {
     this.openNewMessage();
+    this.loadChannel();
     this.openChannelContainer(this.selectedChannel);
     this.openPrivateContainerMessage(this.selectedMember);
-    this.loadChannel();
   }
 
   ngOnInit(): void {}
+
+  returnMembers() {}
 
   /**
    * Opens the new message component which is used to create a new channel or to start a new chat with a member
@@ -51,9 +59,11 @@ export class MainChatComponent implements OnInit {
     this.sharedService.openNewMessageEvent$.subscribe(() => {
       this.isNewMessageVisible = true;
       this.isChannelVisible = false;
+      this.isChatWithMemberVisible = false;
       this.isPrivatChatContainerVisible = false;
       this.isPrivatChatContainerVisible = false;
       this.isPrivateChatVisible = false;
+      this.placeholderMessageBox = 'Starte eine neue Nachricht';
     });
   }
 
@@ -65,10 +75,14 @@ export class MainChatComponent implements OnInit {
     this.sharedService.openChannelEvent$.subscribe((channel: any) => {
       this.isChannelVisible = true;
       this.isPrivatChatContainerVisible = false;
+      this.isChatWithMemberVisible = false;
       this.isNewMessageVisible = false;
       this.isPrivatChatContainerVisible = false;
       this.isPrivateChatVisible = false;
       this.selectedChannel = channel;
+      this.sendChannel = true;
+      this.sendPrivate = false;
+      this.placeholderMessageBox = 'Nachricht an #' + channel.name;
     });
   }
 
@@ -79,21 +93,45 @@ export class MainChatComponent implements OnInit {
   openPrivateContainerMessage(member: any) {
     this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
       if (member && member.type === 'user') {
-        this.isPrivatChatContainerVisible = true;
-        this.isPrivateChatVisible = true;
-        this.isChatWithMemberVisible = false;
-        this.isChannelVisible = false;
-        this.isNewMessageVisible = false;
-        this.selectedMember = member;
+        this.privateNachricht(member);
       } else {
-        this.isPrivatChatContainerVisible = true;
-        this.isChatWithMemberVisible = true;
-        this.isPrivateChatVisible = false;
-        this.isChannelVisible = false;
-        this.isNewMessageVisible = false;
-        this.selectedMember = member;
+        this.privateChat(member);
       }
     });
+  }
+
+  /**
+   * Sets the variables for a private message
+   * @param member
+   */
+  privateNachricht(member: any) {
+    this.isPrivatChatContainerVisible = true;
+    this.isPrivateChatVisible = true;
+    this.isChatWithMemberVisible = false;
+    this.isChannelVisible = false;
+    this.isNewMessageVisible = false;
+    this.selectedMember = member;
+    this.selectedChannel = null;
+    this.sendPrivate = true;
+    this.sendChannel = false;
+    this.placeholderMessageBox = 'Nachricht an ' + member.name;
+  }
+
+  /**
+   * Sets the variables for a private chat with a member
+   * @param member
+   */
+  privateChat(member: any) {
+    this.isPrivatChatContainerVisible = true;
+    this.isChatWithMemberVisible = true;
+    this.isPrivateChatVisible = false;
+    this.isChannelVisible = false;
+    this.isNewMessageVisible = false;
+    this.selectedMember = member;
+    this.selectedChannel = null;
+    this.sendPrivate = true;
+    this.sendChannel = false;
+    this.placeholderMessageBox = 'Nachricht an ' + member.name;
   }
 
   /**
@@ -125,6 +163,8 @@ export class MainChatComponent implements OnInit {
     this.isChannelVisible = true;
     this.selectedChannel = channel;
     this.currentChannel = channel;
+    this.sendChannel = true;
+    this.placeholderMessageBox = 'Nachricht an #' + channel.name;
   }
 
   /**
@@ -250,7 +290,10 @@ export class MainChatComponent implements OnInit {
     }
   }
 
-  sendMessage() {
+  /**
+   * Sends a message to the channel
+   */
+  sendChannelMsg() {
     const messageText = this.message.trim();
     if (messageText) {
       const message = {
@@ -261,9 +304,103 @@ export class MainChatComponent implements OnInit {
         answers: [],
       };
 
-      const currentChannel = this.selectedChannel;
-      this.sharedService.saveMessageToLocalStorage(currentChannel.id, message);
+      if (this.currentChannel) {
+        this.sharedService.saveMessageToLocalStorage(
+          this.currentChannel.id,
+          message
+        );
+        console.log('Message channel:', message);
+      }
+
       this.message = '';
     }
+  }
+
+  /**
+   * Sends a private message to a member
+   */
+  sendPrivateMsg() {
+    const messageText = this.message.trim();
+    if (messageText) {
+      const message = {
+        userName: this.userService.getName(),
+        text: messageText,
+        time: new Date().toLocaleTimeString(),
+        reactions: [],
+        answers: [],
+      };
+      if (this.selectedMember) {
+        this.sharedService.savePrivateMessageToLocalStorage(
+          this.selectedMember.id,
+          message
+        );
+        console.log('Message saved:', message);
+      }
+      this.message = '';
+    }
+  }
+
+  /**
+   * Searches in local storage
+   */
+  searchInLocalStorage(event: Event) {
+    const searchText = (event.target as HTMLInputElement).value;
+    if (searchText.startsWith('#')) {
+      const searchTerm = searchText.slice(1);
+      this.searchInChannels(searchTerm);
+    } else if (searchText.startsWith('@')) {
+      const searchTerm = searchText.slice(1);
+      this.searchInMembers(searchTerm);
+    } else {
+      this.searchInChannels(searchText);
+      this.searchInMembers(searchText);
+    }
+  }
+
+  /**
+   * Looks for a member in the list of members.
+   * @returns the list of private messages
+   */
+  searchInMembers(searchTerm: string): string[] {
+    this.memberMatches = [];
+    const memberName = searchTerm.trim();
+    if (memberName === '') {
+      return [];
+    }
+
+    const members = this.sharedService.getMembers();
+    const filteredMembers = members.slice(1);
+    this.memberMatches = filteredMembers.filter((member) =>
+      member.name.toLowerCase().includes(memberName.toLowerCase())
+    );
+
+    this.memberMatches.forEach((match) => {
+      console.log('Match:', match);
+    });
+
+    return this.memberMatches.map((match) => match.name);
+  }
+
+  /**
+   * Looks for a channel in the list of channels.
+   * @returns the list of private messages
+   */
+  searchInChannels(searchTerm: string): string[] {
+    this.channelMatches = [];
+    const channelName = searchTerm.trim();
+    if (channelName === '') {
+      return [];
+    }
+
+    const channels = this.sharedService.getChannelsFromLS();
+    this.channelMatches = channels.filter((channel) =>
+      channel.name.toLowerCase().includes(channelName.toLowerCase())
+    );
+
+    this.channelMatches.forEach((match) => {
+      console.log('Match:', match);
+    });
+
+    return this.channelMatches.map((match) => match.name);
   }
 }

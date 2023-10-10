@@ -6,6 +6,8 @@ import { Auth } from '@angular/fire/auth';
   providedIn: 'root',
 })
 export class SharedService implements OnInit {
+  memberName: string = '';
+
   private channels: any[] = [];
   private isEditChannelOpen = false;
   private members: any[] = [];
@@ -19,6 +21,10 @@ export class SharedService implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Gets the id of the current user.
+   * @returns the id of the current user
+   */
   getID(): string {
     const uid = this.auth.currentUser?.uid ?? '';
     return uid;
@@ -98,6 +104,20 @@ export class SharedService implements OnInit {
     return this.channels;
   }
 
+  /**
+   * Gets the list of channels from local storage.
+   * @returns the list of channels
+   */
+  getChannelsFromLS(): any[] {
+    const storedChannels = localStorage.getItem('channels');
+    return storedChannels ? JSON.parse(storedChannels) : [];
+  }
+
+  /**
+   * Gets the channel by id.
+   * @param id the id of the channel
+   * @returns the channel
+   */
   updateChannel(updatedChannel: any) {
     const index = this.channels.findIndex(
       (channel) => channel.id === updatedChannel.id
@@ -148,6 +168,11 @@ export class SharedService implements OnInit {
     localStorage.setItem('members', JSON.stringify(this.members));
   }
 
+  /**
+   * updates the member to local storage.
+   * @param id the id of the member
+   * @returns the member
+   */
   updateMember(updatedMember: any) {
     const index = this.members.findIndex(
       (member) => member.id === updatedMember.id
@@ -159,6 +184,10 @@ export class SharedService implements OnInit {
     }
   }
 
+  /**
+   * saves the message of channels to local storage.
+   * @returns the list of private messages
+   */
   saveMessageToLocalStorage(channelId: string, message: any) {
     const storedChannels = localStorage.getItem('channels');
     const channels = storedChannels ? JSON.parse(storedChannels) : [];
@@ -169,5 +198,24 @@ export class SharedService implements OnInit {
       channel.chat.push(message);
       localStorage.setItem('channels', JSON.stringify(channels));
     }
+  }
+
+  /**
+   * saves the message of private messages to local storage.
+   * @returns the list of private messages
+   */
+  savePrivateMessageToLocalStorage(memberId: string, message: any) {
+    const storedPrivateMsg = localStorage.getItem('privateMessages');
+    let privateMessages = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
+
+    if (!privateMessages[memberId]) {
+      privateMessages[memberId] = {
+        id: memberId,
+        chat: [],
+      };
+    }
+
+    privateMessages[memberId].chat.push(message);
+    localStorage.setItem('privateMessages', JSON.stringify(privateMessages));
   }
 }

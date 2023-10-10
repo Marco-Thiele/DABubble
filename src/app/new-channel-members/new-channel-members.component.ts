@@ -87,19 +87,6 @@ export class NewChannelMembersComponent implements OnInit {
     }
   }
 
-  // /**
-  //  * Add a member to the channel
-  //  * @param member the member to add to the channel
-  //  */
-  // addMemberToChannel(member: any) {
-  //   this.channel.members.push(member);
-  //   this.sharedService.addChannel(this.channel);
-  //   this.memberName = '';
-  //   this.isButtonDisabled = true;
-  //   this.buttonColor = '#686868';
-  //   this.memberMatches = [];
-  // }
-
   /**
    * Add members to the channel
    */
