@@ -1,4 +1,11 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  AfterViewChecked,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
 import { SharedService } from '../shared.service';
@@ -36,7 +43,9 @@ export class MainChatComponent implements OnInit {
   sendChannel = false;
   memberMatches: any[] = [];
   channelMatches: any[] = [];
-  channelsIds: { [channelId: string]: any[] } = {};
+  channelsMessages: {
+    [channelId: string]: { messagesUser: any[]; messagesMembers: any[] };
+  } = {};
 
   constructor(
     private dialog: MatDialog,
@@ -50,11 +59,47 @@ export class MainChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.channelsIds = this.sharedService.getChannelsIds();
-    console.log('ChannelsIds:', this.channelsIds);
+    this.getMessagesfromSelectedChannel();
   }
 
-  returnMembers() {}
+  /**
+   * Gets the messages from the selected channel
+   */
+  getMessagesfromSelectedChannel() {
+    const channelId = this.selectedChannel ? this.selectedChannel.id : '';
+    const messageType = 'messagesUser';
+
+    if (!this.channelsMessages[channelId]) {
+      this.channelsMessages[channelId] = {
+        messagesUser: [],
+        messagesMembers: [],
+      };
+    }
+
+    this.channelsMessages[channelId].messagesUser =
+      this.sharedService.getMessagesForChannel(channelId, messageType);
+  }
+
+  /**
+   * Scrolls to the bottom of the chat after the view is initialized
+   */
+  ngAfterViewInit() {
+    this.scrollToBottom();
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  /**
+   * Scrolls to the bottom of the chat
+   */
+  scrollToBottom() {
+    if (this.chatContainer) {
+      const element = this.chatContainer.nativeElement;
+      element.scrollTop = element.scrollHeight;
+    }
+  }
 
   /**
    * Opens the new message component which is used to create a new channel or to start a new chat with a member
@@ -281,43 +326,81 @@ export class MainChatComponent implements OnInit {
   /**
    * Scrolls to the bottom of the chat
    */
-  ngAfterViewChecked() {
-    this.scrollToBottom();
-  }
 
   /**
-   * Scrolls to the bottom of the chat
-   */
-  scrollToBottom() {
-    if (this.chatContainer) {
-      this.chatContainer.nativeElement.scrollTop =
-        this.chatContainer.nativeElement.scrollHeight;
-    }
-  }
-
-  /**
-   * Sends a message to the channel
+   * Sends a message to the server
    */
   sendChannelMsg() {
     const messageText = this.message.trim();
     if (messageText && this.currentChannel) {
       const message = {
         userName: this.userService.getName(),
+        profileImg: this.userService.getPhoto(),
         text: messageText,
         time: new Date().toLocaleTimeString(),
         reactions: [],
         answers: [],
       };
 
+      const messageType = 'messagesUser';
+
       this.sharedService.saveMessageToLocalStorage(
         this.currentChannel.id,
-        message
+        message,
+        messageType
       );
-      console.log('id', this.currentChannel.id);
-      console.log('Message channel:', message);
 
       this.message = '';
     }
+    this.returnChannelsMessages();
+  }
+
+  /**
+   * Returns the messages of the channels from server
+   */
+  returnChannelsMessages() {
+    const channelData = this.sharedService.getChannelsIds();
+
+    this.channelsMessages = {};
+
+    for (const channelId in channelData) {
+      if (channelData.hasOwnProperty(channelId)) {
+        this.channelsMessages[channelId] = {
+          messagesUser: channelData[channelId].messagesUser || [],
+          messagesMembers: channelData[channelId].messagesMembers || [],
+        };
+      }
+    }
+    console.log('ChannelsMessages:', this.channelsMessages);
+  }
+
+  /**
+   * Returns selected messages of the channels from local storage
+   */
+  getSelectedMessages(messageType: 'messagesUser' | 'messagesMembers'): any[] {
+    if (this.selectedChannel) {
+      const channelId = this.selectedChannel.id;
+      if (this.channelsMessages && this.channelsMessages[channelId]) {
+        return this.channelsMessages[channelId][messageType] || [];
+      }
+    }
+    return [];
+  }
+
+  /**
+   * The messages of the channels are not empty
+   */
+  isChannelMessagesNotEmpty(): boolean {
+    if (this.isChannelVisible && this.selectedChannel) {
+      const channelId = this.selectedChannel.id;
+      const channelMessages = this.channelsMessages[channelId];
+      return (
+        !!channelMessages &&
+        (channelMessages.messagesUser.length > 0 ||
+          channelMessages.messagesMembers.length > 0)
+      );
+    }
+    return false;
   }
 
   /**
@@ -328,6 +411,7 @@ export class MainChatComponent implements OnInit {
     if (messageText) {
       const message = {
         userName: this.userService.getName(),
+        profileImg: this.userService.getPhoto(),
         text: messageText,
         time: new Date().toLocaleTimeString(),
         reactions: [],
@@ -340,6 +424,7 @@ export class MainChatComponent implements OnInit {
         );
         console.log('Message saved:', message);
       }
+      this.ngAfterViewChecked();
       this.message = '';
     }
   }

@@ -51,7 +51,8 @@ export class ChannelErstellenComponent implements OnInit {
         name: this.channel.name,
         description: this.channel.description,
         members: [],
-        chat: [],
+        messagesUser: [],
+        messagesMembers: [],
         owner: this.userService.getName(),
       };
 

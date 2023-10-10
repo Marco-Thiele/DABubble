@@ -267,6 +267,7 @@
   padding-left: 35px;
   padding-right: 35px;
   position: relative;
+  display: flex;
 }
 
 .inner-container {
@@ -275,6 +276,7 @@
   max-height: 500px;
   overflow-y: auto;
   gap: 20px;
+  flex-grow: 1;
 }
 
 // Design the text for the beginning of creating a channel.
@@ -287,7 +289,7 @@
   align-self: flex-start;
   position: relative;
   padding-top: 20px;
-  margin-top: 375px;
+  margin-top: auto;
 }
 
 .beginning-description {
@@ -504,9 +506,9 @@
 
 .message-user-box-cont {
   position: relative;
-  display: none;
+  display: flex;
   width: -webkit-fill-available;
-  padding: 10px 45px 10px 146px;
+  padding: 10px 0px 10px 126px;
   justify-content: flex-end;
   align-items: flex-start;
   gap: 30px;
@@ -744,6 +746,7 @@
     background-size: cover;
     width: 70px;
     height: 70px;
+    border-radius: 35px;
   }
 }
 
@@ -751,7 +754,7 @@
 
 .message-members-box-cont {
   position: relative;
-  display: none;
+  display: flex;
   width: -webkit-fill-available;
   padding: 10px 145px 10px 45px;
   justify-content: flex-end;

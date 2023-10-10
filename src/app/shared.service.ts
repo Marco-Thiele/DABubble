@@ -128,6 +128,10 @@ export class SharedService implements OnInit {
     }
   }
 
+  /**
+   * saves the channel to local storage.
+   * @param id the id of the channel
+   */
   private saveChannelsToLocalStorage() {
     localStorage.setItem('channels', JSON.stringify(this.channels));
   }
@@ -188,14 +192,18 @@ export class SharedService implements OnInit {
    * saves the message of channels to local storage.
    * @returns the list of private messages
    */
-  saveMessageToLocalStorage(channelId: string, message: any) {
+  saveMessageToLocalStorage(
+    channelId: string,
+    message: any,
+    messageType: 'messagesUser' | 'messagesMembers'
+  ) {
     const storedChannels = localStorage.getItem('channels');
     const channels = storedChannels ? JSON.parse(storedChannels) : [];
 
     const channel = channels.find((c: any) => c.id === channelId);
 
     if (channel) {
-      channel.chat.push(message);
+      channel[messageType].push(message);
     }
 
     localStorage.setItem('channels', JSON.stringify(channels));
@@ -220,27 +228,47 @@ export class SharedService implements OnInit {
     localStorage.setItem('privateMessages', JSON.stringify(privateMessages));
   }
 
-  getMessagesForChannel(channelId: string): any[] {
+  /**
+   * gets the message of channels from local storage.
+   * @returns the list of channels messages
+   */
+  getChannelsIds(): {
+    [channelId: string]: { messagesUser: any[]; messagesMembers: any[] };
+  } {
+    const channelMessages: {
+      [channelId: string]: { messagesUser: any[]; messagesMembers: any[] };
+    } = {};
+
+    const storedChannels = localStorage.getItem('channels');
+    const channels = storedChannels ? JSON.parse(storedChannels) : [];
+
+    channels.forEach((channel: any) => {
+      const channelId = channel.id;
+      channelMessages[channelId] = {
+        messagesUser: this.getMessagesForChannel(channelId, 'messagesUser'),
+        messagesMembers: this.getMessagesForChannel(
+          channelId,
+          'messagesMembers'
+        ),
+      };
+    });
+
+    return channelMessages;
+  }
+
+  /**
+   * return the message for the channels
+   * @returns the list of private messages
+   */
+  getMessagesForChannel(
+    channelId: string,
+    messageType: 'messagesUser' | 'messagesMembers'
+  ): any[] {
     const storedChannels = localStorage.getItem('channels');
     const channels = storedChannels ? JSON.parse(storedChannels) : [];
 
     const channel = channels.find((c: any) => c.id === channelId);
 
-    return channel ? channel.chat : [];
-  }
-
-  getChannelsIds(): { [channelId: string]: any[] } {
-    const channelMessages: { [channelId: string]: any[] } = {};
-
-    const storedChannels = localStorage.getItem('channels');
-    const channels = storedChannels ? JSON.parse(storedChannels) : [];
-
-    // Itera a través de los canales y obtén los mensajes para cada canal
-    channels.forEach((channel: any) => {
-      const channelId = channel.id;
-      channelMessages[channelId] = this.getMessagesForChannel(channelId);
-    });
-
-    return channelMessages;
+    return channel ? channel[messageType] : [];
   }
 }

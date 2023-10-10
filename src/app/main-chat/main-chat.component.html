@@ -84,105 +84,110 @@
     </div>
 
     <!--Container for the member's chat-->
-    <div class="message-members-box-cont">
-      <div class="message-reaction-people">
-        <div class="reaction-icon">
-          <div class="icon-tick"></div>
+    <div *ngIf="isChannelMessagesNotEmpty()">
+      <div class="message-members-box-cont" *ngFor="let message of getSelectedMessages('messagesMembers')">
+        <div class="message-reaction-people">
+          <div class="reaction-icon">
+            <div class="icon-tick"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-hands"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-smile"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-message"></div>
+          </div>
         </div>
-        <div class="reaction-icon">
-          <div class="icon-hands"></div>
+        <div class="message-user-img">
+          <div [style.background-image]="'url(' + message.profileImg + ')'"></div>
         </div>
-        <div class="reaction-icon">
-          <div class="icon-smile"></div>
-        </div>
-        <div class="reaction-icon">
-          <div class="icon-message"></div>
-        </div>
-      </div>
-      <div class="message-user-img">
-        <div></div>
-      </div>
-      <div class="message-members-box">
-        <div class="message-user-name">
-          <a class="font700-normal">Noah Braun</a>
-          <span class="font400-normal">14:25 Uhr</span>
-        </div>
-        <div class="message-members-speech">
-          <span class="font400-normal">Welche Version ist aktuell von Angular?</span>
-        </div>
-        <div class="message-members-answers">
-          <span class="font400-normal">2 Antworten</span>
-          <a class="font400-normal">Letzte Antwort 14:56</a>
+        <div class="message-members-box">
+          <div class="message-user-name">
+            <a class="font700-normal">{{message.name}}</a>
+            <span class="font400-normal">{{message.time}}</span>
+          </div>
+          <div class="message-members-speech">
+            <span class="font400-normal">{{message.text}}</span>
+          </div>
+          <div class="message-members-answers">
+            <span class="font400-normal">2 Antworten</span>
+            <a class="font400-normal">Letzte Antwort 14:56</a>
+          </div>
         </div>
       </div>
     </div>
 
     <!--Time-line-->
+
     <div class="time-separator">
       <div class="time-line">
       </div>
       <div class="time-day">
-        <span class="font400-normal">Monday, 2 Oktober</span>
+        <span class="font400-normal">
+          date
+        </span>
       </div>
     </div>
 
     <!--Container for the user's chat-->
-    <div class="message-user-box-cont">
-      <div class="message-reaction-people">
-        <div class="reaction-icon">
-          <div class="icon-tick"></div>
-        </div>
-        <div class="reaction-icon">
-          <div class="icon-hands"></div>
-        </div>
-        <div class="reaction-icon">
-          <div class="icon-smile"></div>
-        </div>
-        <div class="reaction-icon">
-          <div class="icon-message"></div>
-        </div>
-        <div class="reaction-icon">
-          <div class="icon-points"></div>
-        </div>
-      </div>
-      <div class="message-user-box">
-        <div class="message-user-name">
-          <span class="font400-normal">15:06 Uhr</span>
-          <a class="font700-normal">Frederick Beck</a>
-        </div>
-        <div class="message-user-speech">
-          <span class="font400-normal">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni ab illum, nemo
-            quaerat non ut corporis sapiente? Ipsa placeat nemo eos nobis, fuga deleniti cum sapiente alias ratione
-            similique esse.</span>
-        </div>
-        <div class="message-user-reaction">
-          <div>
-            <div class="reaction">
-              <div class="reaction-usser">
-                <div class="reaction-usser-icon"></div>
-                <div class="reaction-names-cont">
-                  <span class="reaction-name font700-normal">Sofia Müller</span>
-                  <span class="reaction-text font400-normal">hat reagiert</span>
-                </div>
-              </div>
-              <div class="rocket"></div>
-              <span class="font400-normal">1</span>
-            </div>
+    <div *ngIf="isChannelMessagesNotEmpty()">
+      <div class="message-user-box-cont" *ngFor="let message of getSelectedMessages('messagesUser')">
+        <div class="message-reaction-people">
+          <div class="reaction-icon">
+            <div class="icon-tick"></div>
           </div>
-          <div>
+          <div class="reaction-icon">
+            <div class="icon-hands"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-smile"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-message"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-points"></div>
+          </div>
+        </div>
+        <div class="message-user-box">
+          <div class="message-user-name">
+            <span class="font400-normal">{{ message.time }}</span>
+            <a class="font700-normal">{{ message.userName }}</a>
+          </div>
+          <div class="message-user-speech">
+            <span class="font400-normal">{{ message.text }}</span>
+          </div>
+          <div class="message-user-reaction">
+            <div>
+              <div class="reaction">
+                <div class="reaction-usser">
+                  <div class="reaction-usser-icon"></div>
+                  <div class="reaction-names-cont">
+                    <span class="reaction-name font700-normal">Sofia Müller</span>
+                    <span class="reaction-text font400-normal">hat reagiert</span>
+                  </div>
+                </div>
+                <div class="rocket"></div>
+                <span class="font400-normal">1</span>
+              </div>
+            </div>
+            <div>
 
-            <!-- <div class="reaction">
+              <!-- <div class="reaction">
             <div class="tick"></div>
             <span class="font400-normal">1</span>
           </div> -->
-          </div>
-          <div class="add-reaction">
-            <div></div>
+            </div>
+            <div class="add-reaction">
+              <div></div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="message-user-img">
-        <div></div>
+        <div class="message-user-img">
+          <div [style.background-image]="'url(' + message.profileImg + ')'"></div>
+        </div>
       </div>
     </div>
   </div>
