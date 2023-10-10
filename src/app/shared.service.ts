@@ -196,8 +196,9 @@ export class SharedService implements OnInit {
 
     if (channel) {
       channel.chat.push(message);
-      localStorage.setItem('channels', JSON.stringify(channels));
     }
+
+    localStorage.setItem('channels', JSON.stringify(channels));
   }
 
   /**
@@ -217,5 +218,29 @@ export class SharedService implements OnInit {
 
     privateMessages[memberId].chat.push(message);
     localStorage.setItem('privateMessages', JSON.stringify(privateMessages));
+  }
+
+  getMessagesForChannel(channelId: string): any[] {
+    const storedChannels = localStorage.getItem('channels');
+    const channels = storedChannels ? JSON.parse(storedChannels) : [];
+
+    const channel = channels.find((c: any) => c.id === channelId);
+
+    return channel ? channel.chat : [];
+  }
+
+  getChannelsIds(): { [channelId: string]: any[] } {
+    const channelMessages: { [channelId: string]: any[] } = {};
+
+    const storedChannels = localStorage.getItem('channels');
+    const channels = storedChannels ? JSON.parse(storedChannels) : [];
+
+    // Itera a través de los canales y obtén los mensajes para cada canal
+    channels.forEach((channel: any) => {
+      const channelId = channel.id;
+      channelMessages[channelId] = this.getMessagesForChannel(channelId);
+    });
+
+    return channelMessages;
   }
 }

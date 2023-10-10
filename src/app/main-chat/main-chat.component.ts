@@ -36,6 +36,7 @@ export class MainChatComponent implements OnInit {
   sendChannel = false;
   memberMatches: any[] = [];
   channelMatches: any[] = [];
+  channelsIds: { [channelId: string]: any[] } = {};
 
   constructor(
     private dialog: MatDialog,
@@ -48,7 +49,10 @@ export class MainChatComponent implements OnInit {
     this.openPrivateContainerMessage(this.selectedMember);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.channelsIds = this.sharedService.getChannelsIds();
+    console.log('ChannelsIds:', this.channelsIds);
+  }
 
   returnMembers() {}
 
@@ -80,6 +84,7 @@ export class MainChatComponent implements OnInit {
       this.isPrivatChatContainerVisible = false;
       this.isPrivateChatVisible = false;
       this.selectedChannel = channel;
+      this.currentChannel = channel;
       this.sendChannel = true;
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
@@ -295,7 +300,7 @@ export class MainChatComponent implements OnInit {
    */
   sendChannelMsg() {
     const messageText = this.message.trim();
-    if (messageText) {
+    if (messageText && this.currentChannel) {
       const message = {
         userName: this.userService.getName(),
         text: messageText,
@@ -304,13 +309,12 @@ export class MainChatComponent implements OnInit {
         answers: [],
       };
 
-      if (this.currentChannel) {
-        this.sharedService.saveMessageToLocalStorage(
-          this.currentChannel.id,
-          message
-        );
-        console.log('Message channel:', message);
-      }
+      this.sharedService.saveMessageToLocalStorage(
+        this.currentChannel.id,
+        message
+      );
+      console.log('id', this.currentChannel.id);
+      console.log('Message channel:', message);
 
       this.message = '';
     }
