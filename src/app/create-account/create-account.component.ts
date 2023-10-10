@@ -1,7 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
 import { getAuth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import {
+  Firestore,
+  doc,
+  getDoc,
+  addDoc,
+  collection,
+  collectionData,
+  onSnapshot,
+  updateDoc,
+  deleteDoc,
+} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import {
@@ -11,6 +21,7 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-create-account',
@@ -72,8 +83,8 @@ export class CreateAccountComponent implements OnInit {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user.email) {
-          this.UserService.name = this.name;
-          this.UserService.email = user.email;
+          this.updateUserObject(user);
+          this.addUserToDatabase(user);
           this.startAnimation();
           this.routeToAvatarSelection();
         }
@@ -125,5 +136,27 @@ export class CreateAccountComponent implements OnInit {
     setTimeout(() => {
       this._router.navigateByUrl('/pick-avatar');
     }, 1500);
+  }
+
+  async addUserToDatabase(user: User) {
+    try {
+      const docRef = await addDoc(
+        this.getUserCollection(),
+        this.UserService.userObject.toJson()
+      );
+      this.UserService.docId = docRef.id;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  getUserCollection() {
+    return collection(this.firestore, 'users');
+  }
+
+  updateUserObject(user: any) {
+    this.UserService.userObject.name = this.name;
+    this.UserService.userObject.email = user.email;
+    this.UserService.userObject.uid = user.uid;
   }
 }

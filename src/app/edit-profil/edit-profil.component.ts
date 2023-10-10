@@ -8,36 +8,36 @@ import { inject } from '@angular/core';
 @Component({
   selector: 'app-edit-profil',
   templateUrl: './edit-profil.component.html',
-  styleUrls: ['./edit-profil.component.scss']
+  styleUrls: ['./edit-profil.component.scss'],
 })
 export class EditProfilComponent {
   firestore: Firestore = inject(Firestore);
   profilName: string;
   profilImg: any;
-  profilEmail: string;;
-  newName:any;
-  newEmail:any;
+  profilEmail: string;
+  newName: any;
+  newEmail: any;
   auth = getAuth();
   currentUser = this.auth.currentUser;
 
-  constructor(private dialogService: DialogService, public UserService: UserService,) {
+  constructor(
+    private dialogService: DialogService,
+    public UserService: UserService
+  ) {
     this.profilName = UserService.getName();
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
-  }  
+  }
 
-  
   closeDialog() {
     this.dialogService.closeDialog();
   }
 
-
-  saveChanges(){
+  saveChanges() {
     console.log(this.newName);
-    this.updateUser()
+    this.updateUser();
     //this.changeEmail ()
   }
-
 
   updateUser() {
     if (this.currentUser) {
@@ -49,11 +49,10 @@ export class EditProfilComponent {
         .then(() => {
           console.log('Profile Updated with');
           this.closeDialog();
-        this.UserService.name = this.newName;
-        this.UserService.email = this.newEmail;
-        console.log(this.UserService.name);
-        console.log(this.UserService.email);
-        
+          this.UserService.userObject.name = this.newName;
+          this.UserService.userObject.email = this.newEmail;
+          console.log(this.UserService.userObject.name);
+          console.log(this.UserService.userObject.email);
         })
         .catch((error) => {
           console.log('Update Error');
@@ -61,23 +60,21 @@ export class EditProfilComponent {
     }
   }
 
+  //  changeEmail (){
+  //   user.sendEmailVerification()
+  //   .then(() => {
+  //     // E-Mail-Verifizierung erfolgreich gesendet
+  //     console.log('E-Mail-Verifizierung an', this.newEmail, 'gesendet');
 
-//  changeEmail (){
-//   user.sendEmailVerification()
-//   .then(() => {
-//     // E-Mail-Verifizierung erfolgreich gesendet
-//     console.log('E-Mail-Verifizierung an', this.newEmail, 'gesendet');
-
-//     // Nach dem Senden der Verifizierungs-E-Mail können Sie die E-Mail aktualisieren
-//     return user.updateEmail(this.newEmail);
-//   })
-//   .then(() => {
-//     // Email updated!
-//     console.log('email updated', this.newEmail)
-//   }).catch((error) => {
-//     // An error occurred
-//     console.log(error);
-//   });
-//  } 
-
+  //     // Nach dem Senden der Verifizierungs-E-Mail können Sie die E-Mail aktualisieren
+  //     return user.updateEmail(this.newEmail);
+  //   })
+  //   .then(() => {
+  //     // Email updated!
+  //     console.log('email updated', this.newEmail)
+  //   }).catch((error) => {
+  //     // An error occurred
+  //     console.log(error);
+  //   });
+  //  }
 }

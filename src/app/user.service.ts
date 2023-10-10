@@ -2,22 +2,24 @@ import { Injectable } from '@angular/core';
 import { inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { getAuth, onAuthStateChanged, User } from '@angular/fire/auth';
+import { userData } from './models/userData';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   user: User | null = null;
-  name: string = this.getName();
-  photoURL: string = this.getPhoto();
-  email: string = this.getMail();
-  uid: string = this.getId();
-  currentUser: any;
   firestore: Firestore = inject(Firestore);
   auth = getAuth();
+  userObject: userData = new userData();
+  docId: string = '';
 
   constructor() {
     this.getUserData();
+    this.userObject.name = this.getName();
+    this.userObject.email = this.getMail();
+    this.userObject.photoURL = this.getPhoto();
+    this.userObject.uid = this.getId();
   }
 
   getName() {

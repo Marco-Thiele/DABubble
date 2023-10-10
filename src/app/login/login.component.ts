@@ -98,10 +98,8 @@ export class LoginComponent implements OnInit {
     signInWithEmailAndPassword(this.auth, this.email, this.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        if (user.displayName && user.photoURL && user.email) {
-          this.UserService.name = user.displayName;
-          this.UserService.photoURL = user.photoURL;
-          this.UserService.email = user.email;
+        if (user.displayName && user.photoURL && user.email && user.uid) {
+          this.updateUserData(user);
           this._router.navigateByUrl('/index');
         }
       })
@@ -116,9 +114,10 @@ export class LoginComponent implements OnInit {
   guestLogin() {
     signInAnonymously(this.auth)
       .then(() => {
-        this.UserService.name = 'Guest';
-        this.UserService.photoURL = '../../assets/img/avatars/person.svg';
-        this.UserService.email = 'guest@guest.de';
+        this.UserService.userObject.name = 'Guest';
+        this.UserService.userObject.photoURL =
+          '../../assets/img/avatars/person.svg';
+        this.UserService.userObject.email = 'guest@guest.de';
         this._router.navigateByUrl('/index');
       })
       .catch((error) => {
@@ -132,10 +131,8 @@ export class LoginComponent implements OnInit {
     signInWithPopup(this.auth, this.provider)
       .then((result) => {
         const user = result.user;
-        if (user.displayName && user.photoURL && user.email) {
-          this.UserService.name = user.displayName;
-          this.UserService.photoURL = user.photoURL;
-          this.UserService.email = user.email;
+        if (user.displayName && user.photoURL && user.email && user.uid) {
+          this.updateUserData(user);
           this._router.navigateByUrl('/index');
         }
       })
@@ -203,5 +200,12 @@ export class LoginComponent implements OnInit {
       this.setNone = true;
     }, 2900);
     this.animationPlayed = true;
+  }
+
+  updateUserData(user: any) {
+    this.UserService.userObject.name = user.displayName;
+    this.UserService.userObject.photoURL = user.photoURL;
+    this.UserService.userObject.email = user.email;
+    this.UserService.userObject.uid = user.uid;
   }
 }

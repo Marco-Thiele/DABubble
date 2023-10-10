@@ -2,7 +2,17 @@ import { Component } from '@angular/core';
 import { getAuth, updateProfile } from '@angular/fire/auth';
 import { UserService } from '../user.service';
 import { inject } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
+import {
+  Firestore,
+  doc,
+  getDoc,
+  addDoc,
+  collection,
+  collectionData,
+  onSnapshot,
+  updateDoc,
+  deleteDoc,
+} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,6 +23,7 @@ import { Router } from '@angular/router';
 export class PickAvatarComponent {
   firestore: Firestore = inject(Firestore);
   isButtonDisabled: boolean = true;
+
   constructor(private _router: Router, private UserService: UserService) {}
 
   avatar_list: string[] = [
@@ -31,23 +42,38 @@ export class PickAvatarComponent {
 
   chooseAvatar(picked_img: string) {
     this.picked_avatar = picked_img;
-    this.UserService.photoURL = this.picked_avatar;
+    this.UserService.userObject.photoURL = this.picked_avatar;
     this.isButtonDisabled = false;
   }
 
   updateUser() {
     if (this.currentUser) {
       updateProfile(this.auth.currentUser!, {
-        displayName: this.UserService.name,
-        photoURL: this.UserService.photoURL,
+        displayName: this.UserService.userObject.name,
+        photoURL: this.UserService.userObject.photoURL,
       })
         .then(() => {
-          console.log('Profile Updated with');
+          this.updateUserinDatabase();
           this._router.navigateByUrl('/index');
         })
         .catch((error) => {
           console.log('Update Error');
         });
+    }
+  }
+
+  async updateUserinDatabase() {
+    let docRef = this.getCurrentUser();
+    await updateDoc(docRef, this.UserService.userObject.toJson()).catch(
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  getCurrentUser() {
+    {
+      return doc(collection(this.firestore, 'users'), this.UserService.docId);
     }
   }
 }
