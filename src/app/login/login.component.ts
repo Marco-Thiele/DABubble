@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
+import {
+  Firestore,
+  addDoc,
+  collection,
+  onSnapshot,
+} from '@angular/fire/firestore';
 import {
   getAuth,
   signInWithEmailAndPassword,
   signInAnonymously,
   GoogleAuthProvider,
   signInWithPopup,
+  User,
 } from '@angular/fire/auth';
 import {
   trigger,
@@ -17,6 +23,7 @@ import {
 } from '@angular/animations';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -72,11 +79,14 @@ export class LoginComponent implements OnInit {
   setNone: boolean = false;
   moveState: string = 'middle';
   animationPlayed: boolean = false;
-
+  docRef: any;
+  userArr: string[] = [];
   ngOnInit(): void {
     if (!this.animationPlayed) {
       this.playAnimation();
     }
+    this.subUserList();
+    console.log(this.userArr);
   }
 
   onFocusEmail() {
@@ -133,6 +143,7 @@ export class LoginComponent implements OnInit {
         const user = result.user;
         if (user.displayName && user.photoURL && user.email && user.uid) {
           this.updateUserData(user);
+          this.checkGoogleInDatabase(user);
           this._router.navigateByUrl('/index');
         }
       })
@@ -207,5 +218,39 @@ export class LoginComponent implements OnInit {
     this.UserService.userObject.photoURL = user.photoURL;
     this.UserService.userObject.email = user.email;
     this.UserService.userObject.uid = user.uid;
+  }
+
+  subUserList() {
+    return onSnapshot(this.getUserCollection(), (list) => {
+      list.forEach((element) => {
+        const userData = element.data();
+        this.userArr.push(userData['email']);
+      });
+    });
+  }
+
+  getUserCollection() {
+    return collection(this.firestore, 'users');
+  }
+
+  checkGoogleInDatabase(user: User) {
+    if (user.email != null) {
+      if (!this.userArr.includes(user.email)) {
+        this.addUserToDatabase(user);
+      } else {
+        console.log('already in db!');
+      }
+    }
+  }
+  async addUserToDatabase(user: User) {
+    try {
+      const docRef = await addDoc(
+        this.getUserCollection(),
+        this.UserService.userObject.toJson()
+      );
+      this.UserService.docId = docRef.id;
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
