@@ -390,13 +390,23 @@ export class MainChatComponent implements OnInit {
         this.convertImageToBase64(selectedFile)
           .then((base64Data) => {
             message.imageUrl = base64Data;
-            this.saveMessage(message, messageType, messageDate);
+            this.saveMessage(
+              message,
+              messageType,
+              messageDate,
+              this.currentChannel
+            );
           })
           .catch((error) => {
             console.error(error);
           });
       } else {
-        this.saveMessage(message, messageType, messageDate);
+        this.saveMessage(
+          message,
+          messageType,
+          messageDate,
+          this.currentChannel
+        );
       }
     }
   }
@@ -410,10 +420,11 @@ export class MainChatComponent implements OnInit {
   saveMessage(
     message: any,
     messageType: 'messagesUser' | 'messagesMembers',
-    messageDate: Date
+    messageDate: Date,
+    channelOrMember: any
   ) {
     this.sharedService.saveMessageToLocalStorage(
-      this.currentChannel.id,
+      channelOrMember.id,
       message,
       messageType
     );
@@ -426,8 +437,10 @@ export class MainChatComponent implements OnInit {
 
     this.lastMessageData = messageDate;
     this.message = '';
-    this.selectedFile = null;
-    this.clearPreviewImage();
+    if (this.selectedFile) {
+      this.selectedFile = null;
+      this.clearPreviewImage();
+    }
     this.returnChannelsMessages();
     this.stopAutoScroll();
   }
@@ -559,23 +572,45 @@ export class MainChatComponent implements OnInit {
    */
   sendPrivateMsg() {
     const messageText = this.message.trim();
-    if (messageText) {
+    const selectedFile = this.selectedFile;
+
+    if ((selectedFile || messageText) && this.selectedMember) {
+      const messageDate = new Date();
+
       const message = {
         userName: this.userService.getName(),
         profileImg: this.userService.getPhoto(),
+        imageUrl: '',
         text: messageText,
         time: new Date().toLocaleTimeString(),
         reactions: [],
         answers: [],
       };
-      if (this.selectedMember) {
-        this.sharedService.savePrivateMessageToLocalStorage(
-          this.selectedMember.id,
-          message
+
+      const messageType = 'messagesMembers';
+
+      if (selectedFile) {
+        this.convertImageToBase64(selectedFile)
+          .then((base64Data) => {
+            message.imageUrl = base64Data;
+            this.saveMessage(
+              message,
+              messageType,
+              messageDate,
+              this.selectedMember
+            );
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        this.saveMessage(
+          message,
+          messageType,
+          messageDate,
+          this.selectedMember
         );
       }
-      this.ngAfterViewChecked();
-      this.message = '';
     }
   }
 
