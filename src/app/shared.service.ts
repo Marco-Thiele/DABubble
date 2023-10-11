@@ -2,6 +2,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { Auth } from '@angular/fire/auth';
+import { BehaviorSubject } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -11,6 +13,9 @@ export class SharedService implements OnInit {
   private channels: any[] = [];
   private isEditChannelOpen = false;
   private members: any[] = [];
+  private membersData = new BehaviorSubject<any[]>([]);
+
+  currentMembers = this.membersData.asObservable();
 
   constructor(private auth: Auth) {
     const storedChannels = localStorage.getItem('channels');
@@ -20,6 +25,15 @@ export class SharedService implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  /**
+   * updates the members in channel
+   * @param members  the members to update
+   */
+  updateMembers(members: any[]) {
+    this.membersData.next(members);
+    this.saveChannelToLocalStorage();
+  }
 
   /**
    * Gets the id of the current user.
@@ -124,16 +138,8 @@ export class SharedService implements OnInit {
     );
     if (index !== -1) {
       this.channels[index] = updatedChannel;
-      this.saveChannelsToLocalStorage();
+      this.saveChannelToLocalStorage();
     }
-  }
-
-  /**
-   * saves the channel to local storage.
-   * @param id the id of the channel
-   */
-  private saveChannelsToLocalStorage() {
-    localStorage.setItem('channels', JSON.stringify(this.channels));
   }
 
   /**
@@ -168,25 +174,25 @@ export class SharedService implements OnInit {
    * @param id the id of the member
    * @returns the member
    */
-  private saveMembersToLocalStorage() {
+  saveMembersToLocalStorage() {
     localStorage.setItem('members', JSON.stringify(this.members));
   }
 
-  /**
-   * updates the member to local storage.
-   * @param id the id of the member
-   * @returns the member
-   */
-  updateMember(updatedMember: any) {
-    const index = this.members.findIndex(
-      (member) => member.id === updatedMember.id
-    );
-    if (index !== -1) {
-      this.members[index] = updatedMember;
-      this.saveMembersToLocalStorage();
-      console.log('Member updated:', updatedMember);
-    }
-  }
+  // /**
+  //  * updates the member to local storage.
+  //  * @param id the id of the member
+  //  * @returns the member
+  //  */
+  // updateMember(updatedMember: any) {
+  //   const index = this.members.findIndex(
+  //     (member) => member.id === updatedMember.id
+  //   );
+  //   if (index !== -1) {
+  //     this.members[index] = updatedMember;
+  //     this.saveMembersToLocalStorage();
+  //     console.log('Member updated:', updatedMember);
+  //   }
+  // }
 
   /**
    * saves the message of channels to local storage.

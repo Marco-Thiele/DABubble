@@ -8,23 +8,11 @@
 
   <div class="channel-members-users">
     <div class="channel-members-cont">
-      <div class="channel-member">
-        <div class="channel-photo">
+      <div class="channel-member" *ngFor="let member of members">
+        <div class="channel-photo" [style.background-image]="'url(' + member.imgProfil + ')'">
           <div class="online"></div>
         </div>
-        <span class="font400-normal">Frederik Beck (Du)</span>
-      </div>
-      <div class="channel-member">
-        <div class="channel-photo">
-          <div class="online"></div>
-        </div>
-        <span class="font400-normal">Frederik Beck (Du)</span>
-      </div>
-      <div class="channel-member">
-        <div class="channel-photo">
-          <div class="online"></div>
-        </div>
-        <span class="font400-normal">Frederik Beck (Du)</span>
+        <span class="font400-normal">{{member.name}}</span>
       </div>
     </div>
     <div class="add-member" (click)="addMember()">
@@ -34,4 +22,3 @@
       <span class="font400-normal">Mitglieder hinzufügen</span>
     </div>
   </div>
-</div>

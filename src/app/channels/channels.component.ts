@@ -35,8 +35,6 @@ export class ChannelsComponent implements OnInit {
     this.channels = this.sharedService.getChannels();
     this.members = await this.sharedService.getMembers();
 
-    console.log(this.members);
-
     if (this.members.length === 0) {
       this.members = [
         {

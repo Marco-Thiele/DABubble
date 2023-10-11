@@ -35,6 +35,7 @@ export class NewChannelMembersComponent implements OnInit {
   memberMatches: any[] = [];
   selectedMembers: any[] = [];
   selectedMember: any = null;
+  userFound = false;
 
   constructor(
     public dialogRef: MatDialogRef<NewChannelMembersComponent>,
@@ -118,11 +119,15 @@ export class NewChannelMembersComponent implements OnInit {
    */
   toggleMemberSelection(member: any) {
     if (this.selectedMembers.includes(member)) {
+    } else {
+      member.selected = true;
+      this.selectedMembers.push(member);
+      this.isButtonDisabled = this.selectedMembers.length === 0;
+      this.buttonColor = this.isButtonDisabled ? '#686868' : '#444df2';
+
+      this.memberName = '';
+      this.userFound = false;
     }
-    member.selected = true;
-    this.selectedMembers.push(member);
-    this.isButtonDisabled = this.selectedMembers.length === 0;
-    this.buttonColor = this.isButtonDisabled ? '#686868' : '#444df2';
   }
 
   /**

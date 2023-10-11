@@ -46,6 +46,7 @@ export class MainChatComponent implements OnInit {
   channelsMessages: {
     [channelId: string]: { messagesUser: any[]; messagesMembers: any[] };
   } = {};
+  members: any[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -225,21 +226,32 @@ export class MainChatComponent implements OnInit {
       data: { selectedChannel },
     });
     this.sharedService.setIsEditChannelOpen(true);
-    console.log(selectedChannel);
   }
 
   /**
    * Shows the members component
    */
   showMembers() {
-    this.dialog.open(ChannelMembersComponent, {});
+    const members = this.selectedChannel.members;
+    const channel = this.selectedChannel;
+    const channelName = this.selectedChannel.name;
+    const dialogRef = this.dialog.open(ChannelMembersComponent, {
+      data: { members, channel, channelName },
+    });
   }
 
   /**
    * Shows the add members component
    */
   addMembers() {
-    this.dialog.open(AddChannelMembersComponent, {});
+    const members = this.selectedChannel.members;
+    const dialogRef = this.dialog.open(AddChannelMembersComponent, {
+      data: {
+        selectedChannel: this.selectedChannel,
+        members: this.members,
+      },
+    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   /**
@@ -324,10 +336,6 @@ export class MainChatComponent implements OnInit {
   }
 
   /**
-   * Scrolls to the bottom of the chat
-   */
-
-  /**
    * Sends a message to the server
    */
   sendChannelMsg() {
@@ -371,7 +379,6 @@ export class MainChatComponent implements OnInit {
         };
       }
     }
-    console.log('ChannelsMessages:', this.channelsMessages);
   }
 
   /**
@@ -422,7 +429,6 @@ export class MainChatComponent implements OnInit {
           this.selectedMember.id,
           message
         );
-        console.log('Message saved:', message);
       }
       this.ngAfterViewChecked();
       this.message = '';
@@ -463,9 +469,7 @@ export class MainChatComponent implements OnInit {
       member.name.toLowerCase().includes(memberName.toLowerCase())
     );
 
-    this.memberMatches.forEach((match) => {
-      console.log('Match:', match);
-    });
+    this.memberMatches.forEach((match) => {});
 
     return this.memberMatches.map((match) => match.name);
   }
@@ -486,9 +490,7 @@ export class MainChatComponent implements OnInit {
       channel.name.toLowerCase().includes(channelName.toLowerCase())
     );
 
-    this.channelMatches.forEach((match) => {
-      console.log('Match:', match);
-    });
+    this.channelMatches.forEach((match) => {});
 
     return this.channelMatches.map((match) => match.name);
   }
