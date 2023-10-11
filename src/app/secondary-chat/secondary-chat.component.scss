@@ -18,7 +18,7 @@
 }
 
 .contant-scrollbar {
-    overflow-y: scroll;
+    overflow-x: scroll;
 }
 
 .thread-contant {
@@ -357,8 +357,8 @@
     bottom: 30px;
     font-family: Nunito;
     z-index: 100;
-    z-index: 100;
-    transform: translate(-390px, -40px);
+    left:0;
+    top: 20px;
 }
 
 // Design from the user's chat

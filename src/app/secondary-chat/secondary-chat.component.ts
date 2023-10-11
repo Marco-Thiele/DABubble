@@ -29,7 +29,7 @@ export class SecondaryChatComponent {
   showIconCatalog = false;
   name = 'Angular';
   message = '';
-  showEmojiPicker = false;
+  showEmojiPicker: boolean[] = [false, false];
   isFocused = false;
   taIsFocused = false;
   isChannelVisible = true;
@@ -52,7 +52,10 @@ export class SecondaryChatComponent {
     this.profilName = UserService.getName();
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
-    this.openNewMessage();
+    // this.openNewMessage();
+    console.log(this.showEmojiPicker);
+    
+    
   }
 
   showUserProfil(){
@@ -110,8 +113,9 @@ export class SecondaryChatComponent {
   /**
    * Show the emoji picker
    */
-  toggleEmojiPicker() {
-    this.showEmojiPicker = !this.showEmojiPicker;
+  toggleEmojiPicker(index:number) {
+    this.showEmojiPicker[index] = !this.showEmojiPicker[index];
+    console.log(this.showEmojiPicker);
   }
 
   /**
@@ -127,7 +131,7 @@ export class SecondaryChatComponent {
    * Hide the emoji picker when the textarea is focused
    */
   onFocus() {
-    this.showEmojiPicker = false;
+    // this.showEmojiPicker = false;
   }
 
   /**
