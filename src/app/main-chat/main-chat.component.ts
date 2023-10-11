@@ -12,6 +12,7 @@ import { SharedService } from '../shared.service';
 import { ChannelMembersComponent } from '../channel-members/channel-members.component';
 import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
 import { UserService } from '../user.service';
+import { set } from '@angular/fire/database';
 
 @Component({
   selector: 'app-main-chat',
@@ -19,13 +20,18 @@ import { UserService } from '../user.service';
   styleUrls: ['./main-chat.component.scss'],
 })
 export class MainChatComponent implements OnInit {
-  @ViewChild('imagePreviewCont') imagePreviewCont: ElementRef | undefined;
-  @ViewChild('imagePreview') imagePreview: ElementRef | undefined;
-  @ViewChild('chatContainer') chatContainer: ElementRef | undefined;
+  @ViewChild('imagePreviewCont', { read: ElementRef })
+  imagePreviewCont: ElementRef;
+  @ViewChild('imagePreview', { read: ElementRef }) imagePreview: ElementRef;
+  @ViewChild('chatContainer', { read: ElementRef }) chatContainer:
+    | ElementRef
+    | undefined;
+  @ViewChild('fileInput') fileInput: ElementRef | undefined;
 
   showIconCatalog = false;
   name = 'Angular';
-  message = '';
+  message: string = '';
+  imageLoaded: boolean = false;
   showEmojiPicker = false;
   isFocused = false;
   taIsFocused = false;
@@ -47,6 +53,11 @@ export class MainChatComponent implements OnInit {
     [channelId: string]: { messagesUser: any[]; messagesMembers: any[] };
   } = {};
   members: any[] = [];
+  lastMessageData: Date | null = null;
+  selectedFile: File | null = null;
+  containerChat: any;
+
+  private isUserScrolling = false;
 
   constructor(
     private dialog: MatDialog,
@@ -57,6 +68,8 @@ export class MainChatComponent implements OnInit {
     this.loadChannel();
     this.openChannelContainer(this.selectedChannel);
     this.openPrivateContainerMessage(this.selectedMember);
+    this.imagePreviewCont = new ElementRef(null);
+    this.imagePreview = new ElementRef(null);
   }
 
   ngOnInit(): void {
@@ -81,12 +94,20 @@ export class MainChatComponent implements OnInit {
       this.sharedService.getMessagesForChannel(channelId, messageType);
   }
 
-  /**
-   * Scrolls to the bottom of the chat after the view is initialized
-   */
-  ngAfterViewInit() {
-    this.scrollToBottom();
+  onScroll() {
+    this.isUserScrolling = true;
   }
+
+  stopAutoScroll() {
+    this.isUserScrolling = false;
+  }
+
+  // /**
+  //  * Scrolls to the bottom of the chat after the view is initialized
+  //  */
+  // ngAfterViewInit() {
+  //   this.scrollToBottom();
+  // }
 
   ngAfterViewChecked() {
     this.scrollToBottom();
@@ -96,7 +117,7 @@ export class MainChatComponent implements OnInit {
    * Scrolls to the bottom of the chat
    */
   scrollToBottom() {
-    if (this.chatContainer) {
+    if (!this.isUserScrolling && this.chatContainer) {
       const element = this.chatContainer.nativeElement;
       element.scrollTop = element.scrollHeight;
     }
@@ -264,27 +285,6 @@ export class MainChatComponent implements OnInit {
   }
 
   /**
-   * Charges an image and shows it in the preview
-   */
-  onFileSelected(event: any): void {
-    const selectedFile = event.target.files[0];
-    const previewCont = this.imagePreviewCont?.nativeElement;
-    const previewImg = this.imagePreview?.nativeElement;
-
-    if (selectedFile && previewCont && previewImg) {
-      previewCont.style.display = 'flex';
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target && e.target.result) {
-          previewImg.src = e.target.result as string;
-        }
-      };
-      reader.readAsDataURL(selectedFile);
-    }
-  }
-
-  /**
    * Show the emoji picker
    */
   toggleEmojiPicker() {
@@ -336,14 +336,48 @@ export class MainChatComponent implements OnInit {
   }
 
   /**
+   * Charges an image and shows it in the preview
+   */
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+    const previewImg = this.imagePreview?.nativeElement;
+    this.containerChat = this.chatContainer?.nativeElement;
+
+    if (this.selectedFile && previewImg) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target && e.target.result) {
+          const imgSrc = e.target.result as string;
+
+          if (previewImg) {
+            previewImg.onload = () => {
+              previewImg.src = imgSrc;
+              this.containerChat.style.maxHeight = '270px';
+              this.imageLoaded = true;
+            };
+            previewImg.src = imgSrc;
+          }
+        }
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+    this.stopAutoScroll();
+  }
+
+  /**
    * Sends a message to the server
    */
   sendChannelMsg() {
     const messageText = this.message.trim();
-    if (messageText && this.currentChannel) {
+    const selectedFile = this.selectedFile;
+
+    if ((selectedFile || messageText) && this.currentChannel) {
+      const messageDate = new Date();
+
       const message = {
         userName: this.userService.getName(),
         profileImg: this.userService.getPhoto(),
+        imageUrl: '',
         text: messageText,
         time: new Date().toLocaleTimeString(),
         reactions: [],
@@ -352,15 +386,125 @@ export class MainChatComponent implements OnInit {
 
       const messageType = 'messagesUser';
 
-      this.sharedService.saveMessageToLocalStorage(
-        this.currentChannel.id,
-        message,
-        messageType
-      );
-
-      this.message = '';
+      if (selectedFile) {
+        this.convertImageToBase64(selectedFile)
+          .then((base64Data) => {
+            message.imageUrl = base64Data;
+            this.saveMessage(message, messageType, messageDate);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        this.saveMessage(message, messageType, messageDate);
+      }
     }
+  }
+
+  /**
+   * Saves a message to local storage
+   * @param message message from user
+   * @param messageType type of message
+   * @param messageDate date of message
+   */
+  saveMessage(
+    message: any,
+    messageType: 'messagesUser' | 'messagesMembers',
+    messageDate: Date
+  ) {
+    this.sharedService.saveMessageToLocalStorage(
+      this.currentChannel.id,
+      message,
+      messageType
+    );
+
+    if (this.lastMessageData) {
+      if (!this.areDatesEqual(this.lastMessageData, messageDate)) {
+        this.createDateSeparator(messageDate);
+      }
+    }
+
+    this.lastMessageData = messageDate;
+    this.message = '';
+    this.selectedFile = null;
+    this.clearPreviewImage();
     this.returnChannelsMessages();
+    this.stopAutoScroll();
+  }
+
+  /**
+   * Converts an image to base64
+   * @param file the file to convert
+   * @returns the image converted to base64
+   */
+  convertImageToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target && e.target.result) {
+          resolve(e.target.result as string);
+        } else {
+          reject('Error al cargar la imagen.');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /**
+   * Clears the preview image
+   */
+  clearPreviewImage() {
+    const previewImg = this.imagePreview?.nativeElement;
+    if (previewImg) {
+      previewImg.src = '';
+      this.imageLoaded = false;
+      this.containerChat.style.maxHeight = '500px';
+      if (this.fileInput) {
+        this.fileInput.nativeElement.value = '';
+      }
+    }
+  }
+
+  /**
+   * Checks if two dates are equal
+   * @param date1
+   * @param date2
+   * @returns true if the dates are equal, false otherwise
+   */
+  areDatesEqual(date1: Date, date2: Date): boolean {
+    return (
+      date1.getDate() === date2.getDate() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear()
+    );
+  }
+
+  /**
+   * creates the template for the date separator
+   * @param date
+   */
+  createDateSeparator(date: Date) {
+    const separatorElement = document.createElement('div');
+    separatorElement.classList.add('time-separator');
+
+    const timeLineElement = document.createElement('div');
+    timeLineElement.classList.add('time-line');
+
+    const timeDayElement = document.createElement('div');
+    timeDayElement.classList.add('time-day');
+    timeDayElement.innerHTML = `
+        <span class="font400-normal">
+          ${date.toLocaleDateString()}
+        </span>
+      `;
+
+    separatorElement.appendChild(timeLineElement);
+    separatorElement.appendChild(timeDayElement);
+
+    if (this.chatContainer) {
+      this.chatContainer.nativeElement.appendChild(separatorElement);
+    }
   }
 
   /**
@@ -395,7 +539,7 @@ export class MainChatComponent implements OnInit {
   }
 
   /**
-   * The messages of the channels are not empty
+   * Load the messages of the channels from local storage
    */
   isChannelMessagesNotEmpty(): boolean {
     if (this.isChannelVisible && this.selectedChannel) {

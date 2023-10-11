@@ -396,7 +396,7 @@
 }
 
 .image-preview-cont {
-  display: none;
+  display: flex;
   height: 200px;
   padding: 10px;
   img {
@@ -658,9 +658,13 @@
   background: var(--Purple-2, #797ef3);
 
   span {
-    align-self: stretch;
+    align-self: flex-end;
     color: #fff;
     font-size: 18px;
+  }
+
+  img {
+    width: 150px;
   }
 }
 

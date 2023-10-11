@@ -12,9 +12,7 @@ import { UserService } from '../user.service';
 })
 export class ChannelsComponent implements OnInit {
   uniqueId = this.sharedService.generateUniqueId();
-  profilName: string;
   profilImg: any;
-  profilID: string;
   panelOpenState = false;
   isClicked = false;
   channels: any[] = [];
@@ -25,11 +23,7 @@ export class ChannelsComponent implements OnInit {
     private dialog: MatDialog,
     private sharedService: SharedService,
     public userService: UserService
-  ) {
-    this.profilName = this.userService.getName();
-    this.profilImg = this.userService.getPhoto();
-    this.profilID = this.sharedService.getID();
-  }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.channels = this.sharedService.getChannels();
@@ -38,9 +32,9 @@ export class ChannelsComponent implements OnInit {
     if (this.members.length === 0) {
       this.members = [
         {
-          id: this.profilID,
-          name: this.profilName + '(Du)',
-          imgProfil: this.profilImg,
+          id: this.sharedService.getID(),
+          name: this.userService.getName() + '(Du)',
+          imgProfil: this.userService.getPhoto(),
           type: 'user',
           channels: ['Office-team'],
           chat: [],
@@ -89,9 +83,6 @@ export class ChannelsComponent implements OnInit {
       this.members.forEach((member) => {
         this.sharedService.addMember(member);
       });
-    } else {
-      this.members[0].imgProfil = this.profilImg;
-      this.members[0].name = this.profilName + '(Du)';
     }
   }
 

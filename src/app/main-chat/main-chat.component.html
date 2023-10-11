@@ -55,7 +55,8 @@
 
 <div class="chat-container">
   <!--Main chat principal-->
-  <div class="inner-container" *ngIf="isChannelVisible && selectedChannel || isNewMessageVisible" #chatContainer>
+  <div class="inner-container" *ngIf="isChannelVisible && selectedChannel || isNewMessageVisible" #chatContainer
+    (scroll)="onScroll()" (mouseenter)="stopAutoScroll()">
 
     <div *ngIf="isNewMessageVisible">
       <div *ngIf="memberMatches.length > 0">
@@ -110,6 +111,7 @@
           </div>
           <div class="message-members-speech">
             <span class="font400-normal">{{message.text}}</span>
+            <img src="{{message.imageUrl}}" alt="">
           </div>
           <div class="message-members-answers">
             <span class="font400-normal">2 Antworten</span>
@@ -158,6 +160,7 @@
           </div>
           <div class="message-user-speech">
             <span class="font400-normal">{{ message.text }}</span>
+            <img src="{{message.imageUrl}}" alt="">
           </div>
           <div class="message-user-reaction">
             <div>
@@ -231,7 +234,7 @@
     <textarea class="font400-normal auto-resizable-textarea" placeholder="{{placeholderMessageBox}}"
       (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="inputFocused()" (focus)="textAreaFocused()"
       (blur)="textAreaBlurred()"></textarea>
-    <div class="image-preview-cont" #imagePreviewCont>
+    <div class="image-preview-cont" #imagePreviewCont [style.display]="imageLoaded ? 'block' : 'none'">
       <img id="image-preview" #imagePreview />
     </div>
 
