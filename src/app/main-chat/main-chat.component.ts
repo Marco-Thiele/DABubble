@@ -26,6 +26,7 @@ export class MainChatComponent implements OnInit {
   @ViewChild('chatContainer', { read: ElementRef }) chatContainer:
     | ElementRef
     | undefined;
+  // @ViewChild('containerprivate', { read: ElementRef }) containerprivate:
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
 
   showIconCatalog = false;
@@ -51,6 +52,9 @@ export class MainChatComponent implements OnInit {
   channelMatches: any[] = [];
   channelsMessages: {
     [channelId: string]: { messagesUser: any[]; messagesMembers: any[] };
+  } = {};
+  privateChats: {
+    [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
   } = {};
   members: any[] = [];
   lastMessageData: Date | null = null;
@@ -92,6 +96,23 @@ export class MainChatComponent implements OnInit {
 
     this.channelsMessages[channelId].messagesUser =
       this.sharedService.getMessagesForChannel(channelId, messageType);
+  }
+
+  getMessagesfromSelectedMember() {
+    const memberId = this.selectedMember ? this.selectedMember.id : '';
+    console.log('Member ID:', memberId);
+    const messageType = 'messagesUser';
+
+    if (!this.privateChats[memberId]) {
+      this.privateChats[memberId] = {
+        messagesUser: [],
+        messagesMembers: [],
+      };
+    }
+
+    this.privateChats[memberId].messagesUser =
+      this.sharedService.getMessagesForPrivateChat(memberId, messageType);
+    console.log(this.privateChats[memberId].messagesUser);
   }
 
   onScroll() {
@@ -167,7 +188,7 @@ export class MainChatComponent implements OnInit {
       if (member && member.type === 'user') {
         this.privateNachricht(member);
       } else {
-        this.privateChat(member);
+        this.privateChatWithMember(member);
       }
     });
   }
@@ -193,7 +214,7 @@ export class MainChatComponent implements OnInit {
    * Sets the variables for a private chat with a member
    * @param member
    */
-  privateChat(member: any) {
+  privateChatWithMember(member: any) {
     this.isPrivatChatContainerVisible = true;
     this.isChatWithMemberVisible = true;
     this.isPrivateChatVisible = false;
@@ -204,6 +225,7 @@ export class MainChatComponent implements OnInit {
     this.sendPrivate = true;
     this.sendChannel = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
+    this.getMessagesfromSelectedMember();
   }
 
   /**
@@ -348,14 +370,16 @@ export class MainChatComponent implements OnInit {
       reader.onload = (e) => {
         if (e.target && e.target.result) {
           const imgSrc = e.target.result as string;
-
-          if (previewImg) {
-            previewImg.onload = () => {
+          if (this.currentChannel || this.selectedMember) {
+            if (previewImg) {
+              previewImg.onload = () => {
+                previewImg.src = imgSrc;
+                this.containerChat.style.maxHeight = '270px';
+                this.imageLoaded = true;
+              };
+              console.log(previewImg);
               previewImg.src = imgSrc;
-              this.containerChat.style.maxHeight = '270px';
-              this.imageLoaded = true;
-            };
-            previewImg.src = imgSrc;
+            }
           }
         }
       };
@@ -372,8 +396,6 @@ export class MainChatComponent implements OnInit {
     const selectedFile = this.selectedFile;
 
     if ((selectedFile || messageText) && this.currentChannel) {
-      const messageDate = new Date();
-
       const message = {
         userName: this.userService.getName(),
         profileImg: this.userService.getPhoto(),
@@ -390,23 +412,13 @@ export class MainChatComponent implements OnInit {
         this.convertImageToBase64(selectedFile)
           .then((base64Data) => {
             message.imageUrl = base64Data;
-            this.saveMessage(
-              message,
-              messageType,
-              messageDate,
-              this.currentChannel
-            );
+            this.saveMessage(message, messageType, this.currentChannel);
           })
           .catch((error) => {
             console.error(error);
           });
       } else {
-        this.saveMessage(
-          message,
-          messageType,
-          messageDate,
-          this.currentChannel
-        );
+        this.saveMessage(message, messageType, this.currentChannel);
       }
     }
   }
@@ -420,7 +432,6 @@ export class MainChatComponent implements OnInit {
   saveMessage(
     message: any,
     messageType: 'messagesUser' | 'messagesMembers',
-    messageDate: Date,
     channelOrMember: any
   ) {
     this.sharedService.saveMessageToLocalStorage(
@@ -429,13 +440,6 @@ export class MainChatComponent implements OnInit {
       messageType
     );
 
-    if (this.lastMessageData) {
-      if (!this.areDatesEqual(this.lastMessageData, messageDate)) {
-        this.createDateSeparator(messageDate);
-      }
-    }
-
-    this.lastMessageData = messageDate;
     this.message = '';
     if (this.selectedFile) {
       this.selectedFile = null;
@@ -480,47 +484,6 @@ export class MainChatComponent implements OnInit {
   }
 
   /**
-   * Checks if two dates are equal
-   * @param date1
-   * @param date2
-   * @returns true if the dates are equal, false otherwise
-   */
-  areDatesEqual(date1: Date, date2: Date): boolean {
-    return (
-      date1.getDate() === date2.getDate() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
-  }
-
-  /**
-   * creates the template for the date separator
-   * @param date
-   */
-  createDateSeparator(date: Date) {
-    const separatorElement = document.createElement('div');
-    separatorElement.classList.add('time-separator');
-
-    const timeLineElement = document.createElement('div');
-    timeLineElement.classList.add('time-line');
-
-    const timeDayElement = document.createElement('div');
-    timeDayElement.classList.add('time-day');
-    timeDayElement.innerHTML = `
-        <span class="font400-normal">
-          ${date.toLocaleDateString()}
-        </span>
-      `;
-
-    separatorElement.appendChild(timeLineElement);
-    separatorElement.appendChild(timeDayElement);
-
-    if (this.chatContainer) {
-      this.chatContainer.nativeElement.appendChild(separatorElement);
-    }
-  }
-
-  /**
    * Returns the messages of the channels from server
    */
   returnChannelsMessages() {
@@ -536,6 +499,24 @@ export class MainChatComponent implements OnInit {
         };
       }
     }
+    console.log(this.channelsMessages);
+  }
+
+  returnPrivateChats() {
+    const privateChatsData = this.sharedService.getPrivateChatsIds();
+
+    this.privateChats = {};
+
+    for (const memberId in privateChatsData) {
+      if (privateChatsData.hasOwnProperty(memberId)) {
+        this.privateChats[memberId] = {
+          messagesUser: privateChatsData[memberId].messagesUser || [],
+          messagesMembers: privateChatsData[memberId].messagesMembers || [],
+        };
+        console.log(this.privateChats);
+      }
+    }
+    console.log(this.privateChats);
   }
 
   /**
@@ -546,6 +527,12 @@ export class MainChatComponent implements OnInit {
       const channelId = this.selectedChannel.id;
       if (this.channelsMessages && this.channelsMessages[channelId]) {
         return this.channelsMessages[channelId][messageType] || [];
+      }
+    } else if (this.selectedMember) {
+      console.log(this.selectedMember);
+      const memberId = this.selectedMember.id;
+      if (this.privateChats && this.privateChats[memberId]) {
+        return this.privateChats[memberId][messageType] || [];
       }
     }
     return [];
@@ -563,6 +550,17 @@ export class MainChatComponent implements OnInit {
         (channelMessages.messagesUser.length > 0 ||
           channelMessages.messagesMembers.length > 0)
       );
+    } else if (
+      (this.isChatWithMemberVisible && this.selectedMember) ||
+      (this.isPrivateChatVisible && this.selectedMember)
+    ) {
+      const memberId = this.selectedMember.id;
+      const privateChatMessages = this.privateChats[memberId];
+      return (
+        !!privateChatMessages &&
+        (privateChatMessages.messagesUser.length > 0 ||
+          privateChatMessages.messagesMembers.length > 0)
+      );
     }
     return false;
   }
@@ -573,10 +571,8 @@ export class MainChatComponent implements OnInit {
   sendPrivateMsg() {
     const messageText = this.message.trim();
     const selectedFile = this.selectedFile;
-
+    console.log(selectedFile, messageText, this.selectedMember);
     if ((selectedFile || messageText) && this.selectedMember) {
-      const messageDate = new Date();
-
       const message = {
         userName: this.userService.getName(),
         profileImg: this.userService.getPhoto(),
@@ -586,31 +582,35 @@ export class MainChatComponent implements OnInit {
         reactions: [],
         answers: [],
       };
-
+      console.log(message);
       const messageType = 'messagesMembers';
 
       if (selectedFile) {
         this.convertImageToBase64(selectedFile)
           .then((base64Data) => {
             message.imageUrl = base64Data;
-            this.saveMessage(
-              message,
-              messageType,
-              messageDate,
-              this.selectedMember
+            this.sharedService.savePrivateMessageToLocalStorage(
+              this.selectedMember.id,
+              message
             );
           })
           .catch((error) => {
             console.error(error);
           });
       } else {
-        this.saveMessage(
-          message,
-          messageType,
-          messageDate,
-          this.selectedMember
+        this.sharedService.savePrivateMessageToLocalStorage(
+          this.selectedMember.id,
+          message
         );
       }
+
+      this.message = '';
+      if (this.selectedFile) {
+        this.selectedFile = null;
+        this.clearPreviewImage();
+      }
+      this.returnPrivateChats();
+      this.stopAutoScroll();
     }
   }
 

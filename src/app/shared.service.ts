@@ -247,7 +247,6 @@ export class SharedService implements OnInit {
 
     const storedChannels = localStorage.getItem('channels');
     const channels = storedChannels ? JSON.parse(storedChannels) : [];
-
     channels.forEach((channel: any) => {
       const channelId = channel.id;
       channelMessages[channelId] = {
@@ -276,5 +275,43 @@ export class SharedService implements OnInit {
     const channel = channels.find((c: any) => c.id === channelId);
 
     return channel ? channel[messageType] : [];
+  }
+
+  getMessagesForPrivateChat(
+    memberId: string,
+    messageType: 'messagesUser' | 'messagesMembers'
+  ): any[] {
+    const storedPrivateMsg = localStorage.getItem('privateMessages');
+    const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
+
+    const chat = chats.find((p: any) => p.id === memberId);
+    return chat ? chat[messageType] : [];
+  }
+
+  getPrivateChatsIds(): {
+    [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
+  } {
+    const privateChatsMessages: {
+      [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
+    } = {};
+
+    const storedPrivateMsg = localStorage.getItem('privateMessages');
+    const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
+
+    for (const memberId in chats) {
+      if (chats.hasOwnProperty(memberId)) {
+        privateChatsMessages[memberId] = {
+          messagesUser: this.getMessagesForPrivateChat(
+            memberId,
+            'messagesUser'
+          ),
+          messagesMembers: this.getMessagesForPrivateChat(
+            memberId,
+            'messagesMembers'
+          ),
+        };
+      }
+    }
+    return privateChatsMessages;
   }
 }

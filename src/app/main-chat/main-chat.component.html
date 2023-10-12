@@ -55,8 +55,9 @@
 
 <div class="chat-container">
   <!--Main chat principal-->
-  <div class="inner-container" *ngIf="isChannelVisible && selectedChannel || isNewMessageVisible" #chatContainer
-    (scroll)="onScroll()" (mouseenter)="stopAutoScroll()">
+  <div class="inner-container"
+    *ngIf="isChannelVisible && selectedChannel || isNewMessageVisible || isChatWithMemberVisible && selectedMember || isPrivateChatVisible && selectedMember"
+    #chatContainer (scroll)="onScroll()" (mouseenter)="stopAutoScroll()">
 
     <div *ngIf="isNewMessageVisible">
       <div *ngIf="memberMatches.length > 0">
