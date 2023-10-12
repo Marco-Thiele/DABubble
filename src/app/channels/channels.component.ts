@@ -37,7 +37,8 @@ export class ChannelsComponent implements OnInit {
           imgProfil: this.userService.getPhoto(),
           type: 'user',
           channels: ['Office-team'],
-          chat: [],
+          messagesUser: [],
+          messagesMembers: [],
         },
         {
           id: this.sharedService.generateUniqueId(),
@@ -45,7 +46,8 @@ export class ChannelsComponent implements OnInit {
           imgProfil: 'assets/img/avatars/sofiamueller.svg',
           type: 'member',
           channels: ['Office-team'],
-          chat: [],
+          messagesUser: [],
+          messagesMembers: [],
         },
         {
           id: this.sharedService.generateUniqueId(),
@@ -53,7 +55,8 @@ export class ChannelsComponent implements OnInit {
           imgProfil: 'assets/img/avatars/noahbraun.svg',
           type: 'member',
           channels: ['Office-team'],
-          chat: [],
+          messagesUser: [],
+          messagesMembers: [],
         },
         {
           id: this.sharedService.generateUniqueId(),
@@ -61,7 +64,8 @@ export class ChannelsComponent implements OnInit {
           imgProfil: 'assets/img/avatars/eliseroth.svg',
           type: 'member',
           channels: ['Office-team'],
-          chat: [],
+          messagesUser: [],
+          messagesMembers: [],
         },
         {
           id: this.sharedService.generateUniqueId(),
@@ -69,7 +73,8 @@ export class ChannelsComponent implements OnInit {
           imgProfil: 'assets/img/avatars/eliasneumann.svg',
           type: 'member',
           channels: ['Office-team'],
-          chat: [],
+          messagesUser: [],
+          messagesMembers: [],
         },
         {
           id: this.sharedService.generateUniqueId(),
@@ -77,7 +82,8 @@ export class ChannelsComponent implements OnInit {
           imgProfil: 'assets/img/avatars/steffenhoffmann.svg',
           type: 'member',
           channels: ['Office-team'],
-          chat: [],
+          messagesUser: [],
+          messagesMembers: [],
         },
       ];
       this.members.forEach((member) => {
@@ -145,7 +151,8 @@ export class ChannelsComponent implements OnInit {
       privateMessages[memberId] = {
         id: memberId,
         member: member.name,
-        chat: [],
+        messagesUser: [],
+        messagesMembers: [],
       };
     }
 

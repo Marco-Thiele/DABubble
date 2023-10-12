@@ -66,7 +66,7 @@ export class ChannelErstellenComponent implements OnInit {
       });
       this.dialogRef.close();
     } else {
-      alert('Por favor, introduce un nombre para el canal');
+      alert('Please, enter a name for the channel.');
     }
   }
 }

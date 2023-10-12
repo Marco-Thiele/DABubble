@@ -12,7 +12,6 @@ import { SharedService } from '../shared.service';
 import { ChannelMembersComponent } from '../channel-members/channel-members.component';
 import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
 import { UserService } from '../user.service';
-import { set } from '@angular/fire/database';
 
 @Component({
   selector: 'app-main-chat',
@@ -26,10 +25,8 @@ export class MainChatComponent implements OnInit {
   @ViewChild('chatContainer', { read: ElementRef }) chatContainer:
     | ElementRef
     | undefined;
-  // @ViewChild('containerprivate', { read: ElementRef }) containerprivate:
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
 
-  showIconCatalog = false;
   name = 'Angular';
   message: string = '';
   imageLoaded: boolean = false;
@@ -57,9 +54,9 @@ export class MainChatComponent implements OnInit {
     [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
   } = {};
   members: any[] = [];
-  lastMessageData: Date | null = null;
   selectedFile: File | null = null;
   containerChat: any;
+  privateChatMessages: any[] = [];
 
   private isUserScrolling = false;
 
@@ -94,26 +91,9 @@ export class MainChatComponent implements OnInit {
       };
     }
 
-    // this.channelsMessages[channelId].messagesUser =
-    //   this.sharedService.getMessagesForChannel(channelId, messageType);
+    this.channelsMessages[channelId].messagesUser =
+      this.sharedService.getMessagesForChannel(channelId, messageType);
   }
-
-  // getMessagesfromSelectedMember() {
-  //   const memberId = this.selectedMember ? this.selectedMember.id : '';
-  //   console.log('Member ID:', memberId);
-  //   const messageType = 'messagesUser';
-
-  //   if (!this.privateChats[memberId]) {
-  //     this.privateChats[memberId] = {
-  //       messagesUser: [],
-  //       messagesMembers: [],
-  //     };
-  //   }
-
-  //   this.privateChats[memberId].messagesUser =
-  //     this.sharedService.getMessagesForPrivateChat(memberId, messageType);
-  //   console.log(this.privateChats[memberId].messagesUser);
-  // }
 
   onScroll() {
     this.isUserScrolling = true;
@@ -121,17 +101,6 @@ export class MainChatComponent implements OnInit {
 
   stopAutoScroll() {
     this.isUserScrolling = false;
-  }
-
-  // /**
-  //  * Scrolls to the bottom of the chat after the view is initialized
-  //  */
-  // ngAfterViewInit() {
-  //   this.scrollToBottom();
-  // }
-
-  ngAfterViewChecked() {
-    this.scrollToBottom();
   }
 
   /**
@@ -225,7 +194,17 @@ export class MainChatComponent implements OnInit {
     this.sendPrivate = true;
     this.sendChannel = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
-    // this.getMessagesfromSelectedMember();
+    this.loadPrivateChats();
+  }
+
+  /**
+   * Loads the messages to the private chat container
+   */
+  loadPrivateChats() {
+    if (this.selectedMember) {
+      this.privateChats[this.selectedMember.id] =
+        this.sharedService.returnPrivateChats(this.selectedMember.id);
+    }
   }
 
   /**
@@ -358,37 +337,6 @@ export class MainChatComponent implements OnInit {
   }
 
   /**
-   * Charges an image and shows it in the preview
-   */
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
-    const previewImg = this.imagePreview?.nativeElement;
-    this.containerChat = this.chatContainer?.nativeElement;
-
-    if (this.selectedFile && previewImg) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target && e.target.result) {
-          const imgSrc = e.target.result as string;
-          if (this.currentChannel || this.selectedMember) {
-            if (previewImg) {
-              previewImg.onload = () => {
-                previewImg.src = imgSrc;
-                this.containerChat.style.maxHeight = '270px';
-                this.imageLoaded = true;
-              };
-              console.log(previewImg);
-              previewImg.src = imgSrc;
-            }
-          }
-        }
-      };
-      reader.readAsDataURL(this.selectedFile);
-    }
-    this.stopAutoScroll();
-  }
-
-  /**
    * Sends a message to the server
    */
   sendChannelMsg() {
@@ -421,6 +369,36 @@ export class MainChatComponent implements OnInit {
         this.saveMessage(message, messageType, this.currentChannel);
       }
     }
+  }
+
+  /**
+   * Charges an image and shows it in the preview
+   */
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+    const previewImg = this.imagePreview?.nativeElement;
+    this.containerChat = this.chatContainer?.nativeElement;
+
+    if (this.selectedFile && previewImg) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target && e.target.result) {
+          const imgSrc = e.target.result as string;
+          if (this.currentChannel || this.selectedMember) {
+            if (previewImg) {
+              previewImg.onload = () => {
+                previewImg.src = imgSrc;
+                this.containerChat.style.maxHeight = '270px';
+                this.imageLoaded = true;
+              };
+              previewImg.src = imgSrc;
+            }
+          }
+        }
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+    this.stopAutoScroll();
   }
 
   /**
@@ -488,7 +466,6 @@ export class MainChatComponent implements OnInit {
    */
   returnChannelsMessages() {
     const channelData = this.sharedService.getChannelsIds();
-
     this.channelsMessages = {};
 
     for (const channelId in channelData) {
@@ -499,25 +476,7 @@ export class MainChatComponent implements OnInit {
         };
       }
     }
-    console.log(this.channelsMessages);
   }
-
-  // returnPrivateChats() {
-  //   const privateChatsData = this.sharedService.getPrivateChatsIds();
-
-  //   this.privateChats = {};
-
-  //   for (const memberId in privateChatsData) {
-  //     if (privateChatsData.hasOwnProperty(memberId)) {
-  //       this.privateChats[memberId] = {
-  //         messagesUser: privateChatsData[memberId].messagesUser || [],
-  //         messagesMembers: privateChatsData[memberId].messagesMembers || [],
-  //       };
-  //       console.log(this.privateChats);
-  //     }
-  //   }
-  //   console.log(this.privateChats);
-  // }
 
   /**
    * Returns selected messages of the channels from local storage
@@ -529,42 +488,11 @@ export class MainChatComponent implements OnInit {
         return this.channelsMessages[channelId][messageType] || [];
       }
     } else if (this.selectedMember) {
-      console.log(this.selectedMember);
-      const memberId = this.selectedMember.id;
-      if (this.privateChats && this.privateChats[memberId]) {
-        return this.privateChats[memberId][messageType] || [];
-      }
+      this.privateChats[this.selectedMember.id] =
+        this.sharedService.returnPrivateChats(this.selectedMember.id);
+      return this.privateChats[this.selectedMember.id][messageType] || [];
     }
     return [];
-  }
-
-  /**
-   * Load the messages of the channels from local storage
-   */
-  isChannelMessagesNotEmpty(): boolean {
-    if (this.isChannelVisible && this.selectedChannel) {
-      const channelId = this.selectedChannel.id;
-      const channelMessages = this.channelsMessages[channelId];
-      if (channelMessages.messagesUser) {
-        return (
-          !!channelMessages &&
-          (channelMessages.messagesUser.length > 0 ||
-            channelMessages.messagesMembers.length > 0)
-        );
-      }
-    } else if (
-      (this.isChatWithMemberVisible && this.selectedMember) ||
-      (this.isPrivateChatVisible && this.selectedMember)
-    ) {
-      const memberId = this.selectedMember.id;
-      const privateChatMessages = this.privateChats[memberId];
-      return (
-        !!privateChatMessages &&
-        (privateChatMessages.messagesUser.length > 0 ||
-          privateChatMessages.messagesMembers.length > 0)
-      );
-    }
-    return false;
   }
 
   /**
@@ -573,7 +501,6 @@ export class MainChatComponent implements OnInit {
   sendPrivateMsg() {
     const messageText = this.message.trim();
     const selectedFile = this.selectedFile;
-    console.log(selectedFile, messageText, this.selectedMember);
     if ((selectedFile || messageText) && this.selectedMember) {
       const message = {
         userName: this.userService.getName(),
@@ -584,7 +511,6 @@ export class MainChatComponent implements OnInit {
         reactions: [],
         answers: [],
       };
-      console.log(message);
       const messageType = 'messagesMembers';
 
       if (selectedFile) {
@@ -611,7 +537,7 @@ export class MainChatComponent implements OnInit {
         this.selectedFile = null;
         this.clearPreviewImage();
       }
-      // this.returnPrivateChats();
+      this.loadPrivateChats();
       this.stopAutoScroll();
     }
   }
@@ -676,3 +602,62 @@ export class MainChatComponent implements OnInit {
     return this.channelMatches.map((match) => match.name);
   }
 }
+
+// /**
+//  * Load the messages of the channels from local storage
+//  */
+// isChannelMessagesNotEmpty(): boolean {
+//   if (this.isChannelVisible && this.selectedChannel) {
+//     const channelId = this.selectedChannel.id;
+//     const channelMessages = this.channelsMessages[channelId];
+//     return (
+//       !!channelMessages &&
+//       ((channelMessages.messagesUser &&
+//         channelMessages.messagesUser.length > 0) ||
+//         (channelMessages.messagesMembers &&
+//           channelMessages.messagesMembers.length > 0))
+//     );
+//   } else if (
+//     (this.isChatWithMemberVisible && this.selectedMember) ||
+//     (this.isPrivateChatVisible && this.selectedMember)
+//   ) {
+//     const memberId = this.selectedMember.id;
+//     const privateChatMessages = this.privateChats[memberId];
+//     return (
+//       !!privateChatMessages &&
+//       ((privateChatMessages.messagesUser &&
+//         privateChatMessages.messagesUser.length > 0) ||
+//         (privateChatMessages.messagesMembers &&
+//           privateChatMessages.messagesMembers.length > 0))
+//     );
+//   }
+//   return false;
+// }
+
+// getMessagesfromSelectedMember() {
+//   const memberId = this.selectedMember ? this.selectedMember.id : '';
+//   console.log('Member ID:', memberId);
+//   const messageType = 'messagesUser';
+
+//   if (!this.privateChats[memberId]) {
+//     this.privateChats[memberId] = {
+//       messagesUser: [],
+//       messagesMembers: [],
+//     };
+//   }
+
+//   // this.privateChats[memberId].messagesUser =
+//   //   this.sharedService.getMessagesForPrivateChat(memberId, messageType);
+//   // console.log(this.privateChats[memberId].messagesUser);
+// }
+
+// /**
+//  * Scrolls to the bottom of the chat after the view is initialized
+//  */
+// ngAfterViewInit() {
+//   this.scrollToBottom();
+// }
+
+// ngAfterViewChecked() {
+//   this.scrollToBottom();
+// }

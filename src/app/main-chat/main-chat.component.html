@@ -85,8 +85,41 @@
       </div>
     </div>
 
+    <!--Container to write private messages-->
+
+    <div class="privat-chat-container" *ngIf="isPrivatChatContainerVisible">
+      <div class="beginning-private-chat">
+        <div class="private-chat-member" *ngIf="isChatWithMemberVisible">
+          <div class="private-message-img">
+            <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
+            </div>
+          </div>
+          <a class="font700-normal">{{ selectedMember.name }} </a>
+        </div>
+        <div class="description-private-msg" *ngIf="isChatWithMemberVisible">
+          <span class="font400-normal">Diese Unterhaltung findet nur zwischen <a class="font400-normal">@{{
+              selectedMember.name }} &nbsp;</a>und dir statt.</span>
+        </div>
+        <div class="private-chat-user" *ngIf="isPrivateChatVisible">
+          <div class="private-message-img">
+            <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
+            </div>
+          </div>
+          <a class="font700-normal">{{
+            selectedMember.name }}</a>
+        </div>
+        <div class="description-private-msg-user" *ngIf="isPrivateChatVisible">
+          <span class="font700-normal">Dieser Raum ist nur für dich da. <a class="font400-normal">ache dir Notizen,
+              liste
+              deine To-dos auf oder
+              bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst
+              besprechen.</a></span>
+        </div>
+      </div>
+    </div>
+
     <!--Container for the member's chat-->
-    <div *ngIf="isChannelMessagesNotEmpty()">
+    <div>
       <div class="message-members-box-cont" *ngFor="let message of getSelectedMessages('messagesMembers')">
         <div class="message-reaction-people">
           <div class="reaction-icon">
@@ -135,7 +168,7 @@
     </div>
 
     <!--Container for the user's chat-->
-    <div *ngIf="isChannelMessagesNotEmpty()">
+    <div>
       <div class="message-user-box-cont" *ngFor="let message of getSelectedMessages('messagesUser')">
         <div class="message-reaction-people">
           <div class="reaction-icon">
@@ -192,38 +225,6 @@
         <div class="message-user-img">
           <div [style.background-image]="'url(' + message.profileImg + ')'"></div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!--Container to write private messages-->
-
-  <div class="privat-chat-container" *ngIf="isPrivatChatContainerVisible">
-    <div class="beginning-private-chat">
-      <div class="private-chat-member" *ngIf="isChatWithMemberVisible">
-        <div class="private-message-img">
-          <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
-          </div>
-        </div>
-        <a class="font700-normal">{{ selectedMember.name }} </a>
-      </div>
-      <div class="description-private-msg" *ngIf="isChatWithMemberVisible">
-        <span class="font400-normal">Diese Unterhaltung findet nur zwischen <a class="font400-normal">@{{
-            selectedMember.name }} &nbsp;</a>und dir statt.</span>
-      </div>
-      <div class="private-chat-user" *ngIf="isPrivateChatVisible">
-        <div class="private-message-img">
-          <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
-          </div>
-        </div>
-        <a class="font700-normal">{{
-          selectedMember.name }}</a>
-      </div>
-      <div class="description-private-msg-user" *ngIf="isPrivateChatVisible">
-        <span class="font700-normal">Dieser Raum ist nur für dich da. <a class="font400-normal">ache dir Notizen, liste
-            deine To-dos auf oder
-            bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst
-            besprechen.</a></span>
       </div>
     </div>
   </div>

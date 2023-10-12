@@ -8,8 +8,6 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class SharedService implements OnInit {
-  memberName: string = '';
-
   private channels: any[] = [];
   private isEditChannelOpen = false;
   private members: any[] = [];
@@ -178,21 +176,20 @@ export class SharedService implements OnInit {
     localStorage.setItem('members', JSON.stringify(this.members));
   }
 
-  // /**
-  //  * updates the member to local storage.
-  //  * @param id the id of the member
-  //  * @returns the member
-  //  */
-  // updateMember(updatedMember: any) {
-  //   const index = this.members.findIndex(
-  //     (member) => member.id === updatedMember.id
-  //   );
-  //   if (index !== -1) {
-  //     this.members[index] = updatedMember;
-  //     this.saveMembersToLocalStorage();
-  //     console.log('Member updated:', updatedMember);
-  //   }
-  // }
+  /**
+   * updates the member to local storage.
+   * @param id the id of the member
+   * @returns the member
+   */
+  updateMember(updatedMember: any) {
+    const index = this.members.findIndex(
+      (member) => member.id === updatedMember.id
+    );
+    if (index !== -1) {
+      this.members[index] = updatedMember;
+      this.saveMembersToLocalStorage();
+    }
+  }
 
   /**
    * saves the message of channels to local storage.
@@ -226,11 +223,12 @@ export class SharedService implements OnInit {
     if (!privateMessages[memberId]) {
       privateMessages[memberId] = {
         id: memberId,
-        chat: [],
+        messagesUser: [],
+        messagesMembers: [],
       };
     }
 
-    privateMessages[memberId].chat.push(message);
+    privateMessages[memberId].messagesUser.push(message);
     localStorage.setItem('privateMessages', JSON.stringify(privateMessages));
   }
 
@@ -277,41 +275,56 @@ export class SharedService implements OnInit {
     return channel ? channel[messageType] : [];
   }
 
-  // getMessagesForPrivateChat(
-  //   memberId: string,
-  //   messageType: 'messagesUser' | 'messagesMembers'
-  // ): any[] {
-  //   const storedPrivateMsg = localStorage.getItem('privateMessages');
-  //   const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
-
-  //   const chat = chats.find((p: any) => p.id === memberId);
-  //   return chat ? chat[messageType] : [];
-  // }
-
-  //   getPrivateChatsIds(): {
-  //     [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
-  //   } {
-  //     const privateChatsMessages: {
-  //       [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
-  //     } = {};
-
-  //     const storedPrivateMsg = localStorage.getItem('privateMessages');
-  //     const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
-
-  //     // for (const memberId in chats) {
-  //     //   if (chats.hasOwnProperty(memberId)) {
-  //     //     privateChatsMessages[memberId] = {
-  //     //       messagesUser: this.getMessagesForPrivateChat(
-  //     //         memberId,
-  //     //         'messagesUser'
-  //     //       ),
-  //     //       messagesMembers: this.getMessagesForPrivateChat(
-  //     //         memberId,
-  //     //         'messagesMembers'
-  //     //       ),
-  //     //     };
-  //     //   }
-  //     }
-  //     return privateChatsMessages;
-  //   }
+  /**
+   * return the message for the private messages
+   * @returns the list of private messages
+   */
+  returnPrivateChats(memberId: string) {
+    const storedPrivateMsg = localStorage.getItem('privateMessages');
+    if (storedPrivateMsg) {
+      const privateMessages = JSON.parse(storedPrivateMsg);
+      if (privateMessages[memberId]) {
+        return privateMessages[memberId] || [];
+      }
+    }
+    return { messagesUser: [], messagesMembers: [] };
+  }
 }
+
+// getMessagesForPrivateChat(
+//   memberId: string,
+//   messageType: 'messagesUser' | 'messagesMembers'
+// ): any[] {
+//   const storedPrivateMsg = localStorage.getItem('privateMessages');
+//   const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
+
+//   const chat = chats.find((p: any) => p.id === memberId);
+//   return chat ? chat[messageType] : [];
+// }
+
+// getPrivateChatsIds(): {
+//   [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
+// } {
+//   const privateChatsMessages: {
+//     [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
+//   } = {};
+
+//   const storedPrivateMsg = localStorage.getItem('privateMessages');
+//   const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
+
+//   for (const memberId in chats) {
+//     if (chats.hasOwnProperty(memberId)) {
+//       privateChatsMessages[memberId] = {
+//         messagesUser: this.getMessagesForPrivateChat(
+//           memberId,
+//           'messagesUser'
+//         ),
+//         messagesMembers: this.getMessagesForPrivateChat(
+//           memberId,
+//           'messagesMembers'
+//         ),
+//       };
+//     }
+//   }
+//   return privateChatsMessages;
+// }
