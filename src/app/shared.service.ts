@@ -277,41 +277,41 @@ export class SharedService implements OnInit {
     return channel ? channel[messageType] : [];
   }
 
-  getMessagesForPrivateChat(
-    memberId: string,
-    messageType: 'messagesUser' | 'messagesMembers'
-  ): any[] {
-    const storedPrivateMsg = localStorage.getItem('privateMessages');
-    const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
+  // getMessagesForPrivateChat(
+  //   memberId: string,
+  //   messageType: 'messagesUser' | 'messagesMembers'
+  // ): any[] {
+  //   const storedPrivateMsg = localStorage.getItem('privateMessages');
+  //   const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
 
-    const chat = chats.find((p: any) => p.id === memberId);
-    return chat ? chat[messageType] : [];
-  }
+  //   const chat = chats.find((p: any) => p.id === memberId);
+  //   return chat ? chat[messageType] : [];
+  // }
 
-  getPrivateChatsIds(): {
-    [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
-  } {
-    const privateChatsMessages: {
-      [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
-    } = {};
+  //   getPrivateChatsIds(): {
+  //     [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
+  //   } {
+  //     const privateChatsMessages: {
+  //       [memberId: string]: { messagesUser: any[]; messagesMembers: any[] };
+  //     } = {};
 
-    const storedPrivateMsg = localStorage.getItem('privateMessages');
-    const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
+  //     const storedPrivateMsg = localStorage.getItem('privateMessages');
+  //     const chats = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
 
-    for (const memberId in chats) {
-      if (chats.hasOwnProperty(memberId)) {
-        privateChatsMessages[memberId] = {
-          messagesUser: this.getMessagesForPrivateChat(
-            memberId,
-            'messagesUser'
-          ),
-          messagesMembers: this.getMessagesForPrivateChat(
-            memberId,
-            'messagesMembers'
-          ),
-        };
-      }
-    }
-    return privateChatsMessages;
-  }
+  //     // for (const memberId in chats) {
+  //     //   if (chats.hasOwnProperty(memberId)) {
+  //     //     privateChatsMessages[memberId] = {
+  //     //       messagesUser: this.getMessagesForPrivateChat(
+  //     //         memberId,
+  //     //         'messagesUser'
+  //     //       ),
+  //     //       messagesMembers: this.getMessagesForPrivateChat(
+  //     //         memberId,
+  //     //         'messagesMembers'
+  //     //       ),
+  //     //     };
+  //     //   }
+  //     }
+  //     return privateChatsMessages;
+  //   }
 }

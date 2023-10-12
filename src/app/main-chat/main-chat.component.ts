@@ -94,26 +94,26 @@ export class MainChatComponent implements OnInit {
       };
     }
 
-    this.channelsMessages[channelId].messagesUser =
-      this.sharedService.getMessagesForChannel(channelId, messageType);
+    // this.channelsMessages[channelId].messagesUser =
+    //   this.sharedService.getMessagesForChannel(channelId, messageType);
   }
 
-  getMessagesfromSelectedMember() {
-    const memberId = this.selectedMember ? this.selectedMember.id : '';
-    console.log('Member ID:', memberId);
-    const messageType = 'messagesUser';
+  // getMessagesfromSelectedMember() {
+  //   const memberId = this.selectedMember ? this.selectedMember.id : '';
+  //   console.log('Member ID:', memberId);
+  //   const messageType = 'messagesUser';
 
-    if (!this.privateChats[memberId]) {
-      this.privateChats[memberId] = {
-        messagesUser: [],
-        messagesMembers: [],
-      };
-    }
+  //   if (!this.privateChats[memberId]) {
+  //     this.privateChats[memberId] = {
+  //       messagesUser: [],
+  //       messagesMembers: [],
+  //     };
+  //   }
 
-    this.privateChats[memberId].messagesUser =
-      this.sharedService.getMessagesForPrivateChat(memberId, messageType);
-    console.log(this.privateChats[memberId].messagesUser);
-  }
+  //   this.privateChats[memberId].messagesUser =
+  //     this.sharedService.getMessagesForPrivateChat(memberId, messageType);
+  //   console.log(this.privateChats[memberId].messagesUser);
+  // }
 
   onScroll() {
     this.isUserScrolling = true;
@@ -225,7 +225,7 @@ export class MainChatComponent implements OnInit {
     this.sendPrivate = true;
     this.sendChannel = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
-    this.getMessagesfromSelectedMember();
+    // this.getMessagesfromSelectedMember();
   }
 
   /**
@@ -502,22 +502,22 @@ export class MainChatComponent implements OnInit {
     console.log(this.channelsMessages);
   }
 
-  returnPrivateChats() {
-    const privateChatsData = this.sharedService.getPrivateChatsIds();
+  // returnPrivateChats() {
+  //   const privateChatsData = this.sharedService.getPrivateChatsIds();
 
-    this.privateChats = {};
+  //   this.privateChats = {};
 
-    for (const memberId in privateChatsData) {
-      if (privateChatsData.hasOwnProperty(memberId)) {
-        this.privateChats[memberId] = {
-          messagesUser: privateChatsData[memberId].messagesUser || [],
-          messagesMembers: privateChatsData[memberId].messagesMembers || [],
-        };
-        console.log(this.privateChats);
-      }
-    }
-    console.log(this.privateChats);
-  }
+  //   for (const memberId in privateChatsData) {
+  //     if (privateChatsData.hasOwnProperty(memberId)) {
+  //       this.privateChats[memberId] = {
+  //         messagesUser: privateChatsData[memberId].messagesUser || [],
+  //         messagesMembers: privateChatsData[memberId].messagesMembers || [],
+  //       };
+  //       console.log(this.privateChats);
+  //     }
+  //   }
+  //   console.log(this.privateChats);
+  // }
 
   /**
    * Returns selected messages of the channels from local storage
@@ -545,11 +545,13 @@ export class MainChatComponent implements OnInit {
     if (this.isChannelVisible && this.selectedChannel) {
       const channelId = this.selectedChannel.id;
       const channelMessages = this.channelsMessages[channelId];
-      return (
-        !!channelMessages &&
-        (channelMessages.messagesUser.length > 0 ||
-          channelMessages.messagesMembers.length > 0)
-      );
+      if (channelMessages.messagesUser) {
+        return (
+          !!channelMessages &&
+          (channelMessages.messagesUser.length > 0 ||
+            channelMessages.messagesMembers.length > 0)
+        );
+      }
     } else if (
       (this.isChatWithMemberVisible && this.selectedMember) ||
       (this.isPrivateChatVisible && this.selectedMember)
@@ -609,7 +611,7 @@ export class MainChatComponent implements OnInit {
         this.selectedFile = null;
         this.clearPreviewImage();
       }
-      this.returnPrivateChats();
+      // this.returnPrivateChats();
       this.stopAutoScroll();
     }
   }
