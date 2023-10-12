@@ -86,7 +86,6 @@ export class LoginComponent implements OnInit {
       this.playAnimation();
     }
     this.subUserList();
-    console.log(this.userArr);
   }
 
   onFocusEmail() {
@@ -108,27 +107,24 @@ export class LoginComponent implements OnInit {
     signInWithEmailAndPassword(this.auth, this.email, this.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        if (user.displayName && user.photoURL && user.email && user.uid) {
-          this.updateUserData(user);
-          this._router.navigateByUrl('/index');
+        if (user) {
+          this.updateUserDatainService(user);
+          this.routeToMainPage();
         }
       })
       .catch((error) => {
-        this.checkMail(error.code);
-        this.checkPassword(error.code);
-        this.checkLogin(error.code);
-        this.checkRequests(error.code);
+        this.checkIfMailError(error.code);
+        this.checkIfPasswordError(error.code);
+        this.checkIfLoginError(error.code);
+        this.checkIfRequestsError(error.code);
       });
   }
 
   guestLogin() {
     signInAnonymously(this.auth)
       .then(() => {
-        this.UserService.userObject.name = 'Guest';
-        this.UserService.userObject.photoURL =
-          '../../assets/img/avatars/person.svg';
-        this.UserService.userObject.email = 'guest@guest.de';
-        this._router.navigateByUrl('/index');
+        this.updateUserDataAsGuest();
+        this.routeToMainPage();
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -141,10 +137,10 @@ export class LoginComponent implements OnInit {
     signInWithPopup(this.auth, this.provider)
       .then((result) => {
         const user = result.user;
-        if (user.displayName && user.photoURL && user.email && user.uid) {
-          this.updateUserData(user);
+        if (user) {
+          this.updateUserDatainService(user);
           this.checkGoogleInDatabase(user);
-          this._router.navigateByUrl('/index');
+          this.routeToMainPage();
         }
       })
       .catch((error) => {
@@ -159,7 +155,7 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  checkMail(error: string) {
+  checkIfMailError(error: string) {
     if (error === 'auth/invalid-email') {
       this.mailError = true;
     }
@@ -168,13 +164,13 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  checkPassword(error: string) {
+  checkIfPasswordError(error: string) {
     if (error === 'auth/missing-password') {
       this.pwdError = true;
     }
   }
 
-  checkLogin(error: string) {
+  checkIfLoginError(error: string) {
     if (error === 'auth/invalid-login-credentials') {
       this.loginCredentialsError = true;
     }
@@ -183,7 +179,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  checkRequests(error: string) {
+  checkIfRequestsError(error: string) {
     if (error === 'auth/too-many-requests') {
       this.requestsError = true;
     }
@@ -213,11 +209,18 @@ export class LoginComponent implements OnInit {
     this.animationPlayed = true;
   }
 
-  updateUserData(user: any) {
+  updateUserDatainService(user: any) {
     this.UserService.userObject.name = user.displayName;
     this.UserService.userObject.photoURL = user.photoURL;
     this.UserService.userObject.email = user.email;
     this.UserService.userObject.uid = user.uid;
+  }
+
+  updateUserDataAsGuest() {
+    this.UserService.userObject.name = 'Guest';
+    this.UserService.userObject.photoURL =
+      '../../assets/img/avatars/person.svg';
+    this.UserService.userObject.email = 'guest@guest.de';
   }
 
   subUserList() {
@@ -252,5 +255,9 @@ export class LoginComponent implements OnInit {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  routeToMainPage() {
+    this._router.navigateByUrl('/index');
   }
 }

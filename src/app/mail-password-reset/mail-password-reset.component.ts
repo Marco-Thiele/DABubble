@@ -64,33 +64,51 @@ export class MailPasswordResetComponent {
   }
 
   resetPassword() {
-    if (this.newPassword === this.confirmedPassword) {
-      this.pwdMatch = true;
-      if (!this.checkPasswordLength()) {
-        this.passwordLengthError = true;
+    if (this.passwordMatches()) {
+      this.setPasswordMatchesToTrue();
+      if (this.passwordLengthTooShort()) {
+        this.setPasswordLengthError();
       }
-      if (this.checkPasswordLength())
-        confirmPasswordReset(this.auth, this.oobCode, this.newPassword)
-          .then(() => {
-            this.startAnimation();
-            this.routeToLogin();
-          })
-          .catch((error) => {
-            console.error('Password reset error:', error);
-          });
+      if (this.passwordLengthIsEnough()) {
+        this.changePassword();
+      }
     } else {
-      this.pwdMatch = false;
+      this.passwordsDontMatch();
     }
   }
 
-  checkPasswordLength() {
-    if (this.newPassword.length < 8 && this.confirmedPassword.length < 8) {
+  changePassword() {
+    confirmPasswordReset(this.auth, this.oobCode, this.newPassword)
+      .then(() => {
+        this.startAnimation();
+        this.routeToLogin();
+      })
+      .catch((error) => {
+        console.error('Password reset error:', error);
+      });
+  }
+
+  passwordsDontMatch() {
+    this.pwdMatch = false;
+  }
+
+  passwordLengthIsEnough() {
+    if (this.newPassword.length >= 8 && this.confirmedPassword.length >= 8) {
+      return true;
+    } else {
       return false;
     }
-    if (this.newPassword.length >= 8 && this.confirmedPassword.length >= 8) {
+  }
+
+  passwordLengthTooShort() {
+    if (this.newPassword.length < 8 && this.confirmedPassword.length < 8) {
       return true;
     }
     return false;
+  }
+
+  setPasswordLengthError() {
+    this.passwordLengthError = true;
   }
 
   startAnimation() {
@@ -105,5 +123,17 @@ export class MailPasswordResetComponent {
     setTimeout(() => {
       this._router.navigateByUrl('/login');
     }, 1500);
+  }
+
+  passwordMatches() {
+    if (this.newPassword === this.confirmedPassword) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  setPasswordMatchesToTrue() {
+    this.pwdMatch = true;
   }
 }

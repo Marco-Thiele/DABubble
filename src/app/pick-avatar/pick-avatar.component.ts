@@ -48,13 +48,13 @@ export class PickAvatarComponent {
 
   updateUser() {
     if (this.currentUser) {
-      updateProfile(this.auth.currentUser!, {
+      updateProfile(this.currentUser, {
         displayName: this.UserService.userObject.name,
         photoURL: this.UserService.userObject.photoURL,
       })
         .then(() => {
           this.updateUserinDatabase();
-          this._router.navigateByUrl('/index');
+          this.routeToMainPage();
         })
         .catch((error) => {
           console.log('Update Error');
@@ -75,5 +75,9 @@ export class PickAvatarComponent {
     {
       return doc(collection(this.firestore, 'users'), this.UserService.docId);
     }
+  }
+
+  routeToMainPage() {
+    this._router.navigateByUrl('/index');
   }
 }

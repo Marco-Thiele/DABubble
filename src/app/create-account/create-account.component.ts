@@ -83,23 +83,23 @@ export class CreateAccountComponent implements OnInit {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user.email) {
-          this.updateUserObject(user);
+          this.updateUserDatainService(user);
           this.addUserToDatabase(user);
           this.startAnimation();
           this.routeToAvatarSelection();
         }
       })
       .catch((error) => {
-        this.checkNameError();
-        this.checkEmailError();
-        this.checkPwdError();
-        if (!this.mailError && !this.pwdError && !this.nameError) {
+        this.checkIfNameError();
+        this.checkIfEmailError();
+        this.checkIfPwdError();
+        if (this.noError()) {
           this.mailError = true;
         }
       });
   }
 
-  checkNameError() {
+  checkIfNameError() {
     if (this.name.length < 1) {
       this.nameError = true;
     }
@@ -108,14 +108,22 @@ export class CreateAccountComponent implements OnInit {
     }
   }
 
-  checkEmailError() {
+  noError() {
+    if (!this.mailError && !this.pwdError && !this.nameError) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkIfEmailError() {
     if (this.email.includes('@')) {
       this.mailError = false;
     }
     if (!this.email.includes('@')) this.mailError = true;
   }
 
-  checkPwdError() {
+  checkIfPwdError() {
     if (this.password.length < 8) {
       this.pwdError = true;
       if (this.password.length >= 8) {
@@ -154,7 +162,7 @@ export class CreateAccountComponent implements OnInit {
     return collection(this.firestore, 'users');
   }
 
-  updateUserObject(user: any) {
+  updateUserDatainService(user: any) {
     this.UserService.userObject.name = this.name;
     this.UserService.userObject.email = user.email;
     this.UserService.userObject.uid = user.uid;

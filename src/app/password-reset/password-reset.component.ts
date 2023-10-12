@@ -47,7 +47,7 @@ export class PasswordResetComponent {
   }
 
   recoverUser() {
-    if (this.checkMail()) {
+    if (this.mailIsValid()) {
       sendPasswordResetEmail(this.auth, this.email)
         .then(() => {
           this.startAnimation();
@@ -61,7 +61,7 @@ export class PasswordResetComponent {
     }
   }
 
-  checkMail() {
+  mailIsValid() {
     if (this.email.length > 3 && this.email.includes('@')) {
       this.mailError = false;
       return true;
