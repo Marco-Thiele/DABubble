@@ -1,9 +1,20 @@
 import { Component } from '@angular/core';
 import { DialogService } from '../dialog.service';
 import { UserService } from '../user.service';
-import { getAuth, updateEmail, updateProfile } from '@angular/fire/auth';
+import {
+  getAuth,
+  updateEmail,
+  updateProfile,
+  setPersistence,
+  browserSessionPersistence,
+  Persistence,
+  checkActionCode,
+  applyActionCode,
+  sendPasswordResetEmail
+} from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profil',
@@ -18,15 +29,22 @@ export class EditProfilComponent {
   newName: any;
   newEmail: any;
   auth = getAuth();
-  currentUser = this.auth.currentUser;
+  currentUser: any;
+  actionCode = '';
+  restoredEmail:any = null;
+  // 'de';
 
   constructor(
     private dialogService: DialogService,
-    public UserService: UserService
+    public UserService: UserService, private route: ActivatedRoute, private _router: Router
   ) {
     this.profilName = UserService.getName();
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
+    this.currentUser = this.auth.currentUser;
+    this.route.queryParams.subscribe((params) => {
+      this.actionCode = params['oobCode'];
+    });
   }
 
   closeDialog() {
@@ -36,7 +54,7 @@ export class EditProfilComponent {
   saveChanges() {
     console.log(this.newName);
     this.updateUser();
-    //this.changeEmail ()
+    this.changeEmail();
   }
 
   updateUser() {
@@ -60,21 +78,52 @@ export class EditProfilComponent {
     }
   }
 
-  //  changeEmail (){
-  //   user.sendEmailVerification()
-  //   .then(() => {
-  //     // E-Mail-Verifizierung erfolgreich gesendet
-  //     console.log('E-Mail-Verifizierung an', this.newEmail, 'gesendet');
+  async changeEmail() {
+    this.handleRecoverEmail()
+    // await setPersistence(this.auth, this.sessionPersistence);
 
-  //     // Nach dem Senden der Verifizierungs-E-Mail können Sie die E-Mail aktualisieren
-  //     return user.updateEmail(this.newEmail);
-  //   })
-  //   .then(() => {
-  //     // Email updated!
-  //     console.log('email updated', this.newEmail)
-  //   }).catch((error) => {
-  //     // An error occurred
-  //     console.log(error);
-  //   });
-  //  }
+    // // Der Rest Ihres Codes bleibt unverändert
+    // updateEmail(this.currentUser, this.newEmail)
+    //   .then(() => {
+    //     console.log('E-Mail-Adresse erfolgreich aktualisiert.');
+    //   })
+    //   .catch(error => {
+    //     console.error('Fehler beim Aktualisieren der E-Mail-Adresse:', error);
+    //   });
+  }
+
+
+
+
+
+  handleRecoverEmail() {
+  // Localize the UI to the selected language as determined by the lang
+  // parameter.
+  // let restoredEmail = null;
+  // Confirm the action code is valid.
+  checkActionCode(this.auth, this.actionCode).then((info) => {
+    // Get the restored email address.
+    this.restoredEmail = info['data']['email'];
+
+    // Revert to the old email.
+    return applyActionCode(this.auth, this.actionCode);
+  }).then(() => {
+    // Account email reverted to restoredEmail
+
+    // TODO: Display a confirmation message to the user.
+
+    // You might also want to give the user the option to reset their password
+    // in case the account was compromised:
+    sendPasswordResetEmail(this.auth, this.restoredEmail).then(() => {
+      // Password reset confirmation sent. Ask user to check their email.
+    }).catch((error) => {
+      // Error encountered while sending password reset code.
+      console.log(error);
+      
+    });
+  }).catch((error) => {
+    // Invalid code.
+    console.log(error);
+  });
+}
 }
