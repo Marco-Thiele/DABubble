@@ -1,20 +1,12 @@
 import { Component } from '@angular/core';
 import { DialogService } from '../dialog.service';
 import { UserService } from '../user.service';
-import {
-  getAuth,
-  updateEmail,
-  updateProfile,
-  setPersistence,
-  browserSessionPersistence,
-  Persistence,
-  checkActionCode,
-  applyActionCode,
-  sendPasswordResetEmail
-} from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
+import {getAuth, updateProfile,} from '@angular/fire/auth';
+import { Firestore, collection, doc, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { userData } from '../models/userData';
+
+
 
 @Component({
   selector: 'app-edit-profil',
@@ -30,32 +22,43 @@ export class EditProfilComponent {
   newEmail: any;
   auth = getAuth();
   currentUser: any;
-  actionCode = '';
-  restoredEmail:any = null;
-  // 'de';
+  docRef: any;
+  id:any;
+  user:userData= new userData()
 
   constructor(
-    private dialogService: DialogService,
-    public UserService: UserService, private route: ActivatedRoute, private _router: Router
-  ) {
+    private dialogService: DialogService, public UserService: UserService,) {
     this.profilName = UserService.getName();
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
     this.currentUser = this.auth.currentUser;
-    this.route.queryParams.subscribe((params) => {
-      this.actionCode = params['oobCode'];
-    });
+    this.id = UserService.getId()
+    console.log(this.id);
+    
+    onSnapshot(this.getUsersCollection(), (list) => {
+      list.forEach((element) =>{
+        console.log(element.data());
+      })
+    })
+    
+  }
+
+
+  getUsersCollection() {
+    return collection(this.firestore, 'users')
   }
 
   closeDialog() {
     this.dialogService.closeDialog();
   }
 
+
   saveChanges() {
     console.log(this.newName);
     this.updateUser();
-    this.changeEmail();
+    // this.changeEmailAndName();
   }
+
 
   updateUser() {
     if (this.currentUser) {
@@ -78,52 +81,18 @@ export class EditProfilComponent {
     }
   }
 
-  async changeEmail() {
-    this.handleRecoverEmail()
-    // await setPersistence(this.auth, this.sessionPersistence);
 
-    // // Der Rest Ihres Codes bleibt unverändert
-    // updateEmail(this.currentUser, this.newEmail)
-    //   .then(() => {
-    //     console.log('E-Mail-Adresse erfolgreich aktualisiert.');
-    //   })
-    //   .catch(error => {
-    //     console.error('Fehler beim Aktualisieren der E-Mail-Adresse:', error);
-    //   });
-  }
+  // async changeEmailAndName() {
+  //   this.docRef = doc(this.firestore, 'users', this.id);
+  //   await updateDoc(this.docRef, this.user.toJson())
+  // .then(()=>{
+  //   console.log('UpdateDoc',this.user);
+    
+  // });
+  //}
 
 
 
 
 
-  handleRecoverEmail() {
-  // Localize the UI to the selected language as determined by the lang
-  // parameter.
-  // let restoredEmail = null;
-  // Confirm the action code is valid.
-  checkActionCode(this.auth, this.actionCode).then((info) => {
-    // Get the restored email address.
-    this.restoredEmail = info['data']['email'];
-
-    // Revert to the old email.
-    return applyActionCode(this.auth, this.actionCode);
-  }).then(() => {
-    // Account email reverted to restoredEmail
-
-    // TODO: Display a confirmation message to the user.
-
-    // You might also want to give the user the option to reset their password
-    // in case the account was compromised:
-    sendPasswordResetEmail(this.auth, this.restoredEmail).then(() => {
-      // Password reset confirmation sent. Ask user to check their email.
-    }).catch((error) => {
-      // Error encountered while sending password reset code.
-      console.log(error);
-      
-    });
-  }).catch((error) => {
-    // Invalid code.
-    console.log(error);
-  });
-}
 }
