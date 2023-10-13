@@ -10,6 +10,7 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { MailPasswordResetComponent } from './mail-password-reset/mail-password-reset.component';
 import { PickAvatarComponent } from './pick-avatar/pick-avatar.component';
+import { ImpressumComponent } from './impressum/impressum.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'pick-avatar', component: PickAvatarComponent },
   { path: 'recover', component: PasswordResetComponent },
   { path: 'mail-recover', component: MailPasswordResetComponent },
+  { path: 'impressum', component: ImpressumComponent },
   {
     path: 'index',
     component: GeneralViewComponent,
