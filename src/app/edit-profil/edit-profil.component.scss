@@ -96,3 +96,16 @@ input {
     cursor: pointer;
     border: unset;
 }
+
+.position-email{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.current-email{
+    margin-left: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(19, 129, 255, 1);
+}

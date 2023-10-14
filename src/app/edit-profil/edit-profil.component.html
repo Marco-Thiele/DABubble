@@ -22,12 +22,13 @@
     </div>
 
     <div class="profil-email">
-       <div>
+       <div class="position-email">
         <img src="../../assets/icons/mail.svg" alt="">
         E-Mail-Adresse
        </div> 
-        <div>
-            <input type="email" [(ngModel)]="newEmail" placeholder="{{ profilEmail }}">
+        <div class="current-email">
+            <!-- <input type="email" [(ngModel)]="newEmail" placeholder="{{ profilEmail }}"> -->
+            {{ profilEmail }}
         </div>
     </div>
 
