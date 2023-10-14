@@ -11,6 +11,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { MailPasswordResetComponent } from './mail-password-reset/mail-password-reset.component';
 import { PickAvatarComponent } from './pick-avatar/pick-avatar.component';
 import { ImpressumComponent } from './impressum/impressum.component';
+import { DataPolicyComponent } from './data-policy/data-policy.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'recover', component: PasswordResetComponent },
   { path: 'mail-recover', component: MailPasswordResetComponent },
   { path: 'impressum', component: ImpressumComponent },
+  { path: 'data-policy', component: DataPolicyComponent },
   {
     path: 'index',
     component: GeneralViewComponent,

@@ -47,6 +47,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { UserProfilComponent } from './user-profil/user-profil.component';
 import { ImpressumComponent } from './impressum/impressum.component';
+import { DataPolicyComponent } from './data-policy/data-policy.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ImpressumComponent } from './impressum/impressum.component';
     EditProfilComponent,
     UserProfilComponent,
     ImpressumComponent,
+    DataPolicyComponent,
   ],
   imports: [
     BrowserModule,
