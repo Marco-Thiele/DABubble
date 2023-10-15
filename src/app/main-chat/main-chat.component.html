@@ -1,0 +1,275 @@
+<!--Main chat-head channel-->
+<div class="head-member-container" *ngIf="isChannelVisible && selectedChannel">
+  <div class="head-title-channel" (click)="editChannel(selectedChannel)"
+    [style.background-color]="isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'">
+    <div class="title-channel">
+      <div class="title-hashtag">
+        <div class="hashtag"
+          [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/tag_blue.svg)' : 'url(/assets/icons/tag.svg)'">
+        </div>
+        <span class="title font700-normal" [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'">{{
+          selectedChannel.name }}</span>
+        <div class="head-arrow-cont">
+          <div
+            [style.background-image]="isEditChannelOpen() ? 'url(/assets/icons/keyboard_arrow_down_blue.svg)' : 'url(/assets/icons/keyboard_arrow_down.svg)'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="members-add-container">
+    <div class="members-cont" (click)="showMembers()">
+      <div class="members" *ngFor="let member of selectedChannel.members">
+        <img [src]="member.imgProfil">
+      </div>
+    </div>
+    <span class="font600-normal">{{ selectedChannel.members.length }}</span>
+    <div class="add-member-cont" (click)="addMembers()">
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<!--Main chat-head new chat-->
+<div class="head-new-message-cont" *ngIf="isNewMessageVisible">
+  <div class="head-new-message-title">
+    <span class="font700-normal">Neue Nachricht</span>
+  </div>
+  <div class="head-new-message-searchbar" [class.focused]="isFocused">
+    <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" (focus)="inputFocused()"
+      (blur)="inputBlurred()" (input)="searchInLocalStorage($event)">
+  </div>
+</div>
+
+<div class="head-new-direct-message-cont" *ngIf="isChatWithMemberVisible || isPrivateChatVisible && selectedMember">
+  <div class="head-new-direct-message">
+    <div class="new-direct-message-img">
+      <div class="head-photo">
+        <img src="{{selectedMember.imgProfil}}">
+        <div class="online"></div>
+      </div>
+    </div>
+    <span class="font700-normal">{{ selectedMember.name }}</span>
+  </div>
+</div>
+
+<div class="chat-container">
+  <div class="inner-container"
+    *ngIf="isChannelVisible && selectedChannel || isNewMessageVisible || isChatWithMemberVisible && selectedMember || isPrivateChatVisible && selectedMember"
+    #chatContainer (scroll)="handleScroll($event)">
+
+    <!--Main chat principal-->
+    <div *ngIf="isNewMessageVisible">
+      <div *ngIf="memberMatches.length > 0">
+        <div *ngFor="let member of memberMatches">
+          <span>{{member.name}}</span>
+        </div>
+      </div>
+      <div *ngIf="channelMatches.length > 0">
+        <div *ngFor="let channel of channelMatches">
+          <span>{{channel.name}}</span>
+        </div>
+      </div>
+    </div>
+    <!--Text for the beginning of creating a channel.-->
+    <div class="beginning-chat-cont" *ngIf="isChannelVisible">
+      <div class="title-hashtag">
+        <div class="hashtag">
+        </div>
+        <span class="title font700-normal">{{ selectedChannel.name }}</span>
+      </div>
+      <div class="beginning-description">
+        <span class="font400-normal descrip-text">Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels
+          <span class="font400-normal"><a style="font-size: 22px;">#</a>&nbsp;<a>Office-team</a>.</span>
+        </span>
+      </div>
+    </div>
+
+
+    <!--Time-line-->
+
+    <!-- <div class="time-separator">
+      <div class="time-line">
+      </div>
+      <div class="time-day">
+        <span class="font400-normal">
+          heute
+        </span>
+      </div>
+    </div> -->
+    <!--Container to write private messages-->
+
+    <!-- <div class="privat-chat-container" *ngIf="isPrivatChatContainerVisible"> -->
+    <div class="beginning-private-chat" *ngIf="isChatWithMemberVisible">
+      <div class="private-chat-member" *ngFor="let selectedMember">
+        <div class="private-message-img">
+          <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
+          </div>
+        </div>
+        <a class="font700-normal">{{ selectedMember.name }} </a>
+      </div>
+      <div class="description-private-msg" *ngIf="isChatWithMemberVisible">
+        <span class="font400-normal">Diese Unterhaltung findet nur zwischen <a class="font400-normal">@{{
+            selectedMember.name }} &nbsp;</a>und dir statt.</span>
+      </div>
+      <div class="private-chat-user" *ngIf="isPrivateChatVisible">
+        <div class="private-message-img">
+          <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'">
+          </div>
+        </div>
+        <a class="font700-normal">{{
+          selectedMember.name }}</a>
+      </div>
+      <div class="description-private-msg-user" *ngIf="isPrivateChatVisible">
+        <span class="font700-normal">Dieser Raum ist nur für dich da. <a class="font400-normal">ache dir Notizen,
+            liste
+            deine To-dos auf oder
+            bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst
+            besprechen.</a></span>
+      </div>
+    </div>
+    <!-- </div> -->
+
+    <!--Container for the member's chat-->
+
+    <div class="message-members-box-cont" *ngFor="let message of getSelectedMessages()">
+      <ng-container *ngIf="message.userName !== userService.getName()">
+        <div class="message-reaction-people">
+          <div class="reaction-icon">
+            <div class="icon-tick"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-hands"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-smile"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-message"></div>
+          </div>
+        </div>
+        <div class="message-user-img">
+          <div [style.background-image]="'url(' + message.profileImg + ')'"></div>
+        </div>
+        <div class="message-members-box">
+          <div class="message-user-name">
+            <a class="font700-normal">{{message.name}}</a>
+            <span class="font400-normal">{{message.time}}</span>
+          </div>
+          <div class="message-members-speech">
+            <span class="font400-normal">{{message.text}}</span>
+            <img src="{{message.imageUrl}}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
+              [style.margin-top]="message.imageUrl ? '8px': '0px'">
+          </div>
+          <div class="message-members-answers">
+            <span class="font400-normal">2 Antworten</span>
+            <a class="font400-normal">Letzte Antwort 14:56</a>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+
+    <!--Container for the user's chat-->
+
+    <div class="message-user-box-cont" *ngFor="let message of getSelectedMessages()">
+      <ng-container *ngIf="message.userName === userService.getName()">
+        <div class="message-reaction-people">
+          <div class="reaction-icon">
+            <div class="icon-tick"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-hands"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-smile"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-message"></div>
+          </div>
+          <div class="reaction-icon">
+            <div class="icon-points"></div>
+          </div>
+        </div>
+        <div class="message-user-box">
+          <div class="message-user-name">
+            <span class="font400-normal">{{ message.time }}</span>
+            <a class="font700-normal">{{ message.userName }}</a>
+          </div>
+          <div class="message-user-speech">
+            <span class="font400-normal">{{ message.text }}</span>
+            <img src="{{message.imageUrl}}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
+              [style.margin-top]="message.imageUrl ? '8px': '0px'">
+          </div>
+          <div class="message-user-reaction">
+            <div>
+              <div class="reaction">
+                <div class="reaction-usser">
+                  <div class="reaction-usser-icon"></div>
+                  <div class="reaction-names-cont">
+                    <span class="reaction-name font700-normal">Sofia Müller</span>
+                    <span class="reaction-text font400-normal">hat reagiert</span>
+                  </div>
+                </div>
+                <div class="rocket"></div>
+                <span class="font400-normal">1</span>
+              </div>
+            </div>
+            <div>
+
+              <!-- <div class="reaction">
+            <div class="tick"></div>
+            <span class="font400-normal">1</span>
+          </div> -->
+            </div>
+            <div class="add-reaction">
+              <div></div>
+            </div>
+          </div>
+        </div>
+        <div class="message-user-img">
+          <div [style.background-image]="'url(' + message.profileImg + ')'"></div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+
+
+<!--Container to write in chat-->
+<div class="message-box-cont" *ngIf="messageBox">
+  <div class="message-box" [class.focused]="taIsFocused">
+    <textarea class="font400-normal auto-resizable-textarea" placeholder="{{placeholderMessageBox}}"
+      (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="inputFocused()" (focus)="textAreaFocused()"
+      (blur)="textAreaBlurred()"></textarea>
+    <div class="image-preview-cont" #imagePreviewCont [style.display]="imageLoaded ? 'block' : 'none'">
+      <img id="image-preview" #imagePreview />
+      <div (click)="removeFileSelected()"></div>
+    </div>
+
+    <div class="send-mesg-box">
+      <div class="send-msg-icons">
+        <div class="icon-plus icons" (click)="fileInput.click()">
+          <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none" />
+          <div></div>
+        </div>
+        <div class="icons-line"></div>
+        <div class="icon-s icons" (click)="toggleEmojiPicker()">
+          <div></div>
+        </div>
+        <div>
+          <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
+            title="Pick your emoji…"></emoji-mart>
+        </div>
+        <div class="icon-et icons">
+          <div></div>
+        </div>
+      </div>
+
+      <div class="send-msg" *ngIf="sendChannel" (click)="sendChannelMsg()"></div>
+      <div class="send-msg" *ngIf="sendPrivate" (click)="sendPrivateMsg()"></div>
+    </div>
+  </div>
+</div>

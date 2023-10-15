@@ -1,0 +1,136 @@
+.general-view-container {
+  width: -webkit-fill-available;
+  display: flex;
+  height: calc(100% - 141px);
+  padding: 20px 20px 25px 20px;
+  gap: 20px;
+}
+
+.channels-container {
+  height: -webkit-fill-available;
+  background-color: #fff;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.channels-container.open {
+  width: 19%;
+  padding: 32px 30px;
+  opacity: 1;
+  overflow: hidden;
+  transition: all 1s ease-in-out;
+}
+
+.channels-container.closed {
+  width: 0;
+  padding: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 1s ease-in-out;
+}
+
+.main-chat-container {
+  height: -webkit-fill-available;
+  background-color: #fff;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.main-chat-container.bigger {
+  width: 74.8%;
+}
+
+.main-chat-container.smaller {
+  width: 51.5%;
+}
+
+.secondary-chat-container {
+  width: 25.2%;
+  height: -webkit-fill-available;
+  background-color: #fff;
+  border-radius: 30px;
+}
+
+// Workspace menü botton
+
+.workspace-menu-cont {
+  position: absolute;
+  left: -160px;
+  bottom: 210px;
+  width: 324px;
+  height: 46px;
+  display: inline-flex;
+  padding: 14px 23px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 0px 0px 30px 30px;
+  background: var(--White, #fff);
+  box-shadow: -4px 4px 7px 0px rgba(0, 0, 0, 0.2);
+  transform: rotate(-90deg);
+}
+
+.workspace-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  cursor: pointer;
+
+  span {
+    display: flex;
+    width: 260px;
+    color: var(--Black, #000);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+  }
+
+  div.open {
+    background-image: url(/assets/icons/menu-close.svg);
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+    transform: rotate(90deg);
+  }
+
+  div.closed {
+    background-image: url(/assets/icons/menu-open.svg);
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+    transform: rotate(90deg);
+  }
+
+  &:hover {
+    span {
+      color: var(--Blue, #3f51b5);
+    }
+    div.open {
+      background-image: url(/assets/icons/menu-close-blue.svg);
+      background-size: cover;
+      width: 17px;
+      height: 17px;
+    }
+
+    div.closed {
+      background-image: url(/assets/icons/menu-open-blue.svg);
+      background-size: cover;
+      width: 17px;
+      height: 17px;
+    }
+  }
+}
+
+.display-none {
+  display: none;
+}

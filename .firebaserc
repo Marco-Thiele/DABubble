@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "dabubble-a107b": {
+      "hosting": {
+        "DABubble": [
+          "dabubble-a107b"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "dabubble-a107b"
+  }
+}

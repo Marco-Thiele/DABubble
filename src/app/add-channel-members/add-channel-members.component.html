@@ -1,0 +1,38 @@
+<div class="add-channel-members-cont">
+  <div class="add-members-head">
+    <div class="head-title">
+      <span class="font700-normal">Leute Hinzufügen</span>
+      <div class="channel-close" (click)="closeAddMembers()">
+        <div></div>
+      </div>
+    </div>
+    <div class="add-members-channel-name">
+      <div></div>
+      <span class="font400-normal">{{channel.name}}</span>
+    </div>
+  </div>
+
+  <div class="add-member-add-name">
+    <input placeholder="Name eingeben" (input)="searchInLocalStorage($event)">
+  </div>
+
+  <div *ngIf="memberName && memberMatches.length > 0" class="member-matches">
+    <div *ngFor="let match of memberMatches" class="member-match-cont">
+      <img [src]="match.imgProfil" [alt]="match.name">
+      <span (click)="toggleMemberSelection(match)" [class.selected]="match.selected"> {{ match.name }} </span>
+    </div>
+  </div>
+
+  <div *ngIf="selectedMembers.length > 0" class="selected-members">
+    <div *ngFor="let member of selectedMembers" class="selected-member">
+      <img [src]="member.imgProfil" [alt]="member.name">
+      <span class="font400-normal">{{ member.name }}</span>
+      <div class="cancelMember" (click)="removeSelectedMember(member)"></div>
+    </div>
+  </div>
+
+  <div class="add-members-button" (click)="addMember()" [style.background-color]="buttonColor"
+    [attr.disabled]="isButtonDisabled ? true : null">
+    <span class="font700-normal">Hinzufügen</span>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="create-channel-container">
+  <div class="create-channel-title-cont">
+    <span class="font700-normal">Channel erstellen</span>
+    <div class="close-create-channel" (click)="closeCreateChannel()">
+      <div></div>
+    </div>
+  </div>
+  <span class="create-channel-description font400-normal">Channels dienen deinem Team zur Kommunikation. Am besten
+    sollten
+    sie
+    themenbezogen sein #marketing zum Beispiel.</span>
+  <div class="create-channel-name">
+    <span class="font700-normal">Channel-Name</span>
+    <div class="input-channel-name-cont" [ngClass]="{'focused': isInputNameFocused}">
+      <img src="assets/icons/tag-grey.svg">
+      <input type="text" placeholder="z.B. Kooperationsprojekte" (focus)="isInputNameFocused = true"
+        (blur)="isInputNameFocused = false" class="font400-normal" [(ngModel)]="channel.name">
+    </div>
+  </div>
+  <div class="create-channel-name">
+    <span class="font700-normal">Beschreibung (optional)</span>
+    <div class="input-channel-name-cont" [ngClass]="{'focused': isInputDescriptionFocused}">
+      <textarea type="text" placeholder="Dein Text hier" (focus)="isInputDescriptionFocused = true"
+        (blur)="isInputDescriptionFocused = false" class="font400-normal auto-resizable-textarea"
+        (input)="onTextareaInput($event)" [(ngModel)]="channel.description"></textarea>
+    </div>
+  </div>
+  <div class="button-create-cont">
+    <span class="font700-normal" (click)="createChannel()">Erstellen</span>
+  </div>
+</div>

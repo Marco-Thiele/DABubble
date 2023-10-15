@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: -webkit-fill-available;
+}
+body {
+  margin: 0;
+  font-family: "Nunito" !important;
+  background-color: #eceefe;
+}
+
+@import "@ctrl/ngx-emoji-mart/picker";
+
+.font700-normal {
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.font600-normal {
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.font400-normal {
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
+.auto-resizable-textarea {
+  min-height: 25px;
+  resize: none;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+body.dialog-open {
+  overflow: hidden;
+}
