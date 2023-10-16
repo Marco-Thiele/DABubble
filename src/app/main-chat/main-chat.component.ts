@@ -473,16 +473,18 @@ export class MainChatComponent implements OnInit {
    * Returns the messages of the channels from server
    */
   returnChannelsMessages() {
-    const channelData = this.sharedService.getChannelsIds();
-    this.channelsMessages = {};
+    this.sharedService.ChannelChatList(this.selectedChannel); // Reemplaza 'channelId' con el ID del canal que desees obtener.
 
-    for (const channelId in channelData) {
-      if (channelData.hasOwnProperty(channelId)) {
-        this.channelsMessages[channelId] = {
-          chat: channelData[channelId].chat || [],
-        };
-      }
-    }
+    // const channelData = this.sharedService.getChannelsIds();
+    // this.channelsMessages = {};
+
+    // for (const channelId in channelData) {
+    //   if (channelData.hasOwnProperty(channelId)) {
+    //     this.channelsMessages[channelId] = {
+    //       chat: channelData[channelId].chat || [],
+    //     };
+    //   }
+    // }
   }
 
   /**

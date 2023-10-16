@@ -173,7 +173,7 @@
 
     <!--Container for the user's chat-->
 
-    <div class="message-user-box-cont" *ngFor="let message of getSelectedMessages()">
+    <div class="message-user-box-cont" *ngFor="let message of selectedChannel?.chat">
       <ng-container *ngIf="message.userName === userService.getName()">
         <div class="message-reaction-people">
           <div class="reaction-icon">

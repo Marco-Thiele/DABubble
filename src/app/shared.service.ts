@@ -102,6 +102,33 @@ export class SharedService implements OnInit {
     }
   }
 
+  async ChannelChatList(channelId: string) {
+    console.log('subChannelChatList');
+    const querySnapshot = await getDocs(
+      query(
+        collection(this.firestore, 'channels'),
+        where('id', '==', channelId)
+      )
+    );
+
+    if (querySnapshot.empty) {
+      console.log('No matching documents.');
+      return;
+    }
+
+    const channelDoc: QueryDocumentSnapshot<DocumentData> =
+      querySnapshot.docs[0];
+    const channelData = channelDoc.data();
+    console.log(channelData);
+
+    // Aquí, en lugar de asignar los datos a selectedMember.chat, puedes asignarlos a otra variable que represente el chat del canal.
+    const channelChat = channelData['chat'];
+
+    if (channelChat && channelChat.length > 0) {
+      console.log(channelChat);
+    }
+  }
+
   //updates the array of channels in firestore
   getCleanJson(channel: any): {} {
     return {
