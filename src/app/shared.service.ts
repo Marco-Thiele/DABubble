@@ -11,6 +11,11 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  query,
+  where,
+  getDocs,
+  DocumentData,
+  QueryDocumentSnapshot,
 } from '@angular/fire/firestore';
 
 @Injectable({
@@ -68,6 +73,32 @@ export class SharedService implements OnInit {
         .then(() => {
           console.log('Document updated');
         });
+    }
+  }
+
+  async subChatList(selectedMember: any) {
+    console.log('subChatList');
+    const querySnapshot = await getDocs(
+      query(
+        collection(this.firestore, 'members'),
+        where('id', '==', selectedMember.id)
+      )
+    );
+
+    if (querySnapshot.empty) {
+      console.log('No matching documents.');
+      return;
+    }
+
+    const selectedMemberDoc: QueryDocumentSnapshot<DocumentData> =
+      querySnapshot.docs[0];
+    const memberData = selectedMemberDoc.data();
+    console.log(memberData);
+
+    selectedMember.chat = memberData['chat'];
+
+    if (selectedMember.chat && selectedMember.chat.length > 0) {
+      console.log(selectedMember.chat);
     }
   }
 

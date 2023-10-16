@@ -542,8 +542,12 @@ export class MainChatComponent implements OnInit {
       this.selectedFile = null;
       this.clearPreviewImage();
     }
-    this.returnChannelsMessages();
+    this.returnPrivatesMessagesFS();
     this.scrollToBottom();
+  }
+
+  returnPrivatesMessagesFS() {
+    this.sharedService.subChatList(this.selectedMember);
   }
 
   /**
