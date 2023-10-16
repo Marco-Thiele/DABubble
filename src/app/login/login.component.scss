@@ -67,13 +67,17 @@
 
 form {
   margin-top: 46px;
-  width: 500px;
+  width: 100%;
   height: 222px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 40px;
   align-items: center;
+  div:nth-of-type(1),
+  div:nth-of-type(2) {
+    width: 100%;
+  }
   input {
     align-items: center;
     gap: 10px;
@@ -94,7 +98,7 @@ form {
 .email-container,
 .pwd-container,
 .google {
-  width: 500px;
+  width: 100%;
   border-radius: 100px;
   display: flex;
   padding: 18px 32px;
@@ -180,7 +184,7 @@ form {
 }
 
 .btn-container {
-  width: 500px;
+  width: 100%;
   display: flex;
   justify-content: center;
   gap: 30px;
@@ -224,7 +228,7 @@ form {
 .policies {
   display: flex;
   position: absolute;
-  bottom: 48px;
+  bottom: 18px;
   gap: 16px;
   a {
     padding: 10px 15px;
@@ -279,4 +283,28 @@ form {
 
 .start-animation.none {
   display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .logo {
+    left: 35%;
+    top: 50px;
+  }
+  .reg-container {
+    right: 40%;
+    top: unset;
+    bottom: 50px;
+    font-size: 18px;
+
+    a {
+      text-align: center;
+      border: 0.5px solid gray;
+      border-radius: 14px;
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+  }
+  .policies {
+    display: none;
+  }
 }
