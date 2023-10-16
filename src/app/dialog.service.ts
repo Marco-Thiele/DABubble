@@ -16,76 +16,111 @@ export class DialogService {
 
   constructor(private overlay: Overlay) { }
 
+
+  /**
+   * Opens a new Component 
+   * 
+   * @param Component is the Component that will be opend
+   */
   openDialog(Component: any) {
-    // Erstellen Sie ein Overlay-Ref
-    if (this.showUserProfil == true) {
-      this.overlayRef = this.overlay.create({
-        positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-        hasBackdrop: true,
-      });
-      this.profil = true;
-      console.log('profil', this.profil)
-      // Erstellen Sie ein Portal für Ihre Dialogkomponente
-      const portal = new ComponentPortal(Component);
-
-      // Attachieren Sie das Portal an das Overlay-Ref
-      const componentRef = this.overlayRef.attach(portal);
-
-    }
-    if (this.profil == false) {
-      this.overlayRef = this.overlay.create({
-        positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-        hasBackdrop: true,
-      });
-      this.profil = true;
-      console.log('profil', this.profil)
-      // Erstellen Sie ein Portal für Ihre Dialogkomponente
-      const portal = new ComponentPortal(Component);
-
-      // Attachieren Sie das Portal an das Overlay-Ref
-      const componentRef = this.overlayRef.attach(portal);
-
-    } else {
-      this.overlayRefEdidt = this.overlay.create({
-        positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
-        hasBackdrop: true,
-      });
-      this.editProfil = true;
-      // Erstellen Sie ein Portal für Ihre Dialogkomponente
-      const portal = new ComponentPortal(Component);
-
-      // Attachieren Sie das Portal an das Overlay-Ref
-      const componentRef = this.overlayRefEdidt.attach(portal);
-
-    }
-
-    if (this.profil == true){
-      this.overlayRef.backdropClick().subscribe(() => {
-        if (this.profil == true && this.editProfil == false){
-        this.overlayRef.detach(); // Schließen Sie den Dialog, wenn auf den Hintergrund geklickt wird
-        this.profil = false;
-        }
-      });
-    }
-    
-    if (this.editProfil == true) {
-      this.overlayRefEdidt.backdropClick().subscribe(() => {
-        if (this.editProfil == true) {
-        this.overlayRefEdidt.detach(); // Schließen Sie den Dialog, wenn auf den Hintergrund geklickt wird
-        this.editProfil = false;
-      }
-      });
-    }
-    
+    if (this.showUserProfil == true)
+      this.openDialogComponent(Component, this.overlayRef)
+    if (this.profil == false)
+      this.openDialogProfilComponent(Component)
+    else
+      this.openDialogEdidtComponent(Component);
+    if (this.profil == true)
+      this.profilBackDrop()
+    if (this.editProfil == true)
+      this.edidtBackDrop()
   }
 
 
+  /**
+   * Opens the User-profil-component
+   * 
+   * @param Component The new component 
+   * @param overlayRef The variable this.overlayRef
+   */
+  openDialogComponent(Component: any, overlayRef: any) {
+    overlayRef = this.overlay.create({
+      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+      hasBackdrop: true,
+    });
+    this.profil = true;
+    const portal = new ComponentPortal(Component);
+    const componentRef = overlayRef.attach(portal);
+  }
+
+
+  /**
+   * Opens the Profil-component
+   * 
+   * @param Component The new component 
+   */
+  openDialogProfilComponent(Component: any) {
+    this.overlayRef = this.overlay.create({
+      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+      hasBackdrop: true,
+    });
+    this.profil = true;
+    const portal = new ComponentPortal(Component);
+    const componentRef = this.overlayRef.attach(portal);
+  }
+
+
+  /**
+   * Opens the Profil-edidt-component
+   * 
+   * @param Component The new component 
+   */
+  openDialogEdidtComponent(Component: any) {
+    this.overlayRefEdidt = this.overlay.create({
+      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+      hasBackdrop: true,
+    });
+    this.editProfil = true;
+    const portal = new ComponentPortal(Component);
+    const componentRef = this.overlayRefEdidt.attach(portal);
+  }
+
+
+  /**
+   * Close the Profil-Component by backdropClick
+   * 
+   */
+  profilBackDrop() {
+    this.overlayRef.backdropClick().subscribe(() => {
+      if (this.profil == true && this.editProfil == false) {
+        this.overlayRef.detach(); // Schließen Sie den Dialog, wenn auf den Hintergrund geklickt wird
+        this.profil = false;
+      }
+    });
+  }
+
+
+  /**
+   * Close the Profil-Edidt-Component by backdropClick
+   * 
+   */
+  edidtBackDrop() {
+    this.overlayRefEdidt.backdropClick().subscribe(() => {
+      if (this.editProfil == true) {
+        this.overlayRefEdidt.detach(); // Schließen Sie den Dialog, wenn auf den Hintergrund geklickt wird
+        this.editProfil = false;
+      }
+    });
+  }
+
+
+  /**
+   * Close the current Component
+   * 
+   */
   closeDialog() {
-    // Schließen Sie das Overlay-Ref, um das Dialogfeld zu entfernen
-    if (this.profil == true ) {
+    if (this.profil == true) {
       this.overlayRef.detach();
       this.profil = false;
-      console.log('profil', this.profil)
     }
     if (this.editProfil == true) {
       this.overlayRefEdidt.detach();

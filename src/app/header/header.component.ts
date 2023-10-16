@@ -38,38 +38,72 @@ export class HeaderComponent {
       this.profilName = UserService.getName();
       this.profilImg = UserService.getPhoto();
     }, 300);
-    console.log(this.profilImg);
-    onSnapshot(this.getChannelsCollection(), (list) => {
-      list.forEach((element) => {
-        console.log(element.data());
-      });
-    });
+   
+    // onSnapshot(this.getChannelsCollection(), (list) => {
+    //   list.forEach((element) => {
+    //     console.log(element.data());
+    //   });
+    // });
   }
 
+  /**
+   * 
+   * @returns channels collection
+   */
   getChannelsCollection() {
     return collection(this.firestore, 'channels');
   }
 
+
+  /**
+   * 
+   * @returns private-messages collection
+   */
   getPrivateMessagesCollection() {
     return collection(this.firestore, 'private-messages');
   }
 
+  /**
+   * Opens the dialog
+   * 
+   */
   showInfo() {
     this.show = true;
   }
 
+
+  /**
+   * close the dialog
+   * 
+   */
   removeInfo() {
     this.show = false;
   }
 
+
+  /**
+   * do not close the info dialog
+   * 
+   * @param event onclick in the info dialog
+   */
   notRemoveInfo(event: Event) {
     event.stopPropagation();
   }
 
+
+  /**
+   * open new component
+   * 
+   */
   showProfil() {
     this.dialogService.openDialog(ProfilComponent);
   }
 
+
+  /**
+   * log out for the current user
+   * 
+   */
   logOut() {
     signOut(this.auth)
       .then(() => {
@@ -81,6 +115,11 @@ export class HeaderComponent {
       });
   }
 
+
+  /**
+   * navigation to the Login
+   * 
+   */
   routeToLogin() {
     this._router.navigateByUrl('/login');
   }

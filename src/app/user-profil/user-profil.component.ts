@@ -20,6 +20,10 @@ export class UserProfilComponent {
   }
 
 
+  /**
+   * close this component
+   * 
+   */
   closeDialog() {
     this.dialogService.closeDialog();
   }

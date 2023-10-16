@@ -21,11 +21,19 @@ export class ProfilComponent {
   }
 
 
+  /**
+   * Close the component
+   * 
+   */
   closeDialog() {
     this.dialogService.closeDialog();
   }
 
 
+  /**
+   * close the current component and open another component
+   * 
+   */
   editProfil(){
     this.dialogService.closeDialog();
     this.dialogService.openDialog(EditProfilComponent);
