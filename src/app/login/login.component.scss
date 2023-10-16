@@ -286,6 +286,9 @@ form {
 }
 
 @media screen and (max-width: 768px) {
+  form {
+    gap: 30px;
+  }
   .logo {
     left: 35%;
     top: 50px;
@@ -306,5 +309,15 @@ form {
   }
   .policies {
     display: none;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .container {
+    padding: 0;
+  }
+
+  .login-container {
+    width: 90%;
   }
 }
