@@ -358,15 +358,3 @@
     border-radius: 30px;
   }
 }
-
-.online {
-  width: 14px;
-  height: 14px;
-  background-color: var(--online-green, #92c83e);
-  z-index: 100;
-  display: flex;
-  position: absolute;
-  border-radius: 10px;
-  bottom: 0;
-  right: 0;
-}
