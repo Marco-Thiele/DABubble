@@ -1,13 +1,4 @@
-.logo {
-  position: absolute;
-  top: 75px;
-  left: 75px;
-}
-
 .reg-container {
-  position: absolute;
-  right: 75px;
-  top: 75px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -227,8 +218,8 @@ form {
 
 .policies {
   display: flex;
-  position: absolute;
-  bottom: 18px;
+  width: 100%;
+  justify-content: center;
   gap: 16px;
   a {
     padding: 10px 15px;
@@ -285,30 +276,54 @@ form {
   display: none;
 }
 
+.header {
+  width: 100%;
+  gap: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.reg-container-mobile {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
   form {
     gap: 30px;
   }
-  .logo {
-    left: 35%;
-    top: 50px;
-  }
-  .reg-container {
-    right: 40%;
-    top: unset;
-    bottom: 50px;
-    font-size: 18px;
 
+  .reg-container {
+    display: none;
+  }
+  .reg-container-mobile {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    gap: 10px;
+    align-items: center;
     a {
-      text-align: center;
+      padding: 10px 15px;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      text-decoration: none;
+
       border: 0.5px solid gray;
       border-radius: 14px;
-      padding-top: 14px;
-      padding-bottom: 14px;
     }
   }
   .policies {
     display: none;
+  }
+
+  .container {
+    justify-content: unset;
+  }
+  .header {
+    margin-top: 32px;
   }
 }
 
@@ -319,5 +334,115 @@ form {
 
   .login-container {
     width: 90%;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .container {
+    gap: 32px;
+  }
+  .guest {
+    padding: 12px 10px;
+  }
+  .submit {
+    padding: 12px 10px;
+  }
+
+  .login-container {
+    height: 75%;
+    font-size: 16px;
+    padding: 30px;
+  }
+  .greet {
+    h1 {
+      font-size: 40px;
+    }
+    span {
+      font-size: 16px;
+    }
+  }
+  .email-container,
+  .pwd-container {
+    padding: 15px 14px;
+  }
+  .logo {
+    left: 19%;
+    top: 20px;
+  }
+  form {
+    gap: 40px;
+    margin-top: 20px;
+  }
+
+  .reg-container {
+    display: none;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    bottom: 20px;
+    right: unset;
+    a {
+      width: 50%;
+      padding-bottom: 10px;
+      padding-top: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 394px) {
+  form {
+    gap: 28px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .container {
+    gap: 9px;
+  }
+  .guest {
+    padding: 12px 10px;
+  }
+  .submit {
+    padding: 12px 10px;
+  }
+
+  .login-container {
+    height: 75%;
+    font-size: 16px;
+    padding: 15px;
+  }
+  .greet {
+    h1 {
+      font-size: 40px;
+    }
+    span {
+      font-size: 16px;
+    }
+  }
+  .email-container,
+  .pwd-container {
+    padding: 15px 14px;
+  }
+  .logo {
+    left: 19%;
+    top: 4px;
+  }
+  form {
+    gap: 10px !important;
+    margin-top: 20px;
+  }
+
+  .reg-container {
+    display: none;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    bottom: 0px;
+    right: unset;
+    a {
+      width: 50%;
+      padding-bottom: 10px;
+      padding-top: 10px;
+    }
   }
 }

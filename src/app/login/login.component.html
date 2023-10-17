@@ -1,9 +1,12 @@
-<img class="logo" src="../../assets/img/logo_with_text.svg" />
-<div class="reg-container">
-  Neu bei DABubble?
-  <a routerLink="/register">Konto erstellen</a>
-</div>
 <div class="container">
+  <div class="header">
+    <img class="logo" src="../../assets/img/logo_with_text.svg" />
+    <div class="reg-container">
+      Neu bei DABubble?
+      <a routerLink="/register">Konto erstellen</a>
+    </div>
+  </div>
+
   <!-- Intro -->
   <div
     [@backgroundAnimation]="backgroundState"
@@ -95,9 +98,14 @@
       </div>
     </form>
   </div>
-
+  <!-- policies -->
   <div class="policies">
     <a routerLink="/impressum">Impressum</a>
     <a routerLink="/data-policy">Datenschutz</a>
+  </div>
+
+  <div class="reg-container-mobile">
+    Neu bei DABubble?
+    <a routerLink="/register">Konto erstellen</a>
   </div>
 </div>
