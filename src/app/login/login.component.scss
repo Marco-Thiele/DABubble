@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: center;
   font-family: "Nunito" !important;
-  gap: 65px;
+  gap: 24px;
 }
 
 .login-container {
@@ -278,7 +278,7 @@ form {
 
 .header {
   width: 100%;
-
+  margin-top: 32px;
   display: flex;
   justify-content: space-between;
 }
@@ -338,7 +338,7 @@ form {
   }
 }
 
-@media screen and (max-width: 490px) {
+@media screen and (max-width: 650px) {
   .container {
     gap: 32px;
   }
@@ -366,6 +366,7 @@ form {
   .pwd-container {
     padding: 15px 14px;
   }
+
   .logo {
     left: 19%;
     top: 20px;
