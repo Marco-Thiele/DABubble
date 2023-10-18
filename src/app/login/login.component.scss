@@ -397,6 +397,21 @@ form {
   }
 }
 
+@media screen and (max-height: 920px) {
+  form {
+    gap: 20px;
+  }
+}
+
+@media screen and (max-height: 825px) {
+  form {
+    gap: 10px;
+  }
+  .login-container {
+    overflow: scroll;
+  }
+}
+
 @media screen and (max-width: 376px) {
   .container {
     gap: 9px;
