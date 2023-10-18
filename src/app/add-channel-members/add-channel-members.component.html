@@ -13,7 +13,7 @@
   </div>
 
   <div class="add-member-add-name">
-    <input placeholder="Name eingeben" (input)="searchInLocalStorage($event)">
+    <input placeholder="Name eingeben" [(ngModel)]="memberName" (input)="searchMembers()">
   </div>
 
   <div *ngIf="memberName && memberMatches.length > 0" class="member-matches">

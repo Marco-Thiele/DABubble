@@ -38,7 +38,7 @@
   </div>
   <div class="head-new-message-searchbar" [class.focused]="isFocused">
     <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" (focus)="inputFocused()"
-      (blur)="inputBlurred()" (input)="searchInLocalStorage($event)">
+      (blur)="inputBlurred()" (input)="searchMembersAndChannels($event)">
   </div>
 </div>
 
@@ -63,12 +63,12 @@
     <div *ngIf="isNewMessageVisible">
       <div *ngIf="memberMatches.length > 0">
         <div *ngFor="let member of memberMatches">
-          <span>{{member.name}}</span>
+          <span>{{member}}</span>
         </div>
       </div>
       <div *ngIf="channelMatches.length > 0">
         <div *ngFor="let channel of channelMatches">
-          <span>{{channel.name}}</span>
+          <span>{{channel}}</span>
         </div>
       </div>
     </div>

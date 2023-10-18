@@ -62,7 +62,6 @@ export class AddChannelMembersComponent implements OnInit {
     );
     this.channel.members.push(...this.selectedMembers);
     if (this.selectedMembers.length > 0) {
-      // this.sharedService.updateMembers(this.channel.members);
       this.sharedService.updateChannelFS(this.channel);
       this.dialogRef.close();
     }
@@ -70,37 +69,16 @@ export class AddChannelMembersComponent implements OnInit {
 
   /**
    * The function is called when the user types in the input field to look for a member
-   * @param event the event that is triggered when the user types in the input field
    */
-  searchInLocalStorage(event: Event) {
-    const searchText = (event.target as HTMLInputElement).value;
-    if (searchText) {
-      const searchTerm = searchText;
-      this.searchInMembers(searchTerm);
+  async searchMembers() {
+    if (this.memberName) {
+      const members = await this.sharedService.getMembersFS();
+      this.memberMatches = members.filter((member: any) =>
+        member.name.toLowerCase().includes(this.memberName.toLowerCase())
+      );
+    } else {
+      this.memberMatches = [];
     }
-  }
-
-  /**
-   * The function is called when the user types in the input field to look for a member in server
-   * @param searchTerm the term to search for
-   * @returns the matches
-   */
-  searchInMembers(searchTerm: string): string[] {
-    this.memberMatches = [];
-    this.memberName = searchTerm.trim();
-    if (this.memberName === '') {
-      return [];
-    }
-
-    const members = this.sharedService.getMembers();
-    const filteredMembers = members.slice(1);
-    this.memberMatches = filteredMembers.filter((member) =>
-      member.name.toLowerCase().includes(this.memberName.toLowerCase())
-    );
-
-    this.memberMatches.forEach((match) => {});
-
-    return this.memberMatches.map((match) => match.name);
   }
 
   /**

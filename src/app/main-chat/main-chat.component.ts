@@ -43,8 +43,8 @@ export class MainChatComponent implements OnInit {
   messageBox = true;
   sendPrivate = false;
   sendChannel = false;
-  memberMatches: any[] = [];
-  channelMatches: any[] = [];
+  memberMatches: string[] = [];
+  channelMatches: string[] = [];
   channelsMessages: {
     [channelId: string]: { chat: any[] };
   } = {};
@@ -56,6 +56,9 @@ export class MainChatComponent implements OnInit {
   containerChat: any;
   privateChatMessages: any[] = [];
   autoScrollEnabled = true;
+  memberName: string = '';
+  channelName: string = '';
+  inputText: string = '';
 
   constructor(
     private dialog: MatDialog,
@@ -555,17 +558,47 @@ export class MainChatComponent implements OnInit {
   /**
    * Searches in local storage
    */
-  searchInLocalStorage(event: Event) {
-    const searchText = (event.target as HTMLInputElement).value;
-    if (searchText.startsWith('#')) {
-      const searchTerm = searchText.slice(1);
-      this.searchInChannels(searchTerm);
-    } else if (searchText.startsWith('@')) {
-      const searchTerm = searchText.slice(1);
-      this.searchInMembers(searchTerm);
-    } else {
-      this.searchInChannels(searchText);
-      this.searchInMembers(searchText);
+  searchMembersAndChannels(event: Event) {
+    const inputText = (event.target as HTMLInputElement).value;
+
+    console.log(inputText);
+    if (typeof inputText === 'string') {
+      // Verifica que inputText sea una cadena
+      console.log(inputText);
+      this.memberMatches = []; // Restablece las coincidencias de miembros
+      this.channelMatches = []; // Restablece las coincidencias de canales
+
+      // Verifica si el texto comienza con '@' para buscar miembros
+      if (inputText.startsWith('@')) {
+        const searchTerm = inputText.substring(1); // Elimina el símbolo '@'
+        this.searchMembers(searchTerm).then((members) => {
+          this.memberMatches = members;
+          this.isNewMessageVisible =
+            this.memberMatches.length > 0 || this.channelMatches.length > 0;
+        });
+      }
+      // Verifica si el texto comienza con '#' para buscar canales
+      else if (inputText.startsWith('#')) {
+        const searchTerm = inputText.substring(1); // Elimina el símbolo '#'
+        this.searchChannels(searchTerm).then((channels) => {
+          this.channelMatches = channels;
+          this.isNewMessageVisible =
+            this.memberMatches.length > 0 || this.channelMatches.length > 0;
+        });
+      }
+      // Si no comienza con ningún símbolo, busca tanto miembros como canales
+      else {
+        this.searchMembers(inputText).then((members) => {
+          this.memberMatches = members;
+          this.isNewMessageVisible =
+            this.memberMatches.length > 0 || this.channelMatches.length > 0;
+        });
+        this.searchChannels(inputText).then((channels) => {
+          this.channelMatches = channels;
+          this.isNewMessageVisible =
+            this.memberMatches.length > 0 || this.channelMatches.length > 0;
+        });
+      }
     }
   }
 
@@ -573,42 +606,25 @@ export class MainChatComponent implements OnInit {
    * Looks for a member in the list of members.
    * @returns the list of private messages
    */
-  searchInMembers(searchTerm: string): string[] {
-    this.memberMatches = [];
-    const memberName = searchTerm.trim();
-    if (memberName === '') {
-      return [];
-    }
-
-    const members = this.sharedService.getMembers();
-    const filteredMembers = members.slice(1);
-    this.memberMatches = filteredMembers.filter((member) =>
-      member.name.toLowerCase().includes(memberName.toLowerCase())
+  async searchMembers(searchTerm: string): Promise<string[]> {
+    const members = await this.sharedService.getMembersFS();
+    const matchingMembers = members.filter((member: any) =>
+      member.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    this.memberMatches.forEach((match) => {});
-
-    return this.memberMatches.map((match) => match.name);
+    return matchingMembers.map((member) => member.name);
   }
 
   /**
    * Looks for a channel in the list of channels.
    * @returns the list of private messages
    */
-  searchInChannels(searchTerm: string): string[] {
-    this.channelMatches = [];
-    const channelName = searchTerm.trim();
-    if (channelName === '') {
-      return [];
-    }
-
-    const channels = this.sharedService.getChannelsFromLS();
-    this.channelMatches = channels.filter((channel) =>
-      channel.name.toLowerCase().includes(channelName.toLowerCase())
+  async searchChannels(searchTerm: string): Promise<string[]> {
+    console.log(searchTerm);
+    const channels = await this.sharedService.getChannelsFS();
+    const matchingChannels = channels.filter((channel: any) =>
+      channel.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    this.channelMatches.forEach((match) => {});
-
-    return this.channelMatches.map((match) => match.name);
+    console.log(matchingChannels);
+    return matchingChannels.map((channel) => channel.name);
   }
 }

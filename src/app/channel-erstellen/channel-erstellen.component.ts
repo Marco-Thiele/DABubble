@@ -46,10 +46,11 @@ export class ChannelErstellenComponent implements OnInit {
   createChannel() {
     if (this.channel.name) {
       const uniqueId = this.sharedService.generateUniqueId();
+      const description = this.channel.description || 'add a description';
       const channelData = {
         id: uniqueId,
         name: this.channel.name,
-        description: this.channel.description,
+        description: description,
         members: [],
         chat: [],
         owner: this.userService.getName(),

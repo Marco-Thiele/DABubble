@@ -46,65 +46,6 @@ export class ChannelsComponent implements OnInit {
       this.user.chat = this.userData.chat;
     }
     localStorage.setItem('userData', JSON.stringify(this.user));
-
-    // this.channels = this.sharedService.getChannels();
-    // this.members = await this.sharedService.getMembers();
-
-    // if (this.members.length === 0) {
-    //   this.members = [
-    //     {
-    //       id: this.sharedService.getID(),
-    //       name: this.userService.getName() + '(Du)',
-    //       imgProfil: this.userService.getPhoto(),
-    //       type: 'user',
-    //       channels: ['Office-team'],
-    //       chat: [],
-    //     },
-    //     {
-    //       id: this.sharedService.generateUniqueId(),
-    //       name: 'Sofia Müller',
-    //       imgProfil: 'assets/img/avatars/sofiamueller.svg',
-    //       type: 'member',
-    //       channels: ['Office-team'],
-    //       chat: [],
-    //     },
-    //     {
-    //       id: this.sharedService.generateUniqueId(),
-    //       name: 'Noah Braun',
-    //       imgProfil: 'assets/img/avatars/noahbraun.svg',
-    //       type: 'member',
-    //       channels: ['Office-team'],
-    //       chat: [],
-    //     },
-    //     {
-    //       id: this.sharedService.generateUniqueId(),
-    //       name: 'Elise Roth',
-    //       imgProfil: 'assets/img/avatars/eliseroth.svg',
-    //       type: 'member',
-    //       channels: ['Office-team'],
-    //       chat: [],
-    //     },
-    //     {
-    //       id: this.sharedService.generateUniqueId(),
-    //       name: 'Elias Neumann',
-    //       imgProfil: 'assets/img/avatars/eliasneumann.svg',
-    //       type: 'member',
-    //       channels: ['Office-team'],
-    //       chat: [],
-    //     },
-    //     {
-    //       id: this.sharedService.generateUniqueId(),
-    //       name: 'Steffen Hoffmann',
-    //       imgProfil: 'assets/img/avatars/steffenhoffmann.svg',
-    //       type: 'member',
-    //       channels: ['Office-team'],
-    //       chat: [],
-    //     },
-    //   ];
-    //   // this.members.forEach((member) => {
-    //   //   this.sharedService.addMemberFS(member);
-    //   // });
-    // }
   }
 
   /**
@@ -173,20 +114,6 @@ export class ChannelsComponent implements OnInit {
     this.selectedMember = member;
     const memberId = member.id;
 
-    // // const storedPrivateMessages = localStorage.getItem('privateMessages');
-    // const privateMessages = storedPrivateMessages
-    //   ? JSON.parse(storedPrivateMessages)
-    //   : {};
-
-    // if (memberId) {
-    //   member = {
-    //     id: memberId,
-    //     member: member.name,
-    //     chat: [],
-    //   };
-    // }
-
-    // localStorage.setItem('privateMessages', JSON.stringify(privateMessages));
     this.sharedService.emitOpenPrivateContainer(member);
     console.log('member: ', member);
   }

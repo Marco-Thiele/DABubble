@@ -27,6 +27,9 @@ export class ChannelEditComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Opens the edit channel container
+   */
   editChannelContainer(channel: any) {
     this.sharedService.openChannelEvent$.subscribe((channel: any) => {
       this.selectedChannel = channel;
@@ -51,12 +54,6 @@ export class ChannelEditComponent implements OnInit {
   /**
    * Save the channel name
    */
-  // saveName() {
-  //   this.selectedChannel.name = this.editedChannelName;
-  //   this.sharedService.updateChannel(this.selectedChannel);
-  //   this.isEditingName = false;
-  // }
-
   saveName() {
     this.selectedChannel.name = this.editedChannelName;
     this.sharedService.updateChannelFS(this.selectedChannel);
@@ -75,7 +72,6 @@ export class ChannelEditComponent implements OnInit {
    */
   saveDescription() {
     this.selectedChannel.description = this.editedChannelDescription;
-    // this.sharedService.updateChannel(this.selectedChannel);
     this.sharedService.updateChannelFS(this.selectedChannel);
     this.isEditingDescription = false;
   }
@@ -87,6 +83,7 @@ export class ChannelEditComponent implements OnInit {
     if (this.selectedChannel.id) {
       this.sharedService.deleteChannelFS('channels', this.selectedChannel.id);
     }
+    this.sharedService.emitOpenNewMessage();
     this.dialogRef.close();
   }
 }

@@ -24,8 +24,10 @@ import {
 export class SharedService implements OnInit {
   private channels: any[] = [];
   private isEditChannelOpen = false;
-  private members: any[] = [];
+  public members: any[] = [];
   private membersData = new BehaviorSubject<any[]>([]);
+  private channelsData = new BehaviorSubject<any[]>([]);
+  private userData: any;
 
   currentMembers = this.membersData.asObservable();
   firestore: Firestore = inject(Firestore);
@@ -242,6 +244,24 @@ export class SharedService implements OnInit {
     return collection(this.firestore, 'members');
   }
 
+  async getMembersFS() {
+    const querySnapshot = await getDocs(collection(this.firestore, 'members'));
+    this.members = querySnapshot.docs.map((doc) =>
+      this.setMemberObject(doc.data(), doc.id)
+    );
+    this.membersData.next(this.members);
+    return this.members;
+  }
+
+  async getChannelsFS() {
+    const querySnapshot = await getDocs(collection(this.firestore, 'channels'));
+    this.channels = querySnapshot.docs.map((doc) =>
+      this.setMemberObject(doc.data(), doc.id)
+    );
+    this.channelsData.next(this.channels);
+    return this.channels;
+  }
+
   //return the channels from firestore
   getChannelsFromFS() {
     return collection(this.firestore, 'channels');
@@ -275,6 +295,14 @@ export class SharedService implements OnInit {
   //gets the single document reference from firestore
   getsingleDocRef(colId: string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
+  }
+
+  getUserData() {
+    return this.userData;
+  }
+
+  setUserData(userData: any) {
+    this.userData = userData;
   }
 
   /**

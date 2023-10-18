@@ -6,6 +6,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../shared.service';
+import { UserService } from '../user.service';
+import { getDocs } from 'firebase/firestore';
 
 @Component({
   selector: 'app-new-channel-members',
@@ -37,16 +39,31 @@ export class NewChannelMembersComponent implements OnInit {
   selectedMember: any = null;
   userFound = false;
 
+  public user = {
+    id: this.sharedService.getID(),
+    name: this.userService.getName() + '(Du)',
+    imgProfil: this.userService.getPhoto(),
+    type: 'user',
+    channels: ['Office-team'],
+    chat: [],
+  };
+
   constructor(
     public dialogRef: MatDialogRef<NewChannelMembersComponent>,
     private sharedService: SharedService,
+    public userService: UserService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.labelPosition = 'after';
     this.channel = data.channel;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const storedUserData = this.sharedService.getUserData();
+    if (storedUserData) {
+      this.user = storedUserData;
+    }
+  }
 
   /**
    * Close the dialog
@@ -58,22 +75,15 @@ export class NewChannelMembersComponent implements OnInit {
   /**
    * the function is called when the user types in the input field to look for a member
    */
-  searchMembers() {
-    this.memberMatches = [];
-    const memberName = this.memberName.trim();
-    if (memberName === '') {
-      return;
+  async searchMembers() {
+    if (this.memberName) {
+      const members = await this.sharedService.getMembersFS();
+      this.memberMatches = members.filter((member: any) =>
+        member.name.toLowerCase().includes(this.memberName.toLowerCase())
+      );
+    } else {
+      this.memberMatches = [];
     }
-
-    const members = this.sharedService.getMembers();
-    const filteredMembers = members.slice(1);
-    this.memberMatches = filteredMembers.filter((member) =>
-      member.name.toLowerCase().includes(memberName.toLowerCase())
-    );
-
-    this.memberMatches.forEach((match) => {
-      match.imgProfil = this.getImgProfil(match);
-    });
   }
 
   /**
@@ -91,10 +101,10 @@ export class NewChannelMembersComponent implements OnInit {
   /**
    * Add members to the channel
    */
-  addNewChannelMembers() {
+  async addNewChannelMembers() {
     if (this.labelPosition === 'after') {
-      const members = this.sharedService.getMembers();
-      const officeTeamMembers = members.filter((member) =>
+      await this.sharedService.getMembersFS();
+      const officeTeamMembers = this.sharedService.members.filter((member) =>
         member.channels.includes('Office-team')
       );
       this.channel.members.push(...officeTeamMembers);
@@ -108,6 +118,7 @@ export class NewChannelMembersComponent implements OnInit {
       this.selectedMembers = [];
     }
     if (this.channel.members.length > 0) {
+      this.channel.members.push(this.user);
       this.sharedService.addChannelFS(this.channel);
       this.dialogRef.close(true);
     }
