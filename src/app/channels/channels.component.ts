@@ -178,13 +178,13 @@ export class ChannelsComponent implements OnInit {
     //   ? JSON.parse(storedPrivateMessages)
     //   : {};
 
-    if (memberId) {
-      member = {
-        id: memberId,
-        member: member.name,
-        chat: [],
-      };
-    }
+    // if (memberId) {
+    //   member = {
+    //     id: memberId,
+    //     member: member.name,
+    //     chat: [],
+    //   };
+    // }
 
     // localStorage.setItem('privateMessages', JSON.stringify(privateMessages));
     this.sharedService.emitOpenPrivateContainer(member);

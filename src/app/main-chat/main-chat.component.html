@@ -133,7 +133,8 @@
 
     <!--Container for the member's chat-->
 
-    <div class="message-members-box-cont" *ngFor="let message of getSelectedMessages()">
+    <div class="message-members-box-cont"
+      *ngFor="let message of (selectedMember?.chat || []).concat(selectedChannel?.chat || [])">
       <ng-container *ngIf="message.userName !== userService.getName()">
         <div class="message-reaction-people">
           <div class="reaction-icon">
@@ -173,7 +174,8 @@
 
     <!--Container for the user's chat-->
 
-    <div class="message-user-box-cont" *ngFor="let message of selectedChannel?.chat">
+    <div class="message-user-box-cont"
+      *ngFor="let message of (selectedMember?.chat || []).concat(selectedChannel?.chat || [])">
       <ng-container *ngIf="message.userName === userService.getName()">
         <div class="message-reaction-people">
           <div class="reaction-icon">

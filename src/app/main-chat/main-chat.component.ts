@@ -71,24 +71,24 @@ export class MainChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getMessagesfromSelectedChannel();
+    // this.getMessagesfromSelectedChannel();
   }
 
   /**
    * Gets the messages from the selected channel LS
    */
-  getMessagesfromSelectedChannel() {
-    const channelId = this.selectedChannel ? this.selectedChannel.id : '';
+  // getMessagesfromSelectedChannel() {
+  //   const channelId = this.selectedChannel ? this.selectedChannel.id : '';
 
-    if (!this.channelsMessages[channelId]) {
-      this.channelsMessages[channelId] = {
-        chat: [],
-      };
-    }
+  //   if (!this.channelsMessages[channelId]) {
+  //     this.channelsMessages[channelId] = {
+  //       chat: [],
+  //     };
+  //   }
 
-    this.channelsMessages[channelId].chat =
-      this.sharedService.getMessagesForChannel(channelId);
-  }
+  //   this.channelsMessages[channelId].chat =
+  //     this.sharedService.getMessagesForChannel(channelId);
+  // }
 
   /**
    * It is executed when the view is initialized
@@ -208,8 +208,8 @@ export class MainChatComponent implements OnInit {
    */
   loadPrivateChats() {
     if (this.selectedMember) {
-      this.privateChats[this.selectedMember.id] =
-        this.sharedService.returnPrivateChats(this.selectedMember.id);
+      // this.privateChats[this.selectedMember.id] =
+      // this.sharedService.returnPrivateChats(this.selectedMember.id);
     }
   }
 
@@ -490,19 +490,19 @@ export class MainChatComponent implements OnInit {
   /**
    * Returns selected messages of the channels from local storage
    */
-  getSelectedMessages(): any[] {
-    if (this.selectedChannel) {
-      const channelId = this.selectedChannel.id;
-      if (this.channelsMessages && this.channelsMessages[channelId]) {
-        return this.channelsMessages[channelId].chat || [];
-      }
-    } else if (this.selectedMember) {
-      this.privateChats[this.selectedMember.id] =
-        this.sharedService.returnPrivateChats(this.selectedMember.id);
-      return this.privateChats[this.selectedMember.id].chat || [];
-    }
-    return [];
-  }
+  // getSelectedMessages(): any[] {
+  //   if (this.selectedChannel) {
+  //     const channelId = this.selectedChannel.id;
+  //     if (this.channelsMessages && this.channelsMessages[channelId]) {
+  //       return this.channelsMessages[channelId].chat || [];
+  //     }
+  //   } else if (this.selectedMember) {
+  //     this.privateChats[this.selectedMember.id] =
+  //       this.sharedService.returnPrivateChats(this.selectedMember.id);
+  //     return this.privateChats[this.selectedMember.id].chat || [];
+  //   }
+  //   return [];
+  // }
 
   /**
    * Sends a private message to a member
@@ -549,7 +549,7 @@ export class MainChatComponent implements OnInit {
   }
 
   returnPrivatesMessagesFS() {
-    this.sharedService.subChatList(this.selectedMember);
+    this.sharedService.privateMsgList(this.selectedMember);
   }
 
   /**
