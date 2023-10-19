@@ -235,6 +235,10 @@ export class MainChatComponent implements OnInit {
     this.sharedService.setIsEditChannelOpen(true);
   }
 
+  /**
+   * Opens a channel and closes the new message component
+   * @param channel the channel to open
+   */
   openChannel(channel: any) {
     this.selectedChannel = channel;
     const channelId = channel.id;
@@ -243,6 +247,10 @@ export class MainChatComponent implements OnInit {
     this.showContainers = false;
   }
 
+  /**
+   * Opens a private chat with a member and closes the new message component
+   * @param member the member to open
+   */
   openPrivateContainer(member: any) {
     this.selectedMember = member;
     const memberId = member.id;
@@ -524,6 +532,7 @@ export class MainChatComponent implements OnInit {
         const searchTerm = inputText.substring(1);
         this.searchMembers(searchTerm).then((members) => {
           this.memberMatches = members;
+          console.log('Member Matches:', this.memberMatches);
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
         });
@@ -531,19 +540,26 @@ export class MainChatComponent implements OnInit {
         const searchTerm = inputText.substring(1);
         this.searchChannels(searchTerm).then((channels) => {
           this.channelMatches = channels;
+          console.log('Channel Matches:', this.channelMatches);
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
         });
       } else {
         this.searchMembers(inputText).then((members) => {
           this.memberMatches = members;
+          console.log('Member Matches:', this.memberMatches);
           this.isNewMessageVisible =
-            this.memberMatches.length > 0 || this.channelMatches.length > 0;
+            this.memberMatches.length > 0 ||
+            this.channelMatches.length > 0 ||
+            this.isNewMessageVisible === true;
         });
         this.searchChannels(inputText).then((channels) => {
           this.channelMatches = channels;
+          console.log('Channel Matches:', this.channelMatches);
           this.isNewMessageVisible =
-            this.memberMatches.length > 0 || this.channelMatches.length > 0;
+            this.memberMatches.length > 0 ||
+            this.channelMatches.length > 0 ||
+            this.isNewMessageVisible === true;
         });
       }
     }
