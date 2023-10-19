@@ -238,3 +238,133 @@ form {
     right: 32px;
   }
 }
+
+@media screen and (max-width: 768px) {
+  form {
+    gap: 30px;
+  }
+
+  .policies {
+    display: none;
+  }
+
+  .container {
+    justify-content: unset;
+  }
+  .header {
+    margin-top: 32px;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .container {
+    padding: 0;
+  }
+
+  .login-container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .container {
+    gap: 32px;
+  }
+  .guest {
+    padding: 12px 10px;
+  }
+  .submit {
+    padding: 12px 10px;
+  }
+
+  .register-container {
+    height: 75%;
+    font-size: 16px;
+    padding: 30px;
+  }
+  .greet {
+    h1 {
+      font-size: 40px;
+    }
+    span {
+      font-size: 16px;
+    }
+  }
+
+  .name-container,
+  .email-container,
+  .pwd-container {
+    padding: 15px 14px;
+  }
+
+  .logo {
+    left: 19%;
+    top: 20px;
+  }
+  form {
+    gap: 40px;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 394px) {
+  form {
+    gap: 28px;
+  }
+}
+
+@media screen and (max-height: 920px) {
+  form {
+    gap: 20px;
+  }
+}
+
+@media screen and (max-height: 825px) {
+  form {
+    gap: 10px;
+  }
+  .register-container {
+    overflow: scroll;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .container {
+    gap: 9px;
+  }
+  .guest {
+    padding: 12px 10px;
+  }
+  .submit {
+    padding: 12px 10px;
+  }
+
+  .register-container {
+    height: 75%;
+    font-size: 16px;
+    padding: 15px;
+  }
+  .greet {
+    h1 {
+      font-size: 40px;
+    }
+    span {
+      font-size: 16px;
+    }
+  }
+
+  .name-container,
+  .email-container,
+  .pwd-container {
+    padding: 15px 14px;
+  }
+  .logo {
+    left: 19%;
+    top: 4px;
+  }
+  form {
+    gap: 10px !important;
+    margin-top: 20px;
+  }
+}
