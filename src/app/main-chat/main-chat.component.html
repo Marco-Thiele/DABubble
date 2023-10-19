@@ -38,7 +38,7 @@
   </div>
   <div class="head-new-message-searchbar" [class.focused]="isFocused">
     <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" (focus)="inputFocused()"
-      (blur)="inputBlurred()" (input)="searchMembersAndChannels($event)">
+      (blur)="inputBlurred()" (input)="searchMembersAndChannels($event)" [(ngModel)]="inputValue">
   </div>
 </div>
 
@@ -61,14 +61,24 @@
 
     <!--Main chat principal-->
     <div *ngIf="isNewMessageVisible">
-      <div *ngIf="memberMatches.length > 0">
-        <div *ngFor="let member of memberMatches">
-          <span>{{member}}</span>
+      <div *ngIf="showContainers && inputValue" class="container-lookingfor">
+        <div *ngIf="memberMatches.length > 0" class="searchMatches">
+          <span class="font600-normal">Members gefunden:</span>
+          <div *ngFor="let member of memberMatches">
+            <div class="memberMatches" (click)="openPrivateContainer(member)">
+              <img [src]="member.imgProfil" alt="">
+              <span>{{member.name}}</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div *ngIf="channelMatches.length > 0">
-        <div *ngFor="let channel of channelMatches">
-          <span>{{channel}}</span>
+        <div *ngIf="channelMatches.length > 0" class="searchMatches">
+          <span class="font600-normal">Channels gefunden:</span>
+          <div *ngFor="let channel of channelMatches">
+            <div class="channelMatches" (click)="openChannel(channel)">
+              <img src="/assets/icons/tag.svg" alt="">
+              <span class="font400-normal">{{channel.name}}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

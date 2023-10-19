@@ -43,8 +43,8 @@ export class MainChatComponent implements OnInit {
   messageBox = true;
   sendPrivate = false;
   sendChannel = false;
-  memberMatches: string[] = [];
-  channelMatches: string[] = [];
+  memberMatches: any[] = [];
+  channelMatches: any[] = [];
   channelsMessages: {
     [channelId: string]: { chat: any[] };
   } = {};
@@ -59,6 +59,8 @@ export class MainChatComponent implements OnInit {
   memberName: string = '';
   channelName: string = '';
   inputText: string = '';
+  inputValue: string = '';
+  showContainers: boolean = true;
 
   constructor(
     private dialog: MatDialog,
@@ -73,25 +75,7 @@ export class MainChatComponent implements OnInit {
     this.imagePreview = new ElementRef(null);
   }
 
-  ngOnInit(): void {
-    // this.getMessagesfromSelectedChannel();
-  }
-
-  /**
-   * Gets the messages from the selected channel LS
-   */
-  // getMessagesfromSelectedChannel() {
-  //   const channelId = this.selectedChannel ? this.selectedChannel.id : '';
-
-  //   if (!this.channelsMessages[channelId]) {
-  //     this.channelsMessages[channelId] = {
-  //       chat: [],
-  //     };
-  //   }
-
-  //   this.channelsMessages[channelId].chat =
-  //     this.sharedService.getMessagesForChannel(channelId);
-  // }
+  ngOnInit(): void {}
 
   /**
    * It is executed when the view is initialized
@@ -133,6 +117,9 @@ export class MainChatComponent implements OnInit {
       this.isPrivatChatContainerVisible = false;
       this.isPrivatChatContainerVisible = false;
       this.isPrivateChatVisible = false;
+      this.selectedChannel = null;
+      this.selectedMember = null;
+      this.sendPrivate = false;
       this.placeholderMessageBox = 'Starte eine neue Nachricht';
     });
   }
@@ -203,17 +190,6 @@ export class MainChatComponent implements OnInit {
     this.sendPrivate = true;
     this.sendChannel = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
-    this.loadPrivateChats();
-  }
-
-  /**
-   * Loads the messages to the private chat container
-   */
-  loadPrivateChats() {
-    if (this.selectedMember) {
-      // this.privateChats[this.selectedMember.id] =
-      // this.sharedService.returnPrivateChats(this.selectedMember.id);
-    }
   }
 
   /**
@@ -257,6 +233,31 @@ export class MainChatComponent implements OnInit {
       data: { selectedChannel },
     });
     this.sharedService.setIsEditChannelOpen(true);
+  }
+
+  /**
+   * Opens a channel and closes the new message component
+   * @param channel the channel to open
+   */
+  openChannel(channel: any) {
+    this.selectedChannel = channel;
+    const channelId = channel.id;
+    this.sharedService.emitOpenChannel(channel);
+    this.inputValue = '';
+    this.showContainers = false;
+  }
+
+  /**
+   * Opens a private chat with a member and closes the new message component
+   * @param member the member to open
+   */
+  openPrivateContainer(member: any) {
+    this.selectedMember = member;
+    const memberId = member.id;
+
+    this.sharedService.emitOpenPrivateContainer(member);
+    this.inputValue = '';
+    this.showContainers = false;
   }
 
   /**
@@ -364,16 +365,11 @@ export class MainChatComponent implements OnInit {
         answers: [],
         date: new Date().toLocaleDateString(),
       };
-      console.log(this.currentChannel);
       if (selectedFile) {
-        this.convertImageToBase64(selectedFile)
-          .then((base64Data) => {
-            message.imageUrl = base64Data;
-            this.saveMessage(message, this.currentChannel);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        this.convertImageToBase64(selectedFile).then((base64Data) => {
+          message.imageUrl = base64Data;
+          this.saveMessage(message, this.currentChannel);
+        });
       } else {
         this.saveMessage(message, this.currentChannel);
       }
@@ -425,7 +421,6 @@ export class MainChatComponent implements OnInit {
    * @param messageDate date of message
    */
   saveMessage(message: any, channelOrMember: any) {
-    // this.sharedService.saveMessageToLocalStorage(channelOrMember.id, message);
     this.selectedChannel.chat.push(message);
     this.sharedService.updateChannelFS(this.selectedChannel);
 
@@ -476,36 +471,8 @@ export class MainChatComponent implements OnInit {
    * Returns the messages of the channels from server
    */
   returnChannelsMessages() {
-    this.sharedService.ChannelChatList(this.selectedChannel); // Reemplaza 'channelId' con el ID del canal que desees obtener.
-
-    // const channelData = this.sharedService.getChannelsIds();
-    // this.channelsMessages = {};
-
-    // for (const channelId in channelData) {
-    //   if (channelData.hasOwnProperty(channelId)) {
-    //     this.channelsMessages[channelId] = {
-    //       chat: channelData[channelId].chat || [],
-    //     };
-    //   }
-    // }
+    this.sharedService.ChannelChatList(this.selectedChannel);
   }
-
-  /**
-   * Returns selected messages of the channels from local storage
-   */
-  // getSelectedMessages(): any[] {
-  //   if (this.selectedChannel) {
-  //     const channelId = this.selectedChannel.id;
-  //     if (this.channelsMessages && this.channelsMessages[channelId]) {
-  //       return this.channelsMessages[channelId].chat || [];
-  //     }
-  //   } else if (this.selectedMember) {
-  //     this.privateChats[this.selectedMember.id] =
-  //       this.sharedService.returnPrivateChats(this.selectedMember.id);
-  //     return this.privateChats[this.selectedMember.id].chat || [];
-  //   }
-  //   return [];
-  // }
 
   /**
    * Sends a private message to a member
@@ -525,14 +492,10 @@ export class MainChatComponent implements OnInit {
       };
 
       if (selectedFile) {
-        this.convertImageToBase64(selectedFile)
-          .then((base64Data) => {
-            message.imageUrl = base64Data;
-            this.savePrivateMessage(this.selectedMember, message);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        this.convertImageToBase64(selectedFile).then((base64Data) => {
+          message.imageUrl = base64Data;
+          this.savePrivateMessage(this.selectedMember, message);
+        });
       } else {
         this.savePrivateMessage(this.selectedMember, message);
       }
@@ -561,42 +524,38 @@ export class MainChatComponent implements OnInit {
   searchMembersAndChannels(event: Event) {
     const inputText = (event.target as HTMLInputElement).value;
 
-    console.log(inputText);
     if (typeof inputText === 'string') {
-      // Verifica que inputText sea una cadena
-      console.log(inputText);
-      this.memberMatches = []; // Restablece las coincidencias de miembros
-      this.channelMatches = []; // Restablece las coincidencias de canales
+      this.memberMatches = [];
+      this.channelMatches = [];
 
-      // Verifica si el texto comienza con '@' para buscar miembros
       if (inputText.startsWith('@')) {
-        const searchTerm = inputText.substring(1); // Elimina el símbolo '@'
+        const searchTerm = inputText.substring(1);
         this.searchMembers(searchTerm).then((members) => {
           this.memberMatches = members;
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
         });
-      }
-      // Verifica si el texto comienza con '#' para buscar canales
-      else if (inputText.startsWith('#')) {
-        const searchTerm = inputText.substring(1); // Elimina el símbolo '#'
+      } else if (inputText.startsWith('#')) {
+        const searchTerm = inputText.substring(1);
         this.searchChannels(searchTerm).then((channels) => {
           this.channelMatches = channels;
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
         });
-      }
-      // Si no comienza con ningún símbolo, busca tanto miembros como canales
-      else {
+      } else {
         this.searchMembers(inputText).then((members) => {
           this.memberMatches = members;
           this.isNewMessageVisible =
-            this.memberMatches.length > 0 || this.channelMatches.length > 0;
+            this.memberMatches.length > 0 ||
+            this.channelMatches.length > 0 ||
+            this.isNewMessageVisible === true;
         });
         this.searchChannels(inputText).then((channels) => {
           this.channelMatches = channels;
           this.isNewMessageVisible =
-            this.memberMatches.length > 0 || this.channelMatches.length > 0;
+            this.memberMatches.length > 0 ||
+            this.channelMatches.length > 0 ||
+            this.isNewMessageVisible === true;
         });
       }
     }
@@ -606,25 +565,37 @@ export class MainChatComponent implements OnInit {
    * Looks for a member in the list of members.
    * @returns the list of private messages
    */
-  async searchMembers(searchTerm: string): Promise<string[]> {
+  async searchMembers(searchTerm: string): Promise<any[]> {
     const members = await this.sharedService.getMembersFS();
     const matchingMembers = members.filter((member: any) =>
       member.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    return matchingMembers.map((member) => member.name);
+    return matchingMembers.map((member) => ({
+      id: member.id,
+      name: member.name,
+      imgProfil: member.imgProfil,
+      chat: member.chat,
+      type: member.type,
+      channels: member.channels,
+    }));
   }
 
   /**
    * Looks for a channel in the list of channels.
    * @returns the list of private messages
    */
-  async searchChannels(searchTerm: string): Promise<string[]> {
-    console.log(searchTerm);
+  async searchChannels(searchTerm: string): Promise<any[]> {
     const channels = await this.sharedService.getChannelsFS();
     const matchingChannels = channels.filter((channel: any) =>
       channel.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    console.log(matchingChannels);
-    return matchingChannels.map((channel) => channel.name);
+    return matchingChannels.map((channel) => ({
+      id: channel.id,
+      name: channel.name,
+      members: channel.members,
+      chat: channel.chat,
+      description: channel.description,
+      owner: channel.owner,
+    }));
   }
 }

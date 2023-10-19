@@ -16,6 +16,7 @@ import {
   getDocs,
   DocumentData,
   QueryDocumentSnapshot,
+  getDoc,
 } from '@angular/fire/firestore';
 
 @Injectable({
@@ -37,47 +38,45 @@ export class SharedService implements OnInit {
   unsubMembers;
 
   constructor(private auth: Auth) {
-    const storedChannels = localStorage.getItem('channels');
-    if (storedChannels) {
-      this.channels = JSON.parse(storedChannels);
-    }
-
     this.unsubChannels = this.channelsList();
     this.unsubMembers = this.getMembersList();
   }
 
   ngOnInit(): void {}
 
-  //Delete a channel from firestore
-  async deleteChannelFS(colId: string, docId: any) {
-    await deleteDoc(this.getsingleDocRef(colId, docId))
-      .catch((err) => {
-        console.log(err);
-      })
-      .then(() => {
-        console.log('Document deleted');
-      });
+  ngonDestroy(): void {
+    this.unsubChannels();
+    this.unsubMembers();
   }
 
-  //Updates the channel in firestore
+  /**
+   * Deletes a channel from Firestore.
+   * @param colId the id of the collection
+   * @param docId the id of the document
+   */
+  async deleteChannelFS(colId: string, docId: any) {
+    await deleteDoc(this.getsingleDocRef(colId, docId));
+  }
+
+  /**
+   * updates the channel in Firestore.
+   * @param channel the channel to update
+   */
   async updateChannelFS(channel: any) {
     if (channel.id) {
       let docRef = this.getsingleDocRef(
         this.getColIdFromChannel(channel),
         channel.id
       );
-      await updateDoc(docRef, this.getCleanJson(channel))
-        .catch((err) => {
-          console.log(err);
-        })
-        .then(() => {
-          console.log('Document updated');
-        });
+      await updateDoc(docRef, this.getCleanJson(channel));
     }
   }
 
-  async subChatList(selectedMember: any) {
-    console.log('subChatList');
+  /**
+   * takes the list of private messages in Firestore.
+   * @param member the member to update
+   */
+  async privateMsgList(selectedMember: any) {
     const querySnapshot = await getDocs(
       query(
         collection(this.firestore, 'members'),
@@ -86,24 +85,23 @@ export class SharedService implements OnInit {
     );
 
     if (querySnapshot.empty) {
-      console.log('No matching documents.');
       return;
     }
 
     const selectedMemberDoc: QueryDocumentSnapshot<DocumentData> =
       querySnapshot.docs[0];
     const memberData = selectedMemberDoc.data();
-    console.log(memberData);
-
     selectedMember.chat = memberData['chat'];
 
     if (selectedMember.chat && selectedMember.chat.length > 0) {
-      console.log(selectedMember.chat);
     }
   }
 
+  /**
+   * takes the channel chat list in Firestore.
+   * @param member the member to update
+   */
   async ChannelChatList(channelId: string) {
-    console.log('subChannelChatList');
     const querySnapshot = await getDocs(
       query(
         collection(this.firestore, 'channels'),
@@ -112,24 +110,24 @@ export class SharedService implements OnInit {
     );
 
     if (querySnapshot.empty) {
-      console.log('No matching documents.');
       return;
     }
 
     const channelDoc: QueryDocumentSnapshot<DocumentData> =
       querySnapshot.docs[0];
     const channelData = channelDoc.data();
-    console.log(channelData);
 
-    // Aquí, en lugar de asignar los datos a selectedMember.chat, puedes asignarlos a otra variable que represente el chat del canal.
     const channelChat = channelData['chat'];
 
     if (channelChat && channelChat.length > 0) {
-      console.log(channelChat);
     }
   }
 
-  //updates the array of channels in firestore
+  /**
+   * gets a clean json from channel
+   * @param channel the channel to update
+   * @returns the clean json
+   */
   getCleanJson(channel: any): {} {
     return {
       id: channel.id,
@@ -141,7 +139,11 @@ export class SharedService implements OnInit {
     };
   }
 
-  //return the channels from firestore
+  /**
+   * gets the id of the collection
+   * @param channel the channel to update
+   * @returns the id of the collection
+   */
   getColIdFromChannel(channel: any) {
     if (channel.name || channel.description || channel.members) {
       return 'channels';
@@ -150,7 +152,10 @@ export class SharedService implements OnInit {
     }
   }
 
-  //updates the chat member in Firestore
+  /**
+   * Updates the private chat in Firestore.
+   * @param members the members to update
+   */
   async updatePrivateChatFS(members: any) {
     if (members.id) {
       let docRef = this.getsingleDocRef(
@@ -158,17 +163,15 @@ export class SharedService implements OnInit {
         members.id
       );
 
-      await updateDoc(docRef, this.getCleanJsonMember(members))
-        .catch((err) => {
-          console.log(err);
-        })
-        .then(() => {
-          console.log('Document updated');
-        });
+      await updateDoc(docRef, this.getCleanJsonMember(members));
     }
   }
 
-  //updates the array of member from firestore
+  /**
+   * gets a clean json from members
+   * @param members the members to update
+   * @returns the clean json
+   */
   getCleanJsonMember(members: any): {} {
     return {
       id: members.id,
@@ -177,7 +180,11 @@ export class SharedService implements OnInit {
     };
   }
 
-  //return the members from firestore
+  /**
+   * gets the id of the member collection
+   * @param members the members to update
+   * @returns the member collection
+   */
   getColIdFromMember(members: any) {
     if (members.chat) {
       return 'members';
@@ -186,34 +193,26 @@ export class SharedService implements OnInit {
     }
   }
 
-  //It adds a channel to firestore
+  /**
+   * Adds a channel to Firestore.
+   * @param channel the channel to update
+   */
   async addChannelFS(channel: any) {
-    await addDoc(this.getChannelsFromFS(), channel)
-      .catch((err) => {
-        console.log(err);
-      })
-      .then((docRef) => {
-        console.log('Document written with ID: ', docRef?.id);
-      });
+    await addDoc(this.getChannelsFromFS(), channel);
   }
 
-  //It adds a member to firestore
+  /**
+   * Adds a member to Firestore.
+   * @param member the member to update
+   */
   async addMemberFS(member: any) {
-    await addDoc(this.getMembersFromFS(), member)
-      .catch((err) => {
-        console.log(err);
-      })
-      .then((docRef) => {
-        console.log('Document written with ID: ', docRef?.id);
-      });
+    await addDoc(this.getMembersFromFS(), member);
   }
 
-  ngonDestroy(): void {
-    this.unsubChannels();
-    this.unsubMembers();
-  }
-
-  //gets the channels from firestore
+  /**
+   * Gets the list of channels.
+   * @returns the list of channels
+   */
   channelsList() {
     return onSnapshot(this.getChannelsFromFS(), (list) => {
       this.channelsListArray = [];
@@ -225,7 +224,10 @@ export class SharedService implements OnInit {
     });
   }
 
-  //gets the members from firestore
+  /**
+   * Gets the list of members.
+   * @returns the list of members
+   */
   getMembersList() {
     return onSnapshot(this.getMembersFromFS(), (list) => {
       this.membersListArray = [];
@@ -237,17 +239,51 @@ export class SharedService implements OnInit {
     });
   }
 
-  //return the members from firestore
+  /**
+   * gets the list of members from firestore
+   * @returns the list of members
+   */
   getMembersFromFS() {
     return collection(this.firestore, 'members');
   }
 
-  //return the channels from firestore
+  /**
+   * gets the list of members from firestore
+   * @returns the list of members
+   */
+  async getMembersFS() {
+    const querySnapshot = await getDocs(collection(this.firestore, 'members'));
+    this.members = querySnapshot.docs.map((doc) =>
+      this.setMemberObject(doc.data(), doc.id)
+    );
+    this.membersData.next(this.members);
+    return this.members;
+  }
+
+  /**
+   * gets the list of channels from firestore
+   * @returns the list of channels
+   */
+  async getChannelsFS() {
+    const querySnapshot = await getDocs(collection(this.firestore, 'channels'));
+    this.channels = querySnapshot.docs.map((doc) =>
+      this.setChannelObject(doc.data(), doc.id)
+    );
+    this.channelsData.next(this.channels);
+    return this.channels;
+  }
+
+  /**
+   * gets the list of channels from firestore
+   * @returns the list of channels
+   */
   getChannelsFromFS() {
     return collection(this.firestore, 'channels');
   }
 
-  //sets the channel object from firestore
+  /**
+   * sets the channel object from firestore
+   */
   setChannelObject(obj: any, id: string) {
     return {
       id: id,
@@ -259,18 +295,48 @@ export class SharedService implements OnInit {
     };
   }
 
-  //gets the single document reference from firestore
+  /**
+   * Sets the member object from firestore
+   * @param obj the object to set
+   * @param id the id of the object
+   * @returns
+   */
+  setMemberObject(obj: any, id: string) {
+    return {
+      id: id,
+      chat: obj.chat || [],
+      imgProfil: obj.imgProfil || '',
+      member: obj.member || [],
+      name: obj.name || '',
+      type: obj.type || '',
+      channels: obj.channels || [],
+    };
+  }
+
+  /**
+   * Gets the document reference from firestore
+   * @param colId the id of the collection
+   * @param docId the id of the document
+   * @returns
+   */
   getsingleDocRef(colId: string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
   }
 
   /**
-   * updates the members in channel
-   * @param members  the members to update
+   * Gets the information of the user.
+   * @returns the information of the user
    */
-  updateMembers(members: any[]) {
-    this.membersData.next(members);
-    this.saveChannelToLocalStorage();
+  getUserData() {
+    return this.userData;
+  }
+
+  /**
+   * the user data to set
+   * @param userData the user data to set
+   */
+  setUserData(userData: any) {
+    this.userData = userData;
   }
 
   /**
@@ -340,61 +406,6 @@ export class SharedService implements OnInit {
   }
 
   /**
-   * Adds a channel to the list of channels.
-   * @param channel the channel to add
-   */
-  addChannel(channel: any) {
-    this.channels.push(channel);
-    this.saveChannelToLocalStorage();
-  }
-
-  /**
-   * Gets the list of channels.
-   * @returns the list of channels
-   */
-  getChannels() {
-    return this.channels;
-  }
-
-  getChannelsFromLS(): any[] {
-    const storedChannels = localStorage.getItem('channels');
-    return storedChannels ? JSON.parse(storedChannels) : [];
-  }
-
-  /**
-   * Gets the channel by id.
-   * @param id the id of the channel
-   * @returns the channel
-   */
-  updateChannel(updatedChannel: any) {
-    const index = this.channels.findIndex(
-      (channel) => channel.id === updatedChannel.id
-    );
-    if (index !== -1) {
-      this.channels[index] = updatedChannel;
-      this.saveChannelToLocalStorage();
-    }
-  }
-
-  /**
-   * Saves the channel to local storage.
-   * @param id the id of the channel
-   * @returns the channel
-   */
-  private saveChannelToLocalStorage() {
-    localStorage.setItem('channels', JSON.stringify(this.channels));
-  }
-
-  /**
-   * Adds a member to the list of members.
-   * @param member the member to add
-   */
-  addMember(member: any) {
-    this.members.push(member);
-    this.saveMembersToLocalStorage();
-  }
-
-  /**
    * Gets the list of members.
    * @returns the list of members
    */
@@ -404,113 +415,30 @@ export class SharedService implements OnInit {
   }
 
   /**
-   * Saves the member to local storage.
-   * @param id the id of the member
-   * @returns the member
+   * Add all the members to allgemein channels.
+   * @param members the list of members
    */
-  saveMembersToLocalStorage() {
-    localStorage.setItem('members', JSON.stringify(this.members));
-  }
+  async addUserToAllgemeinChannel(userToAdd: any) {
+    const allgemeinChannelId = '2gLa7RRaqoFZOCpnEk8L';
 
-  /**
-   * updates the member to local storage.
-   * @param id the id of the member
-   * @returns the member
-   */
-  updateMember(updatedMember: any) {
-    const index = this.members.findIndex(
-      (member) => member.id === updatedMember.id
-    );
-    if (index !== -1) {
-      this.members[index] = updatedMember;
-      this.saveMembersToLocalStorage();
-    }
-  }
+    try {
+      const channelRef = this.getsingleDocRef('channels', allgemeinChannelId);
+      const channelSnapshot = await getDoc(channelRef);
 
-  /**
-   * saves the message of channels to local storage.
-   * @returns the list of private messages
-   */
-  saveMessageToLocalStorage(channelId: string, message: any) {
-    const storedChannels = localStorage.getItem('channels');
-    const channels = storedChannels ? JSON.parse(storedChannels) : [];
+      if (channelSnapshot.exists()) {
+        const channelData = channelSnapshot.data();
+        const members: any[] = channelData['members'] || [];
+        const userExists = members.some(
+          (member: any) => member.id === userToAdd.id
+        );
 
-    const channel = channels.find((c: any) => c.id === channelId);
-
-    if (channel) {
-      channel.chat.push(message);
-    }
-
-    localStorage.setItem('channels', JSON.stringify(channels));
-  }
-
-  /**
-   * saves the message of private messages to local storage.
-   * @returns the list of private messages
-   */
-  savePrivateMessageToLocalStorage(memberId: string, message: any) {
-    const storedPrivateMsg = localStorage.getItem('privateMessages');
-    let privateMessages = storedPrivateMsg ? JSON.parse(storedPrivateMsg) : {};
-
-    if (!privateMessages[memberId]) {
-      privateMessages[memberId] = {
-        id: memberId,
-        chat: [],
-      };
-    }
-
-    privateMessages[memberId].chat.push(message);
-    localStorage.setItem('privateMessages', JSON.stringify(privateMessages));
-  }
-
-  /**
-   * gets the message of channels from local storage.
-   * @returns the list of channels messages
-   */
-  getChannelsIds(): {
-    [channelId: string]: { chat: any[] };
-  } {
-    const channelMessages: {
-      [channelId: string]: { chat: any[] };
-    } = {};
-
-    const storedChannels = localStorage.getItem('channels');
-    const channels = storedChannels ? JSON.parse(storedChannels) : [];
-    channels.forEach((channel: any) => {
-      const channelId = channel.id;
-      channelMessages[channelId] = {
-        chat: this.getMessagesForChannel(channelId),
-      };
-    });
-
-    return channelMessages;
-  }
-
-  /**
-   * return the message for the channels
-   * @returns the list of private messages
-   */
-  getMessagesForChannel(channelId: string): any[] {
-    const storedChannels = localStorage.getItem('channels');
-    const channels = storedChannels ? JSON.parse(storedChannels) : [];
-
-    const channel = channels.find((c: any) => c.id === channelId);
-
-    return channel ? channel.chat : [];
-  }
-
-  /**
-   * return the message for the private messages
-   * @returns the list of private messages
-   */
-  returnPrivateChats(memberId: string) {
-    const storedPrivateMsg = localStorage.getItem('privateMessages');
-    if (storedPrivateMsg) {
-      const privateMessages = JSON.parse(storedPrivateMsg);
-      if (privateMessages[memberId]) {
-        return privateMessages[memberId] || [];
+        if (!userExists) {
+          members.push(userToAdd);
+          await updateDoc(channelRef, { members });
+        }
       }
+    } catch (error) {
+      console.error(error);
     }
-    return { chat: [] };
   }
 }
