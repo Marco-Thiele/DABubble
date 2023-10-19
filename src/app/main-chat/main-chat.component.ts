@@ -532,7 +532,6 @@ export class MainChatComponent implements OnInit {
         const searchTerm = inputText.substring(1);
         this.searchMembers(searchTerm).then((members) => {
           this.memberMatches = members;
-          console.log('Member Matches:', this.memberMatches);
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
         });
@@ -540,14 +539,12 @@ export class MainChatComponent implements OnInit {
         const searchTerm = inputText.substring(1);
         this.searchChannels(searchTerm).then((channels) => {
           this.channelMatches = channels;
-          console.log('Channel Matches:', this.channelMatches);
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
         });
       } else {
         this.searchMembers(inputText).then((members) => {
           this.memberMatches = members;
-          console.log('Member Matches:', this.memberMatches);
           this.isNewMessageVisible =
             this.memberMatches.length > 0 ||
             this.channelMatches.length > 0 ||
@@ -555,7 +552,6 @@ export class MainChatComponent implements OnInit {
         });
         this.searchChannels(inputText).then((channels) => {
           this.channelMatches = channels;
-          console.log('Channel Matches:', this.channelMatches);
           this.isNewMessageVisible =
             this.memberMatches.length > 0 ||
             this.channelMatches.length > 0 ||
