@@ -46,6 +46,7 @@ export class ChannelsComponent implements OnInit {
       this.user.chat = this.userData.chat;
     }
     localStorage.setItem('userData', JSON.stringify(this.user));
+    this.sharedService.addUserToAllgemeinChannel(this.user);
   }
 
   /**
