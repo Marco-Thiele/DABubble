@@ -134,3 +134,46 @@
 .display-none {
   display: none;
 }
+
+@media (width < 1000px) {
+  .workspace-menu-cont {
+    width: 300px;
+    height: 24px;
+  }
+
+  .workspace-menu {
+    span {
+      font-size: 18px;
+    }
+    div {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+@media (width < 800px) {
+  .general-view-container {
+    padding: 20px 0px 0px 0px;
+    height: calc(100% - 117px);
+  }
+
+  .channels-container {
+    width: 100% !important;
+    border-radius: 0;
+  }
+
+  .main-chat-container {
+    width: 100% !important;
+    border-radius: 0;
+  }
+
+  .secondary-chat-container {
+    width: 100% !important;
+    border-radius: 0;
+  }
+
+  .workspace-menu-cont {
+    display: none;
+  }
+}

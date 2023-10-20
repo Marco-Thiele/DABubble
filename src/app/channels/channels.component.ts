@@ -116,6 +116,5 @@ export class ChannelsComponent implements OnInit {
     const memberId = member.id;
 
     this.sharedService.emitOpenPrivateContainer(member);
-    console.log('member: ', member);
   }
 }

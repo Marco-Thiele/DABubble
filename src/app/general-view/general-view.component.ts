@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-general-view',
@@ -13,10 +14,21 @@ export class GeneralViewComponent implements OnInit {
   channelDisplay = '';
   buttonText = 'Workspace-Menü schließen';
   isMenuOpen = true;
+  appChannels = true;
+  showChannels = true;
+  appMainChat = true;
+  showMainChat = true;
+  appSecondaryChat = true;
+  showSecondary = true;
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  constructor(
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private sharedService: SharedService
+  ) {}
+  ngOnInit(): void {
+    this.onResize();
+  }
 
   /**
    * Opens or closes the workspace menu.
@@ -55,5 +67,25 @@ export class GeneralViewComponent implements OnInit {
       this.buttonText = 'Workspace-Menü öffen';
       this.isMenuOpen = false;
     }, 1000);
+  }
+
+  /**
+   * sets the display of the workspace menu to none.
+   */
+  onResize(event?: Event) {
+    if (window.innerWidth < 800) {
+      this.showMainChat = false;
+      this.showSecondary = false;
+    } else {
+      this.showMainChat = this.appMainChat;
+      this.showSecondary = this.appSecondaryChat;
+    }
+  }
+
+  openMainChat() {
+    console.log('openMainChat');
+    this.showChannels = false;
+    this.showMainChat = true;
+    this.appMainChat = true;
   }
 }

@@ -139,3 +139,32 @@
     background: var(--Purple-2, #797ef3);
   }
 }
+
+@media (width < 1000px) {
+  .create-channel-container {
+    width: 560px;
+  }
+}
+
+@media (width < 800px) {
+  .create-channel-container {
+    width: 400px;
+  }
+}
+
+@media (width < 600px) {
+  .create-channel-container {
+    width: 320px;
+  }
+}
+
+@media (width < 500px) {
+  .create-channel-container {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 0;
+  }
+}

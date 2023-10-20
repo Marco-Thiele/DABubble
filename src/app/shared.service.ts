@@ -36,6 +36,7 @@ export class SharedService implements OnInit {
   privatesListArray: any[] = [];
   membersListArray: any[] = [];
   i: number = 0;
+
   unsubChannels;
   unsubMembers;
 
@@ -44,7 +45,7 @@ export class SharedService implements OnInit {
     this.unsubMembers = this.getMembersList();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngonDestroy(): void {
     this.unsubChannels();
@@ -443,7 +444,4 @@ export class SharedService implements OnInit {
       console.error(error);
     }
   }
-
-
-
 }

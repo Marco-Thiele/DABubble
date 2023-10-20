@@ -599,9 +599,7 @@ export class MainChatComponent implements OnInit {
     }));
   }
 
-
-  openThread(i:number){
-    this.sharedService.i = i
+  openThread(i: number) {
+    this.sharedService.i = i;
   }
-
 }
