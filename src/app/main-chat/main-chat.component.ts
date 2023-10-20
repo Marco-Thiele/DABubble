@@ -598,4 +598,10 @@ export class MainChatComponent implements OnInit {
       owner: channel.owner,
     }));
   }
+
+
+  openThread(i:number){
+    this.sharedService.i = i
+  }
+
 }

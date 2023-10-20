@@ -144,7 +144,7 @@
     <!--Container for the member's chat-->
 
     <div class="message-members-box-cont"
-      *ngFor="let message of (selectedMember?.chat || []).concat(selectedChannel?.chat || [])">
+      *ngFor="let message of (selectedMember?.chat || []).concat(selectedChannel?.chat || []), let i = index">
       <ng-container *ngIf="message.userName !== userService.getName()">
         <div class="message-reaction-people">
           <div class="reaction-icon">
@@ -169,12 +169,12 @@
             <span class="font400-normal">{{message.time}}</span>
           </div>
           <div class="message-members-speech">
-            <span class="font400-normal">{{message.text}}</span>
+            <span class="font400-normal" (click)="openThread(i)">{{message.text}}</span>
             <img src="{{message.imageUrl}}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
               [style.margin-top]="message.imageUrl ? '8px': '0px'">
           </div>
           <div class="message-members-answers">
-            <span class="font400-normal">2 Antworten</span>
+            <span class="font400-normal" (click)="openThread(i)">2 Antworten</span>
             <a class="font400-normal">Letzte Antwort 14:56</a>
           </div>
         </div>

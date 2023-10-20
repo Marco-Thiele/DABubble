@@ -21,10 +21,10 @@
                 <div class="position-contant">
                     <div class="info">
                         <div class="name" (click)="showUserProfil()">
-                            Name
+                            {{threads.userName}}
                         </div>
                         <div>
-                            14:25 Uhr
+                            {{threads.time}}
                         </div>
                         <div class="img-react" (click)="toggleEmojiPicker(4)">
                             
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="question">
-                        Welche Version ist aktuell von Angular?
+                        {{threads.text}}
                     </div>
                     <div class="answer-icons">
                         <div class="answer-reaction">
@@ -55,7 +55,7 @@
 
         <div class="separate">
             <div class="separate-answer">
-                2 Antworten
+                {{threads.answers.length}} Antworten
             </div>
             <div class="seperate-line">
             </div>

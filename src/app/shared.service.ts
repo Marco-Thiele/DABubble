@@ -25,15 +25,17 @@ import {
 export class SharedService implements OnInit {
   private channels: any[] = [];
   private isEditChannelOpen = false;
-  private members: any[] = [];
+  public members: any[] = [];
   private membersData = new BehaviorSubject<any[]>([]);
+  private channelsData = new BehaviorSubject<any[]>([]);
+  private userData: any;
 
   currentMembers = this.membersData.asObservable();
   firestore: Firestore = inject(Firestore);
   channelsListArray: any[] = [];
   privatesListArray: any[] = [];
   membersListArray: any[] = [];
-
+  i: number = 0;
   unsubChannels;
   unsubMembers;
 
@@ -42,7 +44,7 @@ export class SharedService implements OnInit {
     this.unsubMembers = this.getMembersList();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngonDestroy(): void {
     this.unsubChannels();
@@ -441,4 +443,7 @@ export class SharedService implements OnInit {
       console.error(error);
     }
   }
+
+
+
 }
