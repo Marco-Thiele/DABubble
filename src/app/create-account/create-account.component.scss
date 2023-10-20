@@ -1,7 +1,6 @@
 .logo {
-  position: absolute;
-  top: 75px;
-  left: 75px;
+  align-self: flex-start;
+  margin-top: 32px;
 }
 
 .container {
@@ -18,7 +17,7 @@
   align-items: center;
   justify-content: center;
   font-family: "Nunito" !important;
-  gap: 65px;
+  gap: 20px;
 }
 
 .register-container {
@@ -148,7 +147,7 @@ form {
 .btn-container {
   width: 500px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 30px;
 }
 
@@ -168,9 +167,7 @@ form {
 }
 
 .submit {
-  position: absolute;
-  right: 53px;
-  bottom: 40px;
+  align-self: flex-end;
   background-color: #444df2;
   color: white;
   &:hover {
@@ -180,8 +177,7 @@ form {
 
 .policies {
   display: flex;
-  position: absolute;
-  bottom: 48px;
+
   gap: 16px;
   a {
     padding: 10px 15px;
@@ -248,8 +244,36 @@ form {
     display: none;
   }
 
+  .logo {
+    align-self: center;
+  }
+
+  .register-container {
+    width: 90%;
+    height: 80%;
+  }
+
+  .name-container,
+  .email-container,
+  .pwd-container {
+    width: 100%;
+  }
+
+  .wrapper {
+    width: 80%;
+  }
+
+  .data-policy-container {
+    width: 80%;
+  }
+
+  .btn-container {
+    width: 80%;
+  }
+
   .container {
     justify-content: unset;
+    padding: 0;
   }
   .header {
     margin-top: 32px;
@@ -274,9 +298,6 @@ form {
   .guest {
     padding: 12px 10px;
   }
-  .submit {
-    padding: 12px 10px;
-  }
 
   .register-container {
     height: 75%;
@@ -298,10 +319,6 @@ form {
     padding: 15px 14px;
   }
 
-  .logo {
-    left: 19%;
-    top: 20px;
-  }
   form {
     gap: 40px;
     margin-top: 20px;
