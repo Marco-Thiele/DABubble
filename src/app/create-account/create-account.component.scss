@@ -15,9 +15,9 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: center;
+
   font-family: "Nunito" !important;
-  gap: 20px;
+  gap: 60px;
 }
 
 .register-container {
@@ -39,7 +39,7 @@
 .greet {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 5px;
   h1 {
     color: #444df2;
     font-size: 46px;
@@ -177,7 +177,7 @@ form {
 
 .policies {
   display: flex;
-
+  margin-top: auto;
   gap: 16px;
   a {
     padding: 10px 15px;
@@ -194,10 +194,8 @@ form {
 }
 
 .return-arrow {
-  position: absolute;
   padding: 8px;
-  left: 32px;
-  top: 45px;
+  width: 25px;
   &:hover {
     border-radius: 100%;
     background-color: rgba(0, 0, 0, 0.04);
@@ -238,6 +236,7 @@ form {
 @media screen and (max-width: 768px) {
   form {
     gap: 30px;
+    width: 100%;
   }
 
   .policies {
@@ -250,7 +249,7 @@ form {
 
   .register-container {
     width: 90%;
-    height: 80%;
+    height: 72%;
   }
 
   .name-container,
@@ -260,7 +259,7 @@ form {
   }
 
   .wrapper {
-    width: 80%;
+    width: 90%;
   }
 
   .data-policy-container {
@@ -320,8 +319,11 @@ form {
   }
 
   form {
-    gap: 40px;
+    gap: 30px !important;
     margin-top: 20px;
+  }
+  .submit {
+    margin-top: 32px;
   }
 }
 
@@ -347,18 +349,18 @@ form {
 }
 
 @media screen and (max-width: 376px) {
+  .submit {
+    margin-top: unset;
+  }
   .container {
     gap: 9px;
   }
   .guest {
     padding: 12px 10px;
   }
-  .submit {
-    padding: 12px 10px;
-  }
 
   .register-container {
-    height: 75%;
+    height: 80%;
     font-size: 16px;
     padding: 15px;
   }
@@ -381,7 +383,6 @@ form {
     top: 4px;
   }
   form {
-    gap: 10px !important;
     margin-top: 20px;
   }
 }
