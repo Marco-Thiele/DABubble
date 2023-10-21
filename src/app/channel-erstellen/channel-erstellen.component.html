@@ -25,7 +25,7 @@
         (input)="onTextareaInput($event)" [(ngModel)]="channel.description"></textarea>
     </div>
   </div>
-  <div class="button-create-cont">
-    <span class="font700-normal" (click)="createChannel()">Erstellen</span>
+  <div class="button-create-cont" (click)="createChannel()">
+    <span class="font700-normal">Erstellen</span>
   </div>
 </div>

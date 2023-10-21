@@ -56,15 +56,27 @@ export class ChannelErstellenComponent implements OnInit {
         owner: this.userService.getName(),
       };
 
-      const dialogRef = this.dialog.open(NewChannelMembersComponent, {
-        data: { channel: channelData },
-      });
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.dialogRef.close();
-        }
-      });
-      this.dialogRef.close();
+      if (window.innerWidth < 500) {
+        const dialogRef = this.dialog.open(NewChannelMembersComponent, {
+          data: { channel: channelData },
+          panelClass: 'slide-up',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            this.dialogRef.close();
+          }
+        });
+      } else {
+        const dialogRef = this.dialog.open(NewChannelMembersComponent, {
+          data: { channel: channelData },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            this.dialogRef.close();
+          }
+        });
+        this.dialogRef.close();
+      }
     } else {
       alert('Please, enter a name for the channel.');
     }

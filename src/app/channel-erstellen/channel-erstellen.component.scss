@@ -161,10 +161,23 @@
 @media (width < 500px) {
   .create-channel-container {
     height: 100vh;
-    width: 100vw;
+    width: 84vw;
+    position: fixed;
+    border-radius: 0;
+  }
+
+  .cdk-overlay-container {
+    width: 0;
+    height: 0;
   }
 
   .mat-mdc-dialog-container .mdc-dialog__surface {
     border-radius: 0;
+  }
+
+  .slide-up {
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    bottom: 0;
   }
 }
