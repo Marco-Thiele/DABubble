@@ -22,8 +22,9 @@
 
 .input-field {
   border-radius: 42px;
+
   padding: 17px 45px 17px 45px;
-  background-image: url('../../assets/icons/search.svg');
+  background-image: url("../../assets/icons/search.svg");
   background-repeat: no-repeat;
   box-sizing: border-box;
   background-position: right center;
@@ -35,6 +36,7 @@
 
 .input-position {
   min-width: 51.5%;
+  position: relative;
 }
 
 .position-profil-contant {
@@ -90,9 +92,38 @@
   display: none;
 }
 
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  border-radius: 8px;
+  width: 100%;
+  max-height: 500px;
+  background-color: #fff;
 
-@media(max-width: 1400px) {
+  overflow: auto;
+  z-index: 9;
+  box-shadow: 2px 10px rgba(0, 0, 0, 0.08);
+  img {
+    width: 75px;
+    height: 75px;
+    border-radius: 100%;
+  }
+}
 
+.searchResult {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  padding: 14px 14px;
+  border-radius: 8px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 1400px) {
   .input-position {
     min-width: 48.5%;
   }
@@ -110,8 +141,7 @@
   }
 }
 
-@media(max-width: 1200px) {
-
+@media (max-width: 1200px) {
   .input-position {
     min-width: 46.5%;
   }
@@ -124,27 +154,26 @@
     justify-content: space-around;
   }
 
-  .position-icon{
+  .position-icon {
     padding-left: 20px;
     padding-right: 20px;
-    img{
+    img {
       width: 200px;
     }
   }
 }
 
-@media(max-width: 1000px) {
-
+@media (max-width: 1000px) {
   .input-position {
     display: none;
   }
 
-  .header-position{
+  .header-position {
     display: flex;
     justify-content: space-between;
   }
 
-  .position-profil-contant{
+  .position-profil-contant {
     width: unset;
   }
 }

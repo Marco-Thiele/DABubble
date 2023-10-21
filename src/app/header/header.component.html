@@ -9,7 +9,15 @@
           class="input-field"
           type="text"
           placeholder="Code learning durchsuchen"
+          [(ngModel)]="searchTerm"
+          (input)="onSearch($event)"
         />
+        <div *ngIf="showResults" class="searchContainer">
+          <div *ngFor="let user of foundUsers" class="searchResult">
+            <img src="{{ user['photoURL'] }}" />
+            <span>{{ user["name"] }}</span>
+          </div>
+        </div>
       </div>
       <div class="position-profil-contant" (click)="showInfo()">
         <div class="profil-name">
