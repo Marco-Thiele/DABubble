@@ -129,7 +129,10 @@ export class MainChatComponent implements OnInit {
    * @param channel the channel to open
    */
   openChannelContainer(channel: any) {
+    console.log('5');
     this.sharedService.openChannelEvent$.subscribe((channel: any) => {
+      console.log(channel);
+      console.log('6');
       this.isChannelVisible = true;
       this.isPrivatChatContainerVisible = false;
       this.isChatWithMemberVisible = false;

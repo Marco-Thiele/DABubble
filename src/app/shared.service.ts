@@ -387,6 +387,17 @@ export class SharedService implements OnInit {
   }
 
   /**
+   * Emits an event to open the new message component from Channel to Main-Chat in responsive mode
+   */
+  private openRespNewMessage = new Subject<void>();
+
+  openRespNewMessage$ = this.openRespNewMessage.asObservable();
+
+  openMainChatContainer() {
+    this.openRespNewMessage.next();
+  }
+
+  /**
    * Emits an event to open the channel component from Main-Chat to Channel
    */
   private openChannelEvent = new Subject<any>();
@@ -395,6 +406,20 @@ export class SharedService implements OnInit {
 
   emitOpenChannel(channel: any) {
     this.openChannelEvent.next(channel);
+    console.log(channel);
+    console.log('4');
+  }
+
+  /**
+   * Emits an event to open the channel component from Main-Chat to Channel
+   */
+  private openRespChannelEvent = new Subject<any>();
+
+  openRespChannelEvent$ = this.openRespChannelEvent.asObservable();
+
+  emitRespOpenChannel(channel: any) {
+    console.log('2');
+    this.openRespChannelEvent.next(channel);
   }
 
   /**

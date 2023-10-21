@@ -17,9 +17,19 @@ export class GeneralViewComponent implements OnInit {
   appChannels = true;
   showChannels = true;
   appMainChat = true;
-  showMainChat = true;
+  showMainChat = false;
   appSecondaryChat = true;
-  showSecondary = true;
+  showSecondary = false;
+  selectedChannel: any;
+  currentChannel: any;
+  sendChannel = false;
+  isChannelVisible = false;
+  isNewMessageVisible = false;
+  isPrivatChatContainerVisible = false;
+  isChatWithMemberVisible = false;
+  isPrivateChatVisible = false;
+  placeholderMessageBox = 'Starte eine neue Nachricht';
+  sendPrivate = false;
 
   constructor(
     private renderer: Renderer2,
@@ -28,6 +38,30 @@ export class GeneralViewComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.onResize();
+    this.openNewMessage();
+    this.openRespChannelContainer(this.selectedChannel);
+  }
+
+  openRespChannelContainer(channel: any) {
+    this.sharedService.openRespChannelEvent$.subscribe((channel: any) => {
+      console.log('3');
+      this.showChannels = false;
+      this.appChannels = false;
+      this.sharedService.emitOpenChannel(channel);
+      this.showMainChat = true;
+      this.appMainChat = true;
+      // this.isChannelVisible = true;
+      // this.isPrivatChatContainerVisible = false;
+      // this.isChatWithMemberVisible = false;
+      // this.isNewMessageVisible = false;
+      // this.isPrivatChatContainerVisible = false;
+      // this.isPrivateChatVisible = false;
+      // this.selectedChannel = channel;
+      // this.currentChannel = channel;
+      // this.sendChannel = true;
+      // this.sendPrivate = false;
+      // this.placeholderMessageBox = 'Nachricht an #' + channel.name;
+    });
   }
 
   /**
@@ -73,7 +107,7 @@ export class GeneralViewComponent implements OnInit {
    * sets the display of the workspace menu to none.
    */
   onResize(event?: Event) {
-    if (window.innerWidth < 800) {
+    if (window.innerWidth < 1000) {
       this.showMainChat = false;
       this.showSecondary = false;
     } else {
@@ -83,9 +117,16 @@ export class GeneralViewComponent implements OnInit {
   }
 
   openMainChat() {
-    console.log('openMainChat');
     this.showChannels = false;
     this.showMainChat = true;
     this.appMainChat = true;
+  }
+
+  openNewMessage() {
+    this.sharedService.openRespNewMessage$.subscribe(() => {
+      this.showChannels = false;
+      this.showMainChat = true;
+      this.appMainChat = true;
+    });
   }
 }

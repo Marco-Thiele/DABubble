@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChannelErstellenComponent } from '../channel-erstellen/channel-erstellen.component';
 import { SharedService } from '../shared.service';
 import { UserService } from '../user.service';
+import { DocumentData } from 'rxfire/firestore/interfaces';
 
 @Component({
   selector: 'app-channels',
@@ -19,6 +20,13 @@ export class ChannelsComponent implements OnInit {
   members: any[] = [];
   selectedMember: any;
   userData: any;
+  userArr: DocumentData[] = [];
+  foundUsers: DocumentData[] = [];
+  chatMessages: string[] = [];
+  foundMessages: string[] = [];
+  searchTerm: string = '';
+  showResults: boolean = false;
+
   public user = {
     id: this.sharedService.getID(),
     name: this.userService.getName() + '(Du)',
@@ -99,13 +107,21 @@ export class ChannelsComponent implements OnInit {
    */
   openNewMessage() {
     this.sharedService.emitOpenNewMessage();
+    if (window.innerWidth < 1000) {
+      this.sharedService.openMainChatContainer();
+    }
   }
 
   /**
    * Opens the channel container in main chat.
    */
   openChannel(channel: any) {
-    this.sharedService.emitOpenChannel(channel);
+    if (window.innerWidth < 1000) {
+      this.sharedService.emitRespOpenChannel(channel);
+      console.log('1');
+    } else {
+      this.sharedService.emitOpenChannel(channel);
+    }
   }
 
   /**
@@ -116,5 +132,20 @@ export class ChannelsComponent implements OnInit {
     const memberId = member.id;
 
     this.sharedService.emitOpenPrivateContainer(member);
+  }
+
+  onSearch(event: Event) {
+    this.foundUsers = [];
+    const input = (event.target as HTMLInputElement).value;
+    this.userArr.forEach((user) => {
+      if (user['name'].toLowerCase().includes(input.toLowerCase())) {
+        this.foundUsers.push(user);
+      }
+    });
+    this.showResults = true;
+    console.log(this.foundUsers);
+    if (input.length === 0) {
+      this.showResults = false;
+    }
   }
 }
