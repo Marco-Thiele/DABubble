@@ -506,6 +506,7 @@ export class MainChatComponent implements OnInit {
   }
 
   savePrivateMessage(selectedMember: any, message: any) {
+    console.log(selectedMember);
     selectedMember.chat.push(message);
     this.sharedService.updatePrivateChatFS(selectedMember);
     this.message = '';

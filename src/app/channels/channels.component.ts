@@ -128,6 +128,7 @@ export class ChannelsComponent implements OnInit {
    * Opens the private container in main chat.
    */
   openPrivateContainer(member: any) {
+    console.log(member);
     this.selectedMember = member;
     const memberId = member.id;
 
