@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <div class="position-question-contant">
+        <div *ngFor="let answers of threads.answers|| []" let i = index class="position-question-contant">
             <div class="profil-img">
                 <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
             </div>
@@ -69,7 +69,7 @@
                 <div class="position-contant">
                     <div class="info">
                         <div class="name" (click)="showUserProfil()">
-                            Name
+                            {{answers}}
                         </div>
                         <div>
                             14:30 Uhr
