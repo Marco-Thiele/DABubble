@@ -17,6 +17,13 @@
             <img src="{{ user['photoURL'] }}" />
             <span>{{ user["name"] }}</span>
           </div>
+          <div *ngFor="let message of foundMessages" class="searchResult">
+            <img src="{{ message['imgProfil'] }}" />
+            <span
+              >Text from {{ message["userName"] }}: "{{ message["text"] }}" -
+              {{ message["date"] }}</span
+            >
+          </div>
         </div>
       </div>
       <div class="position-profil-contant" (click)="showInfo()">

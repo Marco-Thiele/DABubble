@@ -17,6 +17,7 @@ import {
 } from '@angular/fire/firestore';
 import { getAuth, signOut } from '@angular/fire/auth';
 import { DocumentData } from 'rxfire/firestore/interfaces';
+import { message } from '../models/message';
 
 @Component({
   selector: 'app-header',
@@ -31,8 +32,8 @@ export class HeaderComponent {
   firestore: Firestore = inject(Firestore);
   userArr: DocumentData[] = [];
   foundUsers: DocumentData[] = [];
-  chatMessages: string[] = [];
-  foundMessages: string[] = [];
+  chatMessages: DocumentData[] = [];
+  foundMessages: DocumentData[] = [];
   searchTerm: string = '';
   showResults: boolean = false;
   constructor(
@@ -45,6 +46,7 @@ export class HeaderComponent {
       this.profilImg = UserService.getPhoto();
     }, 300);
     this.subUserList();
+    this.subChatList();
   }
 
   /**
@@ -131,10 +133,16 @@ export class HeaderComponent {
 
   onSearch(event: Event) {
     this.foundUsers = [];
+    this.foundMessages = [];
     const input = (event.target as HTMLInputElement).value;
     this.userArr.forEach((user) => {
       if (user['name'].toLowerCase().includes(input.toLowerCase())) {
         this.foundUsers.push(user);
+      }
+    });
+    this.chatMessages.forEach((message) => {
+      if (message['text'].toLowerCase().includes(input.toLowerCase())) {
+        this.foundMessages.push(message);
       }
     });
     this.showResults = true;
@@ -147,16 +155,20 @@ export class HeaderComponent {
     return collection(this.firestore, 'users');
   }
 
-  // subChatList() {
-  //   return onSnapshot(this.getUserCollection(), (list) => {
-  //     list.forEach((element) => {
-  //       const userData = element.data();
-  //       this.chatMessages.push(userData['email']);
-  //     });
-  //   });
-  // }
+  subChatList() {
+    return onSnapshot(this.getChatCollection(), (list) => {
+      list.forEach((element) => {
+        const chatData = element.data();
+        chatData['members'].forEach((member: any) => {
+          member.chat.forEach((message: DocumentData) => {
+            this.chatMessages.push(message);
+          });
+        });
+      });
+    });
+  }
 
-  // getChatCollection() {
-  //   return collection(this.firestore, 'channels');
-  // }
+  getChatCollection() {
+    return collection(this.firestore, 'channels');
+  }
 }
