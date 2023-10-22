@@ -29,13 +29,28 @@ export class SharedService implements OnInit {
   private membersData = new BehaviorSubject<any[]>([]);
   private channelsData = new BehaviorSubject<any[]>([]);
   private userData: any;
-  messageID : any;
+  messageID: any;
   currentMembers = this.membersData.asObservable();
   firestore: Firestore = inject(Firestore);
   channelsListArray: any[] = [];
   privatesListArray: any[] = [];
   membersListArray: any[] = [];
   i: number = 0;
+  threads = {
+    id: '',
+    userName: '',
+    profileImg: '',
+    imageUrl: '',
+    text: '',
+    time: '',
+    reactions: '',
+    answers: '',
+    date: '',
+  };
+  selectedChannel: any;
+  allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
+  thread: any;
+  openThread: boolean = false;
 
   unsubChannels;
   unsubMembers;
@@ -45,7 +60,7 @@ export class SharedService implements OnInit {
     this.unsubMembers = this.getMembersList();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngonDestroy(): void {
     this.unsubChannels();
@@ -473,4 +488,32 @@ export class SharedService implements OnInit {
       console.error(error);
     }
   }
+
+
+  loadThreads() {
+    return onSnapshot(collection(this.firestore, 'channels'), (list) => {
+      list.forEach((element) => {
+        if (element.id == this.selectedChannel.id && element) {
+          const gameData = element.data();
+          console.log('gamedata', gameData['chat'][this.i]);
+          this.thread = gameData['chat'][this.i];
+          this.threads = {
+            id: this.thread.id,
+            userName: this.thread.userName,
+            profileImg: this.thread.profileImg,
+            imageUrl: '',
+            text: this.thread.text,
+            time: this.thread.time,
+            reactions: this.thread.reactions,
+            answers: this.thread.answers,
+            date: this.thread.date,
+          };
+          console.log('threads', this.threads);
+        }
+      });
+    });
+  }
+
+
+
 }

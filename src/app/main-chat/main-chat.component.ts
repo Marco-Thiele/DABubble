@@ -12,6 +12,7 @@ import { SharedService } from '../shared.service';
 import { ChannelMembersComponent } from '../channel-members/channel-members.component';
 import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
 import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-chat',
@@ -65,7 +66,8 @@ export class MainChatComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private sharedService: SharedService,
-    public userService: UserService
+    public userService: UserService,
+    public router: Router,
   ) {
     this.openNewMessage();
     this.loadChannel();
@@ -603,7 +605,13 @@ export class MainChatComponent implements OnInit {
     }));
   }
 
-  openThread(i: number) {
+  openThread(i: number, messageID:any) {
+    console.log('selectedChannel', this.selectedChannel);
+  this.sharedService.selectedChannel = this.selectedChannel
+    
     this.sharedService.i = i;
+    this.sharedService.messageID = messageID
+    this.sharedService.loadThreads();
+    this.sharedService.openThread = true;
   }
 }

@@ -13,7 +13,7 @@ import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
 import { SharedService } from '../shared.service';
 import { ChannelMembersComponent } from '../channel-members/channel-members.component';
 import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
-import { Firestore, collection, query,  doc, getDoc, getDocs, onSnapshot, updateDoc, where, QuerySnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, query, doc, getDoc, getDocs, onSnapshot, updateDoc, where, QuerySnapshot, arrayUnion } from '@angular/fire/firestore';
 
 
 @Component({
@@ -45,7 +45,8 @@ export class SecondaryChatComponent {
     answers: '',
     date: '',
   };
-  allgemeinChannelId = '2gLa7RRaqoFZOCpnEk8L';
+  allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
+  messageID: any;
   thread: any;
   showEmojiPicker: boolean[] = [false, false];
   isFocused = false;
@@ -75,62 +76,72 @@ export class SecondaryChatComponent {
     this.profilName = UserService.getName();
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
-    this.i =
-    this.readThread();
+    this.i = sharedService.i
+    this.messageID = sharedService.messageID
+    this.loadThread();
     // this.openNewMessage();
     console.log(this.showEmojiPicker);
   }
 
-  async readThread() {
-    const answers = this.sharedService.getsingleDocRef(
-      'channels',
-      this.allgemeinChannelId
-    );
-    const channelSnapshot = await getDoc(answers);
-    this.sharedService.getChannelsFS();
-    console.log('answers', channelSnapshot.data());
-    console.log('answers2', this.sharedService.getChannelsFS());
+  async loadThread() {
+    setInterval(() => {
+      if (this.sharedService.openThread) {
+        this.threads = {
+          id: this.sharedService.thread.id,
+          userName: this.sharedService.thread.userName,
+          profileImg: this.sharedService.thread.profileImg,
+          imageUrl: '',
+          text: this.sharedService.thread.text,
+          time: this.sharedService.thread.time,
+          reactions: this.sharedService.thread.reactions,
+          answers: this.sharedService.thread.answers,
+          date: this.sharedService.thread.date,
+        }
+      }
+      this.sharedService.openThread = false;
+    }, 200)
 
 
-    // const q = query(collection(this.firestore, 'channels'), where('answers.id', '==', 1697695581740));
+    // const answers = this.sharedService.getsingleDocRef(
+    //   'channels',
+    //   this.allgemeinChannelId
+    // );
+    // const channelSnapshot = await getDoc(answers);
+    // this.sharedService.getChannelsFS();
+    // console.log('answers', channelSnapshot.data());
+    // console.log('answers2', this.sharedService.getChannelsFS());
+
+
+    // const q = query(collection(this.firestore, 'channels'), where('chat.id', '==', 1697969177525));
     // const unsubscribe = onSnapshot(q,(querySnapshot) => {
     //   console.log('was ist das', querySnapshot);
-      
     //   querySnapshot.forEach((doc) => {
-    //   console.log( 'was ist das ', doc)
+    //   console.log( 'was ist das 2 ', doc)
     // });
     // })
 
 
-    return onSnapshot(collection(this.firestore, 'channels'), (list) => {
-      list.forEach((element) => {
-        if (element.id == this.allgemeinChannelId && element) {
-          const gameData = element.data();
-          console.log('gamedata', gameData['chat'][0]);
-          this.thread = gameData['chat'][0];
-
-          // this.game.currentPlayer = gameData['currentPlayer'];
-          // this.game.players = gameData['players'];
-          // this.game.player_images = gameData['player_images'];
-          // this.game.playedCards = gameData['playedCards'];
-          // this.game.stack = gameData['stack'];
-          // this.game.pickCardAnimation = gameData['pickCardAnimation'];
-          // this.game.currentCard = gameData['currentCard'];
-          this.threads = {
-            id: this.thread.id,
-            userName: this.thread.userName,
-            profileImg: this.thread.profileImg,
-            imageUrl: '',
-            text: this.thread.text,
-            time: this.thread.time,
-            reactions: this.thread.reactions,
-            answers: this.thread.answers,
-            date: this.thread.date,
-          };
-          console.log('threads', this.threads);
-        }
-      });
-    });
+    // return onSnapshot(collection(this.firestore, 'channels'), (list) => {
+    //   list.forEach((element) => {
+    //     if (element.id == this.allgemeinChannelId && element) {
+    //       const gameData = element.data();
+    //       console.log('gamedata', gameData['chat'][0]);
+    //       this.thread = gameData['chat'][0];
+    //       this.threads = {
+    //         id: this.thread.id,
+    //         userName: this.thread.userName,
+    //         profileImg: this.thread.profileImg,
+    //         imageUrl: '',
+    //         text: this.thread.text,
+    //         time: this.thread.time,
+    //         reactions: this.thread.reactions,
+    //         answers: this.thread.answers,
+    //         date: this.thread.date,
+    //       };
+    //       console.log('threads', this.threads);
+    //     }
+    //   });
+    // });
   }
 
   showUserProfil() {
@@ -266,12 +277,13 @@ export class SecondaryChatComponent {
       date: new Date().toLocaleDateString(),
       profileImg: this.UserService.getPhoto(),
     }
-    console.log('Message channel:',  this.messageThrad);
-    const ref = doc(this.firestore,"channels", this.allgemeinChannelId) 
+    console.log('Message channel:', this.messageThrad);
+    const ref = doc(this.firestore, "channels", this.allgemeinChannelId)
 
-    await updateDoc(ref, {
-      'chat.0.answers':  this.messageThrad
-    })
+    await updateDoc(ref, this.getCleanJsonThreads(this.threads))
+    // await updateDoc(ref, {
+    //   'chat.answers':  arrayUnion(this.messageThrad)
+    // })
     // this.sharedService.saveMessageToLocalStorage(
     //   this.currentChannel.id,
     //   message
