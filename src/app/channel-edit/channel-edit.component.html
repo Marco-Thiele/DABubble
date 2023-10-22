@@ -14,6 +14,9 @@
       <span class="font700-normal">Channel-Name</span>
       <div class="edit-editing" (click)="editName()">
         <span class="font600-normal">Bearbeiten</span>
+        <div class="edit-pencil">
+          <div></div>
+        </div>
       </div>
     </div>
     <div class="edit-title-name">
@@ -27,6 +30,9 @@
       <span class="font700-normal">Channel-Name</span>
       <div class="edit-editing" (click)="saveName()">
         <span class="font600-normal">Speichern</span>
+        <div class="edit-save">
+          <div></div>
+        </div>
       </div>
     </div>
     <div class="new-title-name">
@@ -40,6 +46,9 @@
       <span class="font700-normal">Beschreibung</span>
       <div class="edit-editing" (click)="editDescription()">
         <span class="font600-normal">Bearbeiten</span>
+        <div class="edit-pencil">
+          <div></div>
+        </div>
       </div>
     </div>
     <span class="font400-normal">{{ selectedChannel.description }}</span>
@@ -55,6 +64,9 @@
       <span class="font700-normal">Beschreibung</span>
       <div class="edit-editing" (click)="saveDescription()">
         <span class="font600-normal">Speichern</span>
+        <div class="edit-save">
+          <div></div>
+        </div>
       </div>
     </div>
     <div class="new-title-name">
@@ -66,6 +78,23 @@
     <div class="edit-title-users">
       <span class="font700-normal">Erstellt von</span>
       <span class="font400-normal edit-users">{{ selectedChannel.owner }}</span>
+    </div>
+  </div>
+
+  <div class="channel-members-users">
+    <div class="channel-members-cont">
+      <div class="channel-member" *ngFor="let member of members">
+        <div class="channel-photo" [style.background-image]="'url(' + member.imgProfil + ')'">
+          <div class="online"></div>
+        </div>
+        <span class="font400-normal">{{member.name}}</span>
+      </div>
+    </div>
+    <div class="add-member" (click)="addMember()">
+      <div class="add-icon">
+        <div></div>
+      </div>
+      <span class="font400-normal">Mitglieder hinzufügen</span>
     </div>
   </div>
 

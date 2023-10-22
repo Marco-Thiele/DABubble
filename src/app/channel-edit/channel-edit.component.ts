@@ -1,6 +1,11 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog,
+} from '@angular/material/dialog';
 import { SharedService } from '../shared.service';
+import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
 
 @Component({
   selector: 'app-channel-edit',
@@ -14,15 +19,20 @@ export class ChannelEditComponent implements OnInit {
   selectedChannel: any;
   editedChannelName: string = '';
   editedChannelDescription: string = '';
+  members: any[] = [];
+  channelName: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<ChannelEditComponent>,
+    private dialog: MatDialog,
     private sharedService: SharedService,
     @Inject(MAT_DIALOG_DATA) public data: { selectedChannel: any }
   ) {
     this.selectedChannel = this.data.selectedChannel;
     this.editedChannelName = this.selectedChannel.name;
     this.editedChannelDescription = this.selectedChannel.description;
+    this.members = this.selectedChannel.members;
+    this.channelName = this.selectedChannel.channelName;
   }
 
   ngOnInit(): void {}
@@ -85,5 +95,37 @@ export class ChannelEditComponent implements OnInit {
     }
     this.sharedService.emitOpenNewMessage();
     this.dialogRef.close();
+  }
+
+  /**
+   * The user adds members to the channel(responsive)
+   */
+  addMember() {
+    if (window.innerWidth < 500) {
+      const dialogRef = this.dialog.open(AddChannelMembersComponent, {
+        data: {
+          selectedChannel: this.selectedChannel,
+          members: this.members,
+        },
+        // panelClass: 'slide-up',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.dialogRef.close();
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(AddChannelMembersComponent, {
+        data: {
+          selectedChannel: this.selectedChannel,
+          members: this.members,
+        },
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.dialogRef.close();
+        }
+      });
+    }
   }
 }

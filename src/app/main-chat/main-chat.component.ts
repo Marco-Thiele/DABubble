@@ -67,7 +67,7 @@ export class MainChatComponent implements OnInit {
     private dialog: MatDialog,
     private sharedService: SharedService,
     public userService: UserService,
-    public router: Router,
+    public router: Router
   ) {
     this.openNewMessage();
     this.loadChannel();
@@ -133,7 +133,6 @@ export class MainChatComponent implements OnInit {
   openChannelContainer(channel: any) {
     console.log('5');
     this.sharedService.openChannelEvent$.subscribe((channel: any) => {
-      console.log(channel);
       console.log('6');
       this.isChannelVisible = true;
       this.isPrivatChatContainerVisible = false;
@@ -605,13 +604,14 @@ export class MainChatComponent implements OnInit {
     }));
   }
 
-  openThread(i: number, messageID:any) {
+  openThread(i: number, messageID: any) {
     console.log('selectedChannel', this.selectedChannel);
-  this.sharedService.selectedChannel = this.selectedChannel
-    
+    this.sharedService.selectedChannel = this.selectedChannel;
+
     this.sharedService.i = i;
-    this.sharedService.messageID = messageID
+    this.sharedService.messageID = messageID;
     this.sharedService.loadThreads();
     this.sharedService.openThread = true;
+    this.sharedService.openThreads();
   }
 }

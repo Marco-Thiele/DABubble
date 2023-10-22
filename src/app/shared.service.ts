@@ -29,6 +29,7 @@ export class SharedService implements OnInit {
   private membersData = new BehaviorSubject<any[]>([]);
   private channelsData = new BehaviorSubject<any[]>([]);
   private userData: any;
+  private openThreadCont: () => void;
   messageID: any;
   currentMembers = this.membersData.asObservable();
   firestore: Firestore = inject(Firestore);
@@ -58,13 +59,24 @@ export class SharedService implements OnInit {
   constructor(private auth: Auth) {
     this.unsubChannels = this.channelsList();
     this.unsubMembers = this.getMembersList();
+    this.openThreadCont = () => {};
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngonDestroy(): void {
     this.unsubChannels();
     this.unsubMembers();
+  }
+
+  registeropenThreadCont(callback: () => void) {
+    this.openThreadCont = callback;
+  }
+
+  openThreads() {
+    if (this.openThreadCont) {
+      this.openThreadCont();
+    }
   }
 
   /**
@@ -180,7 +192,6 @@ export class SharedService implements OnInit {
         this.getColIdFromMember(members),
         members.id
       );
-      console.log(members);
       await updateDoc(docRef, this.getCleanJsonMember(members));
     }
   }
@@ -425,7 +436,6 @@ export class SharedService implements OnInit {
 
   emitOpenChannel(channel: any) {
     this.openChannelEvent.next(channel);
-    console.log(channel);
     console.log('4');
   }
 
@@ -489,7 +499,6 @@ export class SharedService implements OnInit {
     }
   }
 
-
   loadThreads() {
     return onSnapshot(collection(this.firestore, 'channels'), (list) => {
       list.forEach((element) => {
@@ -514,8 +523,7 @@ export class SharedService implements OnInit {
     });
   }
 
-
-  setThreadsObject(obj: any, id: string,) {
+  setThreadsObject(obj: any, id: string) {
     return {
       id: id,
       chat: obj.chat || [],

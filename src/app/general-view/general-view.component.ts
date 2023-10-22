@@ -9,8 +9,9 @@ import { SharedService } from '../shared.service';
 export class GeneralViewComponent implements OnInit {
   isChannelsClosed = false;
   isChannelOpen = true;
-  isMainChatBigger = false;
-  isMainChatSmaller = true;
+  isMainChatcomplete = false;
+  isMainChatInit = true;
+  isMainChatSmall = false;
   channelDisplay = '';
   buttonText = 'Workspace-Menü schließen';
   isMenuOpen = true;
@@ -18,8 +19,10 @@ export class GeneralViewComponent implements OnInit {
   showChannels = true;
   appMainChat = true;
   showMainChat = false;
-  appSecondaryChat = true;
+  appSecondaryChat = false;
   showSecondary = false;
+  isThreadsClosed = true;
+  isThreadsOpen = false;
   selectedChannel: any;
   currentChannel: any;
   sendChannel = false;
@@ -35,11 +38,22 @@ export class GeneralViewComponent implements OnInit {
     private renderer: Renderer2,
     private el: ElementRef,
     private sharedService: SharedService
-  ) {}
+  ) {
+    sharedService.registeropenThreadCont(() => this.openThreadCont());
+  }
   ngOnInit(): void {
     this.onResize();
     this.openNewMessage();
     this.openRespChannelContainer(this.selectedChannel);
+  }
+
+  openThreadCont() {
+    console.log('works');
+    this.isMainChatSmall = true;
+    this.appSecondaryChat = true;
+    this.showSecondary = true;
+    this.isThreadsClosed = false;
+    this.isThreadsOpen = true;
   }
 
   openRespChannelContainer(channel: any) {
@@ -47,7 +61,7 @@ export class GeneralViewComponent implements OnInit {
       console.log('3');
       this.showChannels = false;
       this.appChannels = false;
-      this.sharedService.emitOpenChannel(channel);
+      // this.sharedService.emitOpenChannel(channel);
       this.showMainChat = true;
       this.appMainChat = true;
       // this.isChannelVisible = true;
@@ -81,8 +95,9 @@ export class GeneralViewComponent implements OnInit {
   workspaceIsOpen() {
     this.isChannelsClosed = false;
     this.isChannelOpen = true;
-    this.isMainChatBigger = false;
-    this.isMainChatSmaller = true;
+    this.isMainChatcomplete = false;
+    this.isMainChatInit = true;
+    // this.isMainChatSmaller = true;
     this.channelDisplay = '';
     this.buttonText = 'Workspace-Menü schließen';
     this.isMenuOpen = true;
@@ -94,8 +109,9 @@ export class GeneralViewComponent implements OnInit {
   workspaceIsClosed() {
     this.isChannelsClosed = true;
     this.isChannelOpen = false;
-    this.isMainChatBigger = true;
-    this.isMainChatSmaller = false;
+    this.isMainChatcomplete = true;
+    this.isMainChatInit = false;
+    // this.isMainChatSmaller = false;
     setTimeout(() => {
       this.channelDisplay = 'none';
       this.buttonText = 'Workspace-Menü öffen';

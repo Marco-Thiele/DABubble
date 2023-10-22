@@ -13,8 +13,19 @@ import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
 import { SharedService } from '../shared.service';
 import { ChannelMembersComponent } from '../channel-members/channel-members.component';
 import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
-import { Firestore, collection, query, doc, getDoc, getDocs, onSnapshot, updateDoc, where, QuerySnapshot, arrayUnion } from '@angular/fire/firestore';
-
+import {
+  Firestore,
+  collection,
+  query,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  updateDoc,
+  where,
+  QuerySnapshot,
+  arrayUnion,
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-secondary-chat',
@@ -76,32 +87,59 @@ export class SecondaryChatComponent {
     this.profilName = UserService.getName();
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
-    this.i = sharedService.i
-    this.messageID = sharedService.messageID
-    this.loadThread();
+    this.i = this.readThread();
     // this.openNewMessage();
     console.log(this.showEmojiPicker);
   }
 
+  async readThread() {
+    const answers = this.sharedService.getsingleDocRef(
+      'channels',
+      this.allgemeinChannelId
+    );
+    const channelSnapshot = await getDoc(answers);
+    this.sharedService.getChannelsFS();
+    console.log('answers', channelSnapshot.data());
+    console.log('answers2', this.sharedService.getChannelsFS());
 
-  async loadThread() {
-    setInterval(() => {
-      if (this.sharedService.openThread) {
-        this.threads = {
-          id: this.sharedService.thread.id,
-          userName: this.sharedService.thread.userName,
-          profileImg: this.sharedService.thread.profileImg,
-          imageUrl: '',
-          text: this.sharedService.thread.text,
-          time: this.sharedService.thread.time,
-          reactions: this.sharedService.thread.reactions,
-          answers: this.sharedService.thread.answers,
-          date: this.sharedService.thread.date,
+    // const q = query(collection(this.firestore, 'channels'), where('answers.id', '==', 1697695581740));
+    // const unsubscribe = onSnapshot(q,(querySnapshot) => {
+    //   console.log('was ist das', querySnapshot);
+
+    //   querySnapshot.forEach((doc) => {
+    //   console.log( 'was ist das ', doc)
+    // });
+    // })
+
+    return onSnapshot(collection(this.firestore, 'channels'), (list) => {
+      list.forEach((element) => {
+        if (element.id == this.allgemeinChannelId && element) {
+          const gameData = element.data();
+          console.log('gamedata', gameData['chat'][0]);
+          this.thread = gameData['chat'][0];
+
+          // this.game.currentPlayer = gameData['currentPlayer'];
+          // this.game.players = gameData['players'];
+          // this.game.player_images = gameData['player_images'];
+          // this.game.playedCards = gameData['playedCards'];
+          // this.game.stack = gameData['stack'];
+          // this.game.pickCardAnimation = gameData['pickCardAnimation'];
+          // this.game.currentCard = gameData['currentCard'];
+          this.threads = {
+            id: this.thread.id,
+            userName: this.thread.userName,
+            profileImg: this.thread.profileImg,
+            imageUrl: '',
+            text: this.thread.text,
+            time: this.thread.time,
+            reactions: this.thread.reactions,
+            answers: this.thread.answers,
+            date: this.thread.date,
+          };
+          console.log('threads', this.threads);
         }
-        this.selectedChannel = this.sharedService.selectedChannel
-      }
-      this.sharedService.openThread = false;
-    }, 200)
+      });
+    });
   }
 
   showUserProfil() {
@@ -236,9 +274,17 @@ export class SecondaryChatComponent {
       reactions: [],
       date: new Date().toLocaleDateString(),
       profileImg: this.UserService.getPhoto(),
-    }
-    this.selectedChannel.chat[this.i].answers.push(this.messageThrad);
-    this.sharedService.updateChannelFS(this.selectedChannel);
+    };
+    console.log('Message channel:', this.messageThrad);
+    const ref = doc(this.firestore, 'channels', this.allgemeinChannelId);
+
+    await updateDoc(ref, {
+      'chat.0.answers': this.messageThrad,
+    });
+    // this.sharedService.saveMessageToLocalStorage(
+    //   this.currentChannel.id,
+    //   message
+    // );
     this.message = '';
   }
 
@@ -308,7 +354,10 @@ export class SecondaryChatComponent {
 
   getCurrentThread() {
     {
-      return doc(collection(this.firestore, 'channels'), this.allgemeinChannelId[0]);
+      return doc(
+        collection(this.firestore, 'channels'),
+        this.allgemeinChannelId[0]
+      );
     }
   }
 

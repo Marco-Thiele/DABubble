@@ -707,3 +707,9 @@
     }
   }
 }
+
+@media (width < 450px) {
+  .input_container {
+    width: 200px;
+  }
+}

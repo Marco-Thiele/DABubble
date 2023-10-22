@@ -38,6 +38,18 @@ export class AddChannelMembersComponent implements OnInit {
   ngOnInit(): void {
     this.isDialogOpen = true;
     this.renderer.addClass(document.body, 'dialog-open');
+    this.slideContainer();
+  }
+
+  slideContainer() {
+    if (window.innerWidth < 500) {
+      setTimeout(() => {
+        const element = document.querySelector('.add-channel-members-cont');
+        if (element) {
+          element.classList.add('slide-up');
+        }
+      }, 100);
+    }
   }
 
   /**
