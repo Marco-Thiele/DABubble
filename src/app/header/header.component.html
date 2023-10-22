@@ -18,7 +18,7 @@
             <span>{{ user["name"] }}</span>
           </div>
           <div *ngFor="let message of foundMessages" class="searchResult">
-            <img src="{{ message['imgProfil'] }}" />
+            <img src="{{ message['profileImg'] }}" />
             <span
               >Text from {{ message["userName"] }}: "{{ message["text"] }}" -
               {{ message["date"] }}</span

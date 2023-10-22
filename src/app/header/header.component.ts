@@ -159,10 +159,8 @@ export class HeaderComponent {
     return onSnapshot(this.getChatCollection(), (list) => {
       list.forEach((element) => {
         const chatData = element.data();
-        chatData['members'].forEach((member: any) => {
-          member.chat.forEach((message: DocumentData) => {
-            this.chatMessages.push(message);
-          });
+        chatData['chat'].forEach((message: any) => {
+          this.chatMessages.push(message);
         });
       });
     });
