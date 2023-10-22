@@ -29,7 +29,7 @@ export class SharedService implements OnInit {
   private membersData = new BehaviorSubject<any[]>([]);
   private channelsData = new BehaviorSubject<any[]>([]);
   private userData: any;
-
+  messageID : any;
   currentMembers = this.membersData.asObservable();
   firestore: Firestore = inject(Firestore);
   channelsListArray: any[] = [];
