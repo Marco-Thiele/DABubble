@@ -42,26 +42,11 @@ export class GeneralViewComponent implements OnInit {
     sharedService.registeropenThreadCont(() => this.openThreadCont());
     sharedService.registercloseThreads(() => this.closeThreadCont());
   }
+
   ngOnInit(): void {
     this.onResize();
     this.openNewMessage();
     this.openRespChannelContainer(this.selectedChannel);
-  }
-
-  openThreadCont() {
-    this.isMainChatSmall = true;
-    this.appSecondaryChat = true;
-    this.showSecondary = true;
-    this.isThreadsClosed = false;
-    this.isThreadsOpen = true;
-  }
-
-  closeThreadCont() {
-    this.isMainChatSmall = false;
-    this.appSecondaryChat = false;
-    this.showSecondary = false;
-    this.isThreadsClosed = true;
-    this.isThreadsOpen = false;
   }
 
   openRespChannelContainer(channel: any) {
@@ -152,5 +137,27 @@ export class GeneralViewComponent implements OnInit {
       this.showMainChat = true;
       this.appMainChat = true;
     });
+  }
+
+  /**
+   * Opens the thread container.
+   */
+  openThreadCont() {
+    this.isMainChatSmall = true;
+    this.appSecondaryChat = true;
+    this.showSecondary = true;
+    this.isThreadsClosed = false;
+    this.isThreadsOpen = true;
+  }
+
+  /**
+   * Closes the thread container.
+   */
+  closeThreadCont() {
+    this.isMainChatSmall = false;
+    this.appSecondaryChat = false;
+    this.showSecondary = false;
+    this.isThreadsClosed = true;
+    this.isThreadsOpen = false;
   }
 }

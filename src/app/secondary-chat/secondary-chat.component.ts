@@ -374,6 +374,9 @@ export class SecondaryChatComponent {
     };
   }
 
+  /**
+   * Closes the thread container
+   */
   closeThreads() {
     this.sharedService.closeThreads();
   }

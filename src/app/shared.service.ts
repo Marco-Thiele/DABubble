@@ -71,26 +71,6 @@ export class SharedService implements OnInit {
     this.unsubMembers();
   }
 
-  registeropenThreadCont(callback: () => void) {
-    this.openThreadCont = callback;
-  }
-
-  openThreads() {
-    if (this.openThreadCont) {
-      this.openThreadCont();
-    }
-  }
-
-  registercloseThreads(callback: () => void) {
-    this.closeThreadCont = callback;
-  }
-
-  closeThreads() {
-    if (this.closeThreadCont) {
-      this.closeThreadCont();
-    }
-  }
-
   /**
    * Deletes a channel from Firestore.
    * @param colId the id of the collection
@@ -545,5 +525,39 @@ export class SharedService implements OnInit {
       type: obj.type || '',
       channels: obj.channels || [],
     };
+  }
+
+  /**
+   * Registers the callback function to open the thread container.
+   * @param callback the callback function to register
+   */
+  registeropenThreadCont(callback: () => void) {
+    this.openThreadCont = callback;
+  }
+
+  /**
+   * Opens the thread container.
+   */
+  openThreads() {
+    if (this.openThreadCont) {
+      this.openThreadCont();
+    }
+  }
+
+  /**
+   * Registers the callback function to close the thread container.
+   * @param callback the callback function to register
+   */
+  registercloseThreads(callback: () => void) {
+    this.closeThreadCont = callback;
+  }
+
+  /**
+   * Closes the thread container.
+   */
+  closeThreads() {
+    if (this.closeThreadCont) {
+      this.closeThreadCont();
+    }
   }
 }
