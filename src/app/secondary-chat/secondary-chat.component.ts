@@ -1,14 +1,19 @@
 import { DialogService } from '../dialog.service';
 import { UserService } from '../user.service';
 import { UserProfilComponent } from '../user-profil/user-profil.component';
-import { Component, OnInit, ElementRef, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
 import { SharedService } from '../shared.service';
 import { ChannelMembersComponent } from '../channel-members/channel-members.component';
 import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
 import { Firestore, collection, query,  doc, getDoc, getDocs, onSnapshot, updateDoc, where, QuerySnapshot } from '@angular/fire/firestore';
-
 
 
 @Component({
@@ -24,11 +29,11 @@ export class SecondaryChatComponent {
   profilName: string;
   profilImg: any;
   profilEmail: string;
-  i: any
+  i: any;
   showIconCatalog = false;
   name = 'Angular';
   message = '';
-  messageThrad: {} = {}
+  messageThrad: {} = {};
   threads = {
     id: '',
     userName: '',
@@ -71,16 +76,18 @@ export class SecondaryChatComponent {
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
     this.i =
-     // this.readThread();
+    this.readThread();
     // this.openNewMessage();
     console.log(this.showEmojiPicker);
   }
 
   async readThread() {
-
-    const answers = this.sharedService.getsingleDocRef('channels', this.allgemeinChannelId)
+    const answers = this.sharedService.getsingleDocRef(
+      'channels',
+      this.allgemeinChannelId
+    );
     const channelSnapshot = await getDoc(answers);
-    this.sharedService.getChannelsFS()
+    this.sharedService.getChannelsFS();
     console.log('answers', channelSnapshot.data());
     console.log('answers2', this.sharedService.getChannelsFS());
 
@@ -99,8 +106,8 @@ export class SecondaryChatComponent {
       list.forEach((element) => {
         if (element.id == this.allgemeinChannelId && element) {
           const gameData = element.data();
-          console.log('gamedata', gameData['chat'][0])
-          this.thread = gameData['chat'][0]
+          console.log('gamedata', gameData['chat'][0]);
+          this.thread = gameData['chat'][0];
 
           // this.game.currentPlayer = gameData['currentPlayer'];
           // this.game.players = gameData['players'];
@@ -119,15 +126,12 @@ export class SecondaryChatComponent {
             reactions: this.thread.reactions,
             answers: this.thread.answers,
             date: this.thread.date,
-          }
+          };
           console.log('threads', this.threads);
         }
       });
     });
   }
-
-
-
 
   showUserProfil() {
     this.dialogService.openDialog(UserProfilComponent);
@@ -137,9 +141,6 @@ export class SecondaryChatComponent {
     // this.channelsIds = this.sharedService.getChannelsIds();
     // console.log('ChannelsIds:', this.channelsIds);
   }
-
-
-
 
   /**
    * Opens the new message component which is used to create a new channel or to start a new chat with a member
@@ -257,7 +258,7 @@ export class SecondaryChatComponent {
   async sendChannelMsg() {
     const messageText = this.message.trim();
 
-     this.messageThrad = {
+    this.messageThrad = {
       userName: this.UserService.getName(),
       text: messageText,
       time: new Date().toLocaleTimeString(),
@@ -276,7 +277,6 @@ export class SecondaryChatComponent {
     //   message
     // );
     this.message = '';
-
   }
 
   /**

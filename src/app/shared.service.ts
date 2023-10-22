@@ -165,7 +165,7 @@ export class SharedService implements OnInit {
         this.getColIdFromMember(members),
         members.id
       );
-
+      console.log(members);
       await updateDoc(docRef, this.getCleanJsonMember(members));
     }
   }
@@ -180,6 +180,10 @@ export class SharedService implements OnInit {
       id: members.id,
       chat: members.chat,
       member: members.member,
+      name: members.name,
+      type: members.type,
+      channels: members.channels,
+      imgProfil: members.imgProfil,
     };
   }
 
@@ -236,7 +240,7 @@ export class SharedService implements OnInit {
       this.membersListArray = [];
       list.forEach((element) => {
         this.membersListArray.push(
-          this.setChannelObject(element.data(), element.id)
+          this.setMemberObject(element.data(), element.id)
         );
       });
     });
