@@ -373,4 +373,8 @@ export class SecondaryChatComponent {
       answers: this.message,
     };
   }
+
+  closeThreads() {
+    this.sharedService.closeThreads();
+  }
 }

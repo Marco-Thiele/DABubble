@@ -40,6 +40,7 @@ export class GeneralViewComponent implements OnInit {
     private sharedService: SharedService
   ) {
     sharedService.registeropenThreadCont(() => this.openThreadCont());
+    sharedService.registercloseThreads(() => this.closeThreadCont());
   }
   ngOnInit(): void {
     this.onResize();
@@ -48,12 +49,19 @@ export class GeneralViewComponent implements OnInit {
   }
 
   openThreadCont() {
-    console.log('works');
     this.isMainChatSmall = true;
     this.appSecondaryChat = true;
     this.showSecondary = true;
     this.isThreadsClosed = false;
     this.isThreadsOpen = true;
+  }
+
+  closeThreadCont() {
+    this.isMainChatSmall = false;
+    this.appSecondaryChat = false;
+    this.showSecondary = false;
+    this.isThreadsClosed = true;
+    this.isThreadsOpen = false;
   }
 
   openRespChannelContainer(channel: any) {

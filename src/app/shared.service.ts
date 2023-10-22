@@ -30,6 +30,7 @@ export class SharedService implements OnInit {
   private channelsData = new BehaviorSubject<any[]>([]);
   private userData: any;
   private openThreadCont: () => void;
+  private closeThreadCont: () => void;
   messageID: any;
   currentMembers = this.membersData.asObservable();
   firestore: Firestore = inject(Firestore);
@@ -60,6 +61,7 @@ export class SharedService implements OnInit {
     this.unsubChannels = this.channelsList();
     this.unsubMembers = this.getMembersList();
     this.openThreadCont = () => {};
+    this.closeThreadCont = () => {};
   }
 
   ngOnInit(): void {}
@@ -76,6 +78,16 @@ export class SharedService implements OnInit {
   openThreads() {
     if (this.openThreadCont) {
       this.openThreadCont();
+    }
+  }
+
+  registercloseThreads(callback: () => void) {
+    this.closeThreadCont = callback;
+  }
+
+  closeThreads() {
+    if (this.closeThreadCont) {
+      this.closeThreadCont();
     }
   }
 
