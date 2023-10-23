@@ -1,39 +1,31 @@
 <div class="position-profil-contant">
-    <div class="profil-header">
-        <div>
-            Profil
-        </div>
-        <div class="close" (click)="closeDialog()">
-            <img src="../../assets/icons/close.svg">
-        </div>
+  <div class="profil-header">
+    <div>Profil</div>
+    <div class="close" (click)="closeDialog()">
+      <img src="../../assets/icons/close.svg" />
     </div>
-    <div class="profil-img">
-        <img src="{{profilImg}}" alt="">
+  </div>
+  <div class="profil-img">
+    <img src="{{ profilImg }}" alt="" />
+  </div>
+
+  <div class="profil-name">
+    <div class="name">
+      {{ profilName }}
     </div>
-
-    <div class="profil-name">
-        <div class="name">
-            {{profilName}}
-        </div>
-        <div class="edit" (click)="editProfil()">
-            bearbeiten
-        </div>
+    <div class="edit" (click)="editProfil()">bearbeiten</div>
+  </div>
+  <div class="active">
+    <img src="../../assets/icons/Online.svg" alt="" />
+    Aktive
+  </div>
+  <div>
+    <div class="profil-email">
+      <img src="../../assets/icons/mail.svg" alt="" />
+      E-Mail-Adresse
     </div>
-    <div class="active">
-        <img src="../../assets/icons/Online.svg" alt="">
-        Aktive
+    <div class="current-email">
+      <a href="mailto:{{ profilEmail }}">{{ profilEmail }}</a>
     </div>
-    <div>
-        <div class="profil-email">
-            <img src="../../assets/icons/mail.svg" alt="">
-            E-Mail-Adresse
-        </div>
-        <div class="current-email">
-            {{ profilEmail }}
-        </div>
-    </div>
-
-
-
-
+  </div>
 </div>

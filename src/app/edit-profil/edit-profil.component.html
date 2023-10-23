@@ -1,39 +1,37 @@
 <div class="position-profil-contant">
-    <div class="profil-header">
-        <div>
-            Profil
-        </div>
-        <div class="close" (click)="closeDialog()">
-            <img src="../../assets/icons/close.svg">
-        </div>
+  <div class="profil-header">
+    <div>Profil</div>
+    <div class="close" (click)="closeDialog()">
+      <img src="../../assets/icons/close.svg" />
     </div>
-    <div class="profil-img">
-        <img src="{{profilImg}}" alt="">
-    </div>
+  </div>
+  <div class="profil-img">
+    <img src="{{ profilImg }}" alt="" />
+  </div>
 
-    <div class="profil-name">
-        <div class="name">
-            <img src="../../assets/icons/account_circle.svg" alt="">
-            Vollständiger Name
-        </div>
-        <div>
-            <input type="text" [(ngModel)]="newName" placeholder="{{ profilName }}">
-        </div>
+  <div class="profil-name">
+    <div class="name">
+      <img src="../../assets/icons/account_circle.svg" alt="" />
+      Vollständiger Name
     </div>
+    <div>
+      <input type="text" [(ngModel)]="newName" placeholder="{{ profilName }}" />
+    </div>
+  </div>
 
-    <div class="profil-email">
-       <div class="position-email">
-        <img src="../../assets/icons/mail.svg" alt="">
-        E-Mail-Adresse
-       </div> 
-        <div class="current-email">
-            <!-- <input type="email" [(ngModel)]="newEmail" placeholder="{{ profilEmail }}"> -->
-            {{ profilEmail }}
-        </div>
+  <div class="profil-email">
+    <div class="position-email">
+      <img src="../../assets/icons/mail.svg" alt="" />
+      E-Mail-Adresse
     </div>
+    <div class="current-email">
+      <!-- <input type="email" [(ngModel)]="newEmail" placeholder="{{ profilEmail }}"> -->
+      <a href="mailto:{{ profilEmail }}">{{ profilEmail }}</a>
+    </div>
+  </div>
 
-    <div class="position-btn">
-        <button class="btn-cancel"(click)="closeDialog()">Abbrechen</button>
-        <button class="btn-save" (click)="saveChanges()">Speichern</button>
-    </div>
+  <div class="position-btn">
+    <button class="btn-cancel" (click)="closeDialog()">Abbrechen</button>
+    <button class="btn-save" (click)="saveChanges()">Speichern</button>
+  </div>
 </div>
