@@ -1,4 +1,4 @@
-<div class="position-thread-contant">
+<div  class="position-thread-contant">
   <div class="position-header">
     <div class="thread-contant">
       <div class="thread">
@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <div *ngFor="let answers of threads.answers|| []" let i=index class="position-question-contant">
+    <div *ngFor="let thread of thread.answers"  let i=index class="position-question-contant">
       <div class="profil-img">
         <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
       </div>
@@ -69,10 +69,10 @@
         <div class="position-contant">
           <div class="info">
             <div class="name" (click)="showUserProfil()">
-              {{answers}}
+              {{thread.userName}}
             </div>
             <div>
-              14:30 Uhr
+             {{thread.time}}
             </div>
             <div class="img-react" (click)="toggleEmojiPicker(3)">
             </div>
@@ -82,8 +82,7 @@
             </div>
           </div>
           <div class="question">
-            Ich habe die gleiche Frage. Ich habe gegoogelt und es scheint, dass die aktuelle Version Angular
-            13 ist. Vielleicht weiß Frederik, ob es wahr ist.
+            {{thread.text}}
           </div>
           <div class="answer-icons">
             <div class="answer-reaction">
@@ -101,7 +100,7 @@
       </div>
     </div>
 
-    <div class="position-question-contant-reverse">
+    <!-- <div class="position-question-contant-reverse">
       <div class="profil-img">
         <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
       </div>
@@ -131,14 +130,14 @@
                 1
               </div>
             </div>
-            <!-- <div class="answer-emojis"  >
+             <div class="answer-emojis"  >
 
-                        </div> -->
+                        </div> 
 
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--Container to write in chat-->
     <div class="message-box-cont" *ngIf="messageBox">
       <div class="message-box" [class.focused]="taIsFocused">
