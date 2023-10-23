@@ -27,6 +27,8 @@ export class SharedService implements OnInit {
   private isEditChannelOpen = false;
   public members: any[] = [];
   private membersData = new BehaviorSubject<any[]>([]);
+  public users: any[] = [];
+  private usersData = new BehaviorSubject<any[]>([]);
   private channelsData = new BehaviorSubject<any[]>([]);
   private userData: any;
   private openThreadCont: () => void;
@@ -37,6 +39,7 @@ export class SharedService implements OnInit {
   channelsListArray: any[] = [];
   privatesListArray: any[] = [];
   membersListArray: any[] = [];
+  usersListArray: any[] = [];
   i: number = 0;
   threads = {
     id: '',
@@ -56,10 +59,12 @@ export class SharedService implements OnInit {
 
   unsubChannels;
   unsubMembers;
+  unsubUsers;
 
   constructor(private auth: Auth) {
     this.unsubChannels = this.channelsList();
     this.unsubMembers = this.getMembersList();
+    this.unsubUsers = this.getUsersList();
     this.openThreadCont = () => {};
     this.closeThreadCont = () => {};
   }
@@ -69,6 +74,7 @@ export class SharedService implements OnInit {
   ngonDestroy(): void {
     this.unsubChannels();
     this.unsubMembers();
+    this.unsubUsers();
   }
 
   /**
@@ -197,7 +203,6 @@ export class SharedService implements OnInit {
     return {
       id: members.id,
       chat: members.chat,
-      member: members.member,
       name: members.name,
       type: members.type,
       channels: members.channels,
@@ -264,6 +269,30 @@ export class SharedService implements OnInit {
     });
   }
 
+  getUsersList() {
+    return onSnapshot(this.getUser(), (list) => {
+      this.usersListArray = [];
+      list.forEach((element) => {
+        this.usersListArray.push(
+          this.setUserObject(element.data(), element.id)
+        );
+      });
+    });
+  }
+
+  getUser() {
+    return collection(this.firestore, 'users');
+  }
+
+  async getUsersFS() {
+    const querySnapshot = await getDocs(collection(this.firestore, 'users'));
+    this.users = querySnapshot.docs.map((doc) =>
+      this.setUserObject(doc.data(), doc.id)
+    );
+    this.usersData.next(this.users);
+    return this.users;
+  }
+
   /**
    * gets the list of members from firestore
    * @returns the list of members
@@ -283,6 +312,16 @@ export class SharedService implements OnInit {
     );
     this.membersData.next(this.members);
     return this.members;
+  }
+
+  setUserObject(obj: any, id: string) {
+    return {
+      id: id,
+      chat: obj.chat || [],
+      photoUrl: obj.photoUrl || '',
+      name: obj.name || '',
+      email: obj.email || '',
+    };
   }
 
   /**
@@ -331,7 +370,6 @@ export class SharedService implements OnInit {
       id: id,
       chat: obj.chat || [],
       imgProfil: obj.imgProfil || '',
-      member: obj.member || [],
       name: obj.name || '',
       type: obj.type || '',
       channels: obj.channels || [],
@@ -428,7 +466,6 @@ export class SharedService implements OnInit {
 
   emitOpenChannel(channel: any) {
     this.openChannelEvent.next(channel);
-    console.log('4');
   }
 
   /**

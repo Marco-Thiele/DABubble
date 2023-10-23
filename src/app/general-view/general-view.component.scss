@@ -14,20 +14,27 @@
   flex-direction: column;
   align-items: center;
   gap: 25px;
+  transition: width 1s ease;
+  transform-origin: left;
 }
 
 .channels-container.open {
-  width: 19%;
+  // width: 19%;
+  // transform-origin: left;
   padding: 32px 30px;
-  transition: width 1s;
+  // transition: all 1s;
+  width: 25.2%;
+  transition: width 1s ease;
 }
 
 .channels-container.closed {
+  // width: 0;
+  // padding: 0;
+  // opacity: 0;
+  // overflow: hidden;
+  // transition: all 1s ease-in-out;
   width: 0;
-  padding: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all 1s ease-in-out;
+  transition: width 1s ease;
 }
 
 .main-chat-container {
@@ -41,15 +48,19 @@
 }
 
 .main-chat-container.complete {
-  width: 100%;
+  width: 100% !important;
+  transition: width 1s ease !important;
 }
 
 .main-chat-container.init {
   width: 74.8%;
+  transition: width 1s ease;
+  position: relative;
 }
 
 .main-chat-container.small {
   width: 51.5%;
+  transition: width 1s ease;
 }
 
 .secondary-chat-container {
@@ -57,21 +68,18 @@
   height: -webkit-fill-available;
   background-color: #fff;
   border-radius: 30px;
+  transition: width 1s ease;
+  transform-origin: right;
 }
 
 .secondary-chat-container.open {
   width: 25.2%;
-  transform-origin: right;
-  transform: scaleX(1);
-  transition: width 0.5s;
+  transition: width 1s ease;
 }
 
 .secondary-chat-container.closed {
   width: 0;
-  padding: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all 1s ease-in-out;
+  transition: width 1s ease;
 }
 
 // Workspace menü botton

@@ -103,7 +103,7 @@ export class GeneralViewComponent implements OnInit {
     this.isChannelsClosed = true;
     this.isChannelOpen = false;
     this.isMainChatcomplete = true;
-    this.isMainChatInit = false;
+    this.isMainChatInit = true;
     // this.isMainChatSmaller = false;
     setTimeout(() => {
       this.channelDisplay = 'none';
@@ -155,9 +155,12 @@ export class GeneralViewComponent implements OnInit {
    */
   closeThreadCont() {
     this.isMainChatSmall = false;
-    this.appSecondaryChat = false;
-    this.showSecondary = false;
+    this.isMainChatInit = true;
     this.isThreadsClosed = true;
     this.isThreadsOpen = false;
+    setInterval(() => {
+      this.showSecondary = false;
+      this.appSecondaryChat = false;
+    }, 700);
   }
 }

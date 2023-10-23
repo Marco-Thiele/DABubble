@@ -20,6 +20,7 @@ export class UserService {
     this.userObject.email = this.getMail();
     this.userObject.photoURL = this.getPhoto();
     this.userObject.uid = this.getId();
+    this.userObject.chat = [];
   }
 
   getName() {

@@ -4,7 +4,6 @@ import { ChannelErstellenComponent } from '../channel-erstellen/channel-erstelle
 import { SharedService } from '../shared.service';
 import { UserService } from '../user.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
-import { set } from '@angular/fire/database';
 
 @Component({
   selector: 'app-channels',
@@ -122,7 +121,6 @@ export class ChannelsComponent implements OnInit {
       setTimeout(() => {
         this.sharedService.emitRespOpenChannel(channel);
       }, 1000);
-      console.log('1');
     } else {
       this.sharedService.emitOpenChannel(channel);
     }

@@ -3,6 +3,7 @@ export class userData {
   public email: string = '';
   public photoURL: string = '';
   public uid: string = '';
+  public chat: string[] = [];
 
   public toJson() {
     return {
@@ -10,6 +11,7 @@ export class userData {
       email: this.email,
       photoURL: this.photoURL,
       uid: this.uid,
+      chat: this.chat,
     };
   }
 }
