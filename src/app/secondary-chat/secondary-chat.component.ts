@@ -83,7 +83,7 @@ export class SecondaryChatComponent {
   selectedMember: any;
   selectedChannel: any;
   currentChannel: any;
-
+  sameName: boolean = false;
   messageBox = true;
   sendPrivate = false;
   sendChannel = false;
@@ -100,7 +100,7 @@ export class SecondaryChatComponent {
     this.profilName = UserService.getName();
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
-    this.i = sharedService.i;
+   
    
     
     this.readThread();
@@ -111,8 +111,10 @@ export class SecondaryChatComponent {
   async readThread() {
     setInterval(() => {
       if (this.sharedService.openThread) {
+        this.i = this.sharedService.i;
         this.threadAnswersJson = this.sharedService.thread.answers;
-        console.log('threadAnswers',  this.threadAnswersJson);
+        // console.log('threadAnswers',  this.threadAnswersJson);
+        // console.log('i', this.i)
         this.threads = {
           id: this.sharedService.thread.id,
           userName: this.sharedService.thread.userName,
@@ -128,6 +130,9 @@ export class SecondaryChatComponent {
         this.selectedChannel = this.sharedService.selectedChannel
       }
       this.sharedService.openThread = false;
+      setTimeout(() => {
+        this.sharedService.openThread = true;
+      }, 150)
      }, 200)
     // const answers = this.sharedService.getsingleDocRef(
     //   'channels',

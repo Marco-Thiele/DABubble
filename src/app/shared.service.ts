@@ -55,7 +55,7 @@ export class SharedService implements OnInit {
   selectedChannel: any;
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   thread: any;
-  openThread: boolean = false;
+  openThread: boolean = true;
 
   unsubChannels;
   unsubMembers;

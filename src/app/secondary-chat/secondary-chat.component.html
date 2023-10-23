@@ -15,7 +15,7 @@
   <div class="contant-scrollbar">
     <div class="position-question-contant">
       <div class="profil-img">
-        <img src="../../assets/img/avatars/eliasneumann.svg" alt="">
+        <img src="{{threads.profileImg}}" alt="">
       </div>
       <div>
         <div class="position-contant">
@@ -26,11 +26,11 @@
             <div>
               {{threads.time}}
             </div>
-            <div class="img-react" (click)="toggleEmojiPicker(4)">
+            <div class="img-react" (click)="toggleEmojiPicker(-1)">
 
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[4]" (emojiSelect)="addEmoji($event)"
+              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-1]" (emojiSelect)="addEmoji($event)"
                 size="50px 50px" title="Pick your emoji…"></emoji-mart>
             </div>
           </div>
@@ -61,9 +61,9 @@
       </div>
     </div>
 
-    <div *ngFor="let thread of threadAnswersJson  let i=index "  class="position-question-contant">
+    <div *ngFor="let thread of threadAnswersJson; let i = index" class="position-question-contant" [ngClass]="{'position-question-contant-reverse': thread['userName'] == UserService.getName()}">
       <div class="profil-img">
-        <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
+        <img src="{{thread['profileImg']}}" alt="">
       </div>
       <div>
         <div class="position-contant">
@@ -74,14 +74,14 @@
             <div>
              {{thread['time']}}
             </div>
-            <div class="img-react" (click)="toggleEmojiPicker(3)">
+            <div class="img-react" (click)="toggleEmojiPicker(i)">
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[3]" (emojiSelect)="addEmoji($event)" size="25%"
+              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmoji($event)" size="25%"
                 title="Pick your emoji…"></emoji-mart>
             </div>
           </div>
-          <div class="question">
+          <div class="question" [ngClass]="{'question-reverse': thread['userName'] == UserService.getName()}">
             {{thread['text']}}
           </div>
           <div class="answer-icons">
@@ -155,11 +155,11 @@
               <div></div>
             </div>
             <div class="icons-line"></div>
-            <div class="icon-s icons" (click)="toggleEmojiPicker(0)">
+            <div class="icon-s icons" (click)="toggleEmojiPicker(-2)">
               <div></div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[0]" (emojiSelect)="addEmoji($event)"
+              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-2]" (emojiSelect)="addEmoji($event)"
                 title="Pick your emoji…"></emoji-mart>
             </div>
             <div class="icon-et icons">
