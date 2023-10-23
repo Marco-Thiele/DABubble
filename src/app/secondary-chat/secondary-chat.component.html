@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <div *ngFor="let thread of thread.answers"  let i=index class="position-question-contant">
+    <div *ngFor="let thread of threadAnswersJson  let i=index "  class="position-question-contant">
       <div class="profil-img">
         <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
       </div>
@@ -69,10 +69,10 @@
         <div class="position-contant">
           <div class="info">
             <div class="name" (click)="showUserProfil()">
-              {{thread.userName}}
+              {{thread['userName']}}
             </div>
             <div>
-             {{thread.time}}
+             {{thread['time']}}
             </div>
             <div class="img-react" (click)="toggleEmojiPicker(3)">
             </div>
@@ -82,7 +82,7 @@
             </div>
           </div>
           <div class="question">
-            {{thread.text}}
+            {{thread['text']}}
           </div>
           <div class="answer-icons">
             <div class="answer-reaction">

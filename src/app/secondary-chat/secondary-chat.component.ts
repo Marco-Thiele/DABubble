@@ -112,7 +112,7 @@ export class SecondaryChatComponent {
     setInterval(() => {
       if (this.sharedService.openThread) {
         this.threadAnswersJson = this.sharedService.thread.answers;
-        console.log('threadAnswers', this.threadAnswers);
+        console.log('threadAnswers',  this.threadAnswersJson);
         this.threads = {
           id: this.sharedService.thread.id,
           userName: this.sharedService.thread.userName,
