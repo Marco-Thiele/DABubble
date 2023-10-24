@@ -73,6 +73,7 @@ export class SecondaryChatComponent {
   messageID: any;
   thread: any;
   showEmojiPicker: boolean[] = [false, false];
+  showDelete: boolean[] = [false, false];
   isFocused = false;
   taIsFocused = false;
   isChannelVisible = true;
@@ -241,6 +242,7 @@ export class SecondaryChatComponent {
     console.log(this.showEmojiPicker);
   }
 
+
   /**
    * Add an emoji to the message
    */
@@ -250,6 +252,10 @@ export class SecondaryChatComponent {
     this.message = text;
   }
 
+
+  toggleShowDelete(index: number){
+    this.showDelete[index] = !this.showDelete[index];
+  }
   /**
    * Hide the emoji picker when the textarea is focused
    */

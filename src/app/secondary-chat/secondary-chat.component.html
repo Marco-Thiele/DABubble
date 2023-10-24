@@ -79,7 +79,10 @@
             <div [ngClass]="{'hover-img-reverse': thread['userName'] == UserService.getName()}" class="hover-img">
               <div class="img-react" (click)="toggleEmojiPicker(i)">
               </div>
-              <div [ngClass]="{'img-points': thread['userName'] == UserService.getName()}">
+              <div [ngClass]="{'img-points': thread['userName'] == UserService.getName()}" (click)="toggleShowDelete(i)">
+                <div class="delete-message" *ngIf="showDelete[i]">
+                  Nachricht löschen
+                </div>
               </div>
             </div>
             <div>

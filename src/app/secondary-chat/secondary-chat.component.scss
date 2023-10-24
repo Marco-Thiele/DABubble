@@ -140,6 +140,25 @@
     }
 }
 
+.delete-message{
+    position: absolute;
+    left: 55px;
+    top: 20px;
+    width: 170px;
+    border-radius: 0px 30px 30px 30px;
+    padding: 10px 20px 10px 20px;
+    box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    &:hover {
+        color: rgb(121, 126, 243);
+        cursor: pointer;
+    }
+}
+
 .profil-img {
 
     img {
