@@ -51,7 +51,7 @@
     &:hover {
         background-color: rgb(236, 238, 254);
 
-        .img-react {
+        .hover-img {
             display: unset;
         }
 
@@ -72,9 +72,8 @@
     &:hover {
         background-color: rgb(236, 238, 254);
 
-        .img-react {
-            display: unset;
-            
+        .hover-img-reverse {
+            display: flex;
             left: 40px;
         }
     }
@@ -89,7 +88,20 @@
     color: white !important;
 }
 
-.img-react {
+.img-react {  
+    background-image: url(/assets/icons/add_reaction.svg);
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 24px;
+    height: 24px;
+    &:hover {
+        background-image: url(/assets/icons/add_reaction_blue.svg);
+        cursor: pointer;
+    }
+}
+
+.hover-img{
     display: none;
     border: 1px solid rgb(173, 176, 217);
     padding: 3px 13px 3px 13px;
@@ -98,17 +110,33 @@
     position: absolute;
     right: 40px;
     top: -13px;
-    background-color: white;
-    background-image: url(/assets/icons/add_reaction.svg);
-    background-size: 24px 24px;
-    background-repeat: no-repeat;
-    background-position: center;
     width: 24px;
     height: 24px;
+    background-color: white;
+}
 
+.hover-img-reverse{
+    display: none;
+    border: 1px solid rgb(173, 176, 217);
+    padding: 3px 13px 3px 13px;
+    border-radius: 25px;
+    border-bottom-right-radius: 0px;
+    position: absolute;
+    right: 40px;
+    top: -13px;
+    width: 48px;
+    height: 24px;
+    background-color: white;
+}
+
+.img-points{
+    background-image: url(/assets/icons/points_black.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
     &:hover {
-        background-image: url(/assets/icons/add_reaction_blue.svg);
-        cursor: pointer;
+      background-image: url(/assets/icons/points_blue.svg);
+      cursor: pointer;
     }
 }
 

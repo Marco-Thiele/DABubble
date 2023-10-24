@@ -1,4 +1,4 @@
-<div  class="position-thread-contant">
+<div class="position-thread-contant">
   <div class="position-header">
     <div class="thread-contant">
       <div class="thread">
@@ -26,8 +26,9 @@
             <div>
               {{threads.time}}
             </div>
-            <div class="img-react" (click)="toggleEmojiPicker(-1)">
-
+            <div class="hover-img">
+              <div class="img-react" (click)="toggleEmojiPicker(-1)">
+            </div>
             </div>
             <div>
               <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-1]" (emojiSelect)="addEmoji($event)"
@@ -61,7 +62,8 @@
       </div>
     </div>
 
-    <div *ngFor="let thread of threadAnswersJson; let i = index" class="position-question-contant" [ngClass]="{'position-question-contant-reverse': thread['userName'] == UserService.getName()}">
+    <div *ngFor="let thread of threadAnswersJson; let i = index" class="position-question-contant"
+      [ngClass]="{'position-question-contant-reverse': thread['userName'] == UserService.getName()}">
       <div class="profil-img">
         <img src="{{thread['profileImg']}}" alt="">
       </div>
@@ -72,9 +74,13 @@
               {{thread['userName']}}
             </div>
             <div>
-             {{thread['time']}}
+              {{thread['time']}}
             </div>
-            <div class="img-react" (click)="toggleEmojiPicker(i)">
+            <div [ngClass]="{'hover-img-reverse': thread['userName'] == UserService.getName()}" class="hover-img">
+              <div class="img-react" (click)="toggleEmojiPicker(i)">
+              </div>
+              <div [ngClass]="{'img-points': thread['userName'] == UserService.getName()}">
+              </div>
             </div>
             <div>
               <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmoji($event)" size="25%"
