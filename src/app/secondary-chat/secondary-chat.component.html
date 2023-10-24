@@ -18,7 +18,13 @@
           <div class="info">
             <div
               class="name"
-              (click)="showUserProfil(threads.userName, threads.profileImg)"
+              (click)="
+                showUserProfil(
+                  threads.userName,
+                  threads.profileImg,
+                  threads.email
+                )
+              "
             >
               {{ threads.userName }}
             </div>
@@ -75,7 +81,13 @@
           <div class="info">
             <div
               class="name"
-              (click)="showUserProfil(thread['userName'], thread['profileImg'])"
+              (click)="
+                showUserProfil(
+                  thread['userName'],
+                  thread['profileImg'],
+                  thread['email']
+                )
+              "
             >
               {{ thread["userName"] }}
             </div>

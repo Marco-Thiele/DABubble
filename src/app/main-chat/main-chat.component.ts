@@ -369,6 +369,7 @@ export class MainChatComponent implements OnInit {
         reactions: [],
         answers: [],
         date: new Date().toLocaleDateString(),
+        email: this.userService.getMail(),
       };
       if (selectedFile) {
         this.convertImageToBase64(selectedFile).then((base64Data) => {
@@ -616,9 +617,10 @@ export class MainChatComponent implements OnInit {
     this.sharedService.openThreads();
   }
 
-  showUserProfil(userName: string, userPhotoURL: string) {
+  showUserProfil(userName: string, userPhotoURL: string, userEmail: string) {
     this.userService.selectedUserName = userName;
     this.userService.selectedUserPhotoURL = userPhotoURL;
+    this.userService.selectedUserEmail = userEmail;
     this.dialogService.openDialog(UserProfilComponent);
   }
 }

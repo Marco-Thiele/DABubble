@@ -252,7 +252,13 @@
           >
             <a
               class="name"
-              (click)="showUserProfil(message.userName, message.profileImg)"
+              (click)="
+                showUserProfil(
+                  message.userName,
+                  message.profileImg,
+                  message.email
+                )
+              "
               >{{ message.userName }}</a
             >
             <span class="font400-normal">{{ message.time }}</span>

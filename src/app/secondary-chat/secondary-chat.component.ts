@@ -57,6 +57,7 @@ export class SecondaryChatComponent {
     reactions: '',
     answers: [],
     date: '',
+    email: '',
   };
   threadAnswersJson: [] = [];
   threadAnswers = {
@@ -124,6 +125,7 @@ export class SecondaryChatComponent {
           reactions: this.sharedService.thread.reactions,
           answers: this.sharedService.thread.answers,
           date: this.sharedService.thread.date,
+          email: this.sharedService.thread.email,
         };
 
         this.selectedChannel = this.sharedService.selectedChannel;
@@ -182,9 +184,10 @@ export class SecondaryChatComponent {
     // });
   }
 
-  showUserProfil(userName: string, userPhotoURL: string) {
+  showUserProfil(userName: string, userPhotoURL: string, userEmail: string) {
     this.UserService.selectedUserName = userName;
     this.UserService.selectedUserPhotoURL = userPhotoURL;
+    this.UserService.selectedUserEmail = userEmail;
     this.dialogService.openDialog(UserProfilComponent);
   }
 
