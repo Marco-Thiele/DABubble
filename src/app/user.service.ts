@@ -13,7 +13,9 @@ export class UserService {
   auth = getAuth();
   userObject: userData = new userData();
   docId: string = '';
-
+  selectedUserName: string = 'Guest';
+  selectedUserPhotoURL: string = '../../assets/img/avatars/person.svg';
+  selectedUserEmail: string = 'guest@guest.de';
   constructor() {
     this.getUserData();
     this.userObject.name = this.getName();

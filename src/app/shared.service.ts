@@ -51,6 +51,7 @@ export class SharedService implements OnInit {
     reactions: '',
     answers: '',
     date: '',
+    email: '',
   };
   selectedChannel: any;
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
@@ -545,6 +546,7 @@ export class SharedService implements OnInit {
             reactions: this.thread.reactions,
             answers: this.thread.answers,
             date: this.thread.date,
+            email: this.thread.email,
           };
           console.log('threads', this.threads);
         }

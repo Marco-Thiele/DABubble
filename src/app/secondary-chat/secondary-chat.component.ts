@@ -27,7 +27,7 @@ import {
   arrayUnion,
 } from '@angular/fire/firestore';
 import { object } from 'rxfire/database';
-
+import { user } from 'rxfire/auth';
 
 @Component({
   selector: 'app-secondary-chat',
@@ -58,7 +58,7 @@ export class SecondaryChatComponent {
     answers: [],
     date: '',
   };
-  threadAnswersJson: [] = []
+  threadAnswersJson: [] = [];
   threadAnswers = {
     id: '',
     userName: '',
@@ -101,9 +101,7 @@ export class SecondaryChatComponent {
     this.profilName = UserService.getName();
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
-   
-   
-    
+
     this.readThread();
     // this.openNewMessage();
     console.log(this.showEmojiPicker);
@@ -126,15 +124,15 @@ export class SecondaryChatComponent {
           reactions: this.sharedService.thread.reactions,
           answers: this.sharedService.thread.answers,
           date: this.sharedService.thread.date,
-        }
-        
-        this.selectedChannel = this.sharedService.selectedChannel
+        };
+
+        this.selectedChannel = this.sharedService.selectedChannel;
       }
       this.sharedService.openThread = false;
       setTimeout(() => {
         this.sharedService.openThread = true;
-      }, 150)
-     }, 200)
+      }, 150);
+    }, 200);
     // const answers = this.sharedService.getsingleDocRef(
     //   'channels',
     //   this.allgemeinChannelId
@@ -179,12 +177,14 @@ export class SecondaryChatComponent {
     //         date: this.thread.date,
     //       };
     //       console.log('threads', this.threads);
-        // }
+    // }
     //   });
     // });
   }
 
-  showUserProfil() {
+  showUserProfil(userName: string, userPhotoURL: string) {
+    this.UserService.selectedUserName = userName;
+    this.UserService.selectedUserPhotoURL = userPhotoURL;
     this.dialogService.openDialog(UserProfilComponent);
   }
 
@@ -242,7 +242,6 @@ export class SecondaryChatComponent {
     console.log(this.showEmojiPicker);
   }
 
-
   /**
    * Add an emoji to the message
    */
@@ -252,8 +251,7 @@ export class SecondaryChatComponent {
     this.message = text;
   }
 
-
-  toggleShowDelete(index: number){
+  toggleShowDelete(index: number) {
     this.showDelete[index] = !this.showDelete[index];
   }
   /**
@@ -321,11 +319,12 @@ export class SecondaryChatComponent {
       reactions: [],
       date: new Date().toLocaleDateString(),
       profileImg: this.UserService.getPhoto(),
+      email: this.UserService.getMail(),
     };
     console.log('Message channel:', this.messageThrad);
     this.selectedChannel.chat[this.i].answers.push(this.messageThrad);
     this.sharedService.updateChannelFS(this.selectedChannel);
-    
+
     // this.sharedService.saveMessageToLocalStorage(
     //   this.currentChannel.id,
     //   message

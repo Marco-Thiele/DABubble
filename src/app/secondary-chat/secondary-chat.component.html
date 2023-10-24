@@ -1,109 +1,131 @@
 <div class="position-thread-contant">
   <div class="position-header">
     <div class="thread-contant">
-      <div class="thread">
-        Thread
-      </div>
-      <div class="channel">
-        # Entwicklungsteam
-      </div>
+      <div class="thread">Thread</div>
+      <div class="channel"># Entwicklungsteam</div>
     </div>
     <div class="position-close" (click)="closeThreads()">
-      <img src="../../assets/icons/close.svg" alt="">
+      <img src="../../assets/icons/close.svg" alt="" />
     </div>
   </div>
   <div class="contant-scrollbar">
     <div class="position-question-contant">
       <div class="profil-img">
-        <img src="{{threads.profileImg}}" alt="">
+        <img src="{{ threads.profileImg }}" alt="" />
       </div>
       <div>
         <div class="position-contant">
           <div class="info">
-            <div class="name" (click)="showUserProfil()">
-              {{threads.userName}}
+            <div
+              class="name"
+              (click)="showUserProfil(threads.userName, threads.profileImg)"
+            >
+              {{ threads.userName }}
             </div>
             <div>
-              {{threads.time}}
+              {{ threads.time }}
             </div>
             <div class="hover-img">
-              <div class="img-react" (click)="toggleEmojiPicker(-1)">
-            </div>
+              <div class="img-react" (click)="toggleEmojiPicker(-1)"></div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-1]" (emojiSelect)="addEmoji($event)"
-                size="50px 50px" title="Pick your emoji…"></emoji-mart>
+              <emoji-mart
+                class="emoji-mart"
+                *ngIf="showEmojiPicker[-1]"
+                (emojiSelect)="addEmoji($event)"
+                size="50px 50px"
+                title="Pick your emoji…"
+              ></emoji-mart>
             </div>
           </div>
           <div class="question">
-            {{threads.text}}
+            {{ threads.text }}
           </div>
           <div class="answer-icons">
             <div class="answer-reaction">
-              <img src="../../assets/icons/51. Emojis.svg" alt="">
-              <div>
-                1
-              </div>
+              <img src="../../assets/icons/51. Emojis.svg" alt="" />
+              <div>1</div>
             </div>
             <!-- <div class="answer-emojis" (click)="toggleEmojiPicker(4)" >
 
                         </div> -->
-
           </div>
         </div>
       </div>
     </div>
 
     <div class="separate">
-      <div class="separate-answer">
-        {{threads.answers.length}} Antworten
-      </div>
-      <div class="seperate-line">
-      </div>
+      <div class="separate-answer">{{ threads.answers.length }} Antworten</div>
+      <div class="seperate-line"></div>
     </div>
 
-    <div *ngFor="let thread of threadAnswersJson; let i = index" class="position-question-contant"
-      [ngClass]="{'position-question-contant-reverse': thread['userName'] == UserService.getName()}">
+    <div
+      *ngFor="let thread of threadAnswersJson; let i = index"
+      class="position-question-contant"
+      [ngClass]="{
+        'position-question-contant-reverse':
+          thread['userName'] == UserService.getName()
+      }"
+    >
       <div class="profil-img">
-        <img src="{{thread['profileImg']}}" alt="">
+        <img src="{{ thread['profileImg'] }}" alt="" />
       </div>
       <div>
         <div class="position-contant">
           <div class="info">
-            <div class="name" (click)="showUserProfil()">
-              {{thread['userName']}}
+            <div
+              class="name"
+              (click)="showUserProfil(thread['userName'], thread['profileImg'])"
+            >
+              {{ thread["userName"] }}
             </div>
             <div>
-              {{thread['time']}}
+              {{ thread["time"] }}
             </div>
-            <div [ngClass]="{'hover-img-reverse': thread['userName'] == UserService.getName()}" class="hover-img">
-              <div class="img-react" (click)="toggleEmojiPicker(i)">
-              </div>
-              <div [ngClass]="{'img-points': thread['userName'] == UserService.getName()}" (click)="toggleShowDelete(i)">
+            <div
+              [ngClass]="{
+                'hover-img-reverse': thread['userName'] == UserService.getName()
+              }"
+              class="hover-img"
+            >
+              <div class="img-react" (click)="toggleEmojiPicker(i)"></div>
+              <div
+                [ngClass]="{
+                  'img-points': thread['userName'] == UserService.getName()
+                }"
+                (click)="toggleShowDelete(i)"
+              >
                 <div class="delete-message" *ngIf="showDelete[i]">
                   Nachricht löschen
                 </div>
               </div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmoji($event)" size="25%"
-                title="Pick your emoji…"></emoji-mart>
+              <emoji-mart
+                class="emoji-mart"
+                *ngIf="showEmojiPicker[i]"
+                (emojiSelect)="addEmoji($event)"
+                size="25%"
+                title="Pick your emoji…"
+              ></emoji-mart>
             </div>
           </div>
-          <div class="question" [ngClass]="{'question-reverse': thread['userName'] == UserService.getName()}">
-            {{thread['text']}}
+          <div
+            class="question"
+            [ngClass]="{
+              'question-reverse': thread['userName'] == UserService.getName()
+            }"
+          >
+            {{ thread["text"] }}
           </div>
           <div class="answer-icons">
             <div class="answer-reaction">
-              <img src="../../assets/icons/51. Emojis.svg" alt="">
-              <div>
-                1
-              </div>
+              <img src="../../assets/icons/51. Emojis.svg" alt="" />
+              <div>1</div>
             </div>
             <!-- <div class="answer-emojis"  >
 
                         </div> -->
-
           </div>
         </div>
       </div>
@@ -150,9 +172,15 @@
     <!--Container to write in chat-->
     <div class="message-box-cont" *ngIf="messageBox">
       <div class="message-box" [class.focused]="taIsFocused">
-        <textarea class="font400-normal auto-resizable-textarea" placeholder="Antworten..."
-          (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="inputFocused()" (focus)="textAreaFocused()"
-          (blur)="textAreaBlurred()"></textarea>
+        <textarea
+          class="font400-normal auto-resizable-textarea"
+          placeholder="Antworten..."
+          (input)="onTextareaInput($event)"
+          [(ngModel)]="message"
+          (focus)="inputFocused()"
+          (focus)="textAreaFocused()"
+          (blur)="textAreaBlurred()"
+        ></textarea>
         <div class="image-preview-cont" #imagePreviewCont>
           <img id="image-preview" #imagePreview />
         </div>
@@ -160,7 +188,12 @@
         <div class="send-mesg-box">
           <div class="send-msg-icons">
             <div class="icon-plus icons" (click)="fileInput.click()">
-              <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none" />
+              <input
+                type="file"
+                (change)="onFileSelected($event)"
+                #fileInput
+                style="display: none"
+              />
               <div></div>
             </div>
             <div class="icons-line"></div>
@@ -168,8 +201,12 @@
               <div></div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-2]" (emojiSelect)="addEmoji($event)"
-                title="Pick your emoji…"></emoji-mart>
+              <emoji-mart
+                class="emoji-mart"
+                *ngIf="showEmojiPicker[-2]"
+                (emojiSelect)="addEmoji($event)"
+                title="Pick your emoji…"
+              ></emoji-mart>
             </div>
             <div class="icon-et icons">
               <div></div>
@@ -177,12 +214,8 @@
           </div>
 
           <div class="send-msg" (click)="sendChannelMsg()"></div>
-
         </div>
       </div>
     </div>
   </div>
-
-
-
 </div>

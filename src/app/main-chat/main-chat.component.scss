@@ -535,8 +535,8 @@
 
 .message-user-box-cont {
   position: relative;
-  display: flex ;
-  flex-direction: row-reverse ;
+  display: flex;
+  flex-direction: row-reverse;
   width: -webkit-fill-available;
   padding: 10px 35px 10px 160px;
   justify-content: flex-end;
@@ -549,9 +549,9 @@
     }
 
     .message-members-speech-reverse {
-      background:rgba(121, 126, 243, 1) !important;
-   }
-     background: rgb(236, 238, 254);
+      background: rgba(121, 126, 243, 1) !important;
+    }
+    background: rgb(236, 238, 254);
   }
 }
 
@@ -660,6 +660,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(121, 126, 243) !important;
+  }
 }
 
 .reaction-name {
@@ -831,7 +841,7 @@
 
   &:hover {
     .message-members-speech {
-       background: white;
+      background: white;
     }
     .message-reaction-people {
       display: flex;
@@ -889,7 +899,7 @@
   flex-direction: column;
   align-items: flex-start;
   border-radius: 30px 0px 30px 30px;
-  background:  rgba(121, 126, 243, 1);
+  background: rgba(121, 126, 243, 1);
   span {
     align-self: stretch;
     color: white;
