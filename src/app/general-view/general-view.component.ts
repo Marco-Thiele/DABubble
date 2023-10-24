@@ -24,6 +24,7 @@ export class GeneralViewComponent implements OnInit {
   isThreadsClosed = true;
   isThreadsOpen = false;
   selectedChannel: any;
+  selectedMember: any;
   currentChannel: any;
   sendChannel = false;
   isChannelVisible = false;
@@ -33,6 +34,8 @@ export class GeneralViewComponent implements OnInit {
   isPrivateChatVisible = false;
   placeholderMessageBox = 'Starte eine neue Nachricht';
   sendPrivate = false;
+  mainChatRespo = false;
+  secundaryRespo = false;
 
   constructor(
     private renderer: Renderer2,
@@ -47,28 +50,33 @@ export class GeneralViewComponent implements OnInit {
     // this.onResize();
     this.openNewMessage();
     this.openRespChannelContainer(this.selectedChannel);
+    this.openRespPrivateContainer(this.selectedMember);
   }
 
   openRespChannelContainer(channel: any) {
     this.sharedService.openRespChannelEvent$.subscribe((channel: any) => {
+      console.log(channel);
       console.log('3');
       this.showChannels = false;
       this.appChannels = false;
-      // this.sharedService.emitOpenChannel(channel);
       this.showMainChat = true;
       this.appMainChat = true;
-      // this.isChannelVisible = true;
-      // this.isPrivatChatContainerVisible = false;
-      // this.isChatWithMemberVisible = false;
-      // this.isNewMessageVisible = false;
-      // this.isPrivatChatContainerVisible = false;
-      // this.isPrivateChatVisible = false;
-      // this.selectedChannel = channel;
-      // this.currentChannel = channel;
-      // this.sendChannel = true;
-      // this.sendPrivate = false;
-      // this.placeholderMessageBox = 'Nachricht an #' + channel.name;
+      this.mainChatRespo = true;
     });
+  }
+
+  openRespPrivateContainer(member: any) {
+    console.log('4');
+    this.sharedService.respOpenPrivateContainerEvent$.subscribe(
+      (member: any) => {
+        console.log(member);
+        this.showChannels = false;
+        this.appChannels = false;
+        this.showMainChat = true;
+        this.appMainChat = true;
+        this.mainChatRespo = true;
+      }
+    );
   }
 
   /**

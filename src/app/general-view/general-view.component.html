@@ -5,9 +5,9 @@
   <app-channels class="channels-container" [class.closed]="isChannelsClosed" [class.open]="isChannelOpen"
     [ngStyle]="{ 'display': channelDisplay }" *ngIf="appChannels && showChannels"></app-channels>
   <app-main-chat class="main-chat-container" [class.complete]="isMainChatcomplete" [class.init]="isMainChatInit"
-    [class.small]="isMainChatSmall" *ngIf="appMainChat && showMainChat"></app-main-chat>
+    [class.small]="isMainChatSmall" [class.flex]="mainChatRespo" *ngIf="appMainChat && showMainChat"></app-main-chat>
   <app-secondary-chat class="secondary-chat-container" *ngIf="appSecondaryChat && showSecondary"
-    [class.closed]="isThreadsClosed" [class.open]="isThreadsOpen"></app-secondary-chat>
+    [class.closed]="isThreadsClosed" [class.flex]="secundaryRespo" [class.open]="isThreadsOpen"></app-secondary-chat>
 </div>
 
 <div class="workspace-menu-cont" (click)="openCloseWorkspace()">

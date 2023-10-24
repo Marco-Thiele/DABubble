@@ -187,8 +187,13 @@
   }
 
   .main-chat-container {
+    display: none;
     width: 100% !important;
     border-radius: 0;
+  }
+
+  .flex {
+    display: flex;
   }
 
   .secondary-chat-container {

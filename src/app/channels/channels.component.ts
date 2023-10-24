@@ -122,9 +122,7 @@ export class ChannelsComponent implements OnInit {
   openChannel(channel: any) {
     if (window.innerWidth < 1000) {
       this.sharedService.emitOpenChannel(channel);
-      setTimeout(() => {
-        this.sharedService.emitRespOpenChannel(channel);
-      }, 1000);
+      this.sharedService.emitRespOpenChannel(channel);
     } else {
       this.sharedService.emitOpenChannel(channel);
     }
@@ -134,11 +132,13 @@ export class ChannelsComponent implements OnInit {
    * Opens the private container in main chat.
    */
   openPrivateContainer(member: any) {
-    console.log(member);
-    this.selectedMember = member;
-    const memberId = member.id;
-
-    this.sharedService.emitOpenPrivateContainer(member);
+    if (window.innerWidth < 1000) {
+      this.sharedService.emitOpenPrivateContainer(member);
+      this.sharedService.emitRespOpenPrivateContainer(member);
+      console.log('1');
+    } else {
+      this.sharedService.emitOpenPrivateContainer(member);
+    }
   }
 
   onSearch(event: Event) {

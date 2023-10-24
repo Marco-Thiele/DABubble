@@ -319,7 +319,7 @@ export class SharedService implements OnInit {
     return {
       id: id,
       chat: obj.chat || [],
-      photoUrl: obj.photoUrl || '',
+      photoURL: obj.photoURL || '',
       name: obj.name || '',
       email: obj.email || '',
     };
@@ -490,6 +490,18 @@ export class SharedService implements OnInit {
 
   emitOpenPrivateContainer(member: any) {
     this.openPrivateContainerEvent.next(member);
+    console.log('2');
+  }
+
+  private respOpenPrivateContainerEvent = new Subject<any>();
+
+  respOpenPrivateContainerEvent$ =
+    this.respOpenPrivateContainerEvent.asObservable();
+
+  emitRespOpenPrivateContainer(member: any) {
+    this.openPrivateContainerEvent.next(member);
+    console.log(member);
+    console.log('3');
   }
 
   /**
