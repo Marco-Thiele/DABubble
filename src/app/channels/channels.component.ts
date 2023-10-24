@@ -73,6 +73,10 @@ export class ChannelsComponent implements OnInit {
     return this.sharedService.membersListArray;
   }
 
+  getUsersFS(): any[] {
+    return this.sharedService.usersListArray;
+  }
+
   /**
    * Gets the value of the edit channel component.
    * @returns true if the edit channel component is open, false otherwise

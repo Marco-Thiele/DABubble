@@ -76,7 +76,7 @@
           </div>
         </mat-expansion-panel-header>
         <div class="dm-container">
-          <div class="channels-list-container">
+          <div class="channels-list-container" *ngFor="let user of getUsersFS()">
             <div class="channel-member" (click)="openPrivateContainer(user)">
               <div class="channel-photo">
                 <img src="{{user.imgProfil}}">

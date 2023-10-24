@@ -18,7 +18,7 @@ export class GeneralViewComponent implements OnInit {
   appChannels = true;
   showChannels = true;
   appMainChat = true;
-  showMainChat = false;
+  showMainChat = true;
   appSecondaryChat = false;
   showSecondary = false;
   isThreadsClosed = true;
@@ -44,7 +44,7 @@ export class GeneralViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.onResize();
+    // this.onResize();
     this.openNewMessage();
     this.openRespChannelContainer(this.selectedChannel);
   }
