@@ -70,6 +70,7 @@ export class SecondaryChatComponent {
     reactions: '',
     date: '',
   };
+  emojis:{} = {};
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   messageID: any;
   thread: any;
@@ -254,6 +255,19 @@ export class SecondaryChatComponent {
     this.message = text;
   }
 
+  addEmojiAnswer(event: any, i: number) {
+    const { message } = this;
+    const text = `${message}${event.emoji.native}`;
+    this.emojis = {
+      userName: this.UserService.getName(),
+      emoji : text,
+    };
+    this.selectedChannel.chat[this.i].answers[i].reactions.push( this.emojis);
+    console.log('emojis', this.selectedChannel.chat[this.i].answers[i].reactions)
+    this.sharedService.updateChannelFS(this.selectedChannel);
+    this.showEmojiPicker[i] = false
+  }
+
   toggleShowDelete(index: number) {
     this.showDelete[index] = !this.showDelete[index];
   }
@@ -335,69 +349,6 @@ export class SecondaryChatComponent {
     this.message = '';
   }
 
-  /**
-   * Searches in local storage
-   */
-  searchInLocalStorage(event: Event) {
-    const searchText = (event.target as HTMLInputElement).value;
-    if (searchText.startsWith('#')) {
-      const searchTerm = searchText.slice(1);
-      this.searchInChannels(searchTerm);
-    } else if (searchText.startsWith('@')) {
-      const searchTerm = searchText.slice(1);
-      this.searchInMembers(searchTerm);
-    } else {
-      this.searchInChannels(searchText);
-      this.searchInMembers(searchText);
-    }
-  }
-
-  /**
-   * Looks for a member in the list of members.
-   * @returns the list of private messages
-   */
-  searchInMembers(searchTerm: string): string[] {
-    this.memberMatches = [];
-    const memberName = searchTerm.trim();
-    if (memberName === '') {
-      return [];
-    }
-
-    const members = this.sharedService.getMembers();
-    const filteredMembers = members.slice(1);
-    this.memberMatches = filteredMembers.filter((member) =>
-      member.name.toLowerCase().includes(memberName.toLowerCase())
-    );
-
-    this.memberMatches.forEach((match) => {
-      console.log('Match:', match);
-    });
-
-    return this.memberMatches.map((match) => match.name);
-  }
-
-  /**
-   * Looks for a channel in the list of channels.
-   * @returns the list of private messages
-   */
-  searchInChannels(searchTerm: string): string[] {
-    this.channelMatches = [];
-    const channelName = searchTerm.trim();
-    if (channelName === '') {
-      return [];
-    }
-
-    // const channels = this.sharedService.getChannelsFromLS();
-    // this.channelMatches = channels.filter((channel) =>
-    //   channel.name.toLowerCase().includes(channelName.toLowerCase())
-    // );
-
-    this.channelMatches.forEach((match) => {
-      console.log('Match:', match);
-    });
-
-    return this.channelMatches.map((match) => match.name);
-  }
 
   getCurrentThread() {
     {
@@ -407,6 +358,7 @@ export class SecondaryChatComponent {
       );
     }
   }
+
 
   getCleanJsonThreads(channel: any): {} {
     return {
@@ -427,4 +379,11 @@ export class SecondaryChatComponent {
   closeThreads() {
     this.sharedService.closeThreads();
   }
+
+
+  deleteMessage(i: number) {
+    this.selectedChannel.chat[this.i].answers.splice(i, 1);
+    this.sharedService.updateChannelFS(this.selectedChannel);
+  }
+
 }

@@ -212,6 +212,7 @@
     align-items: center;
     cursor: pointer;
     background-color: white;
+    font-size: 22px;
 
     div {
         font-size: 16px;
@@ -406,6 +407,14 @@
     z-index: 100;
     left:0;
     top: 20px;
+}
+
+.emoji-mart-message {
+    position: absolute;
+    font-family: Nunito;
+    z-index: 100;
+    bottom: 100px;
+    transform: translate(-379px, -17px);
 }
 
 // Design from the user's chat
