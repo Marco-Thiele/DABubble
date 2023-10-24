@@ -142,11 +142,11 @@
     <!-- </div> -->
 
     <!--Container for the member's chat-->
-
-    <div class="message-members-box-cont"
+    <!-- *ngIf="message.userName !== userService.getName()" -->
+    <div [ngClass]="{'message-user-box-cont': message.userName == userService.getName()}" class="message-members-box-cont"  
       *ngFor="let message of (selectedMember?.chat || []).concat(selectedChannel?.chat || []), let i = index">
-      <ng-container *ngIf="message.userName !== userService.getName()">
-        <div class="message-reaction-people">
+      <ng-container >
+        <div [ngClass]="{'message-reaction-people-reverse': message.userName == userService.getName()}" class="message-reaction-people">
           <div class="reaction-icon">
             <div class="icon-tick"></div>
           </div>
@@ -159,22 +159,25 @@
           <div class="reaction-icon">
             <div class="icon-message"></div>
           </div>
+          <div  [ngClass]="{'reaction-icon': message.userName == userService.getName()}">
+            <div [ngClass]="{'icon-points': message.userName == userService.getName()}"></div>
+          </div>
         </div>
         <div class="message-user-img">
           <div [style.background-image]="'url(' + message.profileImg + ')'"></div>
         </div>
-        <div class="message-members-box">
-          <div class="message-user-name">
-            <a class="font700-normal">{{message.name}}</a>
+        <div [ngClass]="{'message-members-box-reverse': message.userName == userService.getName()}" class="message-members-box">
+          <div [ngClass]="{'message-user-name-reverse': message.userName == userService.getName()}" class="message-user-name">
+            <a class="font700-normal">{{message.userName}}</a>
             <span class="font400-normal">{{message.time}}</span>
           </div>
-          <div class="message-members-speech">
+          <div [ngClass]="{'message-members-speech-reverse': message.userName == userService.getName()}" class="message-members-speech" >
             <span class="font400-normal" (click)="openThread(i, message.id)">{{message.text}}</span>
             <img src="{{message.imageUrl}}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
               [style.margin-top]="message.imageUrl ? '8px': '0px'">
           </div>
           <div class="message-members-answers">
-            <span class="font400-normal" (click)="openThread(i, message.id)">2 Antworten</span>
+            <span class="font400-normal" (click)="openThread(i, message.id)">{{message.answers.length}} Antworten</span>
             <a class="font400-normal">Letzte Antwort 14:56</a>
           </div>
         </div>
@@ -184,7 +187,7 @@
 
     <!--Container for the user's chat-->
 
-    <div class="message-user-box-cont"
+    <!-- <div class="message-user-box-cont"
       *ngFor="let message of (selectedMember?.chat || []).concat(selectedChannel?.chat || [])">
       <ng-container *ngIf="message.userName === userService.getName()">
         <div class="message-reaction-people">
@@ -230,10 +233,10 @@
             </div>
             <div>
 
-              <!-- <div class="reaction">
+               <div class="reaction">
             <div class="tick"></div>
             <span class="font400-normal">1</span>
-          </div> -->
+          </div> 
             </div>
             <div class="add-reaction">
               <div></div>
@@ -246,7 +249,7 @@
       </ng-container>
     </div>
   </div>
-</div>
+</div> -->
 
 
 
