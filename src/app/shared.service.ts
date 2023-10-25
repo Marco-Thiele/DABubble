@@ -471,14 +471,13 @@ export class SharedService implements OnInit {
   }
 
   /**
-   * Emits an event to open the channel component from Main-Chat to Channel
+   * Emits an event to open the channel component from Main-Chat to Channel in responsive mode
    */
   private openRespChannelEvent = new Subject<any>();
 
   openRespChannelEvent$ = this.openRespChannelEvent.asObservable();
 
   emitRespOpenChannel(channel: any) {
-    console.log('2');
     this.openRespChannelEvent.next(channel);
   }
 
@@ -494,15 +493,27 @@ export class SharedService implements OnInit {
     console.log('chatting with', member);
   }
 
+  /**
+   * Emits an event to open the private container from Main-Chat to Private in responsive mode
+   */
   private respOpenPrivateContainerEvent = new Subject<any>();
 
   respOpenPrivateContainerEvent$ =
     this.respOpenPrivateContainerEvent.asObservable();
 
   emitRespOpenPrivateContainer(member: any) {
-    this.openPrivateContainerEvent.next(member);
-    console.log(member);
-    console.log('3');
+    this.respOpenPrivateContainerEvent.next(member);
+  }
+
+  /**
+   * Emits an event to open the threads container in responsive mode.
+   */
+  private respOpenThreadsEvent = new Subject<any>();
+
+  respOpenThreadsEvent$ = this.respOpenThreadsEvent.asObservable();
+
+  emitRespOpenThreadsEvent() {
+    this.respOpenThreadsEvent.next('');
   }
 
   /**
@@ -611,5 +622,27 @@ export class SharedService implements OnInit {
     if (this.closeThreadCont) {
       this.closeThreadCont();
     }
+  }
+
+  /**
+   * Emits an event to change the icon in responsive mode.
+   */
+  private iconResponsiveSubject = new Subject<boolean>();
+
+  iconResponsive$ = this.iconResponsiveSubject.asObservable();
+
+  toggleIconResponsive(value: boolean) {
+    this.iconResponsiveSubject.next(value);
+  }
+
+  /**
+   * Emits an event to open the channels container in responsive mode.
+   */
+  private onResizeRequestedSubject = new Subject<void>();
+
+  onResizeRequestedSubject$ = this.onResizeRequestedSubject.asObservable();
+
+  callOnResize() {
+    this.onResizeRequestedSubject.next();
   }
 }

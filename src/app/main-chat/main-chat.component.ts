@@ -271,7 +271,6 @@ export class MainChatComponent implements OnInit {
     this.sharedService.emitOpenPrivateContainer(member);
     this.inputValue = '';
     this.showContainers = false;
-    console.log('chosen member: ', member);
   }
 
   /**
@@ -518,7 +517,6 @@ export class MainChatComponent implements OnInit {
   }
 
   savePrivateMessage(selectedMember: any, message: any) {
-    console.log(selectedMember);
     selectedMember.chat.push(message);
     this.sharedService.updatePrivateChatFS(selectedMember);
     this.message = '';
@@ -614,9 +612,15 @@ export class MainChatComponent implements OnInit {
     }));
   }
 
+  /**
+   * Opens the threads container
+   * @param member the member to open
+   */
   openThread(i: number, messageID: any) {
+    if (window.innerWidth < 1000) {
+      this.sharedService.emitRespOpenThreadsEvent();
+    }
     this.sharedService.selectedChannel = this.selectedChannel;
-    console.log('selectedChannel', this.selectedChannel);
     this.sharedService.i = i;
     this.sharedService.messageID = messageID;
     this.sharedService.loadThreads();
@@ -647,23 +651,40 @@ export class MainChatComponent implements OnInit {
   //     this.showResults = false;
   //   }
   // }
+
+  /**
+   * Shows the buttons for editing a message
+   * @param i the index of the message
+   */
   toggleShowEdit(i: number) {
     this.showEdit[i] = !this.showEdit[i];
   }
 
+  /**
+   * Opens the edit message component
+   * @param i the index of the message
+   * @param messageID the id of the message
+   */
   editMessage(i: number, messageID: any) {
     this.editMessageUser[i] = true;
     this.sharedService.selectedChannel = this.selectedChannel;
 
     this.sharedService.i = i;
     this.sharedService.messageID = messageID;
-    console.log('messageID', messageID);
   }
 
+  /**
+   * Closes the edit message component
+   * @param i the index of the message
+   */
   closeEdit(i: number) {
     this.editMessageUser[i] = false;
   }
 
+  /**
+   * Saves the edited message
+   * @param i the index of the message
+   */
   saveEditMessage(i: number) {
     const editedMessage = this.selectedChannel.chat[i];
     editedMessage.text = this.editedMessageUser;

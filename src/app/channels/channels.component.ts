@@ -121,11 +121,10 @@ export class ChannelsComponent implements OnInit {
    */
   openChannel(channel: any) {
     if (window.innerWidth < 1000) {
-      this.sharedService.emitOpenChannel(channel);
       this.sharedService.emitRespOpenChannel(channel);
-    } else {
-      this.sharedService.emitOpenChannel(channel);
+      this.sharedService.toggleIconResponsive(true);
     }
+    this.sharedService.emitOpenChannel(channel);
   }
 
   /**
@@ -133,12 +132,10 @@ export class ChannelsComponent implements OnInit {
    */
   openPrivateContainer(member: any) {
     if (window.innerWidth < 1000) {
-      this.sharedService.emitOpenPrivateContainer(member);
       this.sharedService.emitRespOpenPrivateContainer(member);
-      console.log('1');
-    } else {
-      this.sharedService.emitOpenPrivateContainer(member);
+      this.sharedService.toggleIconResponsive(true);
     }
+    this.sharedService.emitOpenPrivateContainer(member);
   }
 
   onSearch(event: Event) {
@@ -150,7 +147,6 @@ export class ChannelsComponent implements OnInit {
       }
     });
     this.showResults = true;
-    console.log(this.foundUsers);
     if (input.length === 0) {
       this.showResults = false;
     }

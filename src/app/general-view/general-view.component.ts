@@ -47,16 +47,21 @@ export class GeneralViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.onResize();
     this.openNewMessage();
     this.openRespChannelContainer(this.selectedChannel);
     this.openRespPrivateContainer(this.selectedMember);
+    this.openRespThreadsContainer();
+    this.sharedService.onResizeRequestedSubject$.subscribe(() => {
+      this.openChannelsContainer();
+    });
   }
 
+  /**
+   * opens the channel container in the responsive view
+   * @param channel the channel to open
+   */
   openRespChannelContainer(channel: any) {
     this.sharedService.openRespChannelEvent$.subscribe((channel: any) => {
-      console.log(channel);
-      console.log('3');
       this.showChannels = false;
       this.appChannels = false;
       this.showMainChat = true;
@@ -65,11 +70,13 @@ export class GeneralViewComponent implements OnInit {
     });
   }
 
+  /**
+   * opens the private container in the responsive view
+   * @param member the member to open
+   */
   openRespPrivateContainer(member: any) {
-    console.log('4');
     this.sharedService.respOpenPrivateContainerEvent$.subscribe(
       (member: any) => {
-        console.log(member);
         this.showChannels = false;
         this.appChannels = false;
         this.showMainChat = true;
@@ -77,6 +84,19 @@ export class GeneralViewComponent implements OnInit {
         this.mainChatRespo = true;
       }
     );
+  }
+
+  /**
+   * opens the threads container in the responsive view
+   */
+  openRespThreadsContainer() {
+    this.sharedService.respOpenThreadsEvent$.subscribe(() => {
+      this.showMainChat = false;
+      this.appMainChat = false;
+      this.mainChatRespo = true;
+      this.appSecondaryChat = true;
+      this.showSecondary = true;
+    });
   }
 
   /**
@@ -98,7 +118,6 @@ export class GeneralViewComponent implements OnInit {
     this.isChannelOpen = true;
     this.isMainChatcomplete = false;
     this.isMainChatInit = true;
-    // this.isMainChatSmaller = true;
     this.channelDisplay = '';
     this.buttonText = 'Workspace-Menü schließen';
     this.isMenuOpen = true;
@@ -133,12 +152,30 @@ export class GeneralViewComponent implements OnInit {
     }
   }
 
+  /**
+   * Opens the channels container.
+   */
+  openChannelsContainer() {
+    this.showChannels = true;
+    this.appChannels = true;
+    this.showMainChat = false;
+    this.appMainChat = false;
+    this.showSecondary = false;
+    this.appSecondaryChat = false;
+  }
+
+  /**
+   * Opens the main chat container.
+   */
   openMainChat() {
     this.showChannels = false;
     this.showMainChat = true;
     this.appMainChat = true;
   }
 
+  /**
+   * Opens the new message container in main chat.
+   */
   openNewMessage() {
     this.sharedService.openRespNewMessage$.subscribe(() => {
       this.showChannels = false;

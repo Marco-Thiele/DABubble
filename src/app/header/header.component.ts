@@ -18,6 +18,7 @@ import {
 import { getAuth, signOut } from '@angular/fire/auth';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { message } from '../models/message';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-header',
@@ -36,10 +37,12 @@ export class HeaderComponent {
   foundMessages: DocumentData[] = [];
   searchTerm: string = '';
   showResults: boolean = false;
+  iconResponsive: boolean = false;
   constructor(
     public UserService: UserService,
     private dialogService: DialogService,
-    private _router: Router
+    private _router: Router,
+    private sharedService: SharedService
   ) {
     setInterval(() => {
       this.profilName = UserService.getName();
@@ -47,6 +50,9 @@ export class HeaderComponent {
     }, 300);
     this.subUserList();
     this.subChatList();
+    this.sharedService.iconResponsive$.subscribe((value) => {
+      this.iconResponsive = value;
+    });
   }
 
   /**
@@ -175,5 +181,10 @@ export class HeaderComponent {
 
   getChatCollection() {
     return collection(this.firestore, 'channels');
+  }
+
+  backToChannels() {
+    this.iconResponsive = false;
+    this.sharedService.callOnResize();
   }
 }
