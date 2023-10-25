@@ -64,6 +64,9 @@ export class MainChatComponent implements OnInit {
   inputText: string = '';
   inputValue: string = '';
   showContainers: boolean = true;
+  showEdit: boolean[] = [false, false];
+  editMessageUser: boolean[] = [false, false];
+  editedMessageUser: string = '';
 
   constructor(
     private dialog: MatDialog,
@@ -622,5 +625,31 @@ export class MainChatComponent implements OnInit {
     this.userService.selectedUserPhotoURL = userPhotoURL;
     this.userService.selectedUserEmail = userEmail;
     this.dialogService.openDialog(UserProfilComponent);
+  }
+
+  toggleShowEdit(i: number) {
+    this.showEdit[i] = !this.showEdit[i];
+  }
+
+  editMessage(i: number, messageID: any) {
+    this.editMessageUser[i] = true;
+    this.sharedService.selectedChannel = this.selectedChannel;
+
+    this.sharedService.i = i;
+    this.sharedService.messageID = messageID;
+    console.log('messageID', messageID);
+  }
+
+  closeEdit(i: number) {
+    this.editMessageUser[i] = false;
+  }
+
+  saveEditMessage(i: number) {
+    const editedMessage = this.selectedChannel.chat[i];
+    editedMessage.text = this.editedMessageUser;
+    editedMessage.edited = true;
+
+    this.sharedService.updateChannelFS(this.selectedChannel);
+    this.editMessageUser[i] = false;
   }
 }

@@ -1016,6 +1016,97 @@
   }
 }
 
+.delete-message {
+  position: absolute;
+  left: 200px;
+  top: 43px;
+  width: 200px;
+  height: 53px;
+  border-radius: 0px 30px 30px 30px;
+  padding: 10px 20px 10px 20px;
+  box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    color: rgb(121, 126, 243);
+    cursor: pointer;
+  }
+}
+
+//Design edit message
+
+.editMessage {
+  display: flex;
+  flex-direction: column;
+  width: -webkit-fill-available;
+  height: fit-content;
+  border-radius: 20px;
+  background-color: #fff;
+  border: 1px solid #adb0d9;
+  gap: 16px;
+  padding: 20px;
+  margin-left: 160px;
+
+  input {
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-weight: 400;
+    width: -webkit-fill-available;
+
+    ::placeholder {
+      font-weight: 400;
+      font-size: 18px;
+    }
+  }
+}
+
+.editMessage-buttons {
+  width: -webkit-fill-available;
+  display: flex;
+  justify-content: flex-end;
+  height: 49px;
+  gap: 32px;
+  display: flex;
+}
+
+.editMessage-cancel {
+  width: 140px;
+  height: 49px;
+  border-radius: 50px;
+  background-color: #fff;
+  border: 1px solid #797ef3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #444df2;
+  }
+}
+
+.editMessage-save {
+  width: 133px;
+  height: 49px;
+  border-radius: 50px;
+  background-color: #444df2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  span {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+  }
+}
+
 //Design looks function
 
 .container-lookingfor {
