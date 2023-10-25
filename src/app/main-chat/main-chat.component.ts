@@ -607,9 +607,9 @@ export class MainChatComponent implements OnInit {
   }
 
   openThread(i: number, messageID: any) {
-    console.log('selectedChannel', this.selectedChannel);
+   
     this.sharedService.selectedChannel = this.selectedChannel;
-
+    console.log('selectedChannel', this.selectedChannel);
     this.sharedService.i = i;
     this.sharedService.messageID = messageID;
     this.sharedService.loadThreads();
