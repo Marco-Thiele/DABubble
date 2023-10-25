@@ -545,6 +545,7 @@ export class MainChatComponent implements OnInit {
         const searchTerm = inputText.substring(1);
         this.searchMembers(searchTerm).then((members) => {
           this.memberMatches = members;
+
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
         });
@@ -586,7 +587,7 @@ export class MainChatComponent implements OnInit {
     return matchingMembers.map((member) => ({
       uid: member.id,
       name: member.name,
-      photoURL: member.photoURL,
+      profileImg: member.profileImg,
       email: member.email,
     }));
   }

@@ -320,7 +320,7 @@ export class SharedService implements OnInit {
       docId: id,
       id: obj.uid,
       chat: obj.chat || [],
-      photoURL: obj.photoURL || '',
+      profileImg: obj.photoURL || '',
       name: obj.name || '',
       email: obj.email || '',
     };
