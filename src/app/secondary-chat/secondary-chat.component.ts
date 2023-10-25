@@ -43,6 +43,7 @@ export class SecondaryChatComponent {
   profilImg: any;
   profilEmail: string;
   i: any;
+  j: number = 0;
   showIconCatalog = false;
   name = 'Angular';
   message = '';
@@ -72,7 +73,7 @@ export class SecondaryChatComponent {
   };
   emojis = {
     userName: [],
-    emoji : '',
+    emoji: '',
   }
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   messageID: any;
@@ -263,24 +264,29 @@ export class SecondaryChatComponent {
     let existEmoji = false;
     const { message } = this;
     const text = `${message}${event.emoji.native}`;
-    answersEmojis.forEach((element :any ) => {
-      if ( element.emoji.includes(text)){
-        if(!element.userName.includes(this.UserService.getName())){
+    answersEmojis.forEach((element: any) => {
+      this.j++
+      if (element.emoji.includes(text)) {
+        if (!element.userName.includes(this.UserService.getName())) {
           element.userName.push(this.UserService.getName());
         }
         existEmoji = true;
-      } 
+        
+      }
     });
     if (!existEmoji) {
       this.emojis = {
         userName: [],
-        emoji : text,
+        emoji: text,
       };
-      this.selectedChannel.chat[this.i].answers[i].reactions.push( this.emojis);
-      this.selectedChannel.chat[this.i].answers[i].reactions[i].userName.push(this.UserService.getName());
-    }  
+      console.log('j',this.j);
+      
+      this.selectedChannel.chat[this.i].answers[i].reactions.push(this.emojis);
+      this.selectedChannel.chat[this.i].answers[i].reactions[this.j].userName.push(this.UserService.getName());
+    }
     this.sharedService.updateChannelFS(this.selectedChannel);
-    this.showEmojiPicker[i] = false
+    this.showEmojiPicker[i] = false;
+    this.j = 0;
   }
 
   toggleShowDelete(index: number) {
