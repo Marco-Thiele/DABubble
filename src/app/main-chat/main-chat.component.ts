@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { UserProfilComponent } from '../user-profil/user-profil.component';
 import { DialogService } from '../dialog.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
+import { user } from 'rxfire/auth';
 
 @Component({
   selector: 'app-main-chat',
@@ -264,7 +265,9 @@ export class MainChatComponent implements OnInit {
   openPrivateContainer(member: any) {
     this.selectedMember = member;
     const memberId = member.id;
-
+    this.userService.selectedChatPartner = member;
+    this.userService.subPrivateChat();
+    this.userService.doesChatExist();
     this.sharedService.emitOpenPrivateContainer(member);
     this.inputValue = '';
     this.showContainers = false;

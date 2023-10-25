@@ -25,8 +25,12 @@ export class UserService {
   messageText: string = '';
   foundPrivateMessages: DocumentData[] = [];
   usersList: DocumentData[] = [];
+  selectedChatPartner: any;
+  currentChat: any;
   constructor() {
     this.getUserData();
+    this.subPrivateChat();
+    console.log('current chats: ', this.foundPrivateMessages);
     this.getUserList;
     this.userObject.name = this.getName();
     this.userObject.email = this.getMail();
@@ -68,7 +72,7 @@ export class UserService {
   privateMessage() {
     return {
       userName: this.user ? this.user.displayName : 'Guest',
-      userPhotoURL: this.user
+      profileImg: this.user
         ? this.user.photoURL
         : '../../assets/img/avatars/person.svg',
       time: new Date().toLocaleTimeString(),
@@ -80,12 +84,7 @@ export class UserService {
   }
 
   sendPrivateChatMessage() {
-    const privateMessages: [] = [];
-
-    const message = {
-      participants: [],
-      messages: [],
-    };
+    this.currentChat.push(this.privateMessage());
   }
 
   getPrivateChannels() {
@@ -96,11 +95,44 @@ export class UserService {
     return onSnapshot(this.getPrivateChannels(), (channel) => {
       channel.forEach((chat) => {
         const privateChat = chat.data();
-        // if(privateChat.participants.includes(this.user.uid)){
-        //   this.foundPrivateMessages.push(privateChat)
-        // }
+        if (this.user) {
+          if (privateChat['participants'].includes(this.user.uid)) {
+            this.foundPrivateMessages.push(privateChat);
+          }
+        }
       });
     });
+  }
+
+  doesChatExist() {
+    this.foundPrivateMessages.forEach((chat) => {
+      if (
+        chat['participants'].includes(this.user?.uid) &&
+        chat['participants'].includes(this.selectedChatPartner.uid)
+      ) {
+        console.log('chat exists.. ', chat);
+        this.currentChat = chat;
+      }
+    });
+    if (this.currentChat == undefined) {
+      this.createChatinDB();
+      console.log('creating chat');
+    }
+  }
+
+  createPrivateChat() {
+    return {
+      participants: [this.user?.uid, this.selectedChatPartner.uid],
+      messages: [],
+    };
+  }
+
+  //  checkIfChatExists(){
+  //   if
+  //  }
+
+  async createChatinDB() {
+    await addDoc(this.getPrivateChannels(), this.createPrivateChat());
   }
 
   getUserList() {

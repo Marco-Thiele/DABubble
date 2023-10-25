@@ -491,7 +491,7 @@ export class SharedService implements OnInit {
 
   emitOpenPrivateContainer(member: any) {
     this.openPrivateContainerEvent.next(member);
-    console.log('2');
+    console.log('chatting with', member);
   }
 
   private respOpenPrivateContainerEvent = new Subject<any>();
