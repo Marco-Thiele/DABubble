@@ -66,6 +66,9 @@ export class MainChatComponent implements OnInit {
   inputValue: string = '';
   showContainers: boolean = true;
   foundUsers: DocumentData[] = [];
+  showEdit: boolean[] = [false, false];
+  editMessageUser: boolean[] = [false, false];
+  editedMessageUser: string = '';
 
   constructor(
     private dialog: MatDialog,
@@ -608,9 +611,8 @@ export class MainChatComponent implements OnInit {
   }
 
   openThread(i: number, messageID: any) {
-    console.log('selectedChannel', this.selectedChannel);
     this.sharedService.selectedChannel = this.selectedChannel;
-
+    console.log('selectedChannel', this.selectedChannel);
     this.sharedService.i = i;
     this.sharedService.messageID = messageID;
     this.sharedService.loadThreads();
@@ -641,4 +643,29 @@ export class MainChatComponent implements OnInit {
   //     this.showResults = false;
   //   }
   // }
+  toggleShowEdit(i: number) {
+    this.showEdit[i] = !this.showEdit[i];
+  }
+
+  editMessage(i: number, messageID: any) {
+    this.editMessageUser[i] = true;
+    this.sharedService.selectedChannel = this.selectedChannel;
+
+    this.sharedService.i = i;
+    this.sharedService.messageID = messageID;
+    console.log('messageID', messageID);
+  }
+
+  closeEdit(i: number) {
+    this.editMessageUser[i] = false;
+  }
+
+  saveEditMessage(i: number) {
+    const editedMessage = this.selectedChannel.chat[i];
+    editedMessage.text = this.editedMessageUser;
+    editedMessage.edited = true;
+
+    this.sharedService.updateChannelFS(this.selectedChannel);
+    this.editMessageUser[i] = false;
+  }
 }

@@ -33,6 +33,9 @@
 .channel {
     color: rgb(121, 126, 243);
     margin-left: 4px;
+    height: 24px;
+    display: flex;
+    align-items: center;
 }
 
 .position-close {

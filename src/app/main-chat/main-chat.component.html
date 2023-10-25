@@ -228,7 +228,16 @@
               [ngClass]="{
                 'icon-points': message.userName == userService.getName()
               }"
-            ></div>
+              (click)="toggleShowEdit(i)"
+            >
+              <div
+                class="delete-message"
+                *ngIf="showEdit[i]"
+                (click)="editMessage(i, message.id)"
+              >
+                Nachricht bearbeiten
+              </div>
+            </div>
           </div>
         </div>
         <div class="message-user-img">
@@ -242,6 +251,7 @@
               message.userName == userService.getName()
           }"
           class="message-members-box"
+          *ngIf="!editMessageUser[i]"
         >
           <div
             [ngClass]="{
@@ -285,6 +295,21 @@
               >{{ message.answers?.length }} Antworten</span
             >
             <a class="font400-normal">Letzte Antwort 14:56</a>
+          </div>
+        </div>
+        <div class="editMessage" *ngIf="editMessageUser[i]">
+          <input
+            type="text"
+            placeholder="{{ message.text }}"
+            [(ngModel)]="editedMessageUser"
+          />
+          <div class="editMessage-buttons">
+            <div class="editMessage-cancel" (click)="closeEdit(i)">
+              <span>Abbrechen</span>
+            </div>
+            <div class="editMessage-save" (click)="saveEditMessage(i)">
+              <span>Speichern</span>
+            </div>
           </div>
         </div>
       </ng-container>

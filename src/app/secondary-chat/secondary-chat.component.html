@@ -2,7 +2,7 @@
   <div class="position-header">
     <div class="thread-contant">
       <div class="thread">Thread</div>
-      <div class="channel"># Entwicklungsteam</div>
+      <div class="channel"> # {{ sharedService.selectedChannel['name'] }}</div>
     </div>
     <div class="position-close" (click)="closeThreads()">
       <img src="../../assets/icons/close.svg" alt="" />
@@ -104,7 +104,8 @@
           <div class="answer-icons">
             <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction">
               {{emojis["emoji"]}}
-              <div>1</div>
+              <div>
+                {{emojis['userName'].length}}</div>
             </div>
             <!-- <div class="answer-emojis"  >
 

@@ -70,7 +70,10 @@ export class SecondaryChatComponent {
     reactions: '',
     date: '',
   };
-  emojis:{} = {};
+  emojis = {
+    userName: [],
+    emoji : '',
+  }
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   messageID: any;
   thread: any;
@@ -256,14 +259,26 @@ export class SecondaryChatComponent {
   }
 
   addEmojiAnswer(event: any, i: number) {
+    let answersEmojis = this.selectedChannel.chat[this.i].answers[i].reactions;
+    let existEmoji = false;
     const { message } = this;
     const text = `${message}${event.emoji.native}`;
-    this.emojis = {
-      userName: this.UserService.getName(),
-      emoji : text,
-    };
-    this.selectedChannel.chat[this.i].answers[i].reactions.push( this.emojis);
-    console.log('emojis', this.selectedChannel.chat[this.i].answers[i].reactions)
+    answersEmojis.forEach((element :any ) => {
+      if ( element.emoji.includes(text)){
+        if(!element.userName.includes(this.UserService.getName())){
+          element.userName.push(this.UserService.getName());
+        }
+        existEmoji = true;
+      } 
+    });
+    if (!existEmoji) {
+      this.emojis = {
+        userName: [],
+        emoji : text,
+      };
+      this.selectedChannel.chat[this.i].answers[i].reactions.push( this.emojis);
+      this.selectedChannel.chat[this.i].answers[i].reactions[i].userName.push(this.UserService.getName());
+    }  
     this.sharedService.updateChannelFS(this.selectedChannel);
     this.showEmojiPicker[i] = false
   }
