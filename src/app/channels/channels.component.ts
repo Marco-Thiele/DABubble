@@ -74,7 +74,7 @@ export class ChannelsComponent implements OnInit {
   }
 
   getUsersFS(): any[] {
-    return this.sharedService.usersListArray;
+    return this.userService.availableChatPartners;
   }
 
   /**

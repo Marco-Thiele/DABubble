@@ -27,9 +27,11 @@ export class UserService {
   usersList: DocumentData[] = [];
   selectedChatPartner: any;
   currentChat: any;
+  availableChatPartners: DocumentData[] = [];
   constructor() {
     this.getUserData();
     this.subPrivateChat();
+
     console.log('current chats: ', this.foundPrivateMessages);
     this.getUserList;
     this.userObject.name = this.getName();
@@ -93,11 +95,23 @@ export class UserService {
 
   subPrivateChat() {
     return onSnapshot(this.getPrivateChannels(), (channel) => {
+      this.availableChatPartners = [];
       channel.forEach((chat) => {
         const privateChat = chat.data();
         if (this.user) {
           if (privateChat['participants'].includes(this.user.uid)) {
             this.foundPrivateMessages.push(privateChat);
+            privateChat['participantsInfos'].forEach((user: any) => {
+              if (user.name != this.user?.displayName) {
+                if (!this.availableChatPartners.includes(user)) {
+                  this.availableChatPartners.push(user);
+                  console.log(
+                    'these are my available chats: ',
+                    this.availableChatPartners
+                  );
+                }
+              }
+            });
           }
         }
       });
@@ -114,15 +128,34 @@ export class UserService {
         this.currentChat = chat;
       }
     });
+
     if (this.currentChat == undefined) {
       this.createChatinDB();
       console.log('creating chat');
     }
   }
 
+  getAvailableChats() {
+    this.foundPrivateMessages.forEach((message) => {
+      message['participantsInfos'].forEach((user: DocumentData) => {
+        if (user['name'] != this.user?.displayName) {
+        }
+      });
+    });
+  }
+
   createPrivateChat() {
     return {
       participants: [this.user?.uid, this.selectedChatPartner.uid],
+      participantsInfos: [
+        {
+          name: this.user?.displayName,
+          profileImg: this.user?.photoURL,
+          uid: this.user?.uid,
+          email: this.user?.email,
+        },
+        this.selectedChatPartner,
+      ],
       messages: [],
     };
   }
