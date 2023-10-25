@@ -15,6 +15,7 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { UserProfilComponent } from '../user-profil/user-profil.component';
 import { DialogService } from '../dialog.service';
+import { DocumentData } from 'rxfire/firestore/interfaces';
 
 @Component({
   selector: 'app-main-chat',
@@ -64,6 +65,7 @@ export class MainChatComponent implements OnInit {
   inputText: string = '';
   inputValue: string = '';
   showContainers: boolean = true;
+  foundUsers: DocumentData[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -263,6 +265,7 @@ export class MainChatComponent implements OnInit {
     this.sharedService.emitOpenPrivateContainer(member);
     this.inputValue = '';
     this.showContainers = false;
+    console.log('chosen member: ', member);
   }
 
   /**
@@ -573,17 +576,15 @@ export class MainChatComponent implements OnInit {
    * @returns the list of private messages
    */
   async searchMembers(searchTerm: string): Promise<any[]> {
-    const members = await this.sharedService.getMembersFS();
+    const members = await this.sharedService.getUsersFS();
     const matchingMembers = members.filter((member: any) =>
       member.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     return matchingMembers.map((member) => ({
-      id: member.id,
+      uid: member.id,
       name: member.name,
-      imgProfil: member.imgProfil,
-      chat: member.chat,
-      type: member.type,
-      channels: member.channels,
+      photoURL: member.photoURL,
+      email: member.email,
     }));
   }
 
@@ -623,4 +624,21 @@ export class MainChatComponent implements OnInit {
     this.userService.selectedUserEmail = userEmail;
     this.dialogService.openDialog(UserProfilComponent);
   }
+
+  // Alen Tests
+
+  // onSearch(event: Event) {
+  //   this.foundUsers = [];
+  //   const input = (event.target as HTMLInputElement).value;
+  //   this.userService.usersList.forEach((user) => {
+  //     if (user['name'].toLowerCase().includes(input.toLowerCase())) {
+  //       this.foundUsers.push(user);
+  //     }
+  //   });
+
+  //   this.showResults = true;
+  //   if (input.length === 0) {
+  //     this.showResults = false;
+  //   }
+  // }
 }

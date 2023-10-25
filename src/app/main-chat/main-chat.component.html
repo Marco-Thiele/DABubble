@@ -1,23 +1,35 @@
 <!--Main chat-head channel-->
 <div class="head-member-container" *ngIf="isChannelVisible && selectedChannel">
-  <div class="head-title-channel" (click)="editChannel(selectedChannel)" [style.background-color]="
+  <div
+    class="head-title-channel"
+    (click)="editChannel(selectedChannel)"
+    [style.background-color]="
       isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'
-    ">
+    "
+  >
     <div class="title-channel">
       <div class="title-hashtag">
-        <div class="hashtag" [style.background-image]="
+        <div
+          class="hashtag"
+          [style.background-image]="
             isEditChannelOpen()
               ? 'url(/assets/icons/tag_blue.svg)'
               : 'url(/assets/icons/tag.svg)'
-          "></div>
-        <span class="title font700-normal" [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'">{{
-          selectedChannel.name }}</span>
+          "
+        ></div>
+        <span
+          class="title font700-normal"
+          [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'"
+          >{{ selectedChannel.name }}</span
+        >
         <div class="head-arrow-cont">
-          <div [style.background-image]="
+          <div
+            [style.background-image]="
               isEditChannelOpen()
                 ? 'url(/assets/icons/keyboard_arrow_down_blue.svg)'
                 : 'url(/assets/icons/keyboard_arrow_down.svg)'
-            "></div>
+            "
+          ></div>
         </div>
       </div>
     </div>
@@ -42,16 +54,25 @@
     <span class="font700-normal">Neue Nachricht</span>
   </div>
   <div class="head-new-message-searchbar" [class.focused]="isFocused">
-    <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" (focus)="inputFocused()"
-      (blur)="inputBlurred()" (input)="searchMembersAndChannels($event)" [(ngModel)]="inputValue" />
+    <input
+      type="text"
+      placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+      (focus)="inputFocused()"
+      (blur)="inputBlurred()"
+      (input)="searchMembersAndChannels($event)"
+      [(ngModel)]="inputValue"
+    />
   </div>
 </div>
 
-<div class="head-new-direct-message-cont" *ngIf="isChatWithMemberVisible || (isPrivateChatVisible && selectedMember)">
+<div
+  class="head-new-direct-message-cont"
+  *ngIf="isChatWithMemberVisible || (isPrivateChatVisible && selectedMember)"
+>
   <div class="head-new-direct-message">
     <div class="new-direct-message-img">
       <div class="head-photo">
-        <img src="{{ selectedMember.imgProfil }}" />
+        <img src="{{ selectedMember.photoURL }}" />
         <div class="online"></div>
       </div>
     </div>
@@ -60,12 +81,17 @@
 </div>
 
 <div class="chat-container">
-  <div class="inner-container" *ngIf="
+  <div
+    class="inner-container"
+    *ngIf="
       (isChannelVisible && selectedChannel) ||
       isNewMessageVisible ||
       (isChatWithMemberVisible && selectedMember) ||
       (isPrivateChatVisible && selectedMember)
-    " #chatContainer (scroll)="handleScroll($event)">
+    "
+    #chatContainer
+    (scroll)="handleScroll($event)"
+  >
     <!--Main chat principal-->
     <div *ngIf="isNewMessageVisible">
       <div *ngIf="showContainers && inputValue" class="container-lookingfor">
@@ -73,7 +99,7 @@
           <span class="font600-normal">Members gefunden:</span>
           <div *ngFor="let member of memberMatches">
             <div class="memberMatches" (click)="openPrivateContainer(member)">
-              <img [src]="member.imgProfil" alt="" />
+              <img [src]="member.photoURL" alt="" />
               <span>{{ member.name }}</span>
             </div>
           </div>
@@ -96,9 +122,12 @@
         <span class="title font700-normal">{{ selectedChannel.name }}</span>
       </div>
       <div class="beginning-description">
-        <span class="font400-normal descrip-text">Du hast diesen Channel heute erstellt. Das ist der Anfang des
+        <span class="font400-normal descrip-text"
+          >Du hast diesen Channel heute erstellt. Das ist der Anfang des
           Channels
-          <span class="font400-normal"><a style="font-size: 22px">#</a>&nbsp;<a>Office-team</a>.</span>
+          <span class="font400-normal"
+            ><a style="font-size: 22px">#</a>&nbsp;<a>Office-team</a>.</span
+          >
         </span>
       </div>
     </div>
@@ -120,45 +149,64 @@
     <div class="beginning-private-chat" *ngIf="isChatWithMemberVisible">
       <div class="private-chat-member" *ngFor="let selectedMember">
         <div class="private-message-img">
-          <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil+ ')'"></div>
+          <div
+            class="img"
+            [style.background-image]="'url(' + selectedMember.imgProfil + ')'"
+          ></div>
         </div>
         <a class="font700-normal">{{ selectedMember.name }} </a>
       </div>
       <div class="description-private-msg" *ngIf="isChatWithMemberVisible">
-        <span class="font400-normal">Diese Unterhaltung findet nur zwischen
+        <span class="font400-normal"
+          >Diese Unterhaltung findet nur zwischen
           <a class="font400-normal">@{{ selectedMember.name }} &nbsp;</a>und dir
-          statt.</span>
+          statt.</span
+        >
       </div>
       <div class="private-chat-user" *ngIf="isPrivateChatVisible">
         <div class="private-message-img">
-          <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'"></div>
+          <div
+            class="img"
+            [style.background-image]="'url(' + selectedMember.imgProfil + ')'"
+          ></div>
         </div>
         <a class="font700-normal">{{ selectedMember.name }}</a>
       </div>
       <div class="description-private-msg-user" *ngIf="isPrivateChatVisible">
-        <span class="font700-normal">Dieser Raum ist nur für dich da.
-          <a class="font400-normal">ache dir Notizen, liste deine To-dos auf oder bewahre Links und
+        <span class="font700-normal"
+          >Dieser Raum ist nur für dich da.
+          <a class="font400-normal"
+            >ache dir Notizen, liste deine To-dos auf oder bewahre Links und
             Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir
-            selbst besprechen.</a></span>
+            selbst besprechen.</a
+          ></span
+        >
       </div>
     </div>
     <!-- </div> -->
 
     <!--Container for the member's chat-->
     <!-- *ngIf="message.userName !== userService.getName()" -->
-    <div [ngClass]="{
+    <div
+      [ngClass]="{
         'message-user-box-cont': message.userName == userService.getName()
-      }" class="message-members-box-cont" *ngFor="
+      }"
+      class="message-members-box-cont"
+      *ngFor="
         let message of (selectedMember?.chat || []).concat(
           selectedChannel?.chat || []
         );
         let i = index
-      ">
+      "
+    >
       <ng-container>
-        <div [ngClass]="{
+        <div
+          [ngClass]="{
             'message-reaction-people-reverse':
               message.userName == userService.getName()
-          }" class="message-reaction-people">
+          }"
+          class="message-reaction-people"
+        >
           <div class="reaction-icon">
             <div class="icon-tick"></div>
           </div>
@@ -171,47 +219,71 @@
           <div class="reaction-icon">
             <div class="icon-message"></div>
           </div>
-          <div [ngClass]="{
+          <div
+            [ngClass]="{
               'reaction-icon': message.userName == userService.getName()
-            }">
-            <div [ngClass]="{
+            }"
+          >
+            <div
+              [ngClass]="{
                 'icon-points': message.userName == userService.getName()
-              }"></div>
+              }"
+            ></div>
           </div>
         </div>
         <div class="message-user-img">
-          <div [style.background-image]="'url(' + message.profileImg + ')'"></div>
+          <div
+            [style.background-image]="'url(' + message.profileImg + ')'"
+          ></div>
         </div>
-        <div [ngClass]="{
+        <div
+          [ngClass]="{
             'message-members-box-reverse':
               message.userName == userService.getName()
-          }" class="message-members-box">
-          <div [ngClass]="{
+          }"
+          class="message-members-box"
+        >
+          <div
+            [ngClass]="{
               'message-user-name-reverse':
                 message.userName == userService.getName()
-            }" class="message-user-name">
-            <a class="name" (click)="
+            }"
+            class="message-user-name"
+          >
+            <a
+              class="name"
+              (click)="
                 showUserProfil(
                   message.userName,
                   message.profileImg,
                   message.email
                 )
-              ">{{ message.userName }}</a>
+              "
+              >{{ message.userName }}</a
+            >
             <span class="font400-normal">{{ message.time }}</span>
           </div>
-          <div [ngClass]="{
+          <div
+            [ngClass]="{
               'message-members-speech-reverse':
                 message.userName == userService.getName()
-            }" class="message-members-speech">
+            }"
+            class="message-members-speech"
+          >
             <span class="font400-normal" (click)="openThread(i, message.id)">{{
               message.text
-              }}</span>
-            <img src="{{ message.imageUrl }}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
-              [style.margin-top]="message.imageUrl ? '8px' : '0px'" />
+            }}</span>
+            <img
+              src="{{ message.imageUrl }}"
+              alt=""
+              [style.width]="message.imageUrl ? '150px' : '0px'"
+              [style.margin-top]="message.imageUrl ? '8px' : '0px'"
+            />
           </div>
           <div class="message-members-answers">
-            <span class="font400-normal" (click)="openThread(i, message.id)">{{ message.answers?.length }}
-              Antworten</span>
+            <span class="font400-normal" (click)="openThread(i, message.id)"
+              >{{ message.answers?.length }} Antworten</span
+            >
             <a class="font400-normal">Letzte Antwort 14:56</a>
           </div>
         </div>
@@ -288,10 +360,20 @@
 <!--Container to write in chat-->
 <div class="message-box-cont" *ngIf="messageBox">
   <div class="message-box" [class.focused]="taIsFocused">
-    <textarea class="font400-normal auto-resizable-textarea" placeholder="{{ placeholderMessageBox }}"
-      (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="inputFocused()" (focus)="textAreaFocused()"
-      (blur)="textAreaBlurred()"></textarea>
-    <div class="image-preview-cont" #imagePreviewCont [style.display]="imageLoaded ? 'block' : 'none'">
+    <textarea
+      class="font400-normal auto-resizable-textarea"
+      placeholder="{{ placeholderMessageBox }}"
+      (input)="onTextareaInput($event)"
+      [(ngModel)]="message"
+      (focus)="inputFocused()"
+      (focus)="textAreaFocused()"
+      (blur)="textAreaBlurred()"
+    ></textarea>
+    <div
+      class="image-preview-cont"
+      #imagePreviewCont
+      [style.display]="imageLoaded ? 'block' : 'none'"
+    >
       <img id="image-preview" #imagePreview />
       <div (click)="removeFileSelected()"></div>
     </div>
@@ -299,7 +381,12 @@
     <div class="send-mesg-box">
       <div class="send-msg-icons">
         <div class="icon-plus icons" (click)="fileInput.click()">
-          <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none" />
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            #fileInput
+            style="display: none"
+          />
           <div></div>
         </div>
         <div class="icons-line"></div>
@@ -307,16 +394,28 @@
           <div></div>
         </div>
         <div>
-          <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
-            title="Pick your emoji…"></emoji-mart>
+          <emoji-mart
+            class="emoji-mart"
+            *ngIf="showEmojiPicker"
+            (emojiSelect)="addEmoji($event)"
+            title="Pick your emoji…"
+          ></emoji-mart>
         </div>
         <div class="icon-et icons">
           <div></div>
         </div>
       </div>
 
-      <div class="send-msg" *ngIf="sendChannel" (click)="sendChannelMsg()"></div>
-      <div class="send-msg" *ngIf="sendPrivate" (click)="sendPrivateMsg()"></div>
+      <div
+        class="send-msg"
+        *ngIf="sendChannel"
+        (click)="sendChannelMsg()"
+      ></div>
+      <div
+        class="send-msg"
+        *ngIf="sendPrivate"
+        (click)="sendPrivateMsg()"
+      ></div>
     </div>
   </div>
 </div>

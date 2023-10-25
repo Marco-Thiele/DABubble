@@ -143,13 +143,12 @@ export class HeaderComponent {
     this.chatMessages.forEach((message) => {
       if (message['text'].toLowerCase().includes(input.toLowerCase())) {
         this.foundMessages.push(message);
-        console.log('msgarr:', this.foundMessages);
       }
-      message['answers'].forEach((answer: DocumentData) => {
-        if (answer['text'].toLowerCase().includes(input.toLowerCase())) {
-          this.foundMessages.push(answer);
-        }
-      });
+      // message['answers'].forEach((answer: DocumentData) => {
+      //   if (answer['text'].toLowerCase().includes(input.toLowerCase())) {
+      //     this.foundMessages.push(answer);
+      //   }
+      // });
     });
     this.showResults = true;
     if (input.length === 0) {
@@ -166,7 +165,9 @@ export class HeaderComponent {
       list.forEach((element) => {
         const chatData = element.data();
         chatData['chat'].forEach((message: any) => {
-          this.chatMessages.push(message);
+          if (message.text) {
+            this.chatMessages.push(message);
+          }
         });
       });
     });
