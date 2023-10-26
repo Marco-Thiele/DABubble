@@ -102,8 +102,11 @@
             {{ thread["text"] }}
           </div>
           <div class="answer-icons">
-            <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction">
-              <div class="info-emojis">
+            <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction" (click)="deleteEmoji(i,j)">
+              <div [ngClass]="{
+                'info-emojis-reverse':
+                  thread['userName'] !== UserService.getName()
+              }" class="info-emojis">
                 <div class="info-emoji">{{emojis["emoji"]}}</div>
                 <div class="info-emojis-name">{{emojis['userName']}} </div>
                 <div>hat reagiert</div>

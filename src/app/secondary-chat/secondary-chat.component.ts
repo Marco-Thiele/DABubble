@@ -48,6 +48,7 @@ export class SecondaryChatComponent {
   name = 'Angular';
   message = '';
   messageThrad: {} = {};
+  existEmoji: boolean = false;
   threads = {
     id: '',
     userName: '',
@@ -261,33 +262,54 @@ export class SecondaryChatComponent {
 
   addEmojiAnswer(event: any, i: number) {
     let answersEmojis = this.selectedChannel.chat[this.i].answers[i].reactions;
-    let existEmoji = false;
+    this.existEmoji = false;
     const { message } = this;
     const text = `${message}${event.emoji.native}`;
+    this.addEmojiAnswerForEach(answersEmojis, text);
+    this.addEmojiAnswerIfNotExist(text, i);
+    this.sharedService.updateChannelFS(this.selectedChannel);
+    this.showEmojiPicker[i] = false;
+    this.j = 0;
+  }
+
+
+  addEmojiAnswerForEach(answersEmojis: any, text: string,) {
     answersEmojis.forEach((element: any) => {
       this.j++
       if (element.emoji.includes(text)) {
         if (!element.userName.includes(this.UserService.getName())) {
           element.userName.push(this.UserService.getName());
         }
-        existEmoji = true;
-        
+        this.existEmoji = true;
       }
     });
-    if (!existEmoji) {
+  }
+
+
+  addEmojiAnswerIfNotExist(text: string, i: number) {
+    if (!this.existEmoji) {
       this.emojis = {
         userName: [],
         emoji: text,
       };
-      console.log('j',this.j);
-      
       this.selectedChannel.chat[this.i].answers[i].reactions.push(this.emojis);
       this.selectedChannel.chat[this.i].answers[i].reactions[this.j].userName.push(this.UserService.getName());
     }
-    this.sharedService.updateChannelFS(this.selectedChannel);
-    this.showEmojiPicker[i] = false;
-    this.j = 0;
   }
+
+
+  deleteEmoji(i: number, j: number) {
+    let answersEmojis = this.selectedChannel.chat[this.i].answers[i].reactions[j];
+    if (answersEmojis.userName.includes(this.UserService.getName())) {
+      let deleteName = this.UserService.getName();
+      let newUsernames = answersEmojis.userName.filter((item: any) => item !== deleteName)
+      answersEmojis.userName = newUsernames;
+      if (answersEmojis.userName.length == 0)
+        this.selectedChannel.chat[this.i].answers[i].reactions.splice(j, 1)
+    }
+    this.sharedService.updateChannelFS(this.selectedChannel);
+  }
+
 
   toggleShowDelete(index: number) {
     this.showDelete[index] = !this.showDelete[index];
