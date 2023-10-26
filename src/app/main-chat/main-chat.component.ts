@@ -17,6 +17,7 @@ import { UserProfilComponent } from '../user-profil/user-profil.component';
 import { DialogService } from '../dialog.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { user } from 'rxfire/auth';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-chat',
@@ -70,6 +71,9 @@ export class MainChatComponent implements OnInit {
   showEdit: boolean[] = [false, false];
   editMessageUser: boolean[] = [false, false];
   editedMessageUser: string = '';
+  currentChatData: any;
+
+  private chatSubscription: Subscription = new Subscription();
 
   constructor(
     private dialog: MatDialog,
@@ -87,6 +91,19 @@ export class MainChatComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  function() {
+    this.chatSubscription = this.userService
+      .subToChosenChat()
+      .subscribe((chatData) => {
+        this.currentChatData = chatData;
+        console.log('chat log from main:', this.currentChatData);
+      });
+  }
+
+  ngOnDestroy() {
+    this.chatSubscription.unsubscribe();
+  }
 
   /**
    * It is executed when the view is initialized
@@ -201,6 +218,7 @@ export class MainChatComponent implements OnInit {
     this.sendPrivate = true;
     this.sendChannel = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
+    this.function();
   }
 
   /**
@@ -526,7 +544,7 @@ export class MainChatComponent implements OnInit {
   }
 
   returnPrivatesMessagesFS() {
-    this.selectedMember.chat = this.userService.currentChat.chat;
+    this.selectedMember.chat = this.userService.subToChosenChat();
     console.log('chat log from main:', this.selectedMember);
   }
 

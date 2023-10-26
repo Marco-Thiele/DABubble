@@ -9,6 +9,7 @@ import {
 import { getAuth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { userData } from './models/userData';
 import { DocumentData } from 'rxfire/firestore/interfaces';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -162,21 +163,28 @@ export class UserService {
     };
   }
 
-  subToChosenChat() {
-    return onSnapshot(this.getPrivateChannels(), (chats) => {
-      this.currentChat = {};
-      chats.forEach((chat) => {
-        const chatData = chat.data();
-        if (
-          chatData['participants'].includes(this.user?.uid) &&
-          chatData['participants'].includes(this.selectedChatPartner.uid)
-        ) {
-          this.currentChatId = chat.id;
-          this.currentChat = chatData;
-          console.log('current chat: ', this.currentChat);
-          console.log('current chat Id: ', this.currentChatId);
-        }
+  subToChosenChat(): Observable<any> {
+    return new Observable((observer) => {
+      const unsubscribe = onSnapshot(this.getPrivateChannels(), (chats) => {
+        const currentChat = {};
+        chats.forEach((chat) => {
+          const chatData = chat.data();
+          if (
+            chatData['participants'] &&
+            this.user &&
+            chatData['participants'].includes(this.user.uid) &&
+            chatData['participants'].includes(this.selectedChatPartner.uid)
+          ) {
+            this.currentChatId = chat.id;
+            this.currentChat = chatData;
+            console.log('current chat: ', this.currentChat);
+            console.log('current chat Id: ', this.currentChatId);
+          }
+        });
+        observer.next(this.currentChat);
       });
+
+      return () => unsubscribe();
     });
   }
 
