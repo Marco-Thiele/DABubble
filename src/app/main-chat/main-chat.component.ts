@@ -92,7 +92,7 @@ export class MainChatComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  function() {
+  getsprivateChats() {
     this.chatSubscription = this.userService
       .subToChosenChat()
       .subscribe((chatData) => {
@@ -218,7 +218,7 @@ export class MainChatComponent implements OnInit {
     this.sendPrivate = true;
     this.sendChannel = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
-    this.function();
+    this.getsprivateChats();
   }
 
   /**
