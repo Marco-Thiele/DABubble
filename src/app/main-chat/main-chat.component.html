@@ -91,7 +91,7 @@
       </div>
     </div>
     <!--Text for the beginning of creating a channel.-->
-    <div class="beginning-chat-cont" *ngIf="isChannelVisible && !currentChatData">
+    <div class="beginning-chat-cont" *ngIf="isChannelVisible">
       <div class="title-hashtag">
         <div class="hashtag"></div>
         <span class="title font700-normal">{{ selectedChannel.name }}</span>
@@ -166,7 +166,7 @@
           <div class="reaction-icon">
             <div class="icon-hands"></div>
           </div>
-          <div class="reaction-icon">
+          <div class="reaction-icon" (click)="toggleEmojiPicker()">
             <div class="icon-smile"></div>
           </div>
           <div class="reaction-icon">
@@ -214,7 +214,7 @@
             <img src="{{ message.imageUrl }}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
               [style.margin-top]="message.imageUrl ? '8px' : '0px'" />
           </div>
-          <div class="message-members-answers">
+          <div class="message-members-answers" *ngIf="!currentChatData">
             <span class="font400-normal" (click)="openThread(i, message.id)">{{ message.answers?.length }}
               Antworten</span>
             <a class="font400-normal">Letzte Antwort 14:56</a>
