@@ -92,15 +92,6 @@ export class MainChatComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getsprivateChats() {
-    this.chatSubscription = this.userService
-      .subToChosenChat()
-      .subscribe((chatData) => {
-        this.currentChatData = chatData;
-        console.log('chat log from main:', this.currentChatData);
-      });
-  }
-
   ngOnDestroy() {
     this.chatSubscription.unsubscribe();
   }
@@ -146,6 +137,7 @@ export class MainChatComponent implements OnInit {
       this.isPrivatChatContainerVisible = false;
       this.isPrivateChatVisible = false;
       this.selectedChannel = null;
+      this.currentChatData = false;
       this.selectedMember = null;
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Starte eine neue Nachricht';
@@ -166,6 +158,7 @@ export class MainChatComponent implements OnInit {
       this.isPrivateChatVisible = false;
       this.selectedChannel = channel;
       this.currentChannel = channel;
+      this.currentChatData = false;
       this.sendChannel = true;
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
@@ -200,6 +193,7 @@ export class MainChatComponent implements OnInit {
     this.selectedChannel = null;
     this.sendPrivate = true;
     this.sendChannel = false;
+    this.currentChatData = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
   }
 
@@ -210,6 +204,7 @@ export class MainChatComponent implements OnInit {
   privateChatWithMember(member: any) {
     this.isPrivatChatContainerVisible = true;
     this.isChatWithMemberVisible = true;
+    this.currentChatData = true;
     this.isPrivateChatVisible = false;
     this.isChannelVisible = false;
     this.isNewMessageVisible = false;
@@ -218,7 +213,16 @@ export class MainChatComponent implements OnInit {
     this.sendPrivate = true;
     this.sendChannel = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
-    this.getsprivateChats();
+    this.getsPrivateChats();
+  }
+
+  getsPrivateChats() {
+    this.chatSubscription = this.userService
+      .subToChosenChat()
+      .subscribe((chatData) => {
+        this.currentChatData = chatData;
+        console.log('chat log from main:', this.currentChatData);
+      });
   }
 
   /**

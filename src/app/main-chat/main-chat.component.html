@@ -47,7 +47,8 @@
   </div>
 </div>
 
-<div class="head-new-direct-message-cont" *ngIf="isChatWithMemberVisible || (isPrivateChatVisible && selectedMember)">
+<div class="head-new-direct-message-cont"
+  *ngIf="isChatWithMemberVisible || (isPrivateChatVisible && selectedMember && currentChatData)">
   <div class="head-new-direct-message">
     <div class="new-direct-message-img">
       <div class="head-photo">
@@ -90,7 +91,7 @@
       </div>
     </div>
     <!--Text for the beginning of creating a channel.-->
-    <div class="beginning-chat-cont" *ngIf="isChannelVisible">
+    <div class="beginning-chat-cont" *ngIf="isChannelVisible && !currentChatData">
       <div class="title-hashtag">
         <div class="hashtag"></div>
         <span class="title font700-normal">{{ selectedChannel.name }}</span>
