@@ -130,6 +130,7 @@ export class MainChatComponent implements OnInit {
    */
   openNewMessage() {
     this.sharedService.openNewMessageEvent$.subscribe(() => {
+      this.showContainers = true;
       this.isNewMessageVisible = true;
       this.isChannelVisible = false;
       this.isChatWithMemberVisible = false;
@@ -277,7 +278,6 @@ export class MainChatComponent implements OnInit {
     const channelId = channel.id;
     this.sharedService.emitOpenChannel(channel);
     this.inputValue = '';
-    this.showContainers = false;
   }
 
   /**
@@ -292,8 +292,7 @@ export class MainChatComponent implements OnInit {
     this.userService.doesChatExist();
     this.sharedService.emitOpenPrivateContainer(member);
     this.inputValue = '';
-    // this.isPrivateChatVisible = true;
-    this.showContainers = false;
+    // this.showContainers = false;
   }
 
   /**
@@ -345,6 +344,7 @@ export class MainChatComponent implements OnInit {
     const { message } = this;
     const text = `${message}${event.emoji.native}`;
     this.message = text;
+    this.showEmojiPicker = false;
   }
 
   /**
@@ -706,11 +706,17 @@ export class MainChatComponent implements OnInit {
    * @param i the index of the message
    */
   saveEditMessage(i: number) {
-    const editedMessage = this.selectedChannel.chat[i];
-    editedMessage.text = this.editedMessageUser;
-    editedMessage.edited = true;
-
-    this.sharedService.updateChannelFS(this.selectedChannel);
+    if (this.currentChannel) {
+      const editedMessage = this.currentChannel.chat[i];
+      editedMessage.text = this.editedMessageUser;
+      editedMessage.edited = true;
+      this.sharedService.updateChannelFS(this.selectedChannel);
+    } else if (this.currentChatData) {
+      const editedMessage = this.userService.currentChat.chat[i];
+      editedMessage.text = this.editedMessageUser;
+      editedMessage.edited = true;
+      this.sharedService.updatePrivateChatFS(this.currentChatData);
+    }
     this.editMessageUser[i] = false;
   }
 }
