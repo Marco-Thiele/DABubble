@@ -28,6 +28,8 @@ export class UserService {
   selectedChatPartner: any;
   currentChat: any;
   availableChatPartners: DocumentData[] = [];
+  currentChatId: string = '';
+
   constructor() {
     this.getUserData();
     this.subPrivateChat();
@@ -77,6 +79,7 @@ export class UserService {
       profileImg: this.user
         ? this.user.photoURL
         : '../../assets/img/avatars/person.svg',
+      imageUrl: '',
       time: new Date().toLocaleTimeString(),
       date: new Date().toLocaleDateString(),
       text: this.messageText,
@@ -98,6 +101,7 @@ export class UserService {
       this.availableChatPartners = [];
       channel.forEach((chat) => {
         const privateChat = chat.data();
+
         if (this.user) {
           if (privateChat['participants'].includes(this.user.uid)) {
             this.foundPrivateMessages.push(privateChat);
@@ -105,10 +109,6 @@ export class UserService {
               if (user.name != this.user?.displayName) {
                 if (!this.availableChatPartners.includes(user)) {
                   this.availableChatPartners.push(user);
-                  console.log(
-                    'these are my available chats: ',
-                    this.availableChatPartners
-                  );
                 }
               }
             });
@@ -132,6 +132,8 @@ export class UserService {
     if (this.currentChat == undefined) {
       this.createChatinDB();
       console.log('creating chat');
+      this.subToChosenChat();
+      console.log('subscribed to created chat', this.currentChat);
     }
   }
 
@@ -156,13 +158,27 @@ export class UserService {
         },
         this.selectedChatPartner,
       ],
-      messages: [],
+      chat: [],
     };
   }
 
-  //  checkIfChatExists(){
-  //   if
-  //  }
+  subToChosenChat() {
+    return onSnapshot(this.getPrivateChannels(), (chats) => {
+      this.currentChat = {};
+      chats.forEach((chat) => {
+        const chatData = chat.data();
+        if (
+          chatData['participants'].includes(this.user?.uid) &&
+          chatData['participants'].includes(this.selectedChatPartner.uid)
+        ) {
+          this.currentChatId = chat.id;
+          this.currentChat = chatData;
+          console.log('current chat: ', this.currentChat);
+          console.log('current chat Id: ', this.currentChatId);
+        }
+      });
+    });
+  }
 
   async createChatinDB() {
     await addDoc(this.getPrivateChannels(), this.createPrivateChat());

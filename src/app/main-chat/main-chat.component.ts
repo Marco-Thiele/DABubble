@@ -270,6 +270,7 @@ export class MainChatComponent implements OnInit {
     this.userService.doesChatExist();
     this.sharedService.emitOpenPrivateContainer(member);
     this.inputValue = '';
+    // this.isPrivateChatVisible = true;
     this.showContainers = false;
   }
 
@@ -493,17 +494,10 @@ export class MainChatComponent implements OnInit {
    */
   sendPrivateMsg() {
     const messageText = this.message.trim();
+    this.userService.messageText = this.message;
     const selectedFile = this.selectedFile;
     if ((selectedFile || messageText) && this.selectedMember) {
-      const message = {
-        userName: this.userService.getName(),
-        profileImg: this.userService.getPhoto(),
-        imageUrl: '',
-        text: messageText,
-        id: Date.now(),
-        time: new Date().toLocaleTimeString(),
-        date: new Date().toLocaleDateString(),
-      };
+      const message = this.userService.privateMessage();
 
       if (selectedFile) {
         this.convertImageToBase64(selectedFile).then((base64Data) => {
@@ -512,13 +506,16 @@ export class MainChatComponent implements OnInit {
         });
       } else {
         this.savePrivateMessage(this.selectedMember, message);
+        console.log('sending message..');
       }
     }
   }
 
   savePrivateMessage(selectedMember: any, message: any) {
-    selectedMember.chat.push(message);
+    this.userService.currentChat.chat.push(message);
+
     this.sharedService.updatePrivateChatFS(selectedMember);
+
     this.message = '';
     if (this.selectedFile) {
       this.selectedFile = null;
@@ -529,7 +526,8 @@ export class MainChatComponent implements OnInit {
   }
 
   returnPrivatesMessagesFS() {
-    this.sharedService.privateMsgList(this.selectedMember);
+    this.selectedMember.chat = this.userService.currentChat.chat;
+    console.log('chat log from main:', this.selectedMember);
   }
 
   /**

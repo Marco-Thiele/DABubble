@@ -18,7 +18,8 @@ import {
   QueryDocumentSnapshot,
   getDoc,
 } from '@angular/fire/firestore';
-
+import { UserService } from './user.service';
+import { User } from 'firebase/auth';
 @Injectable({
   providedIn: 'root',
 })
@@ -62,7 +63,7 @@ export class SharedService implements OnInit {
   unsubMembers;
   unsubUsers;
 
-  constructor(private auth: Auth) {
+  constructor(private auth: Auth, private UserService: UserService) {
     this.unsubChannels = this.channelsList();
     this.unsubMembers = this.getMembersList();
     this.unsubUsers = this.getUsersList();
@@ -186,13 +187,12 @@ export class SharedService implements OnInit {
    * @param members the members to update
    */
   async updatePrivateChatFS(members: any) {
-    if (members.id) {
-      let docRef = this.getsingleDocRef(
-        this.getColIdFromMember(members),
-        members.id
-      );
-      await updateDoc(docRef, this.getCleanJsonMember(members));
-    }
+    let docRef = this.getsingleDocRef(
+      'private-channels',
+      this.UserService.currentChatId
+    );
+    await updateDoc(docRef, this.UserService.currentChat);
+    console.log('fire store update');
   }
 
   /**
@@ -490,6 +490,9 @@ export class SharedService implements OnInit {
 
   emitOpenPrivateContainer(member: any) {
     this.openPrivateContainerEvent.next(member);
+    this.UserService.selectedChatPartner = member;
+
+    this.UserService.subToChosenChat();
     console.log('chatting with', member);
   }
 
