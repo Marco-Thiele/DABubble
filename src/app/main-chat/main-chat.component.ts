@@ -288,8 +288,9 @@ export class MainChatComponent implements OnInit {
     this.selectedMember = member;
     const memberId = member.id;
     this.userService.selectedChatPartner = member;
-
+    console.log('chosen member', member);
     this.userService.doesChatExist();
+    this.userService.createChat();
     this.sharedService.emitOpenPrivateContainer(member);
     this.inputValue = '';
     // this.showContainers = false;

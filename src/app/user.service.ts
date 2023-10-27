@@ -30,7 +30,7 @@ export class UserService {
   currentChat: any;
   availableChatPartners: DocumentData[] = [];
   currentChatId: string = '';
-
+  chatAlreadyExists: boolean = false;
   constructor() {
     this.getUserData();
     this.subPrivateChat();
@@ -106,10 +106,12 @@ export class UserService {
         if (this.user) {
           if (privateChat['participants'].includes(this.user.uid)) {
             this.foundPrivateMessages.push(privateChat);
+            console.log('pushed new chat', privateChat);
             privateChat['participantsInfos'].forEach((user: any) => {
-              if (user.name != this.user?.displayName) {
+              if (user.uid != this.user?.uid) {
                 if (!this.availableChatPartners.includes(user)) {
                   this.availableChatPartners.push(user);
+                  console.log('pushed new user', this.availableChatPartners);
                 }
               }
             });
@@ -127,24 +129,16 @@ export class UserService {
       ) {
         console.log('chat exists.. ', chat);
         this.currentChat = chat;
+        this.chatAlreadyExists = true;
       }
     });
-
-    if (this.currentChat == undefined) {
-      this.createChatinDB();
-      console.log('creating chat');
-      this.subToChosenChat();
-      console.log('subscribed to created chat', this.currentChat);
-    }
   }
 
-  getAvailableChats() {
-    this.foundPrivateMessages.forEach((message) => {
-      message['participantsInfos'].forEach((user: DocumentData) => {
-        if (user['name'] != this.user?.displayName) {
-        }
-      });
-    });
+  createChat() {
+    if (!this.chatAlreadyExists) {
+      this.currentChat = {};
+      this.createChatinDB();
+    }
   }
 
   createPrivateChat() {
