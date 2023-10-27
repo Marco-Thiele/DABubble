@@ -293,7 +293,7 @@ export class MainChatComponent implements OnInit {
     this.userService.createChat();
     this.sharedService.emitOpenPrivateContainer(member);
     this.inputValue = '';
-    // this.showContainers = false;
+    this.showContainers = false;
   }
 
   /**
