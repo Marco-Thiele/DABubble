@@ -291,6 +291,7 @@ export class MainChatComponent implements OnInit {
     console.log('chosen member', member);
     this.userService.doesChatExist();
     this.userService.createChat();
+    this.userService.chatAlreadyExists = false;
     this.sharedService.emitOpenPrivateContainer(member);
     this.inputValue = '';
     this.showContainers = false;
