@@ -84,7 +84,7 @@ export class UserService {
       time: new Date().toLocaleTimeString(),
       date: new Date().toLocaleDateString(),
       text: this.messageText,
-      userEmail: this.user ? this.user.email : 'guest@guest.de',
+      email: this.user ? this.user.email : 'guest@guest.de',
       reactions: [],
     };
   }
