@@ -37,7 +37,7 @@
 </div>
 
 <!--Main chat-head new chat-->
-<div class="head-new-message-cont" *ngIf="isNewMessageVisible">
+<div class="head-new-message-cont" *ngIf="isNewMessageVisible && showContainers">
   <div class="head-new-message-title">
     <span class="font700-normal">Neue Nachricht</span>
   </div>
@@ -47,8 +47,7 @@
   </div>
 </div>
 
-<div class="head-new-direct-message-cont"
-  *ngIf="isChatWithMemberVisible || (isPrivateChatVisible && selectedMember && currentChatData)">
+<div class="head-new-direct-message-cont" *ngIf="isChatWithMemberVisible || (isPrivateChatVisible && currentChatData)">
   <div class="head-new-direct-message">
     <div class="new-direct-message-img">
       <div class="head-photo">
@@ -64,8 +63,8 @@
   <div class="inner-container" *ngIf="
       (isChannelVisible && selectedChannel) ||
       isNewMessageVisible ||
-      (isChatWithMemberVisible && selectedMember) ||
-      (isPrivateChatVisible && selectedMember)
+      (isChatWithMemberVisible && selectedMember && currentChatData) ||
+      (isPrivateChatVisible && selectedMember && currentChatData)
     " #chatContainer (scroll)="handleScroll($event)">
     <!--Main chat principal-->
     <div *ngIf="isNewMessageVisible">
@@ -118,14 +117,14 @@
     <!--Container to write private messages-->
 
     <!-- <div class="privat-chat-container" *ngIf="isPrivatChatContainerVisible"> -->
-    <div class="beginning-private-chat" *ngIf="isChatWithMemberVisible">
+    <div class="beginning-private-chat" *ngIf="isChatWithMemberVisible && currentChatData && selectedMember">
       <div class="private-chat-member" *ngFor="let selectedMember">
         <div class="private-message-img">
           <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'"></div>
         </div>
         <a class="font700-normal">{{ selectedMember.name }} </a>
       </div>
-      <div class="description-private-msg" *ngIf="isChatWithMemberVisible">
+      <div class="description-private-msg" *ngIf="isChatWithMemberVisible && currentChatData && selectedMember">
         <span class="font400-normal">Diese Unterhaltung findet nur zwischen
           <a class="font400-normal">@{{ selectedMember.name }} &nbsp;</a>und dir
           statt.</span>
@@ -150,7 +149,7 @@
     <div [ngClass]="{
         'message-user-box-cont': message.userName == userService.getName()
       }" class="message-members-box-cont" *ngFor="
-        let message of (currentChatData?.chat || []).concat(
+        let message of (selectedMember && currentChatData?.chat || []).concat(
           selectedChannel?.chat || []
         );
         let i = index
@@ -213,6 +212,31 @@
               }}</span>
             <img src="{{ message.imageUrl }}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
               [style.margin-top]="message.imageUrl ? '8px' : '0px'" />
+          </div>
+          <div class="message-user-reaction">
+            <div>
+              <div class="reaction">
+                <div class="reaction-usser">
+                  <div class="reaction-usser-icon"></div>
+                  <div class="reaction-names-cont">
+                    <span class="reaction-name font700-normal">Sofia Müller</span>
+                    <span class="reaction-text font400-normal">hat reagiert</span>
+                  </div>
+                </div>
+                <div class="rocket"></div>
+                <span class="font400-normal">1</span>
+              </div>
+            </div>
+            <div>
+
+              <div class="reaction">
+                <div class="tick"></div>
+                <span class="font400-normal">1</span>
+              </div>
+            </div>
+            <div class="add-reaction">
+              <div></div>
+            </div>
           </div>
           <div class="message-members-answers" *ngIf="!currentChatData">
             <span class="font400-normal" (click)="openThread(i, message.id)">{{ message.answers?.length }}
