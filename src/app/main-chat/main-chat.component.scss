@@ -652,10 +652,6 @@
   background: var(--Purple-1, #444df2);
 }
 
-.reaction-usser-icon {
-  @extend .icons-background;
-}
-
 .reaction-names-cont {
   display: flex;
   flex-direction: column;
@@ -770,16 +766,20 @@
   }
 }
 
-.icons-background {
-  background-image: url(/assets/icons/rocket.svg);
-  background-size: cover;
-  width: 24px;
-  height: 24px;
+.reaction-usser-icon {
+  @extend .tick;
 }
 
-.rocket {
-  @extend .icons-background;
-}
+// .icons-background {
+//   background-image: url(/assets/icons/rocket.svg);
+//   background-size: cover;
+//   width: 24px;
+//   height: 24px;
+// }
+
+// .rocket {
+//   @extend .icons-background;
+// }
 
 .tick {
   background-image: url(/assets/icons/tick.svg);

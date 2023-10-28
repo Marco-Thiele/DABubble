@@ -68,7 +68,7 @@
     " #chatContainer (scroll)="handleScroll($event)">
     <!--Main chat principal-->
     <div *ngIf="isNewMessageVisible">
-      <div *ngIf="showContainers && inputValue" class="container-lookingfor">
+      <div *ngIf="showContainers && inputValue" class="container-lookingfor" #membersContainer>
         <div *ngIf="memberMatches.length > 0" class="searchMatches">
           <span class="font600-normal">Members gefunden:</span>
           <div *ngFor="let member of memberMatches">
@@ -159,7 +159,7 @@
             'message-reaction-people-reverse':
               message.userName == userService.getName()
           }" class="message-reaction-people">
-          <div class="reaction-icon">
+          <div class="reaction-icon" (click)="reactionTickPlus(i)">
             <div class="icon-tick"></div>
           </div>
           <div class="reaction-icon">
@@ -214,7 +214,7 @@
               [style.margin-top]="message.imageUrl ? '8px' : '0px'" />
           </div>
           <div class="message-user-reaction">
-            <div>
+            <!-- <div>
               <div class="reaction">
                 <div class="reaction-usser">
                   <div class="reaction-usser-icon"></div>
@@ -226,15 +226,21 @@
                 <div class="rocket"></div>
                 <span class="font400-normal">1</span>
               </div>
-            </div>
+            </div> -->
             <div>
-
-              <div class="reaction">
+              <div class="reaction" *ngIf="showReaction[i]" (click)="reactionTickPlus(i)">
+                <div class="reaction-usser">
+                  <div class="reaction-usser-icon"></div>
+                  <div class="reaction-names-cont">
+                    <span class="reaction-name font700-normal">{{reactionMembers}}</span>
+                    <span class="reaction-text font400-normal">hat reagiert</span>
+                  </div>
+                </div>
                 <div class="tick"></div>
-                <span class="font400-normal">1</span>
+                <span class="font400-normal">{{reactionTick[i]}}</span>
               </div>
             </div>
-            <div class="add-reaction">
+            <div class="add-reaction" (click)="toggleEmojiPicker()">
               <div></div>
             </div>
           </div>

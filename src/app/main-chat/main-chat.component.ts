@@ -18,6 +18,7 @@ import { DialogService } from '../dialog.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { user } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-main-chat',
@@ -30,6 +31,8 @@ export class MainChatComponent implements OnInit {
   @ViewChild('imagePreview', { read: ElementRef }) imagePreview: ElementRef;
   @ViewChild('chatContainer', { static: false }) chatContainer!: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
+  @ViewChild('membersContainer', { static: false })
+  membersContainer!: ElementRef;
 
   name = 'Angular';
   message: string = '';
@@ -72,6 +75,11 @@ export class MainChatComponent implements OnInit {
   editMessageUser: boolean[] = [false, false];
   editedMessageUser: string = '';
   currentChatData: any;
+  reactionTick: number[] = new Array(10).fill(0);
+  noReactionTick: boolean = false;
+  reactionMembers: string[] = [];
+  selectedMessageIndex: number = -1;
+  showReaction: boolean[] = new Array(10).fill(false);
 
   private chatSubscription: Subscription = new Subscription();
 
@@ -125,6 +133,13 @@ export class MainChatComponent implements OnInit {
     }
   }
 
+  scrollToTop() {
+    if (this.membersContainer) {
+      const containerElement = this.membersContainer.nativeElement;
+      containerElement.scrollTop = 0;
+    }
+  }
+
   /**
    * Opens the new message component which is used to create a new channel or to start a new chat with a member
    */
@@ -142,6 +157,7 @@ export class MainChatComponent implements OnInit {
       this.selectedMember = null;
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Starte eine neue Nachricht';
+      this.scrollToTop();
     });
   }
 
@@ -163,6 +179,7 @@ export class MainChatComponent implements OnInit {
       this.sendChannel = true;
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
+      this.scrollToBottom();
     });
   }
 
@@ -196,6 +213,7 @@ export class MainChatComponent implements OnInit {
     this.sendChannel = false;
     this.currentChatData = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
+    this.scrollToBottom();
   }
 
   /**
@@ -215,6 +233,7 @@ export class MainChatComponent implements OnInit {
     this.sendChannel = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
     this.getsPrivateChats();
+    this.scrollToBottom();
   }
 
   getsPrivateChats() {
@@ -393,6 +412,7 @@ export class MainChatComponent implements OnInit {
 
     if ((selectedFile || messageText) && this.currentChannel) {
       const message = {
+        uid: uuidv4(),
         id: Date.now(),
         userName: this.userService.getName(),
         profileImg: this.userService.getPhoto(),
@@ -568,9 +588,11 @@ export class MainChatComponent implements OnInit {
         const searchTerm = inputText.substring(1);
         this.searchMembers(searchTerm).then((members) => {
           this.memberMatches = members;
-
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
+          if (this.isNewMessageVisible) {
+            this.scrollToTop();
+          }
         });
       } else if (inputText.startsWith('#')) {
         const searchTerm = inputText.substring(1);
@@ -578,6 +600,9 @@ export class MainChatComponent implements OnInit {
           this.channelMatches = channels;
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
+          if (this.isNewMessageVisible) {
+            this.scrollToTop();
+          }
         });
       } else {
         this.searchMembers(inputText).then((members) => {
@@ -586,6 +611,9 @@ export class MainChatComponent implements OnInit {
             this.memberMatches.length > 0 ||
             this.channelMatches.length > 0 ||
             this.isNewMessageVisible === true;
+          if (this.isNewMessageVisible) {
+            this.scrollToTop();
+          }
         });
         this.searchChannels(inputText).then((channels) => {
           this.channelMatches = channels;
@@ -593,6 +621,9 @@ export class MainChatComponent implements OnInit {
             this.memberMatches.length > 0 ||
             this.channelMatches.length > 0 ||
             this.isNewMessageVisible === true;
+          if (this.isNewMessageVisible) {
+            this.scrollToTop();
+          }
         });
       }
     }
@@ -720,5 +751,18 @@ export class MainChatComponent implements OnInit {
       this.sharedService.updatePrivateChatFS(this.currentChatData);
     }
     this.editMessageUser[i] = false;
+  }
+
+  reactionTickPlus(messageIndex: number) {
+    if (this.showReaction[messageIndex]) {
+      this.showReaction[messageIndex] = false;
+      this.reactionTick[messageIndex] = Math.max(
+        this.reactionTick[messageIndex] - 1,
+        0
+      );
+    } else {
+      this.showReaction[messageIndex] = true;
+      this.reactionTick[messageIndex]++;
+    }
   }
 }
