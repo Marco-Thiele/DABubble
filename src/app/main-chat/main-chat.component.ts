@@ -18,7 +18,6 @@ import { DialogService } from '../dialog.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { user } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-main-chat',
@@ -127,12 +126,21 @@ export class MainChatComponent implements OnInit {
    * Scrolls to the bottom of the chat
    */
   scrollToBottom() {
-    if (this.chatContainer) {
+    if (
+      (this.isChatWithMemberVisible &&
+        this.currentChatData &&
+        this.selectedMember) ||
+      (this.isChannelVisible && this.selectedChannel) ||
+      (this.isPrivateChatVisible && this.selectedMember && this.currentChatData)
+    ) {
       const chatElement = this.chatContainer.nativeElement;
       chatElement.scrollTop = chatElement.scrollHeight;
     }
   }
 
+  /**
+   * Scrolls to the top of the chat
+   */
   scrollToTop() {
     if (this.membersContainer) {
       const containerElement = this.membersContainer.nativeElement;
@@ -180,6 +188,7 @@ export class MainChatComponent implements OnInit {
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
       this.scrollToBottom();
+      this.sharedService.loadReactions();
     });
   }
 
@@ -412,7 +421,7 @@ export class MainChatComponent implements OnInit {
 
     if ((selectedFile || messageText) && this.currentChannel) {
       const message = {
-        uid: uuidv4(),
+        uid: this.sharedService.generateUniqueId(),
         id: Date.now(),
         userName: this.userService.getName(),
         profileImg: this.userService.getPhoto(),
