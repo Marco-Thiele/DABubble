@@ -36,7 +36,14 @@ export class MainChatComponent implements OnInit {
   name = 'Angular';
   message: string = '';
   imageLoaded: boolean = false;
-  showEmojiPicker = false;
+  showEmojiPicker: boolean[] = [false, false];
+  existEmoji: boolean = false;
+  emojis = {
+    userName: [],
+    emoji: '',
+  };
+  i: any;
+  j: number = 0;
   isFocused = false;
   taIsFocused = false;
   isChannelVisible = true;
@@ -74,12 +81,7 @@ export class MainChatComponent implements OnInit {
   editMessageUser: boolean[] = [false, false];
   editedMessageUser: string = '';
   currentChatData: any;
-  reactionTick: number[] = new Array(10).fill(0);
-  noReactionTick: boolean = false;
-  reactionMembers: string[] = [];
-  selectedMessageIndex: number = -1;
-  showReaction: boolean[] = new Array(10).fill(false);
-
+  reactions: any;
   private chatSubscription: Subscription = new Subscription();
 
   constructor(
@@ -358,8 +360,8 @@ export class MainChatComponent implements OnInit {
   /**
    * Show the emoji picker
    */
-  toggleEmojiPicker() {
-    this.showEmojiPicker = !this.showEmojiPicker;
+  toggleEmojiPicker(index: number) {
+    this.showEmojiPicker[index] = !this.showEmojiPicker[index];
   }
 
   /**
@@ -369,14 +371,93 @@ export class MainChatComponent implements OnInit {
     const { message } = this;
     const text = `${message}${event.emoji.native}`;
     this.message = text;
-    this.showEmojiPicker = false;
+  }
+
+  addEmojiAnswer(event: any, i: number) {
+    const { message } = this;
+    const text = `${message}${event.emoji.native}`;
+
+    if (this.selectedChannel) {
+      let answersEmojis = this.selectedChannel.chat[i].reactions;
+      this.addEmojiAnswerForEach(answersEmojis, text);
+      this.addEmojiAnswerIfNotExist(text, i, true);
+      this.sharedService.updateChannelFS(this.selectedChannel);
+    } else if (this.currentChatData) {
+      let answersEmojis = this.currentChatData.chat[i].reactions;
+      this.addEmojiAnswerForEach(answersEmojis, text);
+      this.addEmojiAnswerIfNotExist(text, i, false);
+      this.sharedService.updatePrivateChatFS(this.selectedMember);
+    }
+
+    this.showEmojiPicker[i] = false;
+    this.j = 0;
+  }
+
+  addEmojiAnswerForEach(answersEmojis: any, text: string) {
+    answersEmojis.forEach((element: any) => {
+      this.j++;
+      if (element.emoji.includes(text)) {
+        if (!element.userName.includes(this.userService.getName())) {
+          element.userName.push(this.userService.getName());
+        }
+        this.existEmoji = true;
+      }
+    });
+  }
+
+  addEmojiAnswerIfNotExist(text: string, i: number, isChannel: boolean) {
+    const chatObject = isChannel ? this.selectedChannel : this.currentChatData;
+
+    if (chatObject) {
+      if (!this.existEmoji) {
+        const newEmoji = {
+          userName: [this.userService.getName()],
+          emoji: text,
+        };
+
+        chatObject.chat[i].reactions.push(newEmoji);
+      }
+    }
+  }
+
+  deleteEmoji(i: number, j: number) {
+    let chatObject;
+    let isChannel = false;
+
+    if (this.selectedChannel) {
+      chatObject = this.selectedChannel;
+      isChannel = true;
+    } else if (this.currentChatData) {
+      chatObject = this.currentChatData;
+    } else {
+      return;
+    }
+
+    const reactions = chatObject.chat[i].reactions;
+
+    if (reactions[j].userName.includes(this.userService.getName())) {
+      const deleteName = this.userService.getName();
+      const newUsernames = reactions[j].userName.filter(
+        (item: any) => item !== deleteName
+      );
+      reactions[j].userName = newUsernames;
+      if (reactions[j].userName.length === 0) {
+        reactions.splice(j, 1);
+      }
+
+      if (isChannel) {
+        this.sharedService.updateChannelFS(chatObject);
+      } else {
+        this.sharedService.updatePrivateChatFS(chatObject);
+      }
+    }
   }
 
   /**
    * Hide the emoji picker when the textarea is focused
    */
   onFocus() {
-    this.showEmojiPicker = false;
+    // this.showEmojiPicker = false;
   }
 
   /**
@@ -759,18 +840,5 @@ export class MainChatComponent implements OnInit {
       this.sharedService.updatePrivateChatFS(this.currentChatData);
     }
     this.editMessageUser[i] = false;
-  }
-
-  reactionTickPlus(messageIndex: number) {
-    if (this.showReaction[messageIndex]) {
-      this.showReaction[messageIndex] = false;
-      this.reactionTick[messageIndex] = Math.max(
-        this.reactionTick[messageIndex] - 1,
-        0
-      );
-    } else {
-      this.showReaction[messageIndex] = true;
-      this.reactionTick[messageIndex]++;
-    }
   }
 }
