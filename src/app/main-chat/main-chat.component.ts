@@ -18,6 +18,7 @@ import { DialogService } from '../dialog.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { user } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-main-chat',
@@ -138,9 +139,6 @@ export class MainChatComponent implements OnInit {
     }
   }
 
-  /**
-   * Scrolls to the top of the chat
-   */
   scrollToTop() {
     if (this.membersContainer) {
       const containerElement = this.membersContainer.nativeElement;
@@ -420,7 +418,7 @@ export class MainChatComponent implements OnInit {
 
     if ((selectedFile || messageText) && this.currentChannel) {
       const message = {
-        uid: this.userService.getId(),
+        uid: uuidv4(),
         id: Date.now(),
         userName: this.userService.getName(),
         profileImg: this.userService.getPhoto(),
@@ -689,16 +687,10 @@ export class MainChatComponent implements OnInit {
     this.sharedService.openThreads();
   }
 
-  showUserProfil(
-    userName: string,
-    userPhotoURL: string,
-    userEmail: string,
-    userUID: string
-  ) {
+  showUserProfil(userName: string, userPhotoURL: string, userEmail: string) {
     this.userService.selectedUserName = userName;
     this.userService.selectedUserPhotoURL = userPhotoURL;
     this.userService.selectedUserEmail = userEmail;
-    this.userService.selectedUserUid = userUID;
     this.dialogService.openDialog(UserProfilComponent);
   }
 

@@ -642,7 +642,7 @@
 
 .reaction-usser {
   position: absolute;
-  bottom: 46px;
+  bottom: 78px;
   display: none;
   padding: 15px 10px;
   flex-direction: column;
@@ -770,16 +770,16 @@
   @extend .tick;
 }
 
-// .icons-background {
-//   background-image: url(/assets/icons/rocket.svg);
-//   background-size: cover;
-//   width: 24px;
-//   height: 24px;
-// }
+.icons-background {
+  background-image: url(/assets/icons/hands.svg);
+  background-size: cover;
+  width: 24px;
+  height: 24px;
+}
 
-// .rocket {
-//   @extend .icons-background;
-// }
+.hands {
+  @extend .icons-background;
+}
 
 .tick {
   background-image: url(/assets/icons/tick.svg);
