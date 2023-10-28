@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../user.service';
 import { ProfilComponent } from '../profil/profil.component';
+import { UserProfilComponent } from '../user-profil/user-profil.component';
 import { DialogService } from '../dialog.service';
 import { Router } from '@angular/router';
 import {
@@ -144,11 +145,13 @@ export class HeaderComponent {
     this.userArr.forEach((user) => {
       if (user['name'].toLowerCase().includes(input.toLowerCase())) {
         this.foundUsers.push(user);
+        console.log('found user: ', user);
       }
     });
     this.chatMessages.forEach((message) => {
       if (message['text'].toLowerCase().includes(input.toLowerCase())) {
         this.foundMessages.push(message);
+        console.log('found message', message);
       }
       // message['answers'].forEach((answer: DocumentData) => {
       //   if (answer['text'].toLowerCase().includes(input.toLowerCase())) {
@@ -186,5 +189,20 @@ export class HeaderComponent {
   backToChannels() {
     this.iconResponsive = false;
     this.sharedService.callOnResize();
+  }
+
+  showUserProfil(
+    userName: string,
+    userPhotoURL: string,
+    userEmail: string,
+    userUID: string
+  ) {
+    this.UserService.selectedUserName = userName;
+    this.UserService.selectedUserPhotoURL = userPhotoURL;
+    this.UserService.selectedUserEmail = userEmail;
+    this.UserService.selectedUserUid = userUID;
+    this.searchTerm = '';
+    this.showResults = false;
+    this.dialogService.openDialog(UserProfilComponent);
   }
 }
