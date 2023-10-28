@@ -188,7 +188,6 @@ export class MainChatComponent implements OnInit {
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
       this.scrollToBottom();
-      this.sharedService.loadReactions();
     });
   }
 
@@ -421,7 +420,7 @@ export class MainChatComponent implements OnInit {
 
     if ((selectedFile || messageText) && this.currentChannel) {
       const message = {
-        uid: this.sharedService.generateUniqueId(),
+        uid: this.userService.getId(),
         id: Date.now(),
         userName: this.userService.getName(),
         profileImg: this.userService.getPhoto(),
