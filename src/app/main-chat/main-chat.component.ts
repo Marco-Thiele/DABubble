@@ -681,10 +681,16 @@ export class MainChatComponent implements OnInit {
     this.sharedService.openThreads();
   }
 
-  showUserProfil(userName: string, userPhotoURL: string, userEmail: string) {
+  showUserProfil(
+    userName: string,
+    userPhotoURL: string,
+    userEmail: string,
+    userUID: string
+  ) {
     this.userService.selectedUserName = userName;
     this.userService.selectedUserPhotoURL = userPhotoURL;
     this.userService.selectedUserEmail = userEmail;
+    this.userService.selectedUserUid = userUID;
     this.dialogService.openDialog(UserProfilComponent);
   }
 

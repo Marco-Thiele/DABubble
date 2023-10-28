@@ -23,6 +23,7 @@ export class UserService {
   selectedUserName: string = 'Guest';
   selectedUserPhotoURL: string = '../../assets/img/avatars/person.svg';
   selectedUserEmail: string = 'guest@guest.de';
+  selectedUserUid: string = '';
   messageText: string = '';
   foundPrivateMessages: DocumentData[] = [];
   usersList: DocumentData[] = [];
@@ -31,6 +32,7 @@ export class UserService {
   availableChatPartners: DocumentData[] = [];
   currentChatId: string = '';
   chatAlreadyExists: boolean = false;
+
   constructor() {
     this.getUserData();
     this.subPrivateChat();

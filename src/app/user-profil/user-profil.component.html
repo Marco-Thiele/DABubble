@@ -1,29 +1,26 @@
 <div class="position-profil-contant">
   <div class="profil-header">
-    <div>
-      Profil
-    </div>
+    <div>Profil</div>
     <div class="close" (click)="closeDialog()">
-      <img src="../../assets/icons/close.svg">
+      <img src="../../assets/icons/close.svg" />
     </div>
   </div>
   <div class="profil-img">
-    <img src="{{profilImg}}" alt="">
+    <img src="{{ profilImg }}" alt="" />
   </div>
 
   <div class="profil-name">
     <div class="name">
-      {{profilName}}
+      {{ profilName }}
     </div>
-
   </div>
   <div class="active">
-    <img src="../../assets/icons/Online.svg" alt="">
+    <img src="../../assets/icons/Online.svg" alt="" />
     Aktive
   </div>
   <div>
     <div class="profil-email">
-      <img src="../../assets/icons/mail.svg" alt="">
+      <img src="../../assets/icons/mail.svg" alt="" />
       E-Mail-Adresse
     </div>
     <div class="current-email">
@@ -31,6 +28,8 @@
     </div>
   </div>
   <div class="position-btn">
-    <button class="message-btn"><img src="../../assets/icons/mode_comment.svg"> Nachricht</button>
+    <button (click)="sendPrivateMessage()" class="message-btn">
+      <img src="../../assets/icons/mode_comment.svg" /> Nachricht
+    </button>
   </div>
 </div>
