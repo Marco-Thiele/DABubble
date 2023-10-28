@@ -112,7 +112,6 @@ export class HeaderComponent {
   logOut() {
     signOut(this.auth)
       .then(() => {
-        console.log('logged out');
         this.routeToLogin();
       })
       .catch((error) => {
@@ -133,7 +132,6 @@ export class HeaderComponent {
       list.forEach((element) => {
         const userData = element.data();
         this.userArr.push(userData);
-        // console.log(this.userArr);
       });
     });
   }
@@ -145,13 +143,11 @@ export class HeaderComponent {
     this.userArr.forEach((user) => {
       if (user['name'].toLowerCase().includes(input.toLowerCase())) {
         this.foundUsers.push(user);
-        console.log('found user: ', user);
       }
     });
     this.chatMessages.forEach((message) => {
       if (message['text'].toLowerCase().includes(input.toLowerCase())) {
         this.foundMessages.push(message);
-        console.log('found message', message);
       }
       // message['answers'].forEach((answer: DocumentData) => {
       //   if (answer['text'].toLowerCase().includes(input.toLowerCase())) {
