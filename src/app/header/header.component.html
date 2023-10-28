@@ -16,17 +16,38 @@
         </div>
       </div>
       <div class="input-position">
-        <input class="input-field" type="text" placeholder="Code learning durchsuchen" [(ngModel)]="searchTerm"
-          (input)="onSearch($event)" />
+        <input
+          class="input-field"
+          type="text"
+          placeholder="Code learning durchsuchen"
+          [(ngModel)]="searchTerm"
+          (input)="onSearch($event)"
+        />
         <div *ngIf="showResults" class="searchContainer">
-          <div *ngFor="let user of foundUsers" class="searchResult">
+          <div
+            *ngFor="let user of foundUsers"
+            (click)="
+              showUserProfil(
+                user['name'],
+                user['photoURL'],
+                user['email'],
+                user['uid']
+              )
+            "
+            class="searchResult"
+          >
             <img src="{{ user['photoURL'] }}" />
             <span>{{ user["name"] }}</span>
           </div>
-          <div *ngFor="let message of foundMessages" class="searchResult">
+          <div
+            *ngFor="let message of foundMessages"
+            class="searchResultMessages"
+          >
             <img src="{{ message['profileImg'] }}" />
-            <span>Text from {{ message["userName"] }}: "{{ message["text"] }}" -
-              {{ message["date"] }}</span>
+            <span
+              >Text from {{ message["userName"] }}: "{{ message["text"] }}" -
+              {{ message["date"] }}</span
+            >
           </div>
         </div>
       </div>
@@ -44,7 +65,12 @@
     </div>
   </div>
 </div>
-<div *ngIf="show" id="profilLogout" class="position-profil-logout" (click)="removeInfo()">
+<div
+  *ngIf="show"
+  id="profilLogout"
+  class="position-profil-logout"
+  (click)="removeInfo()"
+>
   <div (click)="notRemoveInfo($event)" class="position-profile-contant">
     <div (click)="showProfil()">Profil</div>
     <div (click)="logOut()">Log Out</div>

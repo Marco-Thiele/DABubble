@@ -37,7 +37,6 @@ export class UserService {
     this.getUserData();
     this.subPrivateChat();
 
-    console.log('current chats: ', this.foundPrivateMessages);
     this.getUserList;
     this.userObject.name = this.getName();
     this.userObject.email = this.getMail();
@@ -70,7 +69,6 @@ export class UserService {
         // User is signed in
         this.user = user;
       } else {
-        console.log('signed out');
         this.user = null;
       }
     });
@@ -108,12 +106,11 @@ export class UserService {
         if (this.user) {
           if (privateChat['participants'].includes(this.user.uid)) {
             this.foundPrivateMessages.push(privateChat);
-            console.log('pushed new chat', privateChat);
+
             privateChat['participantsInfos'].forEach((user: any) => {
               if (user.uid != this.user?.uid) {
                 if (!this.availableChatPartners.includes(user)) {
                   this.availableChatPartners.push(user);
-                  console.log('pushed new user', this.availableChatPartners);
                 }
               }
             });
@@ -129,7 +126,6 @@ export class UserService {
         chat['participants'].includes(this.user?.uid) &&
         chat['participants'].includes(this.selectedChatPartner.uid)
       ) {
-        console.log('chat exists.. ', chat);
         this.currentChat = chat;
         this.chatAlreadyExists = true;
       }
@@ -173,8 +169,6 @@ export class UserService {
           ) {
             this.currentChatId = chat.id;
             this.currentChat = chatData;
-            console.log('current chat: ', this.currentChat);
-            console.log('current chat Id: ', this.currentChatId);
           }
         });
         observer.next(this.currentChat);

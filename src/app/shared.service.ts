@@ -197,7 +197,6 @@ export class SharedService implements OnInit {
       this.UserService.currentChatId
     );
     await updateDoc(docRef, this.UserService.currentChat);
-    console.log('fire store update');
   }
 
   /**
@@ -498,7 +497,6 @@ export class SharedService implements OnInit {
     this.UserService.selectedChatPartner = member;
 
     this.UserService.subToChosenChat();
-    console.log('chatting with', member);
   }
 
   /**

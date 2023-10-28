@@ -247,7 +247,6 @@ export class MainChatComponent implements OnInit {
       .subToChosenChat()
       .subscribe((chatData) => {
         this.currentChatData = chatData;
-        console.log('chat log from main:', this.currentChatData);
       });
   }
 
@@ -313,7 +312,7 @@ export class MainChatComponent implements OnInit {
     this.selectedMember = member;
     const memberId = member.id;
     this.userService.selectedChatPartner = member;
-    console.log('chosen member', member);
+
     this.userService.doesChatExist();
     this.userService.createChat();
     this.userService.chatAlreadyExists = false;
@@ -556,7 +555,6 @@ export class MainChatComponent implements OnInit {
         });
       } else {
         this.savePrivateMessage(this.selectedMember, message);
-        console.log('sending message..');
       }
     }
   }
@@ -577,7 +575,6 @@ export class MainChatComponent implements OnInit {
 
   returnPrivatesMessagesFS() {
     this.selectedMember.chat = this.userService.subToChosenChat();
-    console.log('chat log from main:', this.selectedMember);
   }
 
   /**
