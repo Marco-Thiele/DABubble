@@ -76,6 +76,11 @@ export class SecondaryChatComponent {
     userName: [],
     emoji: '',
   };
+  newReacktion = {
+    count: 1,
+    users: [],
+    emoji: '',
+  };
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   messageID: any;
   thread: any;
@@ -259,6 +264,56 @@ export class SecondaryChatComponent {
     const text = `${message}${event.emoji.native}`;
     this.message = text;
   }
+
+
+  addEmojiThread(event: any,) {
+    let answersEmojis = this.selectedChannel.chat[this.i].reactions;
+    this.existEmoji = false;
+    const { message } = this;
+    const text = `${message}${event.emoji.native}`;
+    answersEmojis.forEach((element: any) => {
+      this.j++;
+      if (element.emoji.includes(text)) {
+        if (!element.users.includes(this.UserService.getName())) {
+          element.users.push(this.UserService.getName());
+          element.count ++;
+        }
+        this.existEmoji = true;
+      }
+    });
+    if (!this.existEmoji) {
+      this.newReacktion = {
+        count: 1,
+        users: [],
+        emoji: text,
+      };
+      this.selectedChannel.chat[this.i].reactions.push(this.newReacktion);
+      this.selectedChannel.chat[this.i].reactions[this.j].users.push(this.UserService.getName());
+    }
+    this.sharedService.updateChannelFS(this.selectedChannel);
+    this.showEmojiPicker[-1] = false;
+    this.j = 0;
+  }
+
+
+  deleteEmojiThread( j: number) {
+    let answersEmojis = this.selectedChannel.chat[this.i].reactions[j];
+    if (answersEmojis.users.includes(this.UserService.getName())) {
+      let deleteName = this.UserService.getName();
+      let newUsernames = answersEmojis.users.filter(
+        (item: any) => item !== deleteName
+      );
+      answersEmojis.users = newUsernames;
+      answersEmojis.count --;
+      if (answersEmojis.users.length == 0)
+        this.selectedChannel.chat[this.i].reactions.splice(j, 1);
+    } else {
+      this.selectedChannel.chat[this.i].reactions[j].users.push(this.UserService.getName());
+      this.selectedChannel.chat[this.i].reactions[j].count ++;
+    }
+    this.sharedService.updateChannelFS(this.selectedChannel);
+  }
+
 
   addEmojiAnswer(event: any, i: number) {
     let answersEmojis = this.selectedChannel.chat[this.i].answers[i].reactions;

@@ -32,7 +32,7 @@
               <div class="img-react" (click)="toggleEmojiPicker(-1)"></div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-1]" (emojiSelect)="addEmoji($event)"
+              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-1]" (emojiSelect)="addEmojiThread($event)"
                 size="50px 50px" title="Pick your emoji…"></emoji-mart>
             </div>
           </div>
@@ -40,7 +40,7 @@
             {{ threads.text }}
           </div>
           <div class="answer-icons">
-            <div *ngFor="let emojis of threads['reactions'] let j = index" class="answer-reaction" (click)="deleteEmoji(i,j)">
+            <div *ngFor="let emojis of threads['reactions'] let j = index" class="answer-reaction" (click)="deleteEmojiThread(j)">
               <div  class="info-emojis">
                 <div class="info-emoji">{{emojis["emoji"]}}</div>
                 <div class="info-emojis-name">{{emojis['users']}} </div>
@@ -100,8 +100,8 @@
               </div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)"
-                size="25%" title="Pick your emoji…"></emoji-mart>
+              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)" size="25%"
+                title="Pick your emoji…"></emoji-mart>
             </div>
           </div>
           <div class="question" [ngClass]="{
@@ -110,8 +110,7 @@
             {{ thread["text"] }}
           </div>
           <div class="answer-icons">
-            <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction"
-              (click)="deleteEmoji(i,j)">
+            <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction" (click)="deleteEmoji(i,j)">
               <div [ngClass]="{
                 'info-emojis-reverse':
                   thread['userName'] !== UserService.getName()
@@ -124,7 +123,7 @@
               <div>
                 {{emojis['userName'].length}}
               </div>
-
+              
             </div>
             <!-- <div class="answer-emojis"  >
 
