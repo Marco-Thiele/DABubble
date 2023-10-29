@@ -40,9 +40,17 @@
             {{ threads.text }}
           </div>
           <div class="answer-icons">
-            <div class="answer-reaction">
-              <img src="../../assets/icons/51. Emojis.svg" alt="" />
-              <div>1</div>
+            <div *ngFor="let emojis of threads['reactions'] let j = index" class="answer-reaction" (click)="deleteEmoji(i,j)">
+              <div  class="info-emojis">
+                <div class="info-emoji">{{emojis["emoji"]}}</div>
+                <div class="info-emojis-name">{{emojis['users']}} </div>
+                <div>hat reagiert</div>
+              </div>
+              {{emojis["emoji"]}}
+              <div>
+                {{emojis['count']}}
+              </div>
+              
             </div>
             <!-- <div class="answer-emojis" (click)="toggleEmojiPicker(4)" >
 
