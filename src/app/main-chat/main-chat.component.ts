@@ -82,6 +82,8 @@ export class MainChatComponent implements OnInit {
   editedMessageUser: string = '';
   currentChatData: any;
   reactions: any;
+  userReactions: Record<string, Record<string, boolean>> = {};
+
   private chatSubscription: Subscription = new Subscription();
 
   constructor(
@@ -365,27 +367,29 @@ export class MainChatComponent implements OnInit {
   }
 
   /**
-   * Add an emoji to the message
+   * Add the emoji that the user has selected
    */
   addEmoji(event: any) {
-    const { message } = this;
-    const text = `${message}${event.emoji.native}`;
+    const text = `${this.message}${event.emoji.native}`;
     this.message = text;
   }
 
+  /**
+   * Add an emoji to the message
+   */
   addEmojiAnswer(event: any, i: number) {
     const { message } = this;
     const text = `${message}${event.emoji.native}`;
 
     if (this.selectedChannel) {
-      let answersEmojis = this.selectedChannel.chat[i].reactions;
-      this.addEmojiAnswerForEach(answersEmojis, text);
-      this.addEmojiAnswerIfNotExist(text, i, true);
+      let reactions = this.selectedChannel.chat[i].reactions;
+      this.addEmojiAnswerForEach(reactions, text);
+      this.addEmojiAnswerIfNotExist(reactions, text, i, true);
       this.sharedService.updateChannelFS(this.selectedChannel);
     } else if (this.currentChatData) {
-      let answersEmojis = this.currentChatData.chat[i].reactions;
-      this.addEmojiAnswerForEach(answersEmojis, text);
-      this.addEmojiAnswerIfNotExist(text, i, false);
+      let reactions = this.currentChatData.chat[i].reactions;
+      this.addEmojiAnswerForEach(reactions, text);
+      this.addEmojiAnswerIfNotExist(reactions, text, i, false);
       this.sharedService.updatePrivateChatFS(this.selectedMember);
     }
 
@@ -393,33 +397,53 @@ export class MainChatComponent implements OnInit {
     this.j = 0;
   }
 
-  addEmojiAnswerForEach(answersEmojis: any, text: string) {
-    answersEmojis.forEach((element: any) => {
-      this.j++;
-      if (element.emoji.includes(text)) {
-        if (!element.userName.includes(this.userService.getName())) {
-          element.userName.push(this.userService.getName());
-        }
-        this.existEmoji = true;
-      }
-    });
-  }
+  /**
+   * Add an emoji that the user has selected and updates the database
+   * @param reactions the reactions of the message
+   * @param text the emoji to add
+   */
+  addEmojiAnswerForEach(reactions: any[], text: string) {
+    let currentUser = this.userService.getName();
+    let reaction = reactions.find((r) => r.emoji === text);
 
-  addEmojiAnswerIfNotExist(text: string, i: number, isChannel: boolean) {
-    const chatObject = isChannel ? this.selectedChannel : this.currentChatData;
-
-    if (chatObject) {
-      if (!this.existEmoji) {
-        const newEmoji = {
-          userName: [this.userService.getName()],
-          emoji: text,
-        };
-
-        chatObject.chat[i].reactions.push(newEmoji);
+    if (reaction) {
+      if (!reaction.users.includes(currentUser)) {
+        reaction.users.push(currentUser);
+        reaction.count++;
       }
     }
   }
 
+  /**
+   * Add an emoji that the user has selected and updates the database
+   * @param reactions the reactions of the message
+   * @param text the emoji to add
+   * @param i the index of the message
+   * @param isChannel true if the message is from a channel, false otherwise
+   */
+  addEmojiAnswerIfNotExist(
+    reactions: any[],
+    text: string,
+    i: number,
+    isChannel: boolean
+  ) {
+    if (!reactions.some((r) => r.emoji === text)) {
+      const newReaction = {
+        emoji: text,
+        users: [this.userService.getName()],
+        count: 1,
+      };
+
+      reactions.push(newReaction);
+    }
+  }
+
+  /**
+   * Deletes an emoji from the message
+   * @param i the index of the message
+   * @param j the index of the emoji
+   * @returns true if the emoji has been deleted, false otherwise
+   */
   deleteEmoji(i: number, j: number) {
     let chatObject;
     let isChannel = false;
@@ -434,30 +458,27 @@ export class MainChatComponent implements OnInit {
     }
 
     const reactions = chatObject.chat[i].reactions;
+    const emojiReaction = reactions[j];
+    const currentUser = this.userService.getName();
 
-    if (reactions[j].userName.includes(this.userService.getName())) {
-      const deleteName = this.userService.getName();
-      const newUsernames = reactions[j].userName.filter(
-        (item: any) => item !== deleteName
-      );
-      reactions[j].userName = newUsernames;
-      if (reactions[j].userName.length === 0) {
+    if (emojiReaction.users.includes(currentUser)) {
+      emojiReaction.count--;
+      emojiReaction.users.splice(emojiReaction.users.indexOf(currentUser), 1);
+      if (emojiReaction.count === 0) {
+        const userIndex = emojiReaction.users.indexOf(currentUser);
+        emojiReaction.users.splice(userIndex, 1);
         reactions.splice(j, 1);
       }
-
-      if (isChannel) {
-        this.sharedService.updateChannelFS(chatObject);
-      } else {
-        this.sharedService.updatePrivateChatFS(chatObject);
-      }
+    } else {
+      emojiReaction.users.push(currentUser);
+      emojiReaction.count++;
     }
-  }
 
-  /**
-   * Hide the emoji picker when the textarea is focused
-   */
-  onFocus() {
-    // this.showEmojiPicker = false;
+    if (isChannel) {
+      this.sharedService.updateChannelFS(chatObject);
+    } else {
+      this.sharedService.updatePrivateChatFS(chatObject);
+    }
   }
 
   /**

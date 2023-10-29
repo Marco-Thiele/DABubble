@@ -233,20 +233,26 @@
                 <div
                   *ngFor="let emojis of (selectedChannel ? selectedChannel.chat : currentChatData.chat)[i].reactions; let j = index"
                   class="answer-reaction" (click)="deleteEmoji(i, j)">
-                  <div [ngClass]="{
-                    'info-emojis-reverse': emojis.userName !== userService.getName()
-                  }" class="info-emojis">
+                  <div class="info-emojis" *ngIf="emojis">
                     <div class="info-emoji">{{emojis.emoji}}</div>
-                    <div class="info-emojis-name">{{emojis.userName}} </div>
-                    <div>hat reagiert</div>
+                    <div class="info-emojis-name">
+                      <span *ngFor="let userName of emojis.users; let isLast = last">
+                        {{userName}}
+                        <ng-container *ngIf="!isLast">, </ng-container>
+                      </span>
+                    </div>
+                    <div>
+                      {{emojis?.users?.length > 1 ? 'haben reagiert' : 'hat reagiert'}}
+
+                    </div>
                   </div>
                   {{emojis.emoji}}
                   <div>
-                    {{emojis.userName.length}}
+                    {{emojis.count}}
                   </div>
                 </div>
-              </div>
 
+              </div>
             </div>
             <div class="add-reaction" (click)="toggleEmojiPicker(i)">
               <div></div>
