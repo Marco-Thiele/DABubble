@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../user.service';
 import { ProfilComponent } from '../profil/profil.component';
+import { UserProfilComponent } from '../user-profil/user-profil.component';
 import { DialogService } from '../dialog.service';
 import { Router } from '@angular/router';
 import {
@@ -111,7 +112,6 @@ export class HeaderComponent {
   logOut() {
     signOut(this.auth)
       .then(() => {
-        console.log('logged out');
         this.routeToLogin();
       })
       .catch((error) => {
@@ -132,7 +132,6 @@ export class HeaderComponent {
       list.forEach((element) => {
         const userData = element.data();
         this.userArr.push(userData);
-        // console.log(this.userArr);
       });
     });
   }
@@ -186,5 +185,20 @@ export class HeaderComponent {
   backToChannels() {
     this.iconResponsive = false;
     this.sharedService.callOnResize();
+  }
+
+  showUserProfil(
+    userName: string,
+    userPhotoURL: string,
+    userEmail: string,
+    userUID: string
+  ) {
+    this.UserService.selectedUserName = userName;
+    this.UserService.selectedUserPhotoURL = userPhotoURL;
+    this.UserService.selectedUserEmail = userEmail;
+    this.UserService.selectedUserUid = userUID;
+    this.searchTerm = '';
+    this.showResults = false;
+    this.dialogService.openDialog(UserProfilComponent);
   }
 }

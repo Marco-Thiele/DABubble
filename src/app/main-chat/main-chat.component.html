@@ -37,7 +37,7 @@
 </div>
 
 <!--Main chat-head new chat-->
-<div class="head-new-message-cont" *ngIf="isNewMessageVisible">
+<div class="head-new-message-cont" *ngIf="isNewMessageVisible && showContainers">
   <div class="head-new-message-title">
     <span class="font700-normal">Neue Nachricht</span>
   </div>
@@ -47,8 +47,7 @@
   </div>
 </div>
 
-<div class="head-new-direct-message-cont"
-  *ngIf="isChatWithMemberVisible || (isPrivateChatVisible && selectedMember && currentChatData)">
+<div class="head-new-direct-message-cont" *ngIf="isChatWithMemberVisible || (isPrivateChatVisible && currentChatData)">
   <div class="head-new-direct-message">
     <div class="new-direct-message-img">
       <div class="head-photo">
@@ -64,12 +63,12 @@
   <div class="inner-container" *ngIf="
       (isChannelVisible && selectedChannel) ||
       isNewMessageVisible ||
-      (isChatWithMemberVisible && selectedMember) ||
-      (isPrivateChatVisible && selectedMember)
+      (isChatWithMemberVisible && selectedMember && currentChatData) ||
+      (isPrivateChatVisible && selectedMember && currentChatData)
     " #chatContainer (scroll)="handleScroll($event)">
     <!--Main chat principal-->
     <div *ngIf="isNewMessageVisible">
-      <div *ngIf="showContainers && inputValue" class="container-lookingfor">
+      <div *ngIf="showContainers && inputValue" class="container-lookingfor" #membersContainer>
         <div *ngIf="memberMatches.length > 0" class="searchMatches">
           <span class="font600-normal">Members gefunden:</span>
           <div *ngFor="let member of memberMatches">
@@ -118,14 +117,14 @@
     <!--Container to write private messages-->
 
     <!-- <div class="privat-chat-container" *ngIf="isPrivatChatContainerVisible"> -->
-    <div class="beginning-private-chat" *ngIf="isChatWithMemberVisible">
+    <div class="beginning-private-chat" *ngIf="isChatWithMemberVisible && currentChatData && selectedMember">
       <div class="private-chat-member" *ngFor="let selectedMember">
         <div class="private-message-img">
           <div class="img" [style.background-image]="'url(' + selectedMember.imgProfil + ')'"></div>
         </div>
         <a class="font700-normal">{{ selectedMember.name }} </a>
       </div>
-      <div class="description-private-msg" *ngIf="isChatWithMemberVisible">
+      <div class="description-private-msg" *ngIf="isChatWithMemberVisible && currentChatData && selectedMember">
         <span class="font400-normal">Diese Unterhaltung findet nur zwischen
           <a class="font400-normal">@{{ selectedMember.name }} &nbsp;</a>und dir
           statt.</span>
@@ -150,7 +149,7 @@
     <div [ngClass]="{
         'message-user-box-cont': message.userName == userService.getName()
       }" class="message-members-box-cont" *ngFor="
-        let message of (currentChatData?.chat || []).concat(
+        let message of (selectedMember && currentChatData?.chat || []).concat(
           selectedChannel?.chat || []
         );
         let i = index
@@ -166,7 +165,7 @@
           <div class="reaction-icon">
             <div class="icon-hands"></div>
           </div>
-          <div class="reaction-icon" (click)="toggleEmojiPicker()">
+          <div class="reaction-icon" (click)="toggleEmojiPicker(-1)">
             <div class="icon-smile"></div>
           </div>
           <div class="reaction-icon">
@@ -199,7 +198,8 @@
                 showUserProfil(
                   message.userName,
                   message.profileImg,
-                  message.email
+                  message.email,
+                  message.uid
                 )
               ">{{ message.userName }}</a>
             <span class="font400-normal">{{ message.time }}</span>
@@ -213,6 +213,54 @@
               }}</span>
             <img src="{{ message.imageUrl }}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
               [style.margin-top]="message.imageUrl ? '8px' : '0px'" />
+          </div>
+          <div class="message-user-reaction">
+            <!-- <div>
+              <div class="reaction">
+                <div class="reaction-usser">
+                  <div class="reaction-usser-icon"></div>
+                  <div class="reaction-names-cont">
+                    <span class="reaction-name font700-normal">Sofia Müller</span>
+                    <span class="reaction-text font400-normal">hat reagiert</span>
+                  </div>
+                </div>
+                <div class="rocket"></div>
+                <span class="font400-normal">1</span>
+              </div>
+            </div> -->
+            <div>
+              <div class="answer-icons">
+                <div
+                  *ngFor="let emojis of (selectedChannel ? selectedChannel.chat : currentChatData.chat)[i].reactions; let j = index"
+                  class="answer-reaction" (click)="deleteEmoji(i, j)">
+                  <div class="info-emojis" *ngIf="emojis">
+                    <div class="info-emoji">{{emojis.emoji}}</div>
+                    <div class="info-emojis-name">
+                      <span *ngFor="let userName of emojis.users; let isLast = last">
+                        {{userName}}
+                        <ng-container *ngIf="!isLast">, </ng-container>
+                      </span>
+                    </div>
+                    <div>
+                      {{emojis?.users?.length > 1 ? 'haben reagiert' : 'hat reagiert'}}
+
+                    </div>
+                  </div>
+                  {{emojis.emoji}}
+                  <div>
+                    {{emojis.count}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="add-reaction" (click)="toggleEmojiPicker(i)">
+              <div></div>
+            </div>
+          </div>
+          <div>
+            <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)"
+              size="25%" title="Pick your emoji…"></emoji-mart>
           </div>
           <div class="message-members-answers" *ngIf="!currentChatData">
             <span class="font400-normal" (click)="openThread(i, message.id)">{{ message.answers?.length }}
@@ -319,11 +367,11 @@
           <div></div>
         </div>
         <div class="icons-line"></div>
-        <div class="icon-s icons" (click)="toggleEmojiPicker()">
+        <div class="icon-s icons" (click)="toggleEmojiPicker(-2)">
           <div></div>
         </div>
         <div>
-          <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
+          <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-2]" (emojiSelect)="addEmoji($event)"
             title="Pick your emoji…"></emoji-mart>
         </div>
         <div class="icon-et icons">

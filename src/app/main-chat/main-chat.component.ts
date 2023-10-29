@@ -30,11 +30,20 @@ export class MainChatComponent implements OnInit {
   @ViewChild('imagePreview', { read: ElementRef }) imagePreview: ElementRef;
   @ViewChild('chatContainer', { static: false }) chatContainer!: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
+  @ViewChild('membersContainer', { static: false })
+  membersContainer!: ElementRef;
 
   name = 'Angular';
   message: string = '';
   imageLoaded: boolean = false;
-  showEmojiPicker = false;
+  showEmojiPicker: boolean[] = [false, false];
+  existEmoji: boolean = false;
+  emojis = {
+    userName: [],
+    emoji: '',
+  };
+  i: any;
+  j: number = 0;
   isFocused = false;
   taIsFocused = false;
   isChannelVisible = true;
@@ -72,6 +81,8 @@ export class MainChatComponent implements OnInit {
   editMessageUser: boolean[] = [false, false];
   editedMessageUser: string = '';
   currentChatData: any;
+  reactions: any;
+  userReactions: Record<string, Record<string, boolean>> = {};
 
   private chatSubscription: Subscription = new Subscription();
 
@@ -119,9 +130,22 @@ export class MainChatComponent implements OnInit {
    * Scrolls to the bottom of the chat
    */
   scrollToBottom() {
-    if (this.chatContainer) {
+    if (
+      (this.isChatWithMemberVisible &&
+        this.currentChatData &&
+        this.selectedMember) ||
+      (this.isChannelVisible && this.selectedChannel) ||
+      (this.isPrivateChatVisible && this.selectedMember && this.currentChatData)
+    ) {
       const chatElement = this.chatContainer.nativeElement;
       chatElement.scrollTop = chatElement.scrollHeight;
+    }
+  }
+
+  scrollToTop() {
+    if (this.membersContainer) {
+      const containerElement = this.membersContainer.nativeElement;
+      containerElement.scrollTop = 0;
     }
   }
 
@@ -142,6 +166,7 @@ export class MainChatComponent implements OnInit {
       this.selectedMember = null;
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Starte eine neue Nachricht';
+      this.scrollToTop();
     });
   }
 
@@ -163,6 +188,7 @@ export class MainChatComponent implements OnInit {
       this.sendChannel = true;
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
+      this.scrollToBottom();
     });
   }
 
@@ -196,6 +222,7 @@ export class MainChatComponent implements OnInit {
     this.sendChannel = false;
     this.currentChatData = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
+    this.scrollToBottom();
   }
 
   /**
@@ -215,6 +242,7 @@ export class MainChatComponent implements OnInit {
     this.sendChannel = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
     this.getsPrivateChats();
+    this.scrollToBottom();
   }
 
   getsPrivateChats() {
@@ -222,7 +250,6 @@ export class MainChatComponent implements OnInit {
       .subToChosenChat()
       .subscribe((chatData) => {
         this.currentChatData = chatData;
-        console.log('chat log from main:', this.currentChatData);
       });
   }
 
@@ -290,9 +317,11 @@ export class MainChatComponent implements OnInit {
     this.userService.selectedChatPartner = member;
 
     this.userService.doesChatExist();
+    this.userService.createChat();
+    this.userService.chatAlreadyExists = false;
     this.sharedService.emitOpenPrivateContainer(member);
     this.inputValue = '';
-    // this.showContainers = false;
+    this.showContainers = false;
   }
 
   /**
@@ -333,25 +362,123 @@ export class MainChatComponent implements OnInit {
   /**
    * Show the emoji picker
    */
-  toggleEmojiPicker() {
-    this.showEmojiPicker = !this.showEmojiPicker;
+  toggleEmojiPicker(index: number) {
+    this.showEmojiPicker[index] = !this.showEmojiPicker[index];
+  }
+
+  /**
+   * Add the emoji that the user has selected
+   */
+  addEmoji(event: any) {
+    const text = `${this.message}${event.emoji.native}`;
+    this.message = text;
   }
 
   /**
    * Add an emoji to the message
    */
-  addEmoji(event: any) {
+  addEmojiAnswer(event: any, i: number) {
     const { message } = this;
     const text = `${message}${event.emoji.native}`;
-    this.message = text;
-    this.showEmojiPicker = false;
+
+    if (this.selectedChannel) {
+      let reactions = this.selectedChannel.chat[i].reactions;
+      this.addEmojiAnswerForEach(reactions, text);
+      this.addEmojiAnswerIfNotExist(reactions, text, i, true);
+      this.sharedService.updateChannelFS(this.selectedChannel);
+    } else if (this.currentChatData) {
+      let reactions = this.currentChatData.chat[i].reactions;
+      this.addEmojiAnswerForEach(reactions, text);
+      this.addEmojiAnswerIfNotExist(reactions, text, i, false);
+      this.sharedService.updatePrivateChatFS(this.selectedMember);
+    }
+
+    this.showEmojiPicker[i] = false;
+    this.j = 0;
   }
 
   /**
-   * Hide the emoji picker when the textarea is focused
+   * Add an emoji that the user has selected and updates the database
+   * @param reactions the reactions of the message
+   * @param text the emoji to add
    */
-  onFocus() {
-    this.showEmojiPicker = false;
+  addEmojiAnswerForEach(reactions: any[], text: string) {
+    let currentUser = this.userService.getName();
+    let reaction = reactions.find((r) => r.emoji === text);
+
+    if (reaction) {
+      if (!reaction.users.includes(currentUser)) {
+        reaction.users.push(currentUser);
+        reaction.count++;
+      }
+    }
+  }
+
+  /**
+   * Add an emoji that the user has selected and updates the database
+   * @param reactions the reactions of the message
+   * @param text the emoji to add
+   * @param i the index of the message
+   * @param isChannel true if the message is from a channel, false otherwise
+   */
+  addEmojiAnswerIfNotExist(
+    reactions: any[],
+    text: string,
+    i: number,
+    isChannel: boolean
+  ) {
+    if (!reactions.some((r) => r.emoji === text)) {
+      const newReaction = {
+        emoji: text,
+        users: [this.userService.getName()],
+        count: 1,
+      };
+
+      reactions.push(newReaction);
+    }
+  }
+
+  /**
+   * Deletes an emoji from the message
+   * @param i the index of the message
+   * @param j the index of the emoji
+   * @returns true if the emoji has been deleted, false otherwise
+   */
+  deleteEmoji(i: number, j: number) {
+    let chatObject;
+    let isChannel = false;
+
+    if (this.selectedChannel) {
+      chatObject = this.selectedChannel;
+      isChannel = true;
+    } else if (this.currentChatData) {
+      chatObject = this.currentChatData;
+    } else {
+      return;
+    }
+
+    const reactions = chatObject.chat[i].reactions;
+    const emojiReaction = reactions[j];
+    const currentUser = this.userService.getName();
+
+    if (emojiReaction.users.includes(currentUser)) {
+      emojiReaction.count--;
+      emojiReaction.users.splice(emojiReaction.users.indexOf(currentUser), 1);
+      if (emojiReaction.count === 0) {
+        const userIndex = emojiReaction.users.indexOf(currentUser);
+        emojiReaction.users.splice(userIndex, 1);
+        reactions.splice(j, 1);
+      }
+    } else {
+      emojiReaction.users.push(currentUser);
+      emojiReaction.count++;
+    }
+
+    if (isChannel) {
+      this.sharedService.updateChannelFS(chatObject);
+    } else {
+      this.sharedService.updatePrivateChatFS(chatObject);
+    }
   }
 
   /**
@@ -391,6 +518,7 @@ export class MainChatComponent implements OnInit {
 
     if ((selectedFile || messageText) && this.currentChannel) {
       const message = {
+        uid: this.userService.getId(),
         id: Date.now(),
         userName: this.userService.getName(),
         profileImg: this.userService.getPhoto(),
@@ -528,7 +656,6 @@ export class MainChatComponent implements OnInit {
         });
       } else {
         this.savePrivateMessage(this.selectedMember, message);
-        console.log('sending message..');
       }
     }
   }
@@ -549,7 +676,6 @@ export class MainChatComponent implements OnInit {
 
   returnPrivatesMessagesFS() {
     this.selectedMember.chat = this.userService.subToChosenChat();
-    console.log('chat log from main:', this.selectedMember);
   }
 
   /**
@@ -566,9 +692,11 @@ export class MainChatComponent implements OnInit {
         const searchTerm = inputText.substring(1);
         this.searchMembers(searchTerm).then((members) => {
           this.memberMatches = members;
-
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
+          if (this.isNewMessageVisible) {
+            this.scrollToTop();
+          }
         });
       } else if (inputText.startsWith('#')) {
         const searchTerm = inputText.substring(1);
@@ -576,6 +704,9 @@ export class MainChatComponent implements OnInit {
           this.channelMatches = channels;
           this.isNewMessageVisible =
             this.memberMatches.length > 0 || this.channelMatches.length > 0;
+          if (this.isNewMessageVisible) {
+            this.scrollToTop();
+          }
         });
       } else {
         this.searchMembers(inputText).then((members) => {
@@ -584,6 +715,9 @@ export class MainChatComponent implements OnInit {
             this.memberMatches.length > 0 ||
             this.channelMatches.length > 0 ||
             this.isNewMessageVisible === true;
+          if (this.isNewMessageVisible) {
+            this.scrollToTop();
+          }
         });
         this.searchChannels(inputText).then((channels) => {
           this.channelMatches = channels;
@@ -591,6 +725,9 @@ export class MainChatComponent implements OnInit {
             this.memberMatches.length > 0 ||
             this.channelMatches.length > 0 ||
             this.isNewMessageVisible === true;
+          if (this.isNewMessageVisible) {
+            this.scrollToTop();
+          }
         });
       }
     }
@@ -648,10 +785,16 @@ export class MainChatComponent implements OnInit {
     this.sharedService.openThreads();
   }
 
-  showUserProfil(userName: string, userPhotoURL: string, userEmail: string) {
+  showUserProfil(
+    userName: string,
+    userPhotoURL: string,
+    userEmail: string,
+    userUID: string
+  ) {
     this.userService.selectedUserName = userName;
     this.userService.selectedUserPhotoURL = userPhotoURL;
     this.userService.selectedUserEmail = userEmail;
+    this.userService.selectedUserUid = userUID;
     this.dialogService.openDialog(UserProfilComponent);
   }
 

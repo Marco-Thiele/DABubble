@@ -285,7 +285,7 @@
 .inner-container {
   display: flex;
   flex-direction: column;
-  max-height: 450px;
+  max-height: 500px;
   overflow-y: auto;
   gap: 20px;
   flex-grow: 1;
@@ -642,7 +642,7 @@
 
 .reaction-usser {
   position: absolute;
-  bottom: 46px;
+  bottom: 78px;
   display: none;
   padding: 15px 10px;
   flex-direction: column;
@@ -650,10 +650,6 @@
   gap: 5px;
   border-radius: 30px 30px 30px 0px;
   background: var(--Purple-1, #444df2);
-}
-
-.reaction-usser-icon {
-  @extend .icons-background;
 }
 
 .reaction-names-cont {
@@ -748,44 +744,98 @@
   gap: 8px;
 }
 
-.reaction {
+.answer-icons {
   display: flex;
-  padding: 5px 10px;
-  align-items: center;
-  gap: 10px;
-  border-radius: 20px;
-  border: 1px solid var(--ligth-purple-lines, #adb0d9);
-  background: var(--White, #fff);
+  gap: 8px;
   cursor: pointer;
+  flex-wrap: wrap;
+}
 
-  span {
+.answer-reaction {
+  display: flex;
+  gap: 10px;
+  border: 1px solid rgb(173, 176, 217);
+  border-radius: 20px;
+  padding: 5px 10px 5px 10px;
+  align-items: center;
+  cursor: pointer;
+  background-color: white;
+  font-size: 22px;
+
+  div {
     font-size: 16px;
   }
 
   &:hover {
-    .reaction-usser {
-      display: flex !important;
+    .info-emojis {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
-    border: 1px solid #444df2;
+
+    .info-emojis-reverse {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
   }
 }
 
-.icons-background {
-  background-image: url(/assets/icons/rocket.svg);
-  background-size: cover;
-  width: 24px;
-  height: 24px;
+.answer-emojis {
+  background-color: white;
+  background-image: url(/assets/icons/add_reaction.svg);
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 100%;
+  cursor: pointer;
+
+  &:hover {
+    background-image: url(/assets/icons/add_reaction_blue.svg);
+    background-color: rgb(236, 238, 254);
+  }
 }
 
-.rocket {
-  @extend .icons-background;
+.info-emojis {
+  display: none;
+  position: absolute;
+  background-color: rgba(68, 77, 242, 1);
+  border-radius: 30px 30px 30px 0px;
+  height: 112px;
+  width: 169px;
+  color: white;
+  transform: translate(15px, -73px);
 }
 
-.tick {
-  background-image: url(/assets/icons/tick.svg);
-  background-size: cover;
-  width: 24px;
-  height: 24px;
+.info-emojis-reverse {
+  display: none;
+  position: absolute;
+  background-color: rgba(68, 77, 242, 1);
+  border-radius: 30px 30px 0px 30px;
+  height: 112px;
+  width: 169px;
+  color: white;
+  transform: translate(-140px, -73px);
+}
+
+.info-emojis-name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.info-emoji {
+  height: 30px;
+  width: 30px;
+  font-size: 26px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .add-reaction {
@@ -1112,6 +1162,7 @@
 //Design looks function
 
 .container-lookingfor {
+  max-height: 400px;
   display: flex;
   padding: 20px;
   gap: 30px;

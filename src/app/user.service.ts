@@ -23,6 +23,7 @@ export class UserService {
   selectedUserName: string = 'Guest';
   selectedUserPhotoURL: string = '../../assets/img/avatars/person.svg';
   selectedUserEmail: string = 'guest@guest.de';
+  selectedUserUid: string = '';
   messageText: string = '';
   foundPrivateMessages: DocumentData[] = [];
   usersList: DocumentData[] = [];
@@ -30,12 +31,12 @@ export class UserService {
   currentChat: any;
   availableChatPartners: DocumentData[] = [];
   currentChatId: string = '';
+  chatAlreadyExists: boolean = false;
 
   constructor() {
     this.getUserData();
     this.subPrivateChat();
 
-    console.log('current chats: ', this.foundPrivateMessages);
     this.getUserList;
     this.userObject.name = this.getName();
     this.userObject.email = this.getMail();
@@ -68,7 +69,6 @@ export class UserService {
         // User is signed in
         this.user = user;
       } else {
-        console.log('signed out');
         this.user = null;
       }
     });
@@ -84,7 +84,7 @@ export class UserService {
       time: new Date().toLocaleTimeString(),
       date: new Date().toLocaleDateString(),
       text: this.messageText,
-      userEmail: this.user ? this.user.email : 'guest@guest.de',
+      email: this.user ? this.user.email : 'guest@guest.de',
       reactions: [],
     };
   }
@@ -106,8 +106,9 @@ export class UserService {
         if (this.user) {
           if (privateChat['participants'].includes(this.user.uid)) {
             this.foundPrivateMessages.push(privateChat);
+
             privateChat['participantsInfos'].forEach((user: any) => {
-              if (user.name != this.user?.displayName) {
+              if (user.uid != this.user?.uid) {
                 if (!this.availableChatPartners.includes(user)) {
                   this.availableChatPartners.push(user);
                 }
@@ -125,26 +126,17 @@ export class UserService {
         chat['participants'].includes(this.user?.uid) &&
         chat['participants'].includes(this.selectedChatPartner.uid)
       ) {
-        console.log('chat exists.. ', chat);
         this.currentChat = chat;
+        this.chatAlreadyExists = true;
       }
     });
-
-    if (this.currentChat == undefined) {
-      this.createChatinDB();
-      console.log('creating chat');
-      this.subToChosenChat();
-      console.log('subscribed to created chat', this.currentChat);
-    }
   }
 
-  getAvailableChats() {
-    this.foundPrivateMessages.forEach((message) => {
-      message['participantsInfos'].forEach((user: DocumentData) => {
-        if (user['name'] != this.user?.displayName) {
-        }
-      });
-    });
+  createChat() {
+    if (!this.chatAlreadyExists) {
+      this.currentChat = {};
+      this.createChatinDB();
+    }
   }
 
   createPrivateChat() {
@@ -177,8 +169,6 @@ export class UserService {
           ) {
             this.currentChatId = chat.id;
             this.currentChat = chatData;
-            console.log('current chat: ', this.currentChat);
-            console.log('current chat Id: ', this.currentChatId);
           }
         });
         observer.next(this.currentChat);

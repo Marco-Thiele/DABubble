@@ -58,6 +58,11 @@ export class SharedService implements OnInit {
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   thread: any;
   openThread: boolean = true;
+  reactions = {
+    id: '',
+    userName: '',
+    icon: '',
+  };
 
   unsubChannels;
   unsubMembers;
@@ -192,7 +197,6 @@ export class SharedService implements OnInit {
       this.UserService.currentChatId
     );
     await updateDoc(docRef, this.UserService.currentChat);
-    console.log('fire store update');
   }
 
   /**
@@ -493,7 +497,6 @@ export class SharedService implements OnInit {
     this.UserService.selectedChatPartner = member;
 
     this.UserService.subToChosenChat();
-    console.log('chatting with', member);
   }
 
   /**
@@ -574,6 +577,24 @@ export class SharedService implements OnInit {
             answers: this.thread.answers,
             date: this.thread.date,
             email: this.thread.email,
+          };
+          console.log('threads', this.threads);
+        }
+      });
+    });
+  }
+
+  loadReactions() {
+    return onSnapshot(collection(this.firestore, 'channels'), (list) => {
+      list.forEach((element) => {
+        if (element.id == this.selectedChannel.id && element) {
+          const gameData = element.data();
+          console.log('ractions', gameData['chat'][this.i]);
+          this.reactions = gameData['chat'][this.i];
+          this.reactions = {
+            id: this.thread.id,
+            userName: this.thread.userName,
+            icon: this.thread.icon,
           };
           console.log('threads', this.threads);
         }
