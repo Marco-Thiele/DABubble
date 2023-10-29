@@ -2,7 +2,7 @@
   <app-header></app-header>
 </div>
 <div class="general-view-container">
-  <app-channels class="channels-container" [class.closed]="isChannelsClosed" [class.open]="isChannelOpen"
+  <app-channels class="general-channels-container" [class.closed]="isChannelsClosed" [class.open]="isChannelOpen"
     [ngStyle]="{ 'display': channelDisplay }" *ngIf="appChannels && showChannels"></app-channels>
   <app-main-chat class="main-chat-container" [class.complete]="isMainChatcomplete" [class.init]="isMainChatInit"
     [class.small]="isMainChatSmall" [class.flex]="mainChatRespo" *ngIf="appMainChat && showMainChat"></app-main-chat>

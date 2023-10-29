@@ -629,7 +629,7 @@ export class MainChatComponent implements OnInit {
     if (previewImg) {
       previewImg.src = '';
       this.imageLoaded = false;
-      this.containerChat.style.maxHeight = '500px';
+      this.containerChat.style.maxHeight = '100%';
       if (this.fileInput) {
         this.fileInput.nativeElement.value = '';
       }
