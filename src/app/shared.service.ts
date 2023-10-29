@@ -49,8 +49,8 @@ export class SharedService implements OnInit {
     imageUrl: '',
     text: '',
     time: '',
-    reactions: '',
-    answers: '',
+    reactions: [],
+    answers: [],
     date: '',
     email: '',
   };

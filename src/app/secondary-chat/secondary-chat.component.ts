@@ -56,7 +56,7 @@ export class SecondaryChatComponent {
     imageUrl: '',
     text: '',
     time: '',
-    reactions: '',
+    reactions: [],
     answers: [],
     date: '',
     email: '',
@@ -308,6 +308,10 @@ export class SecondaryChatComponent {
       answersEmojis.userName = newUsernames;
       if (answersEmojis.userName.length == 0)
         this.selectedChannel.chat[this.i].answers[i].reactions.splice(j, 1);
+    } else {
+      this.selectedChannel.chat[this.i].answers[i].reactions[j].userName.push(
+        this.UserService.getName()
+      );
     }
     this.sharedService.updateChannelFS(this.selectedChannel);
   }
