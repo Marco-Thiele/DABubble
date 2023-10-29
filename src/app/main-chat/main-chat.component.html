@@ -142,10 +142,8 @@
             selbst besprechen.</a></span>
       </div>
     </div>
-    <!-- </div> -->
 
     <!--Container for the member's chat-->
-    <!-- *ngIf="message.userName !== userService.getName()" -->
     <div [ngClass]="{
         'message-user-box-cont': message.userName == userService.getName()
       }" class="message-members-box-cont" *ngFor="
@@ -165,7 +163,7 @@
           <div class="reaction-icon">
             <div class="icon-hands"></div>
           </div>
-          <div class="reaction-icon" (click)="toggleEmojiPicker(-1)">
+          <div class="reaction-icon" (click)="toggleEmojiPicker(i)">
             <div class="icon-smile"></div>
           </div>
           <div class="reaction-icon">
@@ -215,19 +213,6 @@
               [style.margin-top]="message.imageUrl ? '8px' : '0px'" />
           </div>
           <div class="message-user-reaction">
-            <!-- <div>
-              <div class="reaction">
-                <div class="reaction-usser">
-                  <div class="reaction-usser-icon"></div>
-                  <div class="reaction-names-cont">
-                    <span class="reaction-name font700-normal">Sofia Müller</span>
-                    <span class="reaction-text font400-normal">hat reagiert</span>
-                  </div>
-                </div>
-                <div class="rocket"></div>
-                <span class="font400-normal">1</span>
-              </div>
-            </div> -->
             <div>
               <div class="answer-icons">
                 <div
@@ -251,14 +236,10 @@
                     {{emojis.count}}
                   </div>
                 </div>
-
               </div>
             </div>
-            <div class="add-reaction" (click)="toggleEmojiPicker(i)">
-              <div></div>
-            </div>
           </div>
-          <div>
+          <div class="emoji-cont">
             <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)"
               size="25%" title="Pick your emoji…"></emoji-mart>
           </div>
@@ -283,71 +264,6 @@
     </div>
   </div>
 </div>
-<!--Container for the user's chat-->
-
-<!-- <div class="message-user-box-cont"
-      *ngFor="let message of (selectedMember?.chat || []).concat(selectedChannel?.chat || [])">
-      <ng-container *ngIf="message.userName === userService.getName()">
-        <div class="message-reaction-people">
-          <div class="reaction-icon">
-            <div class="icon-tick"></div>
-          </div>
-          <div class="reaction-icon">
-            <div class="icon-hands"></div>
-          </div>
-          <div class="reaction-icon">
-            <div class="icon-smile"></div>
-          </div>
-          <div class="reaction-icon">
-            <div class="icon-message"></div>
-          </div>
-          <div class="reaction-icon">
-            <div class="icon-points"></div>
-          </div>
-        </div>
-        <div class="message-user-box">
-          <div class="message-user-name">
-            <span class="font400-normal">{{ message.time }}</span>
-            <a class="font700-normal">{{ message.userName }}</a>
-          </div>
-          <div class="message-user-speech">
-            <span class="font400-normal">{{ message.text }}</span>
-            <img src="{{message.imageUrl}}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
-              [style.margin-top]="message.imageUrl ? '8px': '0px'">
-          </div>
-          <div class="message-user-reaction">
-            <div>
-              <div class="reaction">
-                <div class="reaction-usser">
-                  <div class="reaction-usser-icon"></div>
-                  <div class="reaction-names-cont">
-                    <span class="reaction-name font700-normal">Sofia Müller</span>
-                    <span class="reaction-text font400-normal">hat reagiert</span>
-                  </div>
-                </div>
-                <div class="rocket"></div>
-                <span class="font400-normal">1</span>
-              </div>
-            </div>
-            <div>
-
-               <div class="reaction">
-            <div class="tick"></div>
-            <span class="font400-normal">1</span>
-          </div>
-            </div>
-            <div class="add-reaction">
-              <div></div>
-            </div>
-          </div>
-        </div>
-        <div class="message-user-img">
-          <div [style.background-image]="'url(' + message.profileImg + ')'"></div>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-</div> -->
 
 <!--Container to write in chat-->
 <div class="message-box-cont" *ngIf="messageBox">

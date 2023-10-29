@@ -19,20 +19,12 @@
 }
 
 .channels-container.open {
-  // width: 19%;
-  // transform-origin: left;
   padding: 32px 30px;
-  // transition: all 1s;
   width: 25.2%;
   transition: width 1s ease;
 }
 
 .channels-container.closed {
-  // width: 0;
-  // padding: 0;
-  // opacity: 0;
-  // overflow: hidden;
-  // transition: all 1s ease-in-out;
   width: 0;
   transition: width 1s ease;
 }

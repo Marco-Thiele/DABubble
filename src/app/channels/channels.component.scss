@@ -709,7 +709,16 @@
 }
 
 @media (width < 450px) {
+  .channels-container {
+    padding: 32px 25px;
+  }
   .input_container {
     width: 200px;
+  }
+}
+
+@media (height < 900px) {
+  .channels-container {
+    overflow: hidden;
   }
 }

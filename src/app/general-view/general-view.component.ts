@@ -51,6 +51,7 @@ export class GeneralViewComponent implements OnInit {
     this.openRespChannelContainer(this.selectedChannel);
     this.openRespPrivateContainer(this.selectedMember);
     this.openRespThreadsContainer();
+    this.closeRespThreadsContainer(this.selectedChannel);
     this.sharedService.onResizeRequestedSubject$.subscribe(() => {
       this.openChannelsContainer();
     });
@@ -96,6 +97,19 @@ export class GeneralViewComponent implements OnInit {
       this.mainChatRespo = true;
       this.appSecondaryChat = true;
       this.showSecondary = true;
+    });
+  }
+
+  closeRespThreadsContainer(channel: any) {
+    this.sharedService.respCloseThreadsEvent$.subscribe((i) => {
+      // this.showChannels = false;
+      // this.appChannels = false;
+      // this.showMainChat = true;
+      // this.appMainChat = true;
+      // this.mainChatRespo = true;
+      this.appSecondaryChat = true;
+      this.showSecondary = true;
+      // this.openRespChannelContainer(channel);
     });
   }
 
@@ -203,9 +217,7 @@ export class GeneralViewComponent implements OnInit {
     this.isMainChatInit = true;
     this.isThreadsClosed = true;
     this.isThreadsOpen = false;
-    setInterval(() => {
-      this.showSecondary = false;
-      this.appSecondaryChat = false;
-    }, 700);
+    this.showSecondary = false;
+    this.appSecondaryChat = false;
   }
 }

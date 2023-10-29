@@ -33,7 +33,7 @@ export class SharedService implements OnInit {
   private channelsData = new BehaviorSubject<any[]>([]);
   private userData: any;
   private openThreadCont: () => void;
-  private closeThreadCont: () => void;
+  private closeThreadCont: (i: any) => void;
   messageID: any;
   currentMembers = this.membersData.asObservable();
   firestore: Firestore = inject(Firestore);
@@ -523,6 +523,17 @@ export class SharedService implements OnInit {
   }
 
   /**
+   * Emits an event to close the threads container in responsive mode.
+   */
+  private respCloseThreadsEvent = new Subject<any>();
+
+  respCloseThreadsEvent$ = this.respCloseThreadsEvent.asObservable();
+
+  emitRespCloseThreads(i: any) {
+    this.respCloseThreadsEvent.next(i);
+  }
+
+  /**
    * Gets the list of members.
    * @returns the list of members
    */
@@ -642,9 +653,9 @@ export class SharedService implements OnInit {
   /**
    * Closes the thread container.
    */
-  closeThreads() {
+  closeThreads(i: any) {
     if (this.closeThreadCont) {
-      this.closeThreadCont();
+      this.closeThreadCont(i);
     }
   }
 

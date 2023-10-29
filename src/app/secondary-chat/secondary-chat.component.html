@@ -4,7 +4,7 @@
       <div class="thread">Thread</div>
       <div class="channel"> # {{ sharedService.selectedChannel['name'] }}</div>
     </div>
-    <div class="position-close" (click)="closeThreads()">
+    <div class="position-close" (click)="closeThreads(i)">
       <img src="../../assets/icons/close.svg" alt="" />
     </div>
   </div>
@@ -92,8 +92,8 @@
               </div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)" size="25%"
-                title="Pick your emoji…"></emoji-mart>
+              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)"
+                size="25%" title="Pick your emoji…"></emoji-mart>
             </div>
           </div>
           <div class="question" [ngClass]="{
@@ -102,7 +102,8 @@
             {{ thread["text"] }}
           </div>
           <div class="answer-icons">
-            <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction" (click)="deleteEmoji(i,j)">
+            <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction"
+              (click)="deleteEmoji(i,j)">
               <div [ngClass]="{
                 'info-emojis-reverse':
                   thread['userName'] !== UserService.getName()
@@ -115,7 +116,7 @@
               <div>
                 {{emojis['userName'].length}}
               </div>
-              
+
             </div>
             <!-- <div class="answer-emojis"  >
 

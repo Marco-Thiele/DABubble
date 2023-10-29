@@ -524,6 +524,12 @@
   }
 }
 
+.emoji-cont {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .emoji-mart {
   position: absolute;
   bottom: 30px;

@@ -75,7 +75,7 @@ export class SecondaryChatComponent {
   emojis = {
     userName: [],
     emoji: '',
-  }
+  };
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   messageID: any;
   thread: any;
@@ -272,10 +272,9 @@ export class SecondaryChatComponent {
     this.j = 0;
   }
 
-
-  addEmojiAnswerForEach(answersEmojis: any, text: string,) {
+  addEmojiAnswerForEach(answersEmojis: any, text: string) {
     answersEmojis.forEach((element: any) => {
-      this.j++
+      this.j++;
       if (element.emoji.includes(text)) {
         if (!element.userName.includes(this.UserService.getName())) {
           element.userName.push(this.UserService.getName());
@@ -285,7 +284,6 @@ export class SecondaryChatComponent {
     });
   }
 
-
   addEmojiAnswerIfNotExist(text: string, i: number) {
     if (!this.existEmoji) {
       this.emojis = {
@@ -293,23 +291,26 @@ export class SecondaryChatComponent {
         emoji: text,
       };
       this.selectedChannel.chat[this.i].answers[i].reactions.push(this.emojis);
-      this.selectedChannel.chat[this.i].answers[i].reactions[this.j].userName.push(this.UserService.getName());
+      this.selectedChannel.chat[this.i].answers[i].reactions[
+        this.j
+      ].userName.push(this.UserService.getName());
     }
   }
 
-
   deleteEmoji(i: number, j: number) {
-    let answersEmojis = this.selectedChannel.chat[this.i].answers[i].reactions[j];
+    let answersEmojis =
+      this.selectedChannel.chat[this.i].answers[i].reactions[j];
     if (answersEmojis.userName.includes(this.UserService.getName())) {
       let deleteName = this.UserService.getName();
-      let newUsernames = answersEmojis.userName.filter((item: any) => item !== deleteName)
+      let newUsernames = answersEmojis.userName.filter(
+        (item: any) => item !== deleteName
+      );
       answersEmojis.userName = newUsernames;
       if (answersEmojis.userName.length == 0)
-        this.selectedChannel.chat[this.i].answers[i].reactions.splice(j, 1)
+        this.selectedChannel.chat[this.i].answers[i].reactions.splice(j, 1);
     }
     this.sharedService.updateChannelFS(this.selectedChannel);
   }
-
 
   toggleShowDelete(index: number) {
     this.showDelete[index] = !this.showDelete[index];
@@ -392,7 +393,6 @@ export class SecondaryChatComponent {
     this.message = '';
   }
 
-
   getCurrentThread() {
     {
       return doc(
@@ -401,7 +401,6 @@ export class SecondaryChatComponent {
       );
     }
   }
-
 
   getCleanJsonThreads(channel: any): {} {
     return {
@@ -419,14 +418,17 @@ export class SecondaryChatComponent {
   /**
    * Closes the thread container
    */
-  closeThreads() {
-    this.sharedService.closeThreads();
+  closeThreads(i: any) {
+    if (innerWidth < 1000) {
+      this.sharedService.emitRespCloseThreads(i);
+      this.sharedService.emitRespOpenChannel(i);
+      this.sharedService.emitOpenChannel(i);
+    }
+    this.sharedService.closeThreads(i);
   }
-
 
   deleteMessage(i: number) {
     this.selectedChannel.chat[this.i].answers.splice(i, 1);
     this.sharedService.updateChannelFS(this.selectedChannel);
   }
-
 }
