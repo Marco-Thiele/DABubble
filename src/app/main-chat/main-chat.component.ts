@@ -290,10 +290,14 @@ export class MainChatComponent implements OnInit {
    * Shows the edit Channel component
    */
   editChannel(selectedChannel: any) {
-    this.dialog.open(ChannelEditComponent, {
+    const dialogRef = this.dialog.open(ChannelEditComponent, {
       data: { selectedChannel },
     });
     this.sharedService.setIsEditChannelOpen(true);
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.sharedService.setIsEditChannelOpen(false);
+    });
   }
 
   /**

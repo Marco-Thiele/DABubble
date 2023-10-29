@@ -1,13 +1,8 @@
 <!--Channels title-->
 <div class="input-position_channels">
   <div class="input_container">
-    <input
-      class="input-field"
-      type="text"
-      placeholder="Gehe zu..."
-      [(ngModel)]="searchTerm"
-      (input)="onSearch($event)"
-    />
+    <input class="input-field" type="text" placeholder="Gehe zu..." [(ngModel)]="searchTerm"
+      (input)="onSearch($event)" />
     <div></div>
   </div>
   <div *ngIf="showResults" class="searchContainer">
@@ -37,11 +32,7 @@
     <mat-accordion class="channels-menu-up">
       <mat-expansion-panel #expansionPanel hideToggle>
         <mat-expansion-panel-header class="channel-container-head">
-          <div
-            class="channels-title-container"
-            [ngClass]="{ clicked: isClicked }"
-            (click)="openMenuChannels()"
-          >
+          <div class="channels-title-container" [ngClass]="{ clicked: isClicked }" (click)="openMenuChannels()">
             <mat-icon class="icon-expansion"></mat-icon>
             <mat-icon class="workspaces"></mat-icon>
             <mat-panel-title class="channels-title font700-normal">
@@ -50,28 +41,10 @@
           </div>
         </mat-expansion-panel-header>
         <div class="channels-container">
-          <div
-            class="channels-list-container"
-            *ngFor="let channel of getChannelsFS()"
-          >
-            <div
-              class="channels-list"
-              (click)="openChannel(channel)"
-              [style.background-color]="
-                isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'
-              "
-            >
-              <div
-                [style.background-image]="
-                  isEditChannelOpen()
-                    ? 'url(/assets/icons/tag_blue.svg)'
-                    : 'url(/assets/icons/tag.svg)'
-                "
-              ></div>
-              <a
-                class="font400-normal"
-                [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'"
-              >
+          <div class="channels-list-container" *ngFor="let channel of getChannelsFS()">
+            <div class="channels-list" (click)="openChannel(channel)">
+              <div></div>
+              <a class="font400-normal">
                 {{ channel.name }}
               </a>
             </div>
@@ -92,11 +65,7 @@
     <mat-accordion class="channel-menu-up">
       <mat-expansion-panel #expansionPanel hideToggle>
         <mat-expansion-panel-header class="dm-container-head">
-          <div
-            class="dm-title-container"
-            [ngClass]="{ clicked: isClicked }"
-            (click)="openDirectMessages()"
-          >
+          <div class="dm-title-container" [ngClass]="{ clicked: isClicked }" (click)="openDirectMessages()">
             <mat-icon class="icon-expansion"></mat-icon>
             <mat-icon class="icon-account"></mat-icon>
             <mat-panel-title class="channels-title font700-normal">
@@ -105,10 +74,7 @@
           </div>
         </mat-expansion-panel-header>
         <div class="dm-container">
-          <div
-            class="channels-list-container"
-            *ngFor="let user of getUsersFS()"
-          >
+          <div class="channels-list-container" *ngFor="let user of getUsersFS()">
             <div class="channel-member" (click)="openPrivateContainer(user)">
               <div class="channel-photo">
                 <img src="{{ user.profileImg }}" />
