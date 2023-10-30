@@ -213,15 +213,15 @@ export class MainChatComponent implements OnInit {
   getLastAnswerTime(message: any): string | null {
     const answers = message.answers;
     if (answers.length > 0) {
-      // Sort the answers by time in descending order (assuming time is a valid date string)
-      const sortedAnswers = answers.sort(
-        (a: any, b: any) =>
-          new Date(b.time).getTime() - new Date(a.time).getTime()
-      );
+      const latestAnswer = answers.reduce((latest: any, current: any) => {
+        const latestTime = new Date(latest.time);
+        const currentTime = new Date(current.time);
+        return latestTime > currentTime ? latest : current;
+      });
 
-      return sortedAnswers[0].time; // Get the time of the last answer
+      return latestAnswer.time;
     } else {
-      return null; // No answers in the thread
+      return null;
     }
   }
 
