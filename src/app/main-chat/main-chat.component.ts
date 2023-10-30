@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { UserProfilComponent } from '../user-profil/user-profil.component';
 import { DialogService } from '../dialog.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
+import { user } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -201,10 +202,11 @@ export class MainChatComponent implements OnInit {
       groups[date].push(message);
       return groups;
     }, {});
-    this.groupedMessagesArray = Object.entries(groupedMessages).map(
+    const groupedMessagesArray = Object.entries(groupedMessages).map(
       ([date, messages]) => ({ date, messages })
     );
-    console.log('grouped messages', this.groupedMessagesArray);
+    this.groupedMessagesArray = groupedMessagesArray;
+    console.log('grouped messages', groupedMessagesArray);
   }
 
   getLastAnswerTime(message: any): string | null {
@@ -219,15 +221,6 @@ export class MainChatComponent implements OnInit {
       return latestAnswer.time;
     } else {
       return null;
-    }
-  }
-
-  parseDate(dateString: string): string {
-    const [day, month, year] = dateString.split('/').map(Number);
-    if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-      return `${year}-${month}-${day}`;
-    } else {
-      return '';
     }
   }
 
@@ -262,7 +255,6 @@ export class MainChatComponent implements OnInit {
     this.currentChatData = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
     this.scrollToBottom();
-    this.createGroupedMessages(member);
   }
 
   /**
@@ -283,7 +275,6 @@ export class MainChatComponent implements OnInit {
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
     this.getsPrivateChats();
     this.scrollToBottom();
-    this.createGroupedMessages(member);
   }
 
   getsPrivateChats() {
@@ -674,11 +665,21 @@ export class MainChatComponent implements OnInit {
     }
   }
 
+
+  parseDate(dateString: string): string {
+    const [day, month, year] = dateString.split('/').map(Number);
+    if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+      return `${year}-${month}-${day}`;
+    } else {
+      return '';
+    }
+  }
+
+
   /**
    * Returns the messages of the channels from server
    */
   returnChannelsMessages() {
-    this.createGroupedMessages(this.selectedChannel);
     this.sharedService.ChannelChatList(this.selectedChannel);
   }
 
@@ -718,7 +719,6 @@ export class MainChatComponent implements OnInit {
   }
 
   returnPrivatesMessagesFS() {
-    this.createGroupedMessages(this.selectedMember);
     this.selectedMember.chat = this.userService.subToChosenChat();
   }
 

@@ -49,6 +49,9 @@ import { UserProfilComponent } from './user-profil/user-profil.component';
 import { ImpressumComponent } from './impressum/impressum.component';
 import { DataPolicyComponent } from './data-policy/data-policy.component';
 import { CommonModule, DatePipe } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
 
 @NgModule({
   declarations: [
@@ -104,7 +107,13 @@ import { CommonModule, DatePipe } from '@angular/common';
     CommonModule,
     DatePipe,
   ],
-  providers: [SharedService],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'de' },
+    SharedService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    registerLocaleData(localeDe, 'de');
+  }
+}
