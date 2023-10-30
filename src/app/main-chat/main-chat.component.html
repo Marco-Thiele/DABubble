@@ -205,7 +205,8 @@
         let message of ((selectedMember && currentChatData?.chat) || []).concat(
           selectedChannel?.chat || []
         );
-        let i = index
+        let i = index;
+        let lastItem = last
       "
     >
       <ng-container>
@@ -349,10 +350,15 @@
             ></emoji-mart>
           </div>
           <div class="message-members-answers" *ngIf="!currentChatData">
-            <span class="font400-normal" (click)="openThread(i, message.id)"
+            <span
+              *ngIf="message.answers?.length > 0"
+              class="font400-normal"
+              (click)="openThread(i, message.id)"
               >{{ message.answers?.length }} Antworten</span
             >
-            <a class="font400-normal">Letzte Antwort 14:56</a>
+            <a *ngIf="message.answers.length > 0" class="font400-normal"
+              >Letzte Antwort: {{ getLastAnswerTime(message) }}
+            </a>
           </div>
         </div>
         <div class="editMessage" *ngIf="editMessageUser[i]">
