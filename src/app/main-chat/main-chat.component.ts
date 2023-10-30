@@ -194,19 +194,41 @@ export class MainChatComponent implements OnInit {
   }
 
   createGroupedMessages(channel: any) {
-    const groupedMessages = channel.chat.reduce((groups: any, message: any) => {
-      const date = message.date;
-      if (!groups[date]) {
-        groups[date] = [];
-      }
-      groups[date].push(message);
-      return groups;
-    }, {});
-    const groupedMessagesArray = Object.entries(groupedMessages).map(
-      ([date, messages]) => ({ date, messages })
-    );
-    this.groupedMessagesArray = groupedMessagesArray;
-    console.log('grouped messages', groupedMessagesArray);
+    if (this.selectedChannel) {
+      const groupedMessages = channel.chat.reduce(
+        (groups: any, message: any) => {
+          const date = message.date;
+          if (!groups[date]) {
+            groups[date] = [];
+          }
+          groups[date].push(message);
+          return groups;
+        },
+        {}
+      );
+      const groupedMessagesArray = Object.entries(groupedMessages).map(
+        ([date, messages]) => ({ date, messages })
+      );
+      this.groupedMessagesArray = groupedMessagesArray;
+      console.log('grouped messages', groupedMessagesArray);
+    } else if (this.selectedMember) {
+      const groupedMessages = this.currentChatData.chat.reduce(
+        (groups: any, message: any) => {
+          const date = message.date;
+          if (!groups[date]) {
+            groups[date] = [];
+          }
+          groups[date].push(message);
+          return groups;
+        },
+        {}
+      );
+      const groupedMessagesArray = Object.entries(groupedMessages).map(
+        ([date, messages]) => ({ date, messages })
+      );
+      this.groupedMessagesArray = groupedMessagesArray;
+      console.log('grouped messages', groupedMessagesArray);
+    }
   }
 
   getLastAnswerTime(message: any): string | null {
@@ -221,6 +243,15 @@ export class MainChatComponent implements OnInit {
       return latestAnswer.time;
     } else {
       return null;
+    }
+  }
+
+  parseDate(dateString: string): string {
+    const [day, month, year] = dateString.split('/').map(Number);
+    if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+      return `${year}-${month}-${day}`;
+    } else {
+      return '';
     }
   }
 
@@ -275,6 +306,7 @@ export class MainChatComponent implements OnInit {
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
     this.getsPrivateChats();
     this.scrollToBottom();
+    // this.createGroupedMessages();
   }
 
   getsPrivateChats() {
@@ -669,6 +701,7 @@ export class MainChatComponent implements OnInit {
    * Returns the messages of the channels from server
    */
   returnChannelsMessages() {
+    this.createGroupedMessages(this.selectedChannel);
     this.sharedService.ChannelChatList(this.selectedChannel);
   }
 
@@ -708,6 +741,7 @@ export class MainChatComponent implements OnInit {
   }
 
   returnPrivatesMessagesFS() {
+    this.createGroupedMessages(this.selectedMember);
     this.selectedMember.chat = this.userService.subToChosenChat();
   }
 

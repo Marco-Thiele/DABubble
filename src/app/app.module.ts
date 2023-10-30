@@ -48,6 +48,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { UserProfilComponent } from './user-profil/user-profil.component';
 import { ImpressumComponent } from './impressum/impressum.component';
 import { DataPolicyComponent } from './data-policy/data-policy.component';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,8 @@ import { DataPolicyComponent } from './data-policy/data-policy.component';
     NewChannelMembersComponent,
     MatCheckboxModule,
     MatRadioModule,
+    CommonModule,
+    DatePipe,
   ],
   providers: [SharedService],
   bootstrap: [AppComponent],
