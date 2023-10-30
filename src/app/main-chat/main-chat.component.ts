@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
 import { UserProfilComponent } from '../user-profil/user-profil.component';
 import { DialogService } from '../dialog.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
-import { user } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -194,41 +193,18 @@ export class MainChatComponent implements OnInit {
   }
 
   createGroupedMessages(channel: any) {
-    if (this.selectedChannel) {
-      const groupedMessages = channel.chat.reduce(
-        (groups: any, message: any) => {
-          const date = message.date;
-          if (!groups[date]) {
-            groups[date] = [];
-          }
-          groups[date].push(message);
-          return groups;
-        },
-        {}
-      );
-      const groupedMessagesArray = Object.entries(groupedMessages).map(
-        ([date, messages]) => ({ date, messages })
-      );
-      this.groupedMessagesArray = groupedMessagesArray;
-      console.log('grouped messages', groupedMessagesArray);
-    } else if (this.selectedMember) {
-      const groupedMessages = this.currentChatData.chat.reduce(
-        (groups: any, message: any) => {
-          const date = message.date;
-          if (!groups[date]) {
-            groups[date] = [];
-          }
-          groups[date].push(message);
-          return groups;
-        },
-        {}
-      );
-      const groupedMessagesArray = Object.entries(groupedMessages).map(
-        ([date, messages]) => ({ date, messages })
-      );
-      this.groupedMessagesArray = groupedMessagesArray;
-      console.log('grouped messages', groupedMessagesArray);
-    }
+    const groupedMessages = channel.chat.reduce((groups: any, message: any) => {
+      const date = message.date;
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(message);
+      return groups;
+    }, {});
+    this.groupedMessagesArray = Object.entries(groupedMessages).map(
+      ([date, messages]) => ({ date, messages })
+    );
+    console.log('grouped messages', this.groupedMessagesArray);
   }
 
   getLastAnswerTime(message: any): string | null {
@@ -286,6 +262,7 @@ export class MainChatComponent implements OnInit {
     this.currentChatData = false;
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
     this.scrollToBottom();
+    this.createGroupedMessages(member);
   }
 
   /**
@@ -306,7 +283,7 @@ export class MainChatComponent implements OnInit {
     this.placeholderMessageBox = 'Nachricht an ' + member.name;
     this.getsPrivateChats();
     this.scrollToBottom();
-    // this.createGroupedMessages();
+    this.createGroupedMessages(member);
   }
 
   getsPrivateChats() {
