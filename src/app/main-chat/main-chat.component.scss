@@ -1279,6 +1279,50 @@
 }
 
 @media (height < 700px) {
+  .head-new-message-cont {
+    padding: 10px 45px;
+    gap: 10px;
+  }
+
+  .head-new-message-title {
+    span {
+      font-size: 20px;
+    }
+  }
+
+  .head-new-message-searchbar {
+    padding: 10px 15px;
+  }
+
+  .head-new-message-searchbar {
+    input {
+      font-size: 12px !important;
+    }
+  }
+
+  .head-new-direct-message-cont {
+    padding: 10px 45px;
+    gap: 10px;
+  }
+
+  .head-photo {
+    height: 40px;
+    img {
+      height: 40px;
+      width: 40px;
+    }
+    .online {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .head-new-direct-message {
+    span {
+      font-size: 20px;
+    }
+  }
+
   .head-member-container {
     padding: 10px 45px;
   }

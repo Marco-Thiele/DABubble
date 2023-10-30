@@ -234,6 +234,10 @@
   }
 }
 
+.line-grey {
+  display: none;
+}
+
 @media (width < 1000px) {
   .new-channel-members-cont {
     width: 560px;
@@ -257,8 +261,6 @@
     position: fixed;
     width: 84vw;
     border-radius: 0;
-    transform: translateY(460%);
-    animation: slide-up 1.3s forwards;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -268,21 +270,24 @@
     height: 92px;
   }
 
-  .slide-up {
-    transform: translateY(298%);
-    transition: transform 0.3s;
-    bottom: 0;
+  .cdk-overlay-container {
+    width: 0;
+    height: 0;
   }
 
   .line-grey {
+    display: flex;
     height: 6px;
   }
 
   .grey-back {
     position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: rgba(0, 0, 0, 0.3);
-    height: 100vh;
-    width: 120vw;
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
   }
 
   .member-matches {

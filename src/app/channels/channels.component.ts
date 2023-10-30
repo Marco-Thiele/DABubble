@@ -20,12 +20,9 @@ export class ChannelsComponent implements OnInit {
   members: any[] = [];
   selectedMember: any;
   userData: any;
-  userArr: DocumentData[] = [];
-  foundUsers: DocumentData[] = [];
-  chatMessages: string[] = [];
-  foundMessages: string[] = [];
   searchTerm: string = '';
-  showResults: boolean = false;
+  memberMatches: any[] = [];
+  channelMatches: any[] = [];
 
   public user = {
     id: this.sharedService.getID(),
@@ -139,17 +136,55 @@ export class ChannelsComponent implements OnInit {
     this.sharedService.emitOpenPrivateContainer(member);
   }
 
-  onSearch(event: Event) {
-    this.foundUsers = [];
-    const input = (event.target as HTMLInputElement).value;
-    this.userArr.forEach((user) => {
-      if (user['name'].toLowerCase().includes(input.toLowerCase())) {
-        this.foundUsers.push(user);
-      }
-    });
-    this.showResults = true;
-    if (input.length === 0) {
-      this.showResults = false;
+  searchMembersAndChannels(event: Event) {
+    const inputText = (event.target as HTMLInputElement).value;
+
+    if (typeof inputText === 'string') {
+      this.memberMatches = [];
+      this.channelMatches = [];
+    } else {
+      this.searchMembers(inputText).then((members) => {
+        this.memberMatches = members;
+        this.memberMatches.length > 0 || this.channelMatches.length > 0;
+        console.log(this.memberMatches);
+      });
+      this.searchChannels(inputText).then((channels) => {
+        this.channelMatches = channels;
+        this.memberMatches.length > 0 || this.channelMatches.length > 0;
+        console.log(this.channelMatches);
+      });
     }
+  }
+
+  async searchMembers(searchTerm: string): Promise<any[]> {
+    const members = await this.sharedService.getUsersFS();
+    const matchingMembers = members.filter((member: any) =>
+      member.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return matchingMembers.map((member) => ({
+      uid: member.id,
+      name: member.name,
+      profileImg: member.profileImg,
+      email: member.email,
+    }));
+  }
+
+  /**
+   * Looks for a channel in the list of channels.
+   * @returns the list of private messages
+   */
+  async searchChannels(searchTerm: string): Promise<any[]> {
+    const channels = await this.sharedService.getChannelsFS();
+    const matchingChannels = channels.filter((channel: any) =>
+      channel.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return matchingChannels.map((channel) => ({
+      id: channel.id,
+      name: channel.name,
+      members: channel.members,
+      chat: channel.chat,
+      description: channel.description,
+      owner: channel.owner,
+    }));
   }
 }

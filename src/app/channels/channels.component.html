@@ -2,15 +2,15 @@
 <div class="input-position_channels">
   <div class="input_container">
     <input class="input-field" type="text" placeholder="Gehe zu..." [(ngModel)]="searchTerm"
-      (input)="onSearch($event)" />
+      (input)="searchMembersAndChannels($event)" />
     <div></div>
   </div>
-  <div *ngIf="showResults" class="searchContainer">
+  <!-- <div *ngIf="showResults" class="searchContainer">
     <div *ngFor="let user of foundUsers" class="searchResult">
       <img src="{{ user['photoURL'] }}" />
       <span>{{ user["name"] }}</span>
     </div>
-  </div>
+  </div> -->
 </div>
 <div class="title-container">
   <div class="channel-name">

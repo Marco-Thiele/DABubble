@@ -65,18 +65,6 @@ export class NewChannelMembersComponent implements OnInit {
     if (storedUserData) {
       this.user = storedUserData;
     }
-    this.slideContainer();
-  }
-
-  slideContainer() {
-    if (window.innerWidth < 500) {
-      setTimeout(() => {
-        const element = document.querySelector('.new-channel-members-cont');
-        if (element) {
-          element.classList.add('slide-up');
-        }
-      }, 100);
-    }
   }
 
   /**
@@ -150,19 +138,6 @@ export class NewChannelMembersComponent implements OnInit {
       this.selectedMembers.push(member);
       this.isButtonDisabled = this.selectedMembers.length === 0;
       this.buttonColor = this.isButtonDisabled ? '#686868' : '#444df2';
-      if (window.innerWidth < 500) {
-        const element = document.querySelector(
-          '.new-channel-members-cont'
-        ) as HTMLElement;
-        if (
-          element &&
-          this.selectedMembers.length > 0 &&
-          this.selectedMembers.length <= 10
-        ) {
-          const translateYValue = 212 - (this.selectedMembers.length - 1) * 18;
-          element.style.transform = `translateY(${translateYValue}%)`;
-        }
-      }
       this.memberName = '';
       this.userFound = false;
     }
@@ -178,26 +153,6 @@ export class NewChannelMembersComponent implements OnInit {
     this.isButtonDisabled = this.memberMatches.every(
       (match) => !match.selected
     );
-    if (window.innerWidth < 500) {
-      const element = document.querySelector(
-        '.new-channel-members-cont'
-      ) as HTMLElement;
-      if (element && this.selectedMembers.length === 0) {
-        element.style.transform = 'translateY(243%)';
-      }
-      if (element && this.selectedMembers.length === 1) {
-        element.style.transform = 'translateY(212%)';
-      }
-      if (element && this.selectedMembers.length === 2) {
-        element.style.transform = 'translateY(189%)';
-      }
-      if (element && this.selectedMembers.length === 3) {
-        element.style.transform = 'translateY(171%)';
-      }
-      if (element && this.selectedMembers.length === 4) {
-        element.style.transform = 'translateY(156%)';
-      }
-    }
     this.isButtonDisabled = this.selectedMembers.length === 0;
     this.buttonColor = this.isButtonDisabled ? '#686868' : '#444df2';
   }
@@ -213,14 +168,6 @@ export class NewChannelMembersComponent implements OnInit {
       this.showCheckbox = true;
       this.isButtonDisabled = true;
       this.buttonColor = '#686868';
-      if (window.innerWidth < 500) {
-        const element = document.querySelector(
-          '.new-channel-members-cont'
-        ) as HTMLElement;
-        if (element) {
-          element.style.transform = 'translateY(243%)';
-        }
-      }
     } else {
       this.showCheckbox = false;
       this.isButtonDisabled = false;
