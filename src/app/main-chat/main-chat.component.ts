@@ -83,6 +83,7 @@ export class MainChatComponent implements OnInit {
   currentChatData: any;
   reactions: any;
   userReactions: Record<string, Record<string, boolean>> = {};
+  groupedMessagesArray: any;
 
   private chatSubscription: Subscription = new Subscription();
 
@@ -188,8 +189,25 @@ export class MainChatComponent implements OnInit {
       this.sendChannel = true;
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
+      this.createGroupedMessages(channel);
       this.scrollToBottom();
     });
+  }
+
+  createGroupedMessages(channel: any) {
+    const groupedMessages = channel.chat.reduce((groups: any, message: any) => {
+      const date = message.date;
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(message);
+      return groups;
+    }, {});
+    const groupedMessagesArray = Object.entries(groupedMessages).map(
+      ([date, messages]) => ({ date, messages })
+    );
+    this.groupedMessagesArray = groupedMessagesArray;
+    console.log('grouped messages', groupedMessagesArray);
   }
 
   /**

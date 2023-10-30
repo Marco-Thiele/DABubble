@@ -124,6 +124,7 @@ export class ChannelsComponent implements OnInit {
       this.sharedService.emitRespOpenChannel(channel);
       this.sharedService.toggleIconResponsive(true);
     }
+
     this.sharedService.emitOpenChannel(channel);
   }
 
