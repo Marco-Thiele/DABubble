@@ -40,8 +40,9 @@
             {{ threads.text }}
           </div>
           <div class="answer-icons">
-            <div *ngFor="let emojis of threads['reactions'] let j = index" class="answer-reaction" (click)="deleteEmojiThread(j)">
-              <div  class="info-emojis">
+            <div *ngFor="let emojis of threads['reactions'] let j = index" class="answer-reaction"
+              (click)="deleteEmojiThread(j)">
+              <div class="info-emojis">
                 <div class="info-emoji">{{emojis["emoji"]}}</div>
                 <div class="info-emojis-name">{{emojis['users']}} </div>
                 <div>hat reagiert</div>
@@ -50,7 +51,7 @@
               <div>
                 {{emojis['count']}}
               </div>
-              
+
             </div>
             <!-- <div class="answer-emojis" (click)="toggleEmojiPicker(4)" >
 
@@ -94,14 +95,14 @@
               <div [ngClass]="{
                   'img-points': thread['userName'] == UserService.getName()
                 }" (click)="toggleShowDelete(i)">
-                <div class="delete-message" *ngIf="showDelete[i]" (click)="deleteMessage(i)">
-                  Nachricht löschen
+                <div class="delete-message" *ngIf="showDelete[i]" (click)="editMessage(i, message)">
+                  Nachricht bearbeiten
                 </div>
               </div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)" size="25%"
-                title="Pick your emoji…"></emoji-mart>
+              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)"
+                size="25%" title="Pick your emoji…"></emoji-mart>
             </div>
           </div>
           <div class="question" [ngClass]="{
@@ -110,7 +111,8 @@
             {{ thread["text"] }}
           </div>
           <div class="answer-icons">
-            <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction" (click)="deleteEmoji(i,j)">
+            <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction"
+              (click)="deleteEmoji(i,j)">
               <div [ngClass]="{
                 'info-emojis-reverse':
                   thread['userName'] !== UserService.getName()
@@ -123,11 +125,21 @@
               <div>
                 {{emojis['userName'].length}}
               </div>
-              
-            </div>
-            <!-- <div class="answer-emojis"  >
 
-                        </div> -->
+            </div>
+
+            <!-- Eddit Answer -->
+            <div class="editMessage" *ngIf="editMessageUser[i]">
+              <input type="text" placeholder="{{ threads.text }}" [(ngModel)]="editedMessageUser" />
+              <div class="editMessage-buttons">
+                <div class="editMessage-cancel" (click)="closeEdit(i)">
+                  <span>Abbrechen</span>
+                </div>
+                <div class="editMessage-save" (click)="saveEditMessage(i)">
+                  <span>Speichern</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -62,6 +62,8 @@ export class SecondaryChatComponent {
     email: '',
   };
   threadAnswersJson: [] = [];
+  editMessageUser: boolean[] = [false, false];
+  editedMessageUser: string = '';
   threadAnswers = {
     id: '',
     userName: '',
@@ -489,5 +491,26 @@ export class SecondaryChatComponent {
   deleteMessage(i: number) {
     this.selectedChannel.chat[this.i].answers.splice(i, 1);
     this.sharedService.updateChannelFS(this.selectedChannel);
+  }
+
+
+  closeEdit(i: number) {
+    this.editMessageUser[i] = false;
+  }
+
+
+  editMessage(i: number, messageID: any) {
+    this.editMessageUser[i] = true;
+  }
+
+
+  saveEditMessage(i: number) {
+    if (this.selectedChannel) {
+      const editedMessage = this.selectedChannel.chat.answers[i];
+      editedMessage.text = this.editedMessageUser;
+      editedMessage.edited = true;
+      this.sharedService.updateChannelFS(this.selectedChannel);
+    } 
+    this.editMessageUser[i] = false;
   }
 }

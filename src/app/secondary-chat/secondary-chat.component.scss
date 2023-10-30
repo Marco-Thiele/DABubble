@@ -719,6 +719,74 @@
   }
 }
 
+.editMessage {
+  display: flex;
+  flex-direction: column;
+  width: -webkit-fill-available;
+  height: fit-content;
+  border-radius: 20px;
+  background-color: #fff;
+  border: 1px solid #adb0d9;
+  gap: 16px;
+  padding: 20px;
+  margin-left: 160px;
+
+  input {
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-weight: 400;
+    width: -webkit-fill-available;
+
+    ::placeholder {
+      font-weight: 400;
+      font-size: 18px;
+    }
+  }
+}
+
+.editMessage-buttons {
+  width: -webkit-fill-available;
+  display: flex;
+  justify-content: flex-end;
+  height: 49px;
+  gap: 32px;
+  display: flex;
+}
+
+.editMessage-cancel {
+  width: 140px;
+  height: 49px;
+  border-radius: 50px;
+  background-color: #fff;
+  border: 1px solid #797ef3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #444df2;
+  }
+}
+
+.editMessage-save {
+  width: 133px;
+  height: 49px;
+  border-radius: 50px;
+  background-color: #444df2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  span {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+  }
+}
+
 .message-user-img {
   display: flex;
   align-items: flex-start;
