@@ -276,16 +276,15 @@
 // Design from the principal chat
 
 .chat-container {
-  height: -webkit-fill-available;
   width: -webkit-fill-available;
   position: relative;
   display: flex;
+  overflow: scroll;
 }
 
 .inner-container {
   display: flex;
   flex-direction: column;
-  max-height: 500px;
   overflow-y: auto;
   gap: 20px;
   flex-grow: 1;
@@ -1256,3 +1255,33 @@
 
 @media (width < 400px) {
 }
+
+// @media (height < 1500px) {
+//   .inner-container {
+//     max-height: 950px;
+//   }
+// }
+
+// @media (height < 1400px) {
+//   .inner-container {
+//     max-height: 752px;
+//   }
+// }
+
+// @media (height < 1200px) {
+//   .inner-container {
+//     max-height: 552px;
+//   }
+// }
+
+// @media (height < 1000px) {
+//   .inner-container {
+//     max-height: 352px;
+//   }
+// }
+
+// @media (height < 800px) {
+//   .inner-container {
+//     max-height: 152px;
+//   }
+// }

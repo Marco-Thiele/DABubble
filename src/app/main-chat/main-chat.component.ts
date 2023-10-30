@@ -68,7 +68,6 @@ export class MainChatComponent implements OnInit {
   } = {};
   members: any[] = [];
   selectedFile: File | null = null;
-  containerChat: any;
   privateChatMessages: any[] = [];
   autoScrollEnabled = true;
   memberName: string = '';
@@ -584,7 +583,6 @@ export class MainChatComponent implements OnInit {
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
     const previewImg = this.imagePreview?.nativeElement;
-    this.containerChat = this.chatContainer?.nativeElement;
 
     if (this.selectedFile && previewImg) {
       const reader = new FileReader();
@@ -595,7 +593,6 @@ export class MainChatComponent implements OnInit {
             if (previewImg) {
               previewImg.onload = () => {
                 previewImg.src = imgSrc;
-                this.containerChat.style.maxHeight = '270px';
                 this.imageLoaded = true;
               };
               previewImg.src = imgSrc;
@@ -662,7 +659,6 @@ export class MainChatComponent implements OnInit {
     if (previewImg) {
       previewImg.src = '';
       this.imageLoaded = false;
-      this.containerChat.style.maxHeight = '100%';
       if (this.fileInput) {
         this.fileInput.nativeElement.value = '';
       }
