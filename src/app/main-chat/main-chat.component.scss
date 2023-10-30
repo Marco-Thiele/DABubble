@@ -277,6 +277,7 @@
 
 .chat-container {
   width: -webkit-fill-available;
+  height: -webkit-fill-available;
   position: relative;
   display: flex;
   overflow: scroll;
@@ -1241,6 +1242,10 @@
     }
   }
 
+  .message-box-cont {
+    padding: 20px;
+  }
+
   .message-user-img {
     div {
       width: 50px;
@@ -1253,35 +1258,69 @@
   }
 }
 
-@media (width < 400px) {
+@media (height < 1200px) {
+  .image-preview-cont {
+    height: 150px;
+
+    img {
+      height: 150px;
+    }
+  }
 }
 
-// @media (height < 1500px) {
-//   .inner-container {
-//     max-height: 950px;
-//   }
-// }
+@media (height < 1000px) {
+  .image-preview-cont {
+    height: 100px;
 
-// @media (height < 1400px) {
-//   .inner-container {
-//     max-height: 752px;
-//   }
-// }
+    img {
+      height: 100px;
+    }
+  }
+}
 
-// @media (height < 1200px) {
-//   .inner-container {
-//     max-height: 552px;
-//   }
-// }
+@media (height < 700px) {
+  .head-member-container {
+    padding: 10px 45px;
+  }
 
-// @media (height < 1000px) {
-//   .inner-container {
-//     max-height: 352px;
-//   }
-// }
+  .title-hashtag {
+    .hashtag {
+      width: 17px;
+      height: 17px;
+    }
+    .title {
+      font-size: 20px;
+    }
+  }
 
-// @media (height < 800px) {
-//   .inner-container {
-//     max-height: 152px;
-//   }
-// }
+  .members {
+    height: 35px;
+  }
+
+  .members-add-container {
+    span {
+      font-size: 18px;
+    }
+  }
+
+  .add-member-cont {
+    div {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .message-box-cont {
+    padding: 20px;
+  }
+}
+
+@media (height < 550px) {
+  .image-preview-cont {
+    height: 50px;
+
+    img {
+      height: 50px;
+    }
+  }
+}
