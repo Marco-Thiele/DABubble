@@ -69,11 +69,13 @@ export class ChannelsComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
-    const clickedInside = this.searchContainer.nativeElement.contains(
-      event.target as Node
-    );
-    if (!clickedInside) {
-      this.closeSearchContainer();
+    if (this.searchContainerOpen) {
+      const clickedInside = this.searchContainer.nativeElement.contains(
+        event.target as Node
+      );
+      if (!clickedInside) {
+        this.closeSearchContainer();
+      }
     }
   }
 
