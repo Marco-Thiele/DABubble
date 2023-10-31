@@ -137,18 +137,21 @@ export class ChannelsComponent implements OnInit {
   }
 
   searchMembersAndChannels(event: Event) {
+    console.log('searchMembersAndChannels');
     const inputText = (event.target as HTMLInputElement).value;
-
+    console.log(inputText);
     if (typeof inputText === 'string') {
       this.memberMatches = [];
       this.channelMatches = [];
     } else {
       this.searchMembers(inputText).then((members) => {
+        console.log(members);
         this.memberMatches = members;
         this.memberMatches.length > 0 || this.channelMatches.length > 0;
         console.log(this.memberMatches);
       });
       this.searchChannels(inputText).then((channels) => {
+        console.log(channels);
         this.channelMatches = channels;
         this.memberMatches.length > 0 || this.channelMatches.length > 0;
         console.log(this.channelMatches);
@@ -157,6 +160,7 @@ export class ChannelsComponent implements OnInit {
   }
 
   async searchMembers(searchTerm: string): Promise<any[]> {
+    console.log('searchMembers');
     const members = await this.sharedService.getUsersFS();
     const matchingMembers = members.filter((member: any) =>
       member.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -174,6 +178,7 @@ export class ChannelsComponent implements OnInit {
    * @returns the list of private messages
    */
   async searchChannels(searchTerm: string): Promise<any[]> {
+    console.log('searchChannels');
     const channels = await this.sharedService.getChannelsFS();
     const matchingChannels = channels.filter((channel: any) =>
       channel.name.toLowerCase().includes(searchTerm.toLowerCase())
