@@ -1,7 +1,5 @@
 .logo {
-  position: absolute;
-  top: 75px;
-  left: 75px;
+  align-self: flex-start;
 }
 
 .container {
@@ -102,7 +100,7 @@
 }
 
 .submit {
-  margin-top: 21.5px;
+  margin-top: 70.5px;
   display: flex;
   padding: 12px 25px;
   align-self: flex-end;
@@ -121,8 +119,7 @@
 
 .policies {
   display: flex;
-  position: absolute;
-  bottom: 48px;
+
   gap: 16px;
   a {
     padding: 10px 15px;
@@ -178,7 +175,7 @@
 }
 
 .upload {
-  display: flex;
+  display: none;
   gap: 24px;
   margin-top: 32px;
   align-items: center;
@@ -210,4 +207,180 @@
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
+}
+
+@media screen and (max-width: 768px) {
+  .inner-container {
+    gap: 10px;
+    width: 100%;
+    span {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .return-arrow {
+    position: unset;
+  }
+
+  .submit {
+    margin-top: unset;
+  }
+
+  .upload {
+    display: none;
+  }
+
+  .avatar-picker {
+    width: 100%;
+    min-height: 90px;
+    overflow-x: scroll;
+  }
+
+  .policies {
+    display: none;
+  }
+
+  .logo {
+    align-self: center;
+    position: unset;
+  }
+
+  .avatar-container {
+    width: 90%;
+    height: 72%;
+  }
+
+  .wrapper {
+    width: 90%;
+  }
+
+  .data-policy-container {
+    width: 80%;
+  }
+
+  .btn-container {
+    width: 80%;
+  }
+
+  .container {
+    padding: 0;
+  }
+  .header {
+    margin-top: 32px;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .container {
+    padding: 0;
+  }
+
+  .avatar-container {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .animation-container {
+    img {
+      position: absolute;
+      bottom: 32px;
+      right: unset;
+      width: 100%;
+    }
+  }
+
+  .container {
+    gap: 32px;
+  }
+  .guest {
+    padding: 12px 10px;
+  }
+
+  .avatar-container {
+    height: 75%;
+    font-size: 16px;
+    padding: 30px;
+  }
+  .greet {
+    h1 {
+      font-size: 40px;
+    }
+    span {
+      font-size: 16px;
+    }
+  }
+
+  .name-container,
+  .email-container,
+  .pwd-container {
+    padding: 15px 14px;
+  }
+
+  .inner-container {
+    gap: 20px !important;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 394px) {
+  .inner-container {
+    gap: 28px;
+  }
+}
+
+@media screen and (max-height: 920px) {
+  .inner-container {
+    gap: 20px;
+  }
+}
+
+@media screen and (max-height: 825px) {
+  .inner-container {
+    gap: 10px;
+  }
+  .avatar-container {
+    overflow: scroll;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .submit {
+    margin-top: unset;
+  }
+  .container {
+    gap: 9px;
+  }
+  .guest {
+    padding: 12px 10px;
+  }
+
+  .avatar-container {
+    height: 80%;
+    font-size: 16px;
+    padding: 15px;
+  }
+  .greet {
+    h1 {
+      font-size: 40px;
+    }
+    span {
+      font-size: 16px;
+    }
+  }
+
+  .name-container,
+  .email-container,
+  .pwd-container {
+    padding: 15px 14px;
+  }
+  .logo {
+    left: 19%;
+    top: 4px;
+  }
+  .inner-container {
+    margin-top: 20px;
+  }
 }

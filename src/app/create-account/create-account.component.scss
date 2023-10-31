@@ -291,6 +291,15 @@ form {
 }
 
 @media screen and (max-width: 650px) {
+  .animation-container {
+    img {
+      position: absolute;
+      bottom: 32px;
+      right: unset;
+      width: 100%;
+    }
+  }
+
   .container {
     gap: 32px;
   }
