@@ -129,15 +129,16 @@
             </div>
 
             <!-- Eddit Answer -->
-            <div class="editMessage" *ngIf="editMessageUser[i]">
-              <input type="text" placeholder="{{ threads.text }}" [(ngModel)]="editedMessageUser" />
-              <div class="editMessage-buttons">
-                <div class="editMessage-cancel" (click)="closeEdit(i)">
-                  <span>Abbrechen</span>
-                </div>
-                <div class="editMessage-save" (click)="saveEditMessage(i)">
-                  <span>Speichern</span>
-                </div>
+
+          </div>
+          <div class="editMessage" *ngIf="editMessageUser[i]">
+            <input type="text" placeholder="{{ thread['text'] }}" [(ngModel)]="editedMessageUser" />
+            <div class="editMessage-buttons">
+              <div class="editMessage-cancel" (click)="closeEdit(i)">
+                <span>Abbrechen</span>
+              </div>
+              <div class="editMessage-save" (click)="saveEditMessage(i)">
+                <span>Speichern</span>
               </div>
             </div>
           </div>
@@ -145,44 +146,6 @@
       </div>
     </div>
 
-    <!-- <div class="position-question-contant-reverse">
-      <div class="profil-img">
-        <img src="../../assets/img/avatars/sofiamueller.svg" alt="">
-      </div>
-      <div>
-        <div class="position-contant">
-          <div class="info">
-            <div class="name" (click)="showUserProfil()">
-              Name
-            </div>
-            <div>
-              14:30 Uhr
-            </div>
-            <div class="img-react" (click)="toggleEmojiPicker(2)">
-            </div>
-            <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[2]" (emojiSelect)="addEmoji($event)"
-                title="Pick your emoji…"></emoji-mart>
-            </div>
-          </div>
-          <div class="question-reverse">
-            Ja das ist es.
-          </div>
-          <div class="answer-icons">
-            <div class="answer-reaction">
-              <img src="../../assets/icons/51. Emojis.svg" alt="">
-              <div>
-                1
-              </div>
-            </div>
-             <div class="answer-emojis"  >
-
-                        </div>
-
-          </div>
-        </div>
-      </div>
-    </div> -->
     <!--Container to write in chat-->
     <div class="message-box-cont" *ngIf="messageBox">
       <div class="message-box" [class.focused]="taIsFocused">

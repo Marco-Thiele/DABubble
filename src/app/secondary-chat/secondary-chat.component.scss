@@ -19,6 +19,7 @@
 
 .contant-scrollbar {
   overflow-x: scroll;
+  max-width: 100%;
 }
 
 .thread-contant {
@@ -151,9 +152,9 @@
 
 .delete-message {
   position: absolute;
-  left: 55px;
-  top: 20px;
-  width: 170px;
+  left: 47px;
+  top: 31px;
+  width: 196px;
   border-radius: 0px 30px 30px 30px;
   padding: 10px 20px 10px 20px;
   box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
@@ -720,16 +721,20 @@
 }
 
 .editMessage {
+  position: absolute;
+  top: 71px;
+  left: 38px;
   display: flex;
   flex-direction: column;
   width: -webkit-fill-available;
+  height: -moz-fit-content;
   height: fit-content;
   border-radius: 20px;
   background-color: #fff;
   border: 1px solid #adb0d9;
   gap: 16px;
   padding: 20px;
-  margin-left: 160px;
+  margin-right: 38px;
 
   input {
     border: none;
@@ -750,7 +755,7 @@
   display: flex;
   justify-content: flex-end;
   height: 49px;
-  gap: 32px;
+  gap: 14px;
   display: flex;
 }
 
@@ -781,7 +786,7 @@
   justify-content: center;
   cursor: pointer;
   span {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
     color: white;
   }

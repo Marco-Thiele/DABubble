@@ -506,7 +506,7 @@ export class SecondaryChatComponent {
 
   saveEditMessage(i: number) {
     if (this.selectedChannel) {
-      const editedMessage = this.selectedChannel.chat.answers[i];
+      const editedMessage = this.selectedChannel.chat[this.i].answers[i];
       editedMessage.text = this.editedMessageUser;
       editedMessage.edited = true;
       this.sharedService.updateChannelFS(this.selectedChannel);
