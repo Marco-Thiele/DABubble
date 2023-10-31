@@ -84,6 +84,7 @@ export class MainChatComponent implements OnInit {
   userReactions: Record<string, Record<string, boolean>> = {};
   groupedMessagesArray: any;
   timeLineDisplayed: Date | null = null;
+  previousDate: string = '';
 
   private chatSubscription: Subscription = new Subscription();
 
@@ -106,6 +107,10 @@ export class MainChatComponent implements OnInit {
 
   ngOnDestroy() {
     this.chatSubscription.unsubscribe();
+  }
+
+  updatePreviousDate(date: string) {
+    this.previousDate = date;
   }
 
   /**
