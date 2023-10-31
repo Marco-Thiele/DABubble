@@ -1228,6 +1228,19 @@
   }
 }
 
+//Design search function chat
+
+.containerSearchChat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px;
+
+  div {
+    cursor: pointer;
+  }
+}
+
 @media (width < 550px) {
   .message-user-box-cont {
     padding: 10px 35px 10px 35px;

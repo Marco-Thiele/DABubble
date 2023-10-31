@@ -32,6 +32,7 @@ export class MainChatComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
   @ViewChild('membersContainer', { static: false })
   membersContainer!: ElementRef;
+  @ViewChild('messageTextarea') messageTextarea: ElementRef | undefined;
 
   name = 'Angular';
   message: string = '';
@@ -85,15 +86,19 @@ export class MainChatComponent implements OnInit {
   groupedMessagesArray: any;
   timeLineDisplayed: Date | null = null;
   previousDate: string = '';
+  userChannel: boolean = false;
+  searchResults: any[] = [];
 
   private chatSubscription: Subscription = new Subscription();
+  private userHasWrittenAfterAt = false;
 
   constructor(
     private dialog: MatDialog,
     private sharedService: SharedService,
     public userService: UserService,
     public router: Router,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private elementRef: ElementRef
   ) {
     this.openNewMessage();
     this.loadChannel();
@@ -119,6 +124,14 @@ export class MainChatComponent implements OnInit {
   ngAfterViewChecked() {
     if (this.autoScrollEnabled) {
       this.scrollToBottom();
+    }
+  }
+
+  /**
+   * It is executed when the view is initialized
+   */
+  ngAfterViewInit() {
+    if (this.messageTextarea && this.messageTextarea.nativeElement) {
     }
   }
 
@@ -390,15 +403,6 @@ export class MainChatComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe(() => {});
-  }
-
-  /**
-   * Regulaces the height of the textarea
-   */
-  onTextareaInput(event: any): void {
-    const target = event.target as HTMLTextAreaElement;
-    target.style.height = '40px';
-    target.style.height = target.scrollHeight + 'px';
   }
 
   /**
@@ -923,5 +927,74 @@ export class MainChatComponent implements OnInit {
       this.sharedService.updatePrivateChatFS(this.currentChatData);
     }
     this.editMessageUser[i] = false;
+  }
+
+  /**
+   * Send a @ to the textarea to look for a member
+   */
+  writeUser() {
+    if (this.messageTextarea && this.messageTextarea.nativeElement) {
+      this.messageTextarea.nativeElement.value += '@';
+      this.userHasWrittenAfterAt = false;
+    }
+  }
+
+  /**
+   * Checks if the user has written after the @ and regulaces the height of the textarea
+   * @param event the event
+   */
+  onTextareaInput(event: Event) {
+    const target = event.target as HTMLTextAreaElement;
+    target.style.height = '40px';
+    target.style.height = target.scrollHeight + 'px';
+
+    const messageContent = target.value;
+
+    if (
+      messageContent &&
+      messageContent.includes('@') &&
+      messageContent.length > 1
+    ) {
+      this.userHasWrittenAfterAt = true;
+      this.searchMembersChannel();
+      this.userChannel = true;
+    } else {
+      this.userChannel = false;
+    }
+  }
+
+  /**
+   * Searches for a member for the chat
+   */
+  searchMembersChannel() {
+    if (this.userHasWrittenAfterAt) {
+      if (this.messageTextarea && this.messageTextarea.nativeElement) {
+        const inputText = this.messageTextarea.nativeElement.value;
+        this.memberMatches = [];
+        this.channelMatches = [];
+
+        const searchTerm = inputText.substring(inputText.lastIndexOf('@') + 1);
+        this.searchMembers(searchTerm).then((members) => {
+          this.memberMatches = members;
+          this.isNewMessageVisible =
+            this.memberMatches.length > 0 || this.channelMatches.length > 0;
+          this.searchResults = this.memberMatches;
+        });
+      }
+    }
+  }
+
+  insertName(member: any) {
+    if (this.messageTextarea && this.messageTextarea.nativeElement) {
+      const currentText = this.messageTextarea.nativeElement.value;
+      const textBeforeLastAt = currentText.substring(
+        0,
+        currentText.lastIndexOf('@')
+      );
+      const newText = `${textBeforeLastAt}@${member.name}`;
+      this.messageTextarea.nativeElement.value = newText;
+      this.message = newText;
+    }
+    this.userChannel = false;
   }
 }
