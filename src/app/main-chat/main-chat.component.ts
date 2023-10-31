@@ -83,6 +83,7 @@ export class MainChatComponent implements OnInit {
   reactions: any;
   userReactions: Record<string, Record<string, boolean>> = {};
   groupedMessagesArray: any;
+  timeLineDisplayed: Date | null = null;
 
   private chatSubscription: Subscription = new Subscription();
 
@@ -188,26 +189,26 @@ export class MainChatComponent implements OnInit {
       this.sendChannel = true;
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
-      this.createGroupedMessages(channel);
+      // this.createGroupedMessages(channel);
       this.scrollToBottom();
     });
   }
 
-  createGroupedMessages(channel: any) {
-    const groupedMessages = channel.chat.reduce((groups: any, message: any) => {
-      const date = message.date;
-      if (!groups[date]) {
-        groups[date] = [];
-      }
-      groups[date].push(message);
-      return groups;
-    }, {});
-    const groupedMessagesArray = Object.entries(groupedMessages).map(
-      ([date, messages]) => ({ date, messages })
-    );
-    this.groupedMessagesArray = groupedMessagesArray;
-    console.log('grouped messages', groupedMessagesArray);
-  }
+  // createGroupedMessages(channel: any) {
+  //   const groupedMessages = channel.chat.reduce((groups: any, message: any) => {
+  //     const date = message.date;
+  //     if (!groups[date]) {
+  //       groups[date] = [];
+  //     }
+  //     groups[date].push(message);
+  //     return groups;
+  //   }, {});
+  //   const groupedMessagesArray = Object.entries(groupedMessages).map(
+  //     ([date, messages]) => ({ date, messages })
+  //   );
+  //   this.groupedMessagesArray = groupedMessagesArray;
+  //   console.log('grouped messages', groupedMessagesArray);
+  // }
 
   getLastAnswerTime(message: any): string | null {
     const answers = message.answers;
@@ -628,6 +629,13 @@ export class MainChatComponent implements OnInit {
       this.selectedFile = null;
       this.clearPreviewImage();
     }
+    const messageDate = new Date(message.date);
+    if (
+      !this.timeLineDisplayed ||
+      messageDate.toDateString() !== this.timeLineDisplayed.toDateString()
+    ) {
+      this.timeLineDisplayed = messageDate;
+    }
     this.returnChannelsMessages();
     this.scrollToBottom();
   }
@@ -665,7 +673,6 @@ export class MainChatComponent implements OnInit {
     }
   }
 
-
   parseDate(dateString: string): string {
     const [day, month, year] = dateString.split('/').map(Number);
     if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
@@ -674,7 +681,6 @@ export class MainChatComponent implements OnInit {
       return '';
     }
   }
-
 
   /**
    * Returns the messages of the channels from server

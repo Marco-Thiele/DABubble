@@ -133,26 +133,28 @@
     </div>
 
     <!--Time-line-->
-    <div *ngFor="let group of groupedMessagesArray">
-      <div class="time-separator">
-        <div class="time-line"></div>
-        <div class="time-day">
-          <span class="font400-normal"> {{ parseDate(group.date) | date:'EEEE, d. MMMM' }}</span>
+    <!-- <div *ngFor="let group of groupedMessagesArray"> -->
+    <div *ngFor="
+    let message of ((selectedMember && currentChatData?.chat) || []).concat(
+    selectedChannel?.chat || []
+    );
+    let i = index;
+    ">
+      <ng-container *ngIf="i === 0 || (message.date !== message[i - 1]?.date)">
+        <div *ngIf="i === 0 || (message.date !== message.date)">
+          <div class="time-separator">
+            <div class="time-line"></div>
+            <div class="time-day">
+              <span class="font400-normal">{{ parseDate(message.date) | date:'EEEE, d MMMM' }}</span>
+            </div>
+          </div>
         </div>
-      </div>
 
+        <!--Container for the member's chat-->
+        <div [ngClass]="{
+      'message-user-box-cont': message.userName == userService.getName()
+      }" class="message-members-box-cont">
 
-      <!--Container for the member's chat-->
-      <div [ngClass]="{
-        'message-user-box-cont': message.userName == userService.getName()
-      }" class="message-members-box-cont" *ngFor="
-        let message of ((selectedMember && currentChatData?.chat) || []).concat(
-          selectedChannel?.chat || []
-        );
-        let i = index;
-        let lastItem = last
-      ">
-        <ng-container>
           <div [ngClass]="{
             'message-reaction-people-reverse':
               message.userName == userService.getName()
@@ -269,12 +271,12 @@
               </div>
             </div>
           </div>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
     </div>
   </div>
-  <!-- </div> -->
 </div>
+<!-- </div> -->
 
 
 <!--Container to write in chat-->
