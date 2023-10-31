@@ -203,3 +203,9 @@
     width: unset;
   }
 }
+
+@media (max-width: 600px) {
+  .profil-name{
+    display: none;
+  }
+}

@@ -32,7 +32,7 @@
               <div class="img-react" (click)="toggleEmojiPicker(-1)"></div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-1]" (emojiSelect)="addEmojiThread($event)"
+              <emoji-mart [style]="{ width: '250px' }" class="emoji-mart" *ngIf="showEmojiPicker[-1]" (emojiSelect)="addEmojiThread($event)"
                 size="50px 50px" title="Pick your emoji…"></emoji-mart>
             </div>
           </div>
@@ -53,9 +53,6 @@
               </div>
 
             </div>
-            <!-- <div class="answer-emojis" (click)="toggleEmojiPicker(4)" >
-
-                        </div> -->
           </div>
         </div>
       </div>
@@ -101,7 +98,7 @@
               </div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)"
+              <emoji-mart [style]="{ width: '250px' }" class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)"
                 size="25%" title="Pick your emoji…"></emoji-mart>
             </div>
           </div>
@@ -167,7 +164,7 @@
               <div></div>
             </div>
             <div>
-              <emoji-mart class="emoji-mart-message" *ngIf="showEmojiPicker[-2]" (emojiSelect)="addEmoji($event)"
+              <emoji-mart [style]="{ width: '250px' }" class="emoji-mart-message" *ngIf="showEmojiPicker[-2]" (emojiSelect)="addEmoji($event)"
                 title="Pick your emoji…"></emoji-mart>
             </div>
             <div class="icon-et icons">

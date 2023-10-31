@@ -470,14 +470,15 @@
   z-index: 100;
   left: 0;
   top: 20px;
+  width: 200px !important;
 }
 
 .emoji-mart-message {
   position: absolute;
   font-family: Nunito;
   z-index: 100;
-  bottom: 100px;
-  transform: translate(-379px, -17px);
+  
+  transform: translate(-105px, -546px);
 }
 
 // Design from the user's chat
@@ -814,6 +815,10 @@
   }
 
   .position-question-contant-reverse {
+    padding: 30px 20px 30px 20px;
+  }
+
+  .message-box-cont{
     padding: 30px 20px 30px 20px;
   }
 

@@ -278,7 +278,7 @@ export class SecondaryChatComponent {
       if (element.emoji.includes(text)) {
         if (!element.users.includes(this.UserService.getName())) {
           element.users.push(this.UserService.getName());
-          element.count ++;
+          element.count++;
         }
         this.existEmoji = true;
       }
@@ -298,7 +298,7 @@ export class SecondaryChatComponent {
   }
 
 
-  deleteEmojiThread( j: number) {
+  deleteEmojiThread(j: number) {
     let answersEmojis = this.selectedChannel.chat[this.i].reactions[j];
     if (answersEmojis.users.includes(this.UserService.getName())) {
       let deleteName = this.UserService.getName();
@@ -306,12 +306,12 @@ export class SecondaryChatComponent {
         (item: any) => item !== deleteName
       );
       answersEmojis.users = newUsernames;
-      answersEmojis.count --;
+      answersEmojis.count--;
       if (answersEmojis.users.length == 0)
         this.selectedChannel.chat[this.i].reactions.splice(j, 1);
     } else {
       this.selectedChannel.chat[this.i].reactions[j].users.push(this.UserService.getName());
-      this.selectedChannel.chat[this.i].reactions[j].count ++;
+      this.selectedChannel.chat[this.i].reactions[j].count++;
     }
     this.sharedService.updateChannelFS(this.selectedChannel);
   }
@@ -510,7 +510,7 @@ export class SecondaryChatComponent {
       editedMessage.text = this.editedMessageUser;
       editedMessage.edited = true;
       this.sharedService.updateChannelFS(this.selectedChannel);
-    } 
+    }
     this.editMessageUser[i] = false;
   }
 }
