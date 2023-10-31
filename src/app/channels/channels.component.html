@@ -5,12 +5,16 @@
       (input)="searchMembersAndChannels($event)" />
     <div></div>
   </div>
-  <!-- <div *ngIf="showResults" class="searchContainer">
-    <div *ngFor="let user of foundUsers" class="searchResult">
-      <img src="{{ user['photoURL'] }}" />
-      <span>{{ user["name"] }}</span>
+  <div #searchContainer class="searchContainer" *ngIf="searchContainerOpen">
+    <div *ngFor="let user of memberMatches" class="searchResult" (click)="openPrivateContainer(user)">
+      <img [src]="user.profileImg" />
+      <span>{{ user.name }}</span>
     </div>
-  </div> -->
+    <div *ngFor="let channel of channelMatches" class="searchResult" (click)="openChannel(channel)">
+      <span>{{ channel.name }}</span>
+    </div>
+  </div>
+
 </div>
 <div class="title-container">
   <div class="channel-name">

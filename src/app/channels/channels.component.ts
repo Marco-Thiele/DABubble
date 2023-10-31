@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  ElementRef,
+  HostListener,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelErstellenComponent } from '../channel-erstellen/channel-erstellen.component';
 import { SharedService } from '../shared.service';
@@ -12,6 +20,9 @@ import { DocumentData } from 'rxfire/firestore/interfaces';
   encapsulation: ViewEncapsulation.None,
 })
 export class ChannelsComponent implements OnInit {
+  @ViewChild('searchContainer', { read: ElementRef })
+  searchContainer!: ElementRef;
+
   uniqueId = this.sharedService.generateUniqueId();
   profilImg: any;
   panelOpenState = false;
@@ -23,6 +34,7 @@ export class ChannelsComponent implements OnInit {
   searchTerm: string = '';
   memberMatches: any[] = [];
   channelMatches: any[] = [];
+  searchContainerOpen = false;
 
   public user = {
     id: this.sharedService.getID(),
@@ -36,7 +48,8 @@ export class ChannelsComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private sharedService: SharedService,
-    public userService: UserService
+    public userService: UserService,
+    private renderer: Renderer2
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -52,6 +65,20 @@ export class ChannelsComponent implements OnInit {
     }
     localStorage.setItem('userData', JSON.stringify(this.user));
     this.sharedService.addUserToAllgemeinChannel(this.user);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event): void {
+    const clickedInside = this.searchContainer.nativeElement.contains(
+      event.target as Node
+    );
+    if (!clickedInside) {
+      this.closeSearchContainer();
+    }
+  }
+
+  closeSearchContainer(): void {
+    this.searchContainerOpen = false;
   }
 
   /**
@@ -70,6 +97,10 @@ export class ChannelsComponent implements OnInit {
     return this.sharedService.membersListArray;
   }
 
+  /**
+   * Gets an Array of the users from Firestore
+   * @returns the users
+   */
   getUsersFS(): any[] {
     return this.userService.availableChatPartners;
   }
@@ -137,30 +168,19 @@ export class ChannelsComponent implements OnInit {
   }
 
   searchMembersAndChannels(event: Event) {
-    console.log('searchMembersAndChannels');
     const inputText = (event.target as HTMLInputElement).value;
-    console.log(inputText);
-    if (typeof inputText === 'string') {
-      this.memberMatches = [];
-      this.channelMatches = [];
-    } else {
-      this.searchMembers(inputText).then((members) => {
-        console.log(members);
-        this.memberMatches = members;
-        this.memberMatches.length > 0 || this.channelMatches.length > 0;
-        console.log(this.memberMatches);
-      });
-      this.searchChannels(inputText).then((channels) => {
-        console.log(channels);
-        this.channelMatches = channels;
-        this.memberMatches.length > 0 || this.channelMatches.length > 0;
-        console.log(this.channelMatches);
-      });
-    }
+
+    this.searchMembers(inputText).then((members) => {
+      this.memberMatches = members;
+    });
+    this.searchChannels(inputText).then((channels) => {
+      this.channelMatches = channels;
+    });
+
+    this.searchContainerOpen = true;
   }
 
   async searchMembers(searchTerm: string): Promise<any[]> {
-    console.log('searchMembers');
     const members = await this.sharedService.getUsersFS();
     const matchingMembers = members.filter((member: any) =>
       member.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -178,7 +198,6 @@ export class ChannelsComponent implements OnInit {
    * @returns the list of private messages
    */
   async searchChannels(searchTerm: string): Promise<any[]> {
-    console.log('searchChannels');
     const channels = await this.sharedService.getChannelsFS();
     const matchingChannels = channels.filter((channel: any) =>
       channel.name.toLowerCase().includes(searchTerm.toLowerCase())
