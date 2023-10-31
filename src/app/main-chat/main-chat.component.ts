@@ -674,12 +674,19 @@ export class MainChatComponent implements OnInit {
   }
 
   parseDate(dateString: string): string {
-    const [day, month, year] = dateString.split('/').map(Number);
-    if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-      return `${year}-${month}-${day}`;
-    } else {
-      return '';
+    if (dateString.includes('.')) {
+      const [day, month, year] = dateString.split('.').map(Number);
+      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+        return `${year}-${month}-${day}`;
+      }
     }
+    if (dateString.includes('/')) {
+      const [day, month, year] = dateString.split('/').map(Number);
+      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+        return `${year}-${month}-${day}`;
+      }
+    }
+    return '';
   }
 
   /**
