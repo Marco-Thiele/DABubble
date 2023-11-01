@@ -24,6 +24,10 @@ export class AddChannelMembersComponent implements OnInit {
   buttonColor: string = '#686868';
   members: any[] = [];
   channel: any = {};
+  allMatches: any[] = [];
+  userMatches: any[] = [];
+  selectedMember: any = null;
+  searchInput: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<AddChannelMembersComponent>,
@@ -83,14 +87,23 @@ export class AddChannelMembersComponent implements OnInit {
    * The function is called when the user types in the input field to look for a member
    */
   async searchMembers() {
-    if (this.memberName) {
+    this.allMatches = [];
+
+    if (this.searchInput) {
       const members = await this.sharedService.getMembersFS();
+      const users = await this.sharedService.getUsersFS();
+
       this.memberMatches = members.filter((member: any) =>
-        member.name.toLowerCase().includes(this.memberName.toLowerCase())
+        member.name.toLowerCase().includes(this.searchInput.toLowerCase())
       );
-    } else {
-      this.memberMatches = [];
+
+      this.userMatches = users.filter((user: any) =>
+        user.name.toLowerCase().includes(this.searchInput.toLowerCase())
+      );
+
+      this.allMatches = this.memberMatches.concat(this.userMatches);
     }
+    console.log(this.allMatches);
   }
 
   /**

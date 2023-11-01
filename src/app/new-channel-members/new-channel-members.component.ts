@@ -36,10 +36,14 @@ export class NewChannelMembersComponent implements OnInit {
   buttonColor: string = '#444df2';
   channel: any;
   memberName: string = '';
+  userName: string = '';
   memberMatches: any[] = [];
+  allMatches: any[] = [];
+  userMatches: any[] = [];
   selectedMembers: any[] = [];
   selectedMember: any = null;
   userFound = false;
+  searchInput: string = '';
 
   public user = {
     id: this.sharedService.getID(),
@@ -78,13 +82,21 @@ export class NewChannelMembersComponent implements OnInit {
    * the function is called when the user types in the input field to look for a member
    */
   async searchMembers() {
-    if (this.memberName) {
+    this.allMatches = [];
+
+    if (this.searchInput) {
       const members = await this.sharedService.getMembersFS();
+      const users = await this.sharedService.getUsersFS();
+
       this.memberMatches = members.filter((member: any) =>
-        member.name.toLowerCase().includes(this.memberName.toLowerCase())
+        member.name.toLowerCase().includes(this.searchInput.toLowerCase())
       );
-    } else {
-      this.memberMatches = [];
+
+      this.userMatches = users.filter((user: any) =>
+        user.name.toLowerCase().includes(this.searchInput.toLowerCase())
+      );
+
+      this.allMatches = this.memberMatches.concat(this.userMatches);
     }
   }
 

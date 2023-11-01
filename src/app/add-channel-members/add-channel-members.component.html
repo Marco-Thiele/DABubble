@@ -17,19 +17,19 @@
     </div>
 
     <div class="add-member-add-name">
-      <input placeholder="Name eingeben" [(ngModel)]="memberName" (input)="searchMembers()">
+      <input placeholder="Name eingeben" [(ngModel)]="searchInput" (input)="searchMembers()">
     </div>
 
-    <div *ngIf="memberName && memberMatches.length > 0" class="member-matches">
-      <div *ngFor="let match of memberMatches" class="member-match-cont" (click)="toggleMemberSelection(match)">
-        <img [src]="match.imgProfil" [alt]="match.name">
+    <div *ngIf="searchInput && allMatches.length > 0" class="member-matches">
+      <div *ngFor="let match of allMatches" class="member-match-cont" (click)="toggleMemberSelection(match)">
+        <img [src]="match.imgProfil || match.profileImg" [alt]="match.name">
         <span [class.selected]="match.selected"> {{ match.name }} </span>
       </div>
     </div>
 
     <div *ngIf="selectedMembers.length > 0" class="selected-members">
       <div *ngFor="let member of selectedMembers" class="selected-member">
-        <img [src]="member.imgProfil" [alt]="member.name">
+        <img [src]="member.imgProfil || member.profileImg" [alt]="member.name">
         <span class="font400-normal">{{ member.name }}</span>
         <div class="cancelMember" (click)="removeSelectedMember(member)"></div>
       </div>

@@ -26,7 +26,7 @@
   <div class="members-add-container">
     <div class="members-cont" (click)="showMembers()">
       <div class="members" *ngFor="let member of selectedChannel.members">
-        <img [src]="member.imgProfil" />
+        <img [src]="member.imgProfil || member.profileImg" />
       </div>
     </div>
     <span class="font600-normal">{{ selectedChannel.members.length }}</span>
