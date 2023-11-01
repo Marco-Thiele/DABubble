@@ -273,6 +273,11 @@
   overflow: scroll;
 }
 
+.mat-expansion-panel-content {
+  overflow: scroll !important;
+  max-height: 370px;
+}
+
 .dm-container-head {
   background: white !important;
   padding: 3px 0px !important;

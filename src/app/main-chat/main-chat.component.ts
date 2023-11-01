@@ -227,7 +227,6 @@ export class MainChatComponent implements OnInit {
         const channelData = element.data();
         if (channelData.id === channel.id) {
           this.selectedChannel = channelData;
-          console.log('got it', channelData);
         }
       });
     });
