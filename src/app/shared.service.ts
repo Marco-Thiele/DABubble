@@ -256,16 +256,6 @@ export class SharedService implements OnInit {
           this.setChannelObject(element.data(), element.id)
         );
       });
-      // this code below takes the optional parameter and looks for the selected channel and gives it to
-      // this.selectedChat. This works so far that this.selectedChat is always up to date with newest data
-      // if (channel !== undefined) {
-      //   this.channelsListArray.forEach((channelFromList) => {
-      //     if (channelFromList.id === channel.id) {
-      //       this.selectedChat = channelFromList;
-      //       console.log('my selected chat is: ', this.selectedChat);
-      //     }
-      //   });
-      // }
     });
   }
 

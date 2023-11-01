@@ -211,11 +211,6 @@ export class MainChatComponent implements OnInit {
       this.isPrivateChatVisible = false;
       this.selectedChannel = channel;
       this.getMessages(channel);
-      // i would comment out this.selectedChannel = channel
-      // and i would try to call the this.sharedService.channelsList(channel) function and do this.selectedChannel = this.sharedService.selectedChat
-      // but it doesnt work. If new messages come in i see them in console but they dont appear as a new message in main chat
-      // im leaving this here so it maybe helps you out or you get an idea from it what to do.
-      // there is also a bug that it shows the messages but once again doesnt show new ones and i have to click a couple of times on channel to show the selected channel
       this.currentChannel = channel;
       this.currentChatData = false;
       this.sendChannel = true;
