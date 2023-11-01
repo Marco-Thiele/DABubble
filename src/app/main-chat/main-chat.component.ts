@@ -5,6 +5,7 @@ import {
   ViewChild,
   AfterViewInit,
   AfterViewChecked,
+  inject,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelEditComponent } from '../channel-edit/channel-edit.component';
@@ -18,7 +19,12 @@ import { DialogService } from '../dialog.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { user } from 'rxfire/auth';
 import { Subscription } from 'rxjs';
-
+import {
+  Firestore,
+  collection,
+  doc,
+  onSnapshot,
+} from '@angular/fire/firestore';
 @Component({
   selector: 'app-main-chat',
   templateUrl: './main-chat.component.html',
@@ -33,6 +39,8 @@ export class MainChatComponent implements OnInit {
   @ViewChild('membersContainer', { static: false })
   membersContainer!: ElementRef;
   @ViewChild('messageTextarea') messageTextarea: ElementRef | undefined;
+
+  firestore: Firestore = inject(Firestore);
 
   name = 'Angular';
   message: string = '';
@@ -202,7 +210,7 @@ export class MainChatComponent implements OnInit {
       this.isPrivatChatContainerVisible = false;
       this.isPrivateChatVisible = false;
       this.selectedChannel = channel;
-      // this.sharedService.channelsList(channel)
+      this.getMessages(channel);
       // i would comment out this.selectedChannel = channel
       // and i would try to call the this.sharedService.channelsList(channel) function and do this.selectedChannel = this.sharedService.selectedChat
       // but it doesnt work. If new messages come in i see them in console but they dont appear as a new message in main chat
@@ -214,6 +222,19 @@ export class MainChatComponent implements OnInit {
       this.sendPrivate = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
       this.scrollToBottom();
+    });
+  }
+
+  getMessages(channel: any) {
+    return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
+      this.selectedChannel = [];
+      list.forEach((element: any) => {
+        const channelData = element.data();
+        if (channelData.id === channel.id) {
+          this.selectedChannel = channelData;
+          console.log('got it', channelData);
+        }
+      });
     });
   }
 
