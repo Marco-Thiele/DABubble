@@ -28,6 +28,7 @@ import {
 } from '@angular/fire/firestore';
 import { object } from 'rxfire/database';
 import { user } from 'rxfire/auth';
+import { DocumentData } from 'rxfire/firestore/interfaces';
 
 @Component({
   selector: 'app-secondary-chat',
@@ -106,6 +107,8 @@ export class SecondaryChatComponent {
   channelMatches: any[] = [];
   channelsIds: { [channelId: string]: any[] } = {};
   firestore: Firestore = inject(Firestore);
+  showUser: boolean = false;
+  users: DocumentData[] = [];
 
   constructor(
     private dialogService: DialogService,
@@ -117,7 +120,7 @@ export class SecondaryChatComponent {
     this.profilEmail = UserService.getMail();
 
     this.readThread();
-    // this.openNewMessage();
+    this.loadUsers()
     console.log(this.showEmojiPicker);
   }
 
@@ -148,53 +151,6 @@ export class SecondaryChatComponent {
         this.sharedService.openThread = true;
       }, 150);
     }, 200);
-    // const answers = this.sharedService.getsingleDocRef(
-    //   'channels',
-    //   this.allgemeinChannelId
-    // );
-    // const channelSnapshot = await getDoc(answers);
-    // this.sharedService.getChannelsFS();
-    // console.log('answers', channelSnapshot.data());
-    // console.log('answers2', this.sharedService.getChannelsFS());
-
-    // const q = query(collection(this.firestore, 'channels'), where('answers.id', '==', 1697695581740));
-    // const unsubscribe = onSnapshot(q,(querySnapshot) => {
-    //   console.log('was ist das', querySnapshot);
-
-    //   querySnapshot.forEach((doc) => {
-    //   console.log( 'was ist das ', doc)
-    // });
-    // })
-
-    // return onSnapshot(collection(this.firestore, 'channels'), (list) => {
-    //   list.forEach((element) => {
-    //     if (element.id == this.allgemeinChannelId && element) {
-    //       const gameData = element.data();
-    //       console.log('gamedata', gameData['chat'][0]);
-    //       this.thread = gameData['chat'][0];
-
-    //       // this.game.currentPlayer = gameData['currentPlayer'];
-    //       // this.game.players = gameData['players'];
-    //       // this.game.player_images = gameData['player_images'];
-    //       // this.game.playedCards = gameData['playedCards'];
-    //       // this.game.stack = gameData['stack'];
-    //       // this.game.pickCardAnimation = gameData['pickCardAnimation'];
-    //       // this.game.currentCard = gameData['currentCard'];
-    //       this.threads = {
-    //         id: this.thread.id,
-    //         userName: this.thread.userName,
-    //         profileImg: this.thread.profileImg,
-    //         imageUrl: '',
-    //         text: this.thread.text,
-    //         time: this.thread.time,
-    //         reactions: this.thread.reactions,
-    //         answers: this.thread.answers,
-    //         date: this.thread.date,
-    //       };
-    //       console.log('threads', this.threads);
-    // }
-    //   });
-    // });
   }
 
   showUserProfil(userName: string, userPhotoURL: string, userEmail: string) {
@@ -513,4 +469,32 @@ export class SecondaryChatComponent {
     }
     this.editMessageUser[i] = false;
   }
+
+  getUserCollection() {
+    return collection(this.firestore, 'users');
+  }
+
+
+  showUsers() {
+    this.showUser = !this.showUser
+
+  }
+
+
+  loadUsers() {
+    return onSnapshot(this.getUserCollection(), (list) => {
+      list.forEach((element) => {
+        const userData = element.data();
+        this.users.push(userData);
+      });
+      console.log('userdaten', this.users);
+    });
+  }
+
+
+  addUser(name: string) {
+    this.message += '#' + name;
+  }
+
+
 }

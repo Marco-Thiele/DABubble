@@ -167,8 +167,20 @@
               <emoji-mart [style]="{ width: '250px' }" class="emoji-mart-message" *ngIf="showEmojiPicker[-2]" (emojiSelect)="addEmoji($event)"
                 title="Pick your emoji…"></emoji-mart>
             </div>
-            <div class="icon-et icons">
-              <div></div>
+            <div class="icon-et icons" (click)="showUsers()">
+              <div class="et-div">
+                <div class="render-users"*ngIf="showUser"> 
+                  <div class="render-user" *ngFor="let user of users" (click)="addUser(user['name'])">
+                    <div>
+                      <img src="{{ user['photoURL'] }}" alt="" />
+                    </div>
+                    <div>
+                          {{user['name']}}
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
             </div>
           </div>
 
