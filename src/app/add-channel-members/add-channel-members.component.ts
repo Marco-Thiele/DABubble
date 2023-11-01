@@ -103,7 +103,6 @@ export class AddChannelMembersComponent implements OnInit {
 
       this.allMatches = this.memberMatches.concat(this.userMatches);
     }
-    console.log(this.allMatches);
   }
 
   /**
