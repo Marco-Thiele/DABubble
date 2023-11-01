@@ -163,7 +163,7 @@
             <div class="icon-s icons" (click)="toggleEmojiPicker(-2)">
               <div></div>
             </div>
-            <div>
+            <div style="position: relative;">
               <emoji-mart [style]="{ width: '250px' }" class="emoji-mart-message" *ngIf="showEmojiPicker[-2]" (emojiSelect)="addEmoji($event)"
                 title="Pick your emoji…"></emoji-mart>
             </div>
