@@ -137,7 +137,7 @@
     <div *ngFor="
         let message of ((selectedMember && currentChatData?.chat) || []).concat(
           selectedChannel?.chat || []
-        );
+        )
         let i = index
       ">
       <ng-container *ngIf="i === 0 || parseDate(message.date) !== parseDate(previousDate)">

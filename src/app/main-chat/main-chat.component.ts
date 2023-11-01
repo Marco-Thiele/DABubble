@@ -929,11 +929,13 @@ export class MainChatComponent implements OnInit {
       const editedMessage = this.currentChannel.chat[i];
       editedMessage.text = this.editedMessageUser;
       editedMessage.edited = true;
+      this.selectedChannel.chat.push(editedMessage);
       this.sharedService.updateChannelFS(this.selectedChannel);
     } else if (this.currentChatData) {
       const editedMessage = this.userService.currentChat.chat[i];
       editedMessage.text = this.editedMessageUser;
       editedMessage.edited = true;
+      this.currentChatData.chat.push(editedMessage);
       this.sharedService.updatePrivateChatFS(this.currentChatData);
     }
     this.editMessageUser[i] = false;
