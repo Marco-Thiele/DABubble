@@ -53,6 +53,7 @@ export class SharedService implements OnInit {
     date: '',
     email: '',
   };
+  selectedChat: any;
   selectedChannel: any;
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   thread: any;
@@ -247,7 +248,7 @@ export class SharedService implements OnInit {
    * Gets the list of channels.
    * @returns the list of channels
    */
-  channelsList() {
+  channelsList(channel?: any) {
     return onSnapshot(this.getChannelsFromFS(), (list) => {
       this.channelsListArray = [];
       list.forEach((element) => {
@@ -255,6 +256,16 @@ export class SharedService implements OnInit {
           this.setChannelObject(element.data(), element.id)
         );
       });
+      // this code below takes the optional parameter and looks for the selected channel and gives it to
+      // this.selectedChat. This works so far that this.selectedChat is always up to date with newest data
+      // if (channel !== undefined) {
+      //   this.channelsListArray.forEach((channelFromList) => {
+      //     if (channelFromList.id === channel.id) {
+      //       this.selectedChat = channelFromList;
+      //       console.log('my selected chat is: ', this.selectedChat);
+      //     }
+      //   });
+      // }
     });
   }
 
