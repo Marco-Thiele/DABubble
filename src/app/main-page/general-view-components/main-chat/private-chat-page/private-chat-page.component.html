@@ -1,0 +1,37 @@
+<!--Head private chats-->
+<div class="head-new-direct-message-cont">
+  <div class="head-new-direct-message">
+    <div class="new-direct-message-img">
+      <div class="head-photo">
+        <img src="{{ selectedMember?.profileImg }}" />
+        <div class="online"></div>
+      </div>
+    </div>
+    <span class="font700-normal">{{ selectedMember?.name }}</span>
+  </div>
+</div>
+
+<!--Container for the intro of the chat-->
+<div class="chat-container">
+  <div class="inner-container" #chatContainer (scroll)="handleScroll($event)">
+
+    <div class="beginning-private-chat">
+      <div class="private-chat-member" *ngFor="let selectedMember">
+        <div class="private-message-img">
+          <div class="img" [style.background-image]="'url(' + selectedMember?.imgProfil + ')'"></div>
+        </div>
+        <a class="font700-normal">{{ selectedMember?.name }} </a>
+      </div>
+      <div class="description-private-msg">
+        <span class="font400-normal">Diese Unterhaltung findet nur zwischen
+          <a class="font400-normal">@{{ selectedMember?.name }} &nbsp;</a>und dir
+          statt.</span>
+      </div>
+    </div>
+
+    <!--Container to show messages-->
+    <app-chat-contain></app-chat-contain>
+  </div>
+</div>
+<!--Container to write in chat-->
+<app-box-to-write class="box-to-write"></app-box-to-write>

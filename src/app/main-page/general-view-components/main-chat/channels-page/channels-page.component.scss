@@ -1,0 +1,250 @@
+// Design from the principal chat
+
+.chat-container {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  position: relative;
+  display: flex;
+  overflow: scroll;
+}
+
+.inner-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+// Design from the head of main chat
+.head-member-container {
+  width: -webkit-fill-available;
+  display: flex;
+  padding: 25px 45px;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--White, #fff);
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 30px 30px 0px 0px;
+}
+
+.head-title-channel {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-radius: 100px;
+  cursor: pointer;
+
+  &:hover {
+    .hashtag {
+      background-image: url(/assets/icons/tag_blue.svg) !important;
+      background-size: cover;
+      width: 22px;
+      height: 23px;
+    }
+
+    .title {
+      color: var(--Purple-3, #535af1) !important;
+    }
+
+    .head-arrow-cont {
+      div {
+        background-image: url(/assets/icons/keyboard_arrow_down_blue.svg) !important;
+        background-size: cover;
+        width: 12px;
+        height: 8px;
+      }
+    }
+    background: var(--Bg-color, #eceefe) !important;
+  }
+}
+
+.title-channel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.title-hashtag {
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  .hashtag {
+    background-image: url(/assets/icons/tag.svg);
+    background-size: cover;
+    width: 22px;
+    height: 23px;
+  }
+  .title {
+    font-size: 24px;
+    color: black;
+  }
+
+  .head-arrow-cont {
+    display: flex;
+    padding: 2px;
+    div {
+      background-image: url(/assets/icons/keyboard_arrow_down.svg);
+      background-size: cover;
+      width: 12px;
+      height: 8px;
+    }
+  }
+}
+
+.members-add-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  span {
+    font-size: 20px;
+  }
+}
+
+.members-cont {
+  display: flex;
+  padding: 3px 15px 3px 5px;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    span {
+      color: var(--Purple-3, #535af1);
+    }
+    border-radius: 30px;
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+.members {
+  display: flex;
+  height: 40px;
+  align-items: flex-start;
+  flex-shrink: 0;
+
+  img {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+    margin-right: -10px;
+    border-radius: 30px;
+    border-radius: 30px;
+    border: 2px solid var(--White, #fff);
+    background: var(--White, #fff);
+  }
+}
+
+.add-member-cont {
+  display: flex;
+  padding: 8px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 20px;
+  background: var(--Bg-color, #eceefe);
+  cursor: pointer;
+
+  div {
+    background-image: url(/assets/icons/person_add.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    div {
+      background-image: url(/assets/icons/person_add_blue.svg);
+    }
+    border-radius: 20px;
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+// Design the text for the beginning of creating a channel.
+.beginning-chat-cont {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  align-self: flex-start;
+  position: relative;
+  padding-top: 20px;
+  padding-left: 35px;
+  padding-right: 35px;
+  margin-top: auto;
+}
+
+.beginning-description {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3px;
+}
+
+.descrip-text {
+  gap: 3px;
+  font-size: 20px;
+  span {
+    font-size: 20px;
+    a {
+      font-size: 20px;
+      color: #535af1;
+    }
+  }
+
+  div {
+    background-image: url(/assets/icons/tag_blue.svg);
+    background-size: cover;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.box-to-write {
+  width: -webkit-fill-available;
+}
+
+@media (height < 700px) {
+  .head-member-container {
+    padding: 10px 45px;
+  }
+
+  .title-hashtag {
+    .hashtag {
+      width: 17px;
+      height: 17px;
+    }
+    .title {
+      font-size: 20px;
+    }
+  }
+
+  .members {
+    height: 35px;
+  }
+
+  .members-add-container {
+    span {
+      font-size: 18px;
+    }
+  }
+
+  .add-member-cont {
+    div {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

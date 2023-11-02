@@ -9,7 +9,7 @@ import { SharedService } from '../../../services/shared.service';
 export class GeneralViewComponent implements OnInit {
   isChannelsClosed = false;
   isChannelOpen = true;
-  isMainChatcomplete = false;
+  isMainChatcomplete = true;
   isMainChatInit = true;
   isMainChatSmall = false;
   channelDisplay = '';

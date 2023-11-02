@@ -52,6 +52,11 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import { PrincipalPageComponent } from './main-page/general-view-components/main-chat/principal-page/principal-page.component';
+import { ChannelsPageComponent } from './main-page/general-view-components/main-chat/channels-page/channels-page.component';
+import { PrivateChatPageComponent } from './main-page/general-view-components/main-chat/private-chat-page/private-chat-page.component';
+import { BoxToWriteComponent } from './main-page/general-view-components/main-chat/box-to-write/box-to-write.component';
+import { ChatContainComponent } from './main-page/general-view-components/main-chat/chat-contain/chat-contain.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +80,11 @@ import localeDe from '@angular/common/locales/de';
     UserProfilComponent,
     ImpressumComponent,
     DataPolicyComponent,
+    PrincipalPageComponent,
+    ChannelsPageComponent,
+    PrivateChatPageComponent,
+    BoxToWriteComponent,
+    ChatContainComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,9 +117,7 @@ import localeDe from '@angular/common/locales/de';
     CommonModule,
     DatePipe,
   ],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'de' },
-    SharedService],
+  providers: [{ provide: LOCALE_ID, useValue: 'de' }, SharedService],
   bootstrap: [AppComponent],
 })
 export class AppModule {

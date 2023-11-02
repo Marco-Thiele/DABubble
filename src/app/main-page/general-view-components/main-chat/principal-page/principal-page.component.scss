@@ -1,0 +1,140 @@
+// Design from the head of a new chat
+
+.head-new-message-cont {
+  display: flex;
+  width: -webkit-fill-available;
+  padding: 32px 45px 20px 45px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  background: var(--White, #fff);
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
+  border-radius: 30px 30px 0px 0px;
+}
+
+.head-new-message-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 420px;
+  align-self: stretch;
+
+  span {
+    font-size: 24px;
+  }
+}
+
+.head-new-message-searchbar {
+  display: flex;
+  padding: 15px 20px;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 30px;
+  border: 1px solid #adb0d9;
+
+  input {
+    width: 100%;
+    font-family: Nunito;
+    font-size: 18px !important;
+    outline: none;
+    border: none;
+    color: black;
+
+    ::placeholder {
+      color: #686868;
+      font-family: Nunito;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+}
+
+.focused {
+  border: 1px solid #535af1 !important;
+}
+
+//Design conten of the component
+
+.chat-container {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  position: relative;
+  display: flex;
+  overflow: scroll;
+}
+
+.inner-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+//Design looks function
+
+.container-lookingfor {
+  max-height: 400px;
+  display: flex;
+  padding: 20px;
+  gap: 30px;
+}
+
+.searchMatches {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  span {
+    font-size: 19px;
+  }
+}
+
+.memberMatches {
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 3px 10px;
+  cursor: pointer;
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+  }
+  &:hover {
+    span {
+      color: var(--Purple-3, #535af1);
+    }
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+.channelMatches {
+  border-radius: 30px;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  img {
+    width: 14px;
+  }
+  span {
+    font-size: 18px;
+  }
+  &:hover {
+    img {
+      content: url(/assets/icons/tag_blue.svg);
+    }
+    span {
+      color: var(--Purple-3, #535af1);
+    }
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+.box-to-write {
+  width: -webkit-fill-available;
+}

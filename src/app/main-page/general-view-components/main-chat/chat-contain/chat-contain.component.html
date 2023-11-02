@@ -1,0 +1,141 @@
+<div *ngFor="
+        let message of ((selectedMember && currentChatData?.chat) || []).concat(
+          selectedChannel?.chat || []
+        )
+        let i = index
+      ">
+  <ng-container *ngIf="i === 0 || parseDate(message.date) !== parseDate(previousDate)">
+    <div *ngIf="i === 0 || parseDate(message.date) !== parseDate(previousDate)">
+      <div class="time-separator">
+        <div class="time-line"></div>
+        <div class="time-day">
+          <span class="font400-normal">{{
+            parseDate(message.date) | date : "EEEE, d MMMM"
+            }}</span>
+        </div>
+      </div>
+      {{ updatePreviousDate(message.date) }}
+    </div>
+  </ng-container>
+  <!--Container for the member's chat-->
+  <div [ngClass]="{
+          'message-user-box-cont': message.userName == userService.getName()
+        }" class="message-members-box-cont">
+    <div [ngClass]="{
+            'message-reaction-people-reverse':
+              message.userName == userService.getName()
+          }" class="message-reaction-people">
+      <div class="reaction-icon">
+        <div class="icon-tick"></div>
+      </div>
+      <div class="reaction-icon">
+        <div class="icon-hands"></div>
+      </div>
+      <div class="reaction-icon" (click)="toggleEmojiPicker(i)">
+        <div class="icon-smile"></div>
+      </div>
+      <div class="reaction-icon">
+        <div class="icon-message"></div>
+      </div>
+      <div [ngClass]="{
+              'reaction-icon': message.userName == userService.getName()
+            }">
+        <div [ngClass]="{
+                'icon-points': message.userName == userService.getName()
+              }" (click)="toggleShowEdit(i)">
+          <div class="delete-message" *ngIf="showEdit[i]" (click)="editMessage(i, message.id)">
+            Nachricht bearbeiten
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="message-user-img">
+      <div [style.background-image]="'url(' + message.profileImg + ')'"></div>
+    </div>
+    <div [ngClass]="{
+            'message-members-box-reverse':
+              message.userName == userService.getName()
+          }" class="message-members-box" *ngIf="!editMessageUser[i]">
+      <div [ngClass]="{
+              'message-user-name-reverse':
+                message.userName == userService.getName()
+            }" class="message-user-name">
+        <a class="name" (click)="
+                showUserProfil(
+                  message.userName,
+                  message.profileImg,
+                  message.email,
+                  message.uid
+                )
+              ">{{ message.userName }}</a>
+        <span class="font400-normal">{{ message.time }}</span>
+      </div>
+      <div [ngClass]="{
+              'message-members-speech-reverse':
+                message.userName == userService.getName()
+            }" class="message-members-speech">
+        <span class="font400-normal" (click)="openThread(i, message.id)">{{
+          message.text
+          }}</span>
+        <img src="{{ message.imageUrl }}" alt="" [style.width]="message.imageUrl ? '150px' : '0px'"
+          [style.margin-top]="message.imageUrl ? '8px' : '0px'" />
+      </div>
+      <div class="message-user-reaction">
+        <div>
+          <div class="answer-icons">
+            <div *ngFor="
+                    let emojis of (selectedChannel
+                      ? selectedChannel.chat
+                      : currentChatData.chat)[i].reactions;
+                    let j = index
+                  " class="answer-reaction" (click)="deleteEmoji(i, j)">
+              <div class="info-emojis" *ngIf="emojis">
+                <div class="info-emoji">{{ emojis.emoji }}</div>
+                <div class="info-emojis-name">
+                  <span *ngFor="let userName of emojis.users; let isLast = last">
+                    {{ userName }}
+                    <ng-container *ngIf="!isLast">, </ng-container>
+                  </span>
+                </div>
+                <div>
+                  {{
+                  emojis?.users?.length > 1
+                  ? "haben reagiert"
+                  : "hat reagiert"
+                  }}
+                </div>
+              </div>
+              {{ emojis.emoji }}
+              <div>
+                {{ emojis.count }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="emoji-cont">
+        <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[i]" (emojiSelect)="addEmojiAnswer($event, i)" size="25%"
+          title="Pick your emoji…"></emoji-mart>
+      </div>
+      <div class="message-members-answers" *ngIf="!currentChatData">
+        <span *ngIf="message.answers?.length > 0" class="font400-normal" (click)="openThread(i, message.id)">{{
+          message.answers?.length }} Antworten</span>
+        <a *ngIf="message.answers.length > 0" class="font400-normal">Letzte Antwort: {{ getLastAnswerTime(message)
+          }}
+        </a>
+      </div>
+    </div>
+    <div class="editMessage" *ngIf="editMessageUser[i]">
+      <input type="text" placeholder="{{ message.text }}" [(ngModel)]="editedMessageUser" />
+      <div class="editMessage-buttons">
+        <div class="editMessage-cancel" (click)="closeEdit(i)">
+          <span>Abbrechen</span>
+        </div>
+        <div class="editMessage-save" (click)="saveEditMessage(i)">
+          <span>Speichern</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </ng-container> -->
+</div>

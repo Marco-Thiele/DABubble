@@ -4,8 +4,11 @@
 <div class="general-view-container">
   <app-channels class="general-channels-container" [class.closed]="isChannelsClosed" [class.open]="isChannelOpen"
     [ngStyle]="{ 'display': channelDisplay }" *ngIf="appChannels && showChannels"></app-channels>
-  <app-main-chat class="main-chat-container" [class.complete]="isMainChatcomplete" [class.init]="isMainChatInit"
-    [class.small]="isMainChatSmall" [class.flex]="mainChatRespo" *ngIf="appMainChat && showMainChat"></app-main-chat>
+  <!-- <app-main-chat class="main-chat-container" [class.complete]="isMainChatcomplete" [class.init]="isMainChatInit"
+    [class.small]="isMainChatSmall" [class.flex]="mainChatRespo" *ngIf="appMainChat && showMainChat"></app-main-chat> -->
+  <!-- <app-principal-page class="main-chat-container" [class.complete]="isMainChatcomplete"></app-principal-page> -->
+  <app-channels-page class="main-chat-container" [class.complete]="isMainChatcomplete"></app-channels-page>
+  <!-- <app-private-chat-page class="main-chat-container" [class.complete]="isMainChatcomplete"></app-private-chat-page> -->
   <app-secondary-chat class="secondary-chat-container" *ngIf="appSecondaryChat && showSecondary"
     [class.closed]="isThreadsClosed" [class.flex]="secundaryRespo" [class.open]="isThreadsOpen"></app-secondary-chat>
 </div>

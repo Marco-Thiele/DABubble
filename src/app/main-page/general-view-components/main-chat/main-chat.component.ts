@@ -752,55 +752,34 @@ export class MainChatComponent implements OnInit {
   /**
    * Searches in local storage
    */
-  searchMembersAndChannels(event: Event) {
+  async searchMembersAndChannels(event: Event) {
     const inputText = (event.target as HTMLInputElement).value;
 
-    if (typeof inputText === 'string') {
-      this.memberMatches = [];
-      this.channelMatches = [];
+    if (typeof inputText !== 'string') {
+      return;
+    }
 
-      if (inputText.startsWith('@')) {
-        const searchTerm = inputText.substring(1);
-        this.searchMembers(searchTerm).then((members) => {
-          this.memberMatches = members;
-          this.isNewMessageVisible =
-            this.memberMatches.length > 0 || this.channelMatches.length > 0;
-          if (this.isNewMessageVisible) {
-            this.scrollToTop();
-          }
-        });
-      } else if (inputText.startsWith('#')) {
-        const searchTerm = inputText.substring(1);
-        this.searchChannels(searchTerm).then((channels) => {
-          this.channelMatches = channels;
-          this.isNewMessageVisible =
-            this.memberMatches.length > 0 || this.channelMatches.length > 0;
-          if (this.isNewMessageVisible) {
-            this.scrollToTop();
-          }
-        });
-      } else {
-        this.searchMembers(inputText).then((members) => {
-          this.memberMatches = members;
-          this.isNewMessageVisible =
-            this.memberMatches.length > 0 ||
-            this.channelMatches.length > 0 ||
-            this.isNewMessageVisible === true;
-          if (this.isNewMessageVisible) {
-            this.scrollToTop();
-          }
-        });
-        this.searchChannels(inputText).then((channels) => {
-          this.channelMatches = channels;
-          this.isNewMessageVisible =
-            this.memberMatches.length > 0 ||
-            this.channelMatches.length > 0 ||
-            this.isNewMessageVisible === true;
-          if (this.isNewMessageVisible) {
-            this.scrollToTop();
-          }
-        });
-      }
+    this.memberMatches = [];
+    this.channelMatches = [];
+    const searchTerm =
+      inputText.startsWith('@') || inputText.startsWith('#')
+        ? inputText.substring(1)
+        : inputText;
+
+    if (inputText.startsWith('@') || !inputText.startsWith('#')) {
+      const members = await this.searchMembers(searchTerm);
+      this.memberMatches = members;
+    }
+
+    if (inputText.startsWith('#') || !inputText.startsWith('@')) {
+      const channels = await this.searchChannels(searchTerm);
+      this.channelMatches = channels;
+    }
+
+    this.isNewMessageVisible =
+      this.memberMatches.length > 0 || this.channelMatches.length > 0;
+    if (this.isNewMessageVisible) {
+      this.scrollToTop();
     }
   }
 

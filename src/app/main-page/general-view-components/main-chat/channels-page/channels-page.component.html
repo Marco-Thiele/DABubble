@@ -1,0 +1,63 @@
+<!--Main chat-head channel-->
+<div class="head-member-container">
+  <div class="head-title-channel" (click)="editChannel(selectedChannel)" [style.background-color]="
+      isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'
+    ">
+    <div class="title-channel">
+      <div class="title-hashtag">
+        <div class="hashtag" [style.background-image]="
+            isEditChannelOpen()
+              ? 'url(/assets/icons/tag_blue.svg)'
+              : 'url(/assets/icons/tag.svg)'
+          "></div>
+        <span class="title font700-normal" [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'">{{
+          selectedChannel?.name }}</span>
+        <div class="head-arrow-cont">
+          <div [style.background-image]="
+              isEditChannelOpen()
+                ? 'url(/assets/icons/keyboard_arrow_down_blue.svg)'
+                : 'url(/assets/icons/keyboard_arrow_down.svg)'
+            "></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="members-add-container">
+    <div class="members-cont" (click)="showMembers()">
+      <div class="members" *ngFor="let member of selectedChannel?.members">
+        <img [src]="member.imgProfil || member.profileImg" />
+      </div>
+    </div>
+    <span class="font600-normal">{{ selectedChannel?.members.length }}</span>
+    <div class="add-member-cont" (click)="addMembers()">
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<!--Container for the intro of the chat-->
+<div class="chat-container">
+  <div class="inner-container" #chatContainer (scroll)="handleScroll($event)">
+
+    <div class="beginning-chat-cont">
+      <div class="title-hashtag">
+        <div class="hashtag"></div>
+        <span class="title font700-normal">{{ selectedChannel?.name }}</span>
+      </div>
+      <div class="beginning-description">
+        <span class="font400-normal descrip-text">Du hast diesen Channel heute erstellt. Das ist der Anfang des
+          Channels
+          <span class="font400-normal"><a style="font-size: 22px">#</a>&nbsp;<a>Office-team</a>.</span>
+        </span>
+      </div>
+    </div>
+
+    <!--Container to show messages-->
+
+    <app-chat-contain></app-chat-contain>
+  </div>
+</div>
+
+<!--Container to write in chat-->
+<app-box-to-write class="box-to-write"></app-box-to-write>

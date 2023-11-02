@@ -1,0 +1,208 @@
+// Design to write in the chat
+.message-box-cont {
+  padding: 38px 35px 40px 35px;
+  border-radius: 30px;
+  width: -webkit-fill-available;
+}
+
+.message-box {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  border-radius: 20px;
+  border: 1px solid var(--ligth-purple-lines, #adb0d9);
+
+  textarea {
+    height: 40px;
+    max-height: 75px;
+    width: 100%;
+    font-family: Nunito;
+    font-size: 18px !important;
+    outline: none;
+    border: none;
+    color: black;
+    resize: none;
+    overflow: visible;
+
+    ::placeholder {
+      color: #686868;
+      font-family: Nunito;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+}
+
+.image-preview-cont {
+  display: flex;
+  height: 200px;
+  padding: 20px 10px 10px 10px;
+  position: relative;
+  img {
+    height: 200px;
+  }
+  div {
+    background-image: url(/assets/icons/close.svg);
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+
+    &:hover {
+      background-image: url(/assets/icons/close_blue.svg);
+      background-color: #eceefe;
+      border-radius: 20px;
+    }
+  }
+}
+
+.send-mesg-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.send-msg-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.icons {
+  display: flex;
+  padding: 8px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.icon-plus {
+  div {
+    background-image: url(/assets/icons/add-icon.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    div {
+      background-image: url(/assets/icons/add-icon-blue.svg);
+    }
+    border-radius: 20px;
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+.icons-line {
+  background-image: url(/assets/icons/vector_4.svg);
+  background-size: cover;
+  width: 1px;
+  height: 40px;
+}
+
+.icon-s {
+  div {
+    background-image: url(/assets/icons/satisfied.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+  }
+  &:hover {
+    div {
+      background-image: url(/assets/icons/satisfied_blue.svg);
+    }
+    border-radius: 20px;
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+.icon-et {
+  div {
+    background-image: url(/assets/icons/et.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    div {
+      background-image: url(/assets/icons/et_blue.svg);
+    }
+    border-radius: 20px;
+    background: var(--Bg-color, #eceefe);
+  }
+}
+
+.send-msg {
+  background-image: url(/assets/icons/send.svg);
+  background-size: cover;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+
+  &:hover {
+    background-image: url(/assets/icons/send_heller.svg);
+  }
+}
+
+.emoji-cont {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.emoji-mart {
+  position: absolute;
+  bottom: 30px;
+  font-family: Nunito;
+  z-index: 100;
+}
+
+@media (width < 550px) {
+  .message-box-cont {
+    padding: 20px;
+  }
+}
+
+@media (height < 1200px) {
+  .image-preview-cont {
+    height: 150px;
+
+    img {
+      height: 150px;
+    }
+  }
+}
+
+@media (height < 1000px) {
+  .image-preview-cont {
+    height: 100px;
+
+    img {
+      height: 100px;
+    }
+  }
+}
+@media (height < 700px) {
+  .message-box-cont {
+    padding: 20px;
+  }
+}
+
+@media (height < 550px) {
+  .image-preview-cont {
+    height: 50px;
+
+    img {
+      height: 50px;
+    }
+  }
+}
