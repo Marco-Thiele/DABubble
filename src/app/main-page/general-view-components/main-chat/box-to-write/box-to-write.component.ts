@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
+import { Subscription } from 'rxjs';
+import { onSnapshot } from '@firebase/firestore';
 
 @Component({
   selector: 'app-box-to-write',
@@ -30,17 +32,100 @@ export class BoxToWriteComponent {
   sendChannel = false;
   selectedChannel: any;
   timeLineDisplayed: Date | null = null;
+  currentChatData: any;
+  autoScrollEnabled = true;
 
   private userHasWrittenAfterAt = false;
+  private chatSubscription: Subscription = new Subscription();
 
   constructor(
     private sharedService: SharedService,
     private userService: UserService
   ) {
     this.imagePreview = new ElementRef(null);
+    this.privateChatWithMember(this.selectedMember);
+    this.openChannelContainer(this.selectedChannel);
   }
 
   ngOnInit(): void {}
+
+  ngOnDestroy() {
+    this.chatSubscription.unsubscribe();
+  }
+
+  /**
+   * It is executed when the view is initialized
+   */
+  ngAfterViewChecked() {
+    if (this.autoScrollEnabled) {
+      this.scrollToBottom();
+    }
+  }
+
+  /**
+   * Opens the channel container
+   * @param channel the channel to open
+   */
+  openChannelContainer(channel: any) {
+    this.sharedService.openChannelEvent$.subscribe((channel: any) => {
+      console.log('channel', channel);
+      // this.isChannelVisible = true;
+      // this.isPrivatChatContainerVisible = false;
+      // this.isChatWithMemberVisible = false;
+      // this.isNewMessageVisible = false;
+      // this.isPrivatChatContainerVisible = false;
+      // this.isPrivateChatVisible = false;
+      this.selectedChannel = channel;
+      this.currentChannel = channel;
+      // this.currentChatData = false;
+      this.sendChannel = true;
+      // this.sendPrivate = false;
+      this.placeholderMessageBox = 'Nachricht an #' + channel.name;
+      this.getMessages(channel);
+      this.scrollToBottom();
+    });
+  }
+
+  getMessages(channel: any) {
+    console.log('channel', channel);
+    return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
+      this.selectedChannel = [];
+      list.forEach((element: any) => {
+        const channelData = element.data();
+        if (channelData.name === channel.name) {
+          this.selectedChannel = channelData;
+          this.selectedChannel.id = channel.id;
+        }
+      });
+    });
+  }
+
+  privateChatWithMember(member: any) {
+    this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
+      // this.isPrivatChatContainerVisible = true;
+      // this.isChatWithMemberVisible = true;
+      this.currentChatData = true;
+      // this.isPrivateChatVisible = false;
+      // this.isChannelVisible = false;
+      // this.isNewMessageVisible = false;
+      this.selectedMember = member;
+      // this.selectedChannel = null;
+      this.sendPrivate = true;
+      // this.sendChannel = false;
+      this.placeholderMessageBox = 'Nachricht an ' + member.name;
+      this.getsPrivateChats();
+      this.scrollToBottom();
+    });
+  }
+
+  getsPrivateChats() {
+    this.chatSubscription = this.userService
+      .subToChosenChat()
+      .subscribe((chatData) => {
+        this.currentChatData = chatData;
+      });
+  }
+
   /**
    * Changes the color in textarea when it is focused
    */
@@ -251,6 +336,7 @@ export class BoxToWriteComponent {
         date: new Date().toLocaleDateString(),
         email: this.userService.getMail(),
       };
+      console.log('message', message);
       if (selectedFile) {
         this.convertImageToBase64(selectedFile).then((base64Data) => {
           message.imageUrl = base64Data;

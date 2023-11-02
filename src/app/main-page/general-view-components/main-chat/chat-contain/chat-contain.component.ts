@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserProfilComponent } from 'src/app/main-page/profils-components/user-profil/user-profil.component';
 import { DialogService } from 'src/app/services/dialog.service';
+import { Subscription } from 'rxjs';
+import { onSnapshot } from '@firebase/firestore';
 
 @Component({
   selector: 'app-chat-contain',
@@ -10,6 +12,10 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./chat-contain.component.scss'],
 })
 export class ChatContainComponent implements OnInit {
+  @ViewChild('chatContainer', { static: false }) chatContainer!: ElementRef;
+
+  private chatSubscription: Subscription = new Subscription();
+
   selectedMember: any;
   selectedChannel: any;
   currentChatData: any;
@@ -21,14 +27,102 @@ export class ChatContainComponent implements OnInit {
   j: number = 0;
   editedMessageUser: string = '';
   currentChannel: any;
+  autoScrollEnabled = true;
 
   constructor(
     private sharedService: SharedService,
     public userService: UserService,
     private dialogService: DialogService
-  ) {}
+  ) {
+    this.privateChatWithMember(this.selectedMember);
+    this.openChannelContainer(this.selectedChannel);
+  }
 
   ngOnInit(): void {}
+
+  ngOnDestroy() {
+    this.chatSubscription.unsubscribe();
+  }
+
+  /**
+   * Opens the channel container
+   * @param channel the channel to open
+   */
+  openChannelContainer(channel: any) {
+    this.sharedService.openChannelEvent$.subscribe((channel: any) => {
+      console.log('channel', channel);
+      // this.isChannelVisible = true;
+      // this.isPrivatChatContainerVisible = false;
+      // this.isChatWithMemberVisible = false;
+      // this.isNewMessageVisible = false;
+      // this.isPrivatChatContainerVisible = false;
+      // this.isPrivateChatVisible = false;
+      this.selectedChannel = channel;
+      this.getMessages(channel);
+      this.currentChannel = channel;
+      // this.currentChatData = false;
+      // this.sendChannel = true;
+      // this.sendPrivate = false;
+      // this.placeholderMessageBox = 'Nachricht an #' + channel.name;
+      // this.scrollToBottom();
+    });
+  }
+
+  getMessages(channel: any) {
+    return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
+      this.selectedChannel = [];
+      list.forEach((element: any) => {
+        const channelData = element.data();
+        if (channelData.name === channel.name) {
+          this.selectedChannel = channelData;
+          this.selectedChannel.id = channel.id;
+        }
+      });
+    });
+  }
+
+  privateChatWithMember(member: any) {
+    this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
+      // this.isPrivatChatContainerVisible = true;
+      // this.isChatWithMemberVisible = true;
+      this.currentChatData = true;
+      // this.isPrivateChatVisible = false;
+      // this.isChannelVisible = false;
+      // this.isNewMessageVisible = false;
+      this.selectedMember = member;
+      // this.selectedChannel = null;
+      // this.sendPrivate = true;
+      // this.sendChannel = false;
+      // this.placeholderMessageBox = 'Nachricht an ' + member.name;
+      this.getsPrivateChats();
+      // this.scrollToBottom();
+    });
+  }
+
+  getsPrivateChats() {
+    this.chatSubscription = this.userService
+      .subToChosenChat()
+      .subscribe((chatData) => {
+        this.currentChatData = chatData;
+      });
+  }
+
+  /**
+   * Scrolls to the bottom of the chat
+   */
+  scrollToBottom() {
+    if (
+      // (this.isChatWithMemberVisible &&
+      //   this.currentChatData &&
+      this.selectedMember
+      //   ) ||
+      // (this.isChannelVisible && this.selectedChannel) ||
+      // (this.isPrivateChatVisible && this.selectedMember && this.currentChatData)
+    ) {
+      const chatElement = this.chatContainer.nativeElement;
+      chatElement.scrollTop = chatElement.scrollHeight;
+    }
+  }
 
   parseDate(dateString: string): string {
     if (dateString.includes('.')) {
