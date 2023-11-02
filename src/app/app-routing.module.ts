@@ -2,7 +2,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login-components/login/login.component';
-import { GeneralViewComponent } from './main-page/general-view/general-view.component';
+import { GeneralViewComponent } from './main-page/general-view-components/general-view/general-view.component';
 import { ChannelsComponent } from './main-page/channels-components/channels/channels.component';
 import { MainChatComponent } from './main-page/general-view-components/main-chat/main-chat.component';
 import { SecondaryChatComponent } from './main-page/general-view-components/secondary-chat/secondary-chat.component';

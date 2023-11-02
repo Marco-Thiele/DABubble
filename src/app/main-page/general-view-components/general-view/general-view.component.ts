@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
-import { SharedService } from '../../services/shared.service';
+import { SharedService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-general-view',

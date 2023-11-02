@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { GeneralViewComponent } from './main-page/general-view/general-view.component';
+import { GeneralViewComponent } from './main-page/general-view-components/general-view/general-view.component';
 import { ChannelsComponent } from './main-page/channels-components/channels/channels.component';
 import { MainChatComponent } from './main-page/general-view-components/main-chat/main-chat.component';
 import { SecondaryChatComponent } from './main-page/general-view-components/secondary-chat/secondary-chat.component';
