@@ -25,6 +25,7 @@ import {
   doc,
   onSnapshot,
 } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-main-chat',
   templateUrl: './main-chat.component.html',
@@ -220,15 +221,30 @@ export class MainChatComponent implements OnInit {
     });
   }
 
-  getMessages(channel: any) {
-    return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
-      this.selectedChannel = [];
-      list.forEach((element: any) => {
-        const channelData = element.data();
-        if (channelData.id === channel.id) {
-          this.selectedChannel = channelData;
-        }
+  getMessages(channel: any): Observable<{ messages: any[]; members: any[] }> {
+    return new Observable<{ messages: any[]; members: any[] }>((observer) => {
+      const channelRef = this.sharedService.getChannelsFromFS();
+
+      const unsubscribe = onSnapshot(channelRef, (list: any) => {
+        const result: { messages: any[]; members: any[] } = {
+          messages: [],
+          members: [],
+        };
+
+        list.forEach((element: any) => {
+          const channelData = element.data();
+          if (channelData.id === channel.id) {
+            result.messages = channelData.messages;
+            result.members = channelData.members;
+          }
+        });
+
+        observer.next(result);
       });
+
+      return () => {
+        unsubscribe();
+      };
     });
   }
 
