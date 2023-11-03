@@ -86,7 +86,7 @@
             <div *ngFor="
                     let emojis of (selectedChannel
                       ? selectedChannel.chat
-                      : currentChatData.chat)[i].reactions;
+                      : currentChatData?.chat)[i].reactions;
                     let j = index
                   " class="answer-reaction" (click)="deleteEmoji(i, j)">
               <div class="info-emojis" *ngIf="emojis">

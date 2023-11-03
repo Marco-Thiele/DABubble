@@ -125,7 +125,8 @@
 }
 
 .icon-et {
-  div {
+  .et-div {
+    position: relative;
     background-image: url(/assets/icons/et.svg);
     background-size: cover;
     width: 24px;
@@ -133,11 +134,41 @@
   }
 
   &:hover {
-    div {
+    .et-div {
       background-image: url(/assets/icons/et_blue.svg);
     }
+
     border-radius: 20px;
     background: var(--Bg-color, #eceefe);
+  }
+}
+
+.render-users {
+  position: absolute;
+  width: 150px;
+  height: 134px;
+  border: 1px solid black;
+  transform: translate(-37px, -138px);
+  background: white;
+  border-radius: 10px;
+  overflow: scroll;
+}
+
+.render-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px;
+
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    display: flex;
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
   }
 }
 

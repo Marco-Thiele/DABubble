@@ -51,42 +51,16 @@ export class PrivateChatPageComponent implements OnInit {
 
   privateChatWithMember(member: any) {
     this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
-      // this.isPrivatChatContainerVisible = true;
-      // this.isChatWithMemberVisible = true;
-      // this.currentChatData = true;
-      // this.isPrivateChatVisible = false;
-      // this.isChannelVisible = false;
-      // this.isNewMessageVisible = false;
       this.selectedMember = member;
-      // this.selectedChannel = null;
-      // this.sendPrivate = true;
-      // this.sendChannel = false;
-      // this.placeholderMessageBox = 'Nachricht an ' + member.name;
-      // this.getsPrivateChats();
       this.scrollToBottom();
     });
   }
 
-  // getsPrivateChats() {
-  //   this.chatSubscription = this.userService
-  //     .subToChosenChat()
-  //     .subscribe((chatData) => {
-  //       this.currentChatData = chatData;
-  //     });
-  // }
-
-  // /**
-  //  * Scrolls to the bottom of the chat
-  //  */
+  /**
+   * Scrolls to the bottom of the chat
+   */
   scrollToBottom() {
-    if (
-      // (this.isChatWithMemberVisible &&
-      //   this.currentChatData &&
-      this.selectedMember
-      //   ) ||
-      // (this.isChannelVisible && this.selectedChannel) ||
-      // (this.isPrivateChatVisible && this.selectedMember && this.currentChatData)
-    ) {
+    if (this.selectedMember) {
       const chatElement = this.chatContainer.nativeElement;
       chatElement.scrollTop = chatElement.scrollHeight;
     }

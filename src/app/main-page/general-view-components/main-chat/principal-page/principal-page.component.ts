@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-principal-page',
@@ -15,8 +16,12 @@ export class PrincipalPageComponent implements OnInit {
   showContainers: boolean = true;
   selectedMember: any;
   selectedChannel: any;
+  placeholderMessageBox = 'Starte eine neue Nachricht';
 
-  constructor(private sharedService: SharedService) {}
+  constructor(
+    private sharedService: SharedService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -64,17 +69,9 @@ export class PrincipalPageComponent implements OnInit {
     this.isNewMessageVisible =
       this.memberMatches.length > 0 || this.channelMatches.length > 0;
     if (this.isNewMessageVisible) {
-      // this.scrollToTop();
     }
     console.log(this.memberMatches);
   }
-
-  // scrollToTop() {
-  //   if (this.membersContainer) {
-  //     const containerElement = this.membersContainer.nativeElement;
-  //     containerElement.scrollTop = 0;
-  //   }
-  // }
 
   /**
    * Looks for a member in the list of members.
@@ -118,19 +115,26 @@ export class PrincipalPageComponent implements OnInit {
    */
   openPrivateContainer(member: any) {
     console.log(member);
-    // this.selectedMember = member;
-    // const memberId = member.id;
-    // this.userService.selectedChatPartner = member;
+    this.selectedMember = member;
+    const memberId = member.id;
+    this.userService.selectedChatPartner = member;
 
-    // this.userService.doesChatExist();
-    // this.userService.createChat();
-    // this.userService.chatAlreadyExists = false;
-    // this.sharedService.emitOpenPrivateContainer(member);
-    // this.inputValue = '';
-    // this.showContainers = false;
+    this.userService.doesChatExist();
+    this.userService.createChat();
+    this.userService.chatAlreadyExists = false;
+    this.sharedService.emitOpenPrivateContainer(member);
+    this.inputValue = '';
+    this.showContainers = false;
   }
 
+  /**
+   * Opens a channel and closes the new message component
+   * @param channel the channel to open
+   */
   openChannel(channel: any) {
-    console.log(channel);
+    this.selectedChannel = channel;
+    const channelId = channel.id;
+    this.sharedService.emitOpenChannel(channel);
+    this.inputValue = '';
   }
 }

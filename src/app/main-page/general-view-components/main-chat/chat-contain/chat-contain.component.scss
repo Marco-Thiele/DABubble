@@ -486,6 +486,27 @@
 
 //Design edit message
 
+.delete-message {
+  position: absolute;
+  left: 200px;
+  top: 43px;
+  width: 200px;
+  height: 53px;
+  border-radius: 0px 30px 30px 30px;
+  padding: 10px 20px 10px 20px;
+  box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    color: rgb(121, 126, 243);
+    cursor: pointer;
+  }
+}
+
 .editMessage {
   display: flex;
   flex-direction: column;

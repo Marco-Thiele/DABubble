@@ -1,18 +1,26 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
 import { Subscription } from 'rxjs';
-import { onSnapshot } from '@firebase/firestore';
+import { collection, Firestore, onSnapshot } from '@firebase/firestore';
+import { DocumentData } from 'rxfire/firestore/interfaces';
 
 @Component({
   selector: 'app-box-to-write',
   templateUrl: './box-to-write.component.html',
   styleUrls: ['./box-to-write.component.scss'],
 })
-export class BoxToWriteComponent {
+export class BoxToWriteComponent implements OnInit {
   @ViewChild('messageTextarea') messageTextarea: ElementRef | undefined;
   @ViewChild('imagePreview', { read: ElementRef }) imagePreview: ElementRef;
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
+  @ViewChild('chatContainer', { static: false }) chatContainer!: ElementRef;
 
   isFocused = false;
   taIsFocused: boolean = false;
@@ -35,6 +43,11 @@ export class BoxToWriteComponent {
   currentChatData: any;
   autoScrollEnabled = true;
 
+  showUser: boolean = false;
+  users: DocumentData[] = [];
+
+  // firestore: Firestore = inject(Firestore);
+
   private userHasWrittenAfterAt = false;
   private chatSubscription: Subscription = new Subscription();
 
@@ -45,6 +58,7 @@ export class BoxToWriteComponent {
     this.imagePreview = new ElementRef(null);
     this.privateChatWithMember(this.selectedMember);
     this.openChannelContainer(this.selectedChannel);
+    // this.loadUsers();
   }
 
   ngOnInit(): void {}
@@ -54,35 +68,21 @@ export class BoxToWriteComponent {
   }
 
   /**
-   * It is executed when the view is initialized
-   */
-  ngAfterViewChecked() {
-    if (this.autoScrollEnabled) {
-      this.scrollToBottom();
-    }
-  }
-
-  /**
    * Opens the channel container
    * @param channel the channel to open
    */
   openChannelContainer(channel: any) {
     this.sharedService.openChannelEvent$.subscribe((channel: any) => {
       console.log('channel', channel);
-      // this.isChannelVisible = true;
-      // this.isPrivatChatContainerVisible = false;
-      // this.isChatWithMemberVisible = false;
-      // this.isNewMessageVisible = false;
-      // this.isPrivatChatContainerVisible = false;
-      // this.isPrivateChatVisible = false;
       this.selectedChannel = channel;
+      console.log('selectedChannel', this.selectedChannel);
       this.currentChannel = channel;
-      // this.currentChatData = false;
+      console.log('currentChannel', this.currentChannel);
       this.sendChannel = true;
-      // this.sendPrivate = false;
+      console.log('sendChannel', this.sendChannel);
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
+      console.log('placeholderMessageBox', this.placeholderMessageBox);
       this.getMessages(channel);
-      this.scrollToBottom();
     });
   }
 
@@ -102,19 +102,11 @@ export class BoxToWriteComponent {
 
   privateChatWithMember(member: any) {
     this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
-      // this.isPrivatChatContainerVisible = true;
-      // this.isChatWithMemberVisible = true;
       this.currentChatData = true;
-      // this.isPrivateChatVisible = false;
-      // this.isChannelVisible = false;
-      // this.isNewMessageVisible = false;
       this.selectedMember = member;
-      // this.selectedChannel = null;
       this.sendPrivate = true;
-      // this.sendChannel = false;
       this.placeholderMessageBox = 'Nachricht an ' + member.name;
       this.getsPrivateChats();
-      this.scrollToBottom();
     });
   }
 
@@ -271,23 +263,6 @@ export class BoxToWriteComponent {
       };
       reader.readAsDataURL(this.selectedFile);
     }
-    this.scrollToBottom();
-  }
-
-  /**
-   * Scrolls to the bottom of the chat
-   */
-  scrollToBottom() {
-    // if (
-    //   (this.isChatWithMemberVisible &&
-    //     this.currentChatData &&
-    //     this.selectedMember) ||
-    //   (this.isChannelVisible && this.selectedChannel) ||
-    //   (this.isPrivateChatVisible && this.selectedMember && this.currentChatData)
-    // ) {
-    //   const chatElement = this.chatContainer.nativeElement;
-    //   chatElement.scrollTop = chatElement.scrollHeight;
-    // }
   }
 
   /**
@@ -305,14 +280,36 @@ export class BoxToWriteComponent {
     this.message = text;
   }
 
-  /**
-   * Send a @ to the textarea to look for a member
-   */
-  writeUser() {
-    if (this.messageTextarea && this.messageTextarea.nativeElement) {
-      this.messageTextarea.nativeElement.value += '@';
-      this.userHasWrittenAfterAt = false;
-    }
+  // /**
+  //  * Send a @ to the textarea to look for a member
+  //  */
+  // writeUser() {
+  //   if (this.messageTextarea && this.messageTextarea.nativeElement) {
+  //     this.messageTextarea.nativeElement.value += '@';
+  //     this.userHasWrittenAfterAt = false;
+  //   }
+  // }
+  showUsers() {
+    this.showUser = !this.showUser;
+    console.log('showUser', this.showUser);
+  }
+
+  // getUserCollection() {
+  //   return collection(this.firestore, 'users');
+  // }
+
+  // loadUsers() {
+  //   return onSnapshot(this.getUserCollection(), (list) => {
+  //     list.forEach((element) => {
+  //       const userData = element.data();
+  //       this.users.push(userData);
+  //     });
+  //     console.log('userdaten', this.users);
+  //   });
+  // }
+
+  addUser(name: string) {
+    this.message += '#' + name;
   }
 
   /**
@@ -370,7 +367,6 @@ export class BoxToWriteComponent {
       this.timeLineDisplayed = messageDate;
     }
     this.returnChannelsMessages();
-    this.scrollToBottom();
   }
 
   /**
@@ -431,7 +427,6 @@ export class BoxToWriteComponent {
       this.clearPreviewImage();
     }
     this.returnPrivatesMessagesFS();
-    this.scrollToBottom();
   }
 
   returnPrivatesMessagesFS() {

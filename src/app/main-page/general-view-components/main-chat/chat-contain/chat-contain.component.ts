@@ -44,27 +44,17 @@ export class ChatContainComponent implements OnInit {
     this.chatSubscription.unsubscribe();
   }
 
-  /**
+  /*
    * Opens the channel container
    * @param channel the channel to open
    */
   openChannelContainer(channel: any) {
     this.sharedService.openChannelEvent$.subscribe((channel: any) => {
       console.log('channel', channel);
-      // this.isChannelVisible = true;
-      // this.isPrivatChatContainerVisible = false;
-      // this.isChatWithMemberVisible = false;
-      // this.isNewMessageVisible = false;
-      // this.isPrivatChatContainerVisible = false;
-      // this.isPrivateChatVisible = false;
       this.selectedChannel = channel;
-      this.getMessages(channel);
       this.currentChannel = channel;
-      // this.currentChatData = false;
-      // this.sendChannel = true;
-      // this.sendPrivate = false;
-      // this.placeholderMessageBox = 'Nachricht an #' + channel.name;
-      // this.scrollToBottom();
+      this.getMessages(channel);
+      this.scrollToBottom();
     });
   }
 
@@ -83,19 +73,9 @@ export class ChatContainComponent implements OnInit {
 
   privateChatWithMember(member: any) {
     this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
-      // this.isPrivatChatContainerVisible = true;
-      // this.isChatWithMemberVisible = true;
       this.currentChatData = true;
-      // this.isPrivateChatVisible = false;
-      // this.isChannelVisible = false;
-      // this.isNewMessageVisible = false;
       this.selectedMember = member;
-      // this.selectedChannel = null;
-      // this.sendPrivate = true;
-      // this.sendChannel = false;
-      // this.placeholderMessageBox = 'Nachricht an ' + member.name;
       this.getsPrivateChats();
-      // this.scrollToBottom();
     });
   }
 
@@ -111,14 +91,7 @@ export class ChatContainComponent implements OnInit {
    * Scrolls to the bottom of the chat
    */
   scrollToBottom() {
-    if (
-      // (this.isChatWithMemberVisible &&
-      //   this.currentChatData &&
-      this.selectedMember
-      //   ) ||
-      // (this.isChannelVisible && this.selectedChannel) ||
-      // (this.isPrivateChatVisible && this.selectedMember && this.currentChatData)
-    ) {
+    if (this.selectedMember || this.selectedChannel) {
       const chatElement = this.chatContainer.nativeElement;
       chatElement.scrollTop = chatElement.scrollHeight;
     }

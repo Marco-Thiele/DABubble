@@ -64,9 +64,7 @@ export class GeneralViewComponent implements OnInit {
   openRespChannelContainer(channel: any) {
     this.sharedService.openRespChannelEvent$.subscribe((channel: any) => {
       this.showChannels = false;
-      this.appChannels = false;
       this.showMainChat = true;
-      this.appMainChat = true;
       this.mainChatRespo = true;
     });
   }
