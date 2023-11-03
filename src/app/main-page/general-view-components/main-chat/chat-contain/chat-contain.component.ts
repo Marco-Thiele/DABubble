@@ -56,7 +56,7 @@ export class ChatContainComponent implements OnInit {
       this.selectedChannel = channel;
       this.currentChannel = channel;
       this.getMessages(channel);
-      this.scrollToBottom();
+      // this.scrollToBottom();
     });
   }
 

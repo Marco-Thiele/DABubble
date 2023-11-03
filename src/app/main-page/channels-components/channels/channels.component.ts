@@ -13,6 +13,7 @@ import { SharedService } from '../../../services/shared.service';
 import { UserService } from '../../../services/user.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { EmitOpenService } from 'src/app/services/emit-open.service';
+import { Channel } from 'src/app/models/channel';
 
 @Component({
   selector: 'app-channels',
@@ -23,7 +24,7 @@ import { EmitOpenService } from 'src/app/services/emit-open.service';
 export class ChannelsComponent implements OnInit {
   @ViewChild('searchContainer', { read: ElementRef })
   searchContainer!: ElementRef;
-
+  channel: Channel = {} as Channel;
   uniqueId = this.sharedService.generateUniqueId();
   profilImg: any;
   panelOpenState = false;

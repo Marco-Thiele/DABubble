@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { SharedService } from '../../../services/shared.service';
+import { SharedService } from 'src/app/services/shared.service';
 import { Firestore } from '@angular/fire/firestore';
 import { EmitOpenService } from 'src/app/services/emit-open.service';
 @Component({
@@ -10,15 +10,11 @@ import { EmitOpenService } from 'src/app/services/emit-open.service';
 export class MainChatComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
 
-  //variables for new structure//
   openPrincipalPage: boolean = true;
   openChannelPage: boolean = false;
   openChatPage: boolean = false;
   selectedMember: any;
   selectedChannel: any;
-  //-------------------------//
-
-  // private chatSubscription: Subscription = new Subscription();
 
   constructor(
     private sharedService: SharedService,
@@ -26,14 +22,13 @@ export class MainChatComponent implements OnInit {
   ) {
     this.openNewMessage();
     // this.loadChannel();
-    this.openChannelContainer(this.selectedChannel); //dont erase this line
-    this.privateChatWithMember(this.selectedMember); //dont erase this line
+    this.openChannelContainer(this.selectedChannel);
+    this.privateChatWithMember(this.selectedMember);
     this.openNewMessage();
   }
 
   ngOnInit(): void {}
 
-  //Functions for new structure//
   /**
    * Opens the new message component which is used to create a new channel or to start a new chat with a member
    */
@@ -54,9 +49,10 @@ export class MainChatComponent implements OnInit {
       console.log('channel', channel);
       this.openChannelPage = true;
       this.openPrincipalPage = false;
-      this.openChatPage = false;
+      // this.EmitOpenService.emitOpenChannel(channel);
+      // this.openChatPage = false;
       this.selectedChannel = channel;
-      // this.scrollToBottom();
+      console.log('selectedChannel', this.selectedChannel);
     });
   }
 
@@ -72,7 +68,6 @@ export class MainChatComponent implements OnInit {
       this.selectedMember = member;
     });
   }
-  //-------------------------//
 
   // ngOnDestroy() {
   //   this.chatSubscription.unsubscribe();
