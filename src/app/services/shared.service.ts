@@ -24,15 +24,13 @@ import { UserService } from './user.service';
 })
 export class SharedService implements OnInit {
   private channels: any[] = [];
-  private isEditChannelOpen = false;
   public members: any[] = [];
   private membersData = new BehaviorSubject<any[]>([]);
   public users: any[] = [];
   private usersData = new BehaviorSubject<any[]>([]);
   private channelsData = new BehaviorSubject<any[]>([]);
   private userData: any;
-  private openThreadCont: () => void;
-  private closeThreadCont: (i: any) => void;
+
   messageID: any;
   currentMembers = this.membersData.asObservable();
   firestore: Firestore = inject(Firestore);
@@ -57,7 +55,6 @@ export class SharedService implements OnInit {
   selectedChannel: any;
   allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   thread: any;
-  openThread: boolean = true;
   reactions = {
     id: '',
     userName: '',
@@ -72,8 +69,6 @@ export class SharedService implements OnInit {
     this.unsubChannels = this.channelsList();
     this.unsubMembers = this.getMembersList();
     this.unsubUsers = this.getUsersList();
-    this.openThreadCont = () => {};
-    this.closeThreadCont = () => {};
   }
 
   ngOnInit(): void {}
@@ -436,114 +431,6 @@ export class SharedService implements OnInit {
   }
 
   /**
-   * Gets the value of the edit channel component.
-   * @returns true if the edit channel component is open, false otherwise
-   */
-  getIsEditChannelOpen(): boolean {
-    return this.isEditChannelOpen;
-  }
-
-  /**
-   * Sets the value of the edit channel component.
-   * @param value the value to set
-   */
-  setIsEditChannelOpen(value: boolean): void {
-    this.isEditChannelOpen = value;
-  }
-
-  /**
-   * Emits an event to open the new message component from Channel to Main-Chat
-   */
-  private openNewMessageEvent = new Subject<void>();
-
-  openNewMessageEvent$ = this.openNewMessageEvent.asObservable();
-
-  emitOpenNewMessage() {
-    this.openNewMessageEvent.next();
-  }
-
-  /**
-   * Emits an event to open the new message component from Channel to Main-Chat in responsive mode
-   */
-  private openRespNewMessage = new Subject<void>();
-
-  openRespNewMessage$ = this.openRespNewMessage.asObservable();
-
-  openMainChatContainer() {
-    this.openRespNewMessage.next();
-  }
-
-  /**
-   * Emits an event to open the channel component from Main-Chat to Channel
-   */
-  private openChannelEvent = new Subject<any>();
-
-  openChannelEvent$ = this.openChannelEvent.asObservable();
-
-  emitOpenChannel(channel: any) {
-    this.openChannelEvent.next(channel);
-  }
-
-  /**
-   * Emits an event to open the channel component from Main-Chat to Channel in responsive mode
-   */
-  private openRespChannelEvent = new Subject<any>();
-
-  openRespChannelEvent$ = this.openRespChannelEvent.asObservable();
-
-  emitRespOpenChannel(channel: any) {
-    this.openRespChannelEvent.next(channel);
-  }
-
-  /**
-   * Emits an event to open the private container from Main-Chat to Private
-   */
-  private openPrivateContainerEvent = new Subject<any>();
-
-  openPrivateContainerEvent$ = this.openPrivateContainerEvent.asObservable();
-
-  emitOpenPrivateContainer(member: any) {
-    this.openPrivateContainerEvent.next(member);
-    this.UserService.selectedChatPartner = member;
-
-    this.UserService.subToChosenChat();
-  }
-
-  /**
-   * Emits an event to open the private container from Main-Chat to Private in responsive mode
-   */
-  private respOpenPrivateContainerEvent = new Subject<any>();
-
-  respOpenPrivateContainerEvent$ =
-    this.respOpenPrivateContainerEvent.asObservable();
-
-  emitRespOpenPrivateContainer(member: any) {
-    this.respOpenPrivateContainerEvent.next(member);
-  }
-
-  /**
-   * Emits an event to open the threads container in responsive mode.
-   */
-  private respOpenThreadsEvent = new Subject<any>();
-
-  respOpenThreadsEvent$ = this.respOpenThreadsEvent.asObservable();
-
-  emitRespOpenThreadsEvent() {
-    this.respOpenThreadsEvent.next('');
-  }
-
-  /**
-   * Emits an event to close the threads container in responsive mode.
-   */
-  private respCloseThreadsEvent = new Subject<any>();
-
-  respCloseThreadsEvent$ = this.respCloseThreadsEvent.asObservable();
-
-  emitRespCloseThreads(i: any) {
-    this.respCloseThreadsEvent.next(i);
-  }
-
-  /**
    * Gets the list of members.
    * @returns the list of members
    */
@@ -633,61 +520,5 @@ export class SharedService implements OnInit {
       type: obj.type || '',
       channels: obj.channels || [],
     };
-  }
-
-  /**
-   * Registers the callback function to open the thread container.
-   * @param callback the callback function to register
-   */
-  registeropenThreadCont(callback: () => void) {
-    this.openThreadCont = callback;
-  }
-
-  /**
-   * Opens the thread container.
-   */
-  openThreads() {
-    if (this.openThreadCont) {
-      this.openThreadCont();
-    }
-  }
-
-  /**
-   * Registers the callback function to close the thread container.
-   * @param callback the callback function to register
-   */
-  registercloseThreads(callback: () => void) {
-    this.closeThreadCont = callback;
-  }
-
-  /**
-   * Closes the thread container.
-   */
-  closeThreads(i: any) {
-    if (this.closeThreadCont) {
-      this.closeThreadCont(i);
-    }
-  }
-
-  /**
-   * Emits an event to change the icon in responsive mode.
-   */
-  private iconResponsiveSubject = new Subject<boolean>();
-
-  iconResponsive$ = this.iconResponsiveSubject.asObservable();
-
-  toggleIconResponsive(value: boolean) {
-    this.iconResponsiveSubject.next(value);
-  }
-
-  /**
-   * Emits an event to open the channels container in responsive mode.
-   */
-  private onResizeRequestedSubject = new Subject<void>();
-
-  onResizeRequestedSubject$ = this.onResizeRequestedSubject.asObservable();
-
-  callOnResize() {
-    this.onResizeRequestedSubject.next();
   }
 }

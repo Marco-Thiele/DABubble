@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
 import { Firestore } from '@angular/fire/firestore';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 @Component({
   selector: 'app-main-chat',
   templateUrl: './main-chat.component.html',
@@ -19,7 +20,10 @@ export class MainChatComponent implements OnInit {
 
   // private chatSubscription: Subscription = new Subscription();
 
-  constructor(private sharedService: SharedService) {
+  constructor(
+    private sharedService: SharedService,
+    private EmitOpenService: EmitOpenService
+  ) {
     this.openNewMessage();
     // this.loadChannel();
     this.openChannelContainer(this.selectedChannel); //dont erase this line
@@ -34,7 +38,7 @@ export class MainChatComponent implements OnInit {
    * Opens the new message component which is used to create a new channel or to start a new chat with a member
    */
   openNewMessage() {
-    this.sharedService.openNewMessageEvent$.subscribe(() => {
+    this.EmitOpenService.openNewMessageEvent$.subscribe(() => {
       this.openPrincipalPage = true;
       this.openChannelPage = false;
       this.openChatPage = false;
@@ -46,7 +50,7 @@ export class MainChatComponent implements OnInit {
    * @param channel the channel to open
    */
   openChannelContainer(channel: any) {
-    this.sharedService.openChannelEvent$.subscribe((channel: any) => {
+    this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       console.log('channel', channel);
       this.openChannelPage = true;
       this.openPrincipalPage = false;
@@ -61,7 +65,7 @@ export class MainChatComponent implements OnInit {
    * @param member the member to open
    */
   privateChatWithMember(member: any) {
-    this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
+    this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
       this.openPrincipalPage = false;
       this.openChannelPage = false;
       this.openChatPage = true;

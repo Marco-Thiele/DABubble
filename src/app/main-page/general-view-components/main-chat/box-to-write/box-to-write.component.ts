@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 import { Subscription } from 'rxjs';
 import { collection, Firestore, onSnapshot } from '@firebase/firestore';
 import { DocumentData } from 'rxfire/firestore/interfaces';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 
 @Component({
   selector: 'app-box-to-write',
@@ -53,7 +54,8 @@ export class BoxToWriteComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
-    private userService: UserService
+    private userService: UserService,
+    private EmitOpenService: EmitOpenService
   ) {
     this.imagePreview = new ElementRef(null);
     this.privateChatWithMember(this.selectedMember);
@@ -72,7 +74,7 @@ export class BoxToWriteComponent implements OnInit {
    * @param channel the channel to open
    */
   openChannelContainer(channel: any) {
-    this.sharedService.openChannelEvent$.subscribe((channel: any) => {
+    this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       console.log('channel', channel);
       this.selectedChannel = channel;
       console.log('selectedChannel', this.selectedChannel);
@@ -101,7 +103,7 @@ export class BoxToWriteComponent implements OnInit {
   }
 
   privateChatWithMember(member: any) {
-    this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
+    this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
       this.currentChatData = true;
       this.selectedMember = member;
       this.sendPrivate = true;

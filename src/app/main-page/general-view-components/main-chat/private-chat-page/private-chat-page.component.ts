@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 
 @Component({
   selector: 'app-private-chat-page',
@@ -19,7 +20,8 @@ export class PrivateChatPageComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
-    public userService: UserService
+    public userService: UserService,
+    private EmitOpenService: EmitOpenService
   ) {
     this.privateChatWithMember(this.selectedMember);
   }
@@ -50,7 +52,7 @@ export class PrivateChatPageComponent implements OnInit {
   }
 
   privateChatWithMember(member: any) {
-    this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
+    this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
       this.selectedMember = member;
       this.scrollToBottom();
     });

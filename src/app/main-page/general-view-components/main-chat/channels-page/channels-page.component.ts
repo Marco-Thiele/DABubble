@@ -5,6 +5,7 @@ import { ChannelEditComponent } from 'src/app/main-page/channels-components/chan
 import { ChannelMembersComponent } from 'src/app/main-page/channels-components/channel-members/channel-members.component';
 import { AddChannelMembersComponent } from 'src/app/main-page/channels-components/add-channel-members/add-channel-members.component';
 import { Firestore, onSnapshot } from '@firebase/firestore';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 
 @Component({
   selector: 'app-channels-page',
@@ -18,7 +19,11 @@ export class ChannelsPageComponent implements OnInit {
   members: any[] = [];
   autoScrollEnabled = true;
 
-  constructor(private dialog: MatDialog, private sharedService: SharedService) {
+  constructor(
+    private dialog: MatDialog,
+    private sharedService: SharedService,
+    private EmitOpenService: EmitOpenService
+  ) {
     this.openChannelContainer(this.selectedChannel);
   }
 
@@ -38,7 +43,7 @@ export class ChannelsPageComponent implements OnInit {
    * @param channel the channel to open
    */
   openChannelContainer(channel: any) {
-    this.sharedService.openChannelEvent$.subscribe((channel: any) => {
+    this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       console.log('channel', channel);
       this.selectedChannel = channel;
       this.getMessages(channel);
@@ -76,10 +81,10 @@ export class ChannelsPageComponent implements OnInit {
     const dialogRef = this.dialog.open(ChannelEditComponent, {
       data: { selectedChannel },
     });
-    this.sharedService.setIsEditChannelOpen(true);
+    this.EmitOpenService.setIsEditChannelOpen(true);
 
     dialogRef.afterClosed().subscribe(() => {
-      this.sharedService.setIsEditChannelOpen(false);
+      this.EmitOpenService.setIsEditChannelOpen(false);
     });
   }
 
@@ -88,7 +93,7 @@ export class ChannelsPageComponent implements OnInit {
    * @returns true if the edit channel component is open, false otherwise
    */
   isEditChannelOpen(): boolean {
-    return this.sharedService.getIsEditChannelOpen();
+    return this.EmitOpenService.getIsEditChannelOpen();
   }
 
   /**

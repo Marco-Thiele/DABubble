@@ -12,6 +12,7 @@ import { ChannelErstellenComponent } from '../channel-erstellen/channel-erstelle
 import { SharedService } from '../../../services/shared.service';
 import { UserService } from '../../../services/user.service';
 import { DocumentData } from 'rxfire/firestore/interfaces';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 
 @Component({
   selector: 'app-channels',
@@ -49,7 +50,8 @@ export class ChannelsComponent implements OnInit {
     private dialog: MatDialog,
     private sharedService: SharedService,
     public userService: UserService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private EmitOpenService: EmitOpenService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -112,7 +114,7 @@ export class ChannelsComponent implements OnInit {
    * @returns true if the edit channel component is open, false otherwise
    */
   isEditChannelOpen(): boolean {
-    return this.sharedService.getIsEditChannelOpen();
+    return this.EmitOpenService.getIsEditChannelOpen();
   }
 
   /**
@@ -140,9 +142,9 @@ export class ChannelsComponent implements OnInit {
    * Opens the new message container in main chat.
    */
   openNewMessage() {
-    this.sharedService.emitOpenNewMessage();
+    this.EmitOpenService.emitOpenNewMessage();
     if (window.innerWidth < 1000) {
-      this.sharedService.openMainChatContainer();
+      this.EmitOpenService.openMainChatContainer();
     }
   }
 
@@ -151,10 +153,10 @@ export class ChannelsComponent implements OnInit {
    */
   openChannel(channel: any) {
     if (window.innerWidth < 1000) {
-      this.sharedService.emitRespOpenChannel(channel);
-      this.sharedService.toggleIconResponsive(true);
+      this.EmitOpenService.emitRespOpenChannel(channel);
+      this.EmitOpenService.toggleIconResponsive(true);
     }
-    this.sharedService.emitOpenChannel(channel);
+    this.EmitOpenService.emitOpenChannel(channel);
   }
 
   /**
@@ -162,10 +164,10 @@ export class ChannelsComponent implements OnInit {
    */
   openPrivateContainer(member: any) {
     if (window.innerWidth < 1000) {
-      this.sharedService.emitRespOpenPrivateContainer(member);
-      this.sharedService.toggleIconResponsive(true);
+      this.EmitOpenService.emitRespOpenPrivateContainer(member);
+      this.EmitOpenService.toggleIconResponsive(true);
     }
-    this.sharedService.emitOpenPrivateContainer(member);
+    this.EmitOpenService.emitOpenPrivateContainer(member);
   }
 
   searchMembersAndChannels(event: Event) {

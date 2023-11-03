@@ -5,6 +5,7 @@ import { UserProfilComponent } from 'src/app/main-page/profils-components/user-p
 import { DialogService } from 'src/app/services/dialog.service';
 import { Subscription } from 'rxjs';
 import { onSnapshot } from '@firebase/firestore';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 
 @Component({
   selector: 'app-chat-contain',
@@ -32,7 +33,8 @@ export class ChatContainComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     public userService: UserService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private EmitOpenService: EmitOpenService
   ) {
     this.privateChatWithMember(this.selectedMember);
     this.openChannelContainer(this.selectedChannel);
@@ -49,7 +51,7 @@ export class ChatContainComponent implements OnInit {
    * @param channel the channel to open
    */
   openChannelContainer(channel: any) {
-    this.sharedService.openChannelEvent$.subscribe((channel: any) => {
+    this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       console.log('channel', channel);
       this.selectedChannel = channel;
       this.currentChannel = channel;
@@ -72,7 +74,7 @@ export class ChatContainComponent implements OnInit {
   }
 
   privateChatWithMember(member: any) {
-    this.sharedService.openPrivateContainerEvent$.subscribe((member: any) => {
+    this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
       this.currentChatData = true;
       this.selectedMember = member;
       this.getsPrivateChats();
@@ -160,14 +162,14 @@ export class ChatContainComponent implements OnInit {
    */
   openThread(i: number, messageID: any) {
     if (window.innerWidth < 1000) {
-      this.sharedService.emitRespOpenThreadsEvent();
+      this.EmitOpenService.emitRespOpenThreadsEvent();
     }
     this.sharedService.selectedChannel = this.selectedChannel;
     this.sharedService.i = i;
     this.sharedService.messageID = messageID;
     this.sharedService.loadThreads();
-    this.sharedService.openThread = true;
-    this.sharedService.openThreads();
+    this.EmitOpenService.openThread = true;
+    this.EmitOpenService.openThreads();
   }
 
   /**

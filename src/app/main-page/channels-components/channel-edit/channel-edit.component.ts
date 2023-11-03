@@ -6,6 +6,7 @@ import {
 } from '@angular/material/dialog';
 import { SharedService } from '../../../services/shared.service';
 import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
+import { EmitOpenService } from '../../../services/emit-open.service';
 
 @Component({
   selector: 'app-channel-edit',
@@ -26,6 +27,7 @@ export class ChannelEditComponent implements OnInit {
     public dialogRef: MatDialogRef<ChannelEditComponent>,
     private dialog: MatDialog,
     private sharedService: SharedService,
+    private EmitOpenService: EmitOpenService,
     @Inject(MAT_DIALOG_DATA) public data: { selectedChannel: any }
   ) {
     this.selectedChannel = this.data.selectedChannel;
@@ -41,7 +43,7 @@ export class ChannelEditComponent implements OnInit {
    * Opens the edit channel container
    */
   editChannelContainer(channel: any) {
-    this.sharedService.openChannelEvent$.subscribe((channel: any) => {
+    this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       this.selectedChannel = channel;
       console.log(channel);
     });
@@ -51,7 +53,7 @@ export class ChannelEditComponent implements OnInit {
    */
   closeEditChannelContainer() {
     this.dialogRef.close();
-    this.sharedService.setIsEditChannelOpen(false);
+    this.EmitOpenService.setIsEditChannelOpen(false);
   }
 
   /**
@@ -93,7 +95,7 @@ export class ChannelEditComponent implements OnInit {
     if (this.selectedChannel.id) {
       this.sharedService.deleteChannelFS('channels', this.selectedChannel.id);
     }
-    this.sharedService.emitOpenNewMessage();
+    this.EmitOpenService.emitOpenNewMessage();
     this.dialogRef.close();
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 
 @Component({
   selector: 'app-principal-page',
@@ -20,7 +21,8 @@ export class PrincipalPageComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
-    private userService: UserService
+    private userService: UserService,
+    private EmitOpenService: EmitOpenService
   ) {}
 
   ngOnInit(): void {}
@@ -122,7 +124,7 @@ export class PrincipalPageComponent implements OnInit {
     this.userService.doesChatExist();
     this.userService.createChat();
     this.userService.chatAlreadyExists = false;
-    this.sharedService.emitOpenPrivateContainer(member);
+    this.EmitOpenService.emitOpenPrivateContainer(member);
     this.inputValue = '';
     this.showContainers = false;
   }
@@ -134,7 +136,7 @@ export class PrincipalPageComponent implements OnInit {
   openChannel(channel: any) {
     this.selectedChannel = channel;
     const channelId = channel.id;
-    this.sharedService.emitOpenChannel(channel);
+    this.EmitOpenService.emitOpenChannel(channel);
     this.inputValue = '';
   }
 }

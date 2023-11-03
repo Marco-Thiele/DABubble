@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DialogService } from '../../../services/dialog.service';
 import { UserService } from '../../../services/user.service';
 import { SharedService } from '../../../services/shared.service';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 
 @Component({
   selector: 'app-user-profil',
@@ -17,7 +18,8 @@ export class UserProfilComponent {
   constructor(
     private dialogService: DialogService,
     public UserService: UserService,
-    public SharedService: SharedService
+    public SharedService: SharedService,
+    private EmitOpenService: EmitOpenService
   ) {
     this.profilName = this.UserService.selectedUserName;
     this.profilImg = this.UserService.selectedUserPhotoURL;
@@ -38,7 +40,7 @@ export class UserProfilComponent {
     this.UserService.doesChatExist();
     this.UserService.createChat();
     this.UserService.chatAlreadyExists = false;
-    this.SharedService.emitOpenPrivateContainer(userJson);
+    this.EmitOpenService.emitOpenPrivateContainer(userJson);
     this.closeDialog();
   }
 

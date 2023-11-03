@@ -20,6 +20,7 @@ import { getAuth, signOut } from '@angular/fire/auth';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { message } from '../../../models/message';
 import { SharedService } from '../../../services/shared.service';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 
 @Component({
   selector: 'app-header',
@@ -43,7 +44,8 @@ export class HeaderComponent {
     public UserService: UserService,
     private dialogService: DialogService,
     private _router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private EmitOpenService: EmitOpenService
   ) {
     setInterval(() => {
       this.profilName = UserService.getName();
@@ -51,7 +53,7 @@ export class HeaderComponent {
     }, 300);
     this.subUserList();
     this.subChatList();
-    this.sharedService.iconResponsive$.subscribe((value) => {
+    this.EmitOpenService.iconResponsive$.subscribe((value) => {
       this.iconResponsive = value;
     });
   }
@@ -184,7 +186,7 @@ export class HeaderComponent {
 
   backToChannels() {
     this.iconResponsive = false;
-    this.sharedService.callOnResize();
+    this.EmitOpenService.callOnResize();
   }
 
   showUserProfil(

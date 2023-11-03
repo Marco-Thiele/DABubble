@@ -1,16 +1,23 @@
 import { DialogService } from '../../../services/dialog.service';
 import { UserService } from '../../../services/user.service';
 import { UserProfilComponent } from '../../profils-components/user-profil/user-profil.component';
-import {Component, OnInit, ElementRef, ViewChild, inject,} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChannelEditComponent } from '../../channels-components/channel-edit/channel-edit.component';
 import { SharedService } from '../../../services/shared.service';
 import { ChannelMembersComponent } from '../../channels-components/channel-members/channel-members.component';
 import { AddChannelMembersComponent } from '../../channels-components/add-channel-members/add-channel-members.component';
-import {Firestore, collection, onSnapshot,} from '@angular/fire/firestore';
+import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { object } from 'rxfire/database';
 import { user } from 'rxfire/auth';
 import { DocumentData } from 'rxfire/firestore/interfaces';
+import { EmitOpenService } from 'src/app/services/emit-open.service';
 
 @Component({
   selector: 'app-secondary-chat',
@@ -92,35 +99,40 @@ export class SecondaryChatComponent {
   showUser: boolean = false;
   users: DocumentData[] = [];
 
-  constructor(private dialogService: DialogService, public UserService: UserService, public sharedService: SharedService) {
+  constructor(
+    private dialogService: DialogService,
+    public UserService: UserService,
+    public sharedService: SharedService,
+    private EmitOpenService: EmitOpenService
+  ) {
     this.profilName = UserService.getName();
     this.profilImg = UserService.getPhoto();
     this.profilEmail = UserService.getMail();
     this.readThread();
-    this.loadUsers()
+    this.loadUsers();
   }
 
-/**
- * get the data from shared.Service
- */
+  /**
+   * get the data from shared.Service
+   */
   async readThread() {
     setInterval(() => {
-      if (this.sharedService.openThread) {
+      if (this.EmitOpenService.openThread) {
         this.i = this.sharedService.i;
         this.threadAnswersJson = this.sharedService.thread.answers;
-        this.readThreadObject()
+        this.readThreadObject();
         this.selectedChannel = this.sharedService.selectedChannel;
       }
-      this.sharedService.openThread = false;
+      this.EmitOpenService.openThread = false;
       setTimeout(() => {
-        this.sharedService.openThread = true;
+        this.EmitOpenService.openThread = true;
       }, 150);
     }, 200);
   }
 
-/**
- * load the variable threads shared.Service
- */
+  /**
+   * load the variable threads shared.Service
+   */
   readThreadObject() {
     this.threads = {
       id: this.sharedService.thread.id,
@@ -138,7 +150,7 @@ export class SecondaryChatComponent {
 
   /**
    * shows the userprofil
-   * 
+   *
    * @param userName string
    * @param userPhotoURL string
    * @param userEmail string
@@ -150,14 +162,13 @@ export class SecondaryChatComponent {
     this.dialogService.openDialog(UserProfilComponent);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   /**
    * Opens the new message component which is used to create a new channel or to start a new chat with a member
    */
   openNewMessage() {
-    this.sharedService.openNewMessageEvent$.subscribe(() => {
+    this.EmitOpenService.openNewMessageEvent$.subscribe(() => {
       this.isNewMessageVisible = true;
       this.isChannelVisible = false;
       this.isChatWithMemberVisible = false;
@@ -169,7 +180,7 @@ export class SecondaryChatComponent {
 
   /**
    * change the size from the textarea
-   * 
+   *
    * @param event any : click in the textarea
    */
   onTextareaInput(event: any): void {
@@ -214,12 +225,12 @@ export class SecondaryChatComponent {
     this.message = text;
   }
 
-/**
- * add an emoji to the headtext in threads
- * 
- * @param event any : selected emoji
- */
-  addEmojiThread(event: any,) {
+  /**
+   * add an emoji to the headtext in threads
+   *
+   * @param event any : selected emoji
+   */
+  addEmojiThread(event: any) {
     let answersEmojis = this.selectedChannel.chat[this.i].reactions;
     this.existEmoji = false;
     const { message } = this;
@@ -231,11 +242,10 @@ export class SecondaryChatComponent {
     this.j = 0;
   }
 
-
   /**
    * searched if the emoji exist and if the user has it picked bevor
-   * 
-   * @param answersEmojis any : data path 
+   *
+   * @param answersEmojis any : data path
    * @param text string : selected emoji
    */
   addEmojiThreadForEach(answersEmojis: any, text: string) {
@@ -251,10 +261,9 @@ export class SecondaryChatComponent {
     });
   }
 
-
   /**
    * if the emoji do not exist it while be saved
-   * 
+   *
    * @param text string : selected emoji
    */
   addEmojiThreadAnswerIfNotExist(text: string) {
@@ -265,18 +274,17 @@ export class SecondaryChatComponent {
         emoji: text,
       };
       this.selectedChannel.chat[this.i].reactions.push(this.newReacktion);
-      this.selectedChannel.chat[this.i].reactions[this.j].users.push(this.UserService.getName());
+      this.selectedChannel.chat[this.i].reactions[this.j].users.push(
+        this.UserService.getName()
+      );
     }
   }
-
 
   deleteEmojiThread(j: number) {
     let answersEmojis = this.selectedChannel.chat[this.i].reactions[j];
     this.deleteEmojisThreadIf(answersEmojis, j);
     this.sharedService.updateChannelFS(this.selectedChannel);
   }
-
-
 
   deleteEmojisThreadIf(answersEmojis: any, j: number) {
     if (answersEmojis.users.includes(this.UserService.getName())) {
@@ -289,11 +297,12 @@ export class SecondaryChatComponent {
       if (answersEmojis.users.length == 0)
         this.selectedChannel.chat[this.i].reactions.splice(j, 1);
     } else {
-      this.selectedChannel.chat[this.i].reactions[j].users.push(this.UserService.getName());
+      this.selectedChannel.chat[this.i].reactions[j].users.push(
+        this.UserService.getName()
+      );
       this.selectedChannel.chat[this.i].reactions[j].count++;
     }
   }
-
 
   addEmojiAnswer(event: any, i: number) {
     let answersEmojis = this.selectedChannel.chat[this.i].answers[i].reactions;
@@ -307,7 +316,6 @@ export class SecondaryChatComponent {
     this.j = 0;
   }
 
-
   addEmojiAnswerForEach(answersEmojis: any, text: string) {
     answersEmojis.forEach((element: any) => {
       this.j++;
@@ -319,7 +327,6 @@ export class SecondaryChatComponent {
       }
     });
   }
-
 
   addEmojiAnswerIfNotExist(text: string, i: number) {
     if (!this.existEmoji) {
@@ -334,13 +341,12 @@ export class SecondaryChatComponent {
     }
   }
 
-
   deleteEmoji(i: number, j: number) {
-    let answersEmojis = this.selectedChannel.chat[this.i].answers[i].reactions[j];
-    this.deleteEmojisIf(answersEmojis, i, j)
+    let answersEmojis =
+      this.selectedChannel.chat[this.i].answers[i].reactions[j];
+    this.deleteEmojisIf(answersEmojis, i, j);
     this.sharedService.updateChannelFS(this.selectedChannel);
   }
-
 
   deleteEmojisIf(answersEmojis: any, i: number, j: number) {
     if (answersEmojis.userName.includes(this.UserService.getName())) {
@@ -358,7 +364,6 @@ export class SecondaryChatComponent {
     }
   }
 
-
   toggleShowDelete(index: number) {
     this.showDelete[index] = !this.showDelete[index];
   }
@@ -369,7 +374,6 @@ export class SecondaryChatComponent {
   inputFocused() {
     this.isFocused = true;
   }
-
 
   /**
    * Changes the color in textarea when it is focused
@@ -421,35 +425,30 @@ export class SecondaryChatComponent {
     this.message = '';
   }
 
-
   /**
    * Closes the thread container
    */
   closeThreads(i: any) {
     if (innerWidth < 1000) {
-      this.sharedService.emitRespCloseThreads(i);
-      this.sharedService.emitRespOpenChannel(i);
-      this.sharedService.emitOpenChannel(i);
+      this.EmitOpenService.emitRespCloseThreads(i);
+      this.EmitOpenService.emitRespOpenChannel(i);
+      this.EmitOpenService.emitOpenChannel(i);
     }
-    this.sharedService.closeThreads(i);
+    this.EmitOpenService.closeThreads(i);
   }
-
 
   deleteMessage(i: number) {
     this.selectedChannel.chat[this.i].answers.splice(i, 1);
     this.sharedService.updateChannelFS(this.selectedChannel);
   }
 
-
   closeEdit(i: number) {
     this.editMessageUser[i] = false;
   }
 
-
   editMessage(i: number, messageID: any) {
     this.editMessageUser[i] = true;
   }
-
 
   saveEditMessage(i: number) {
     if (this.selectedChannel) {
@@ -465,12 +464,9 @@ export class SecondaryChatComponent {
     return collection(this.firestore, 'users');
   }
 
-
   showUsers() {
-    this.showUser = !this.showUser
-
+    this.showUser = !this.showUser;
   }
-
 
   loadUsers() {
     return onSnapshot(this.getUserCollection(), (list) => {
@@ -482,10 +478,7 @@ export class SecondaryChatComponent {
     });
   }
 
-
   addUser(name: string) {
     this.message += '#' + name;
   }
-
-
 }
