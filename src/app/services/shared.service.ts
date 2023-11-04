@@ -509,5 +509,4 @@ export class SharedService implements OnInit {
       });
     });
   }
-
 }

@@ -43,7 +43,6 @@ export class BoxToWriteComponent implements OnInit {
   timeLineDisplayed: Date | null = null;
   currentChatData: any;
   autoScrollEnabled = true;
-
   showUser: boolean = false;
   users: DocumentData[] = [];
 

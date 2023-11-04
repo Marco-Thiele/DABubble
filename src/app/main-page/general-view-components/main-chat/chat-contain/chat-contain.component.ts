@@ -54,7 +54,6 @@ export class ChatContainComponent implements OnInit {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       this.selectedChannel = channel;
       this.getMessages(channel);
-      this.scrollToBottom();
       this.currentChannel = channel;
     });
   }
