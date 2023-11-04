@@ -4,8 +4,8 @@ import { SharedService } from 'src/app/services/shared.service';
 import { UserProfilComponent } from 'src/app/main-page/profils-components/user-profil/user-profil.component';
 import { DialogService } from 'src/app/services/dialog.service';
 import { Subscription } from 'rxjs';
-import { onSnapshot } from '@firebase/firestore';
 import { EmitOpenService } from 'src/app/services/emit-open.service';
+import { onSnapshot } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-chat-contain',
@@ -53,6 +53,7 @@ export class ChatContainComponent implements OnInit {
   openChannelContainer(channel: any) {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       this.selectedChannel = channel;
+      this.getMessages(channel);
       this.currentChannel = channel;
     });
   }
