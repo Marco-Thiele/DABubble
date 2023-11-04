@@ -54,6 +54,7 @@ export class ChatContainComponent implements OnInit {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       this.selectedChannel = channel;
       this.getMessages(channel);
+      this.scrollToBottom();
       this.currentChannel = channel;
     });
   }
@@ -93,7 +94,7 @@ export class ChatContainComponent implements OnInit {
    * Scrolls to the bottom of the chat
    */
   scrollToBottom() {
-    if (this.selectedMember || this.selectedChannel) {
+    if (this.selectedMember || this.currentChannel) {
       const chatElement = this.chatContainer.nativeElement;
       chatElement.scrollTop = chatElement.scrollHeight;
     }
