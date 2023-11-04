@@ -92,12 +92,8 @@ export class GeneralViewComponent implements OnInit {
   }
 
   closeRespThreadsContainer(channel: any) {
-    this.EmitOpenService.respCloseThreadsEvent$.subscribe((i) => {
-      // this.showChannels = false;
-      // this.showMainChat = true;
-      // this.mainChatRespo = true;
-      this.showSecondary = true;
-      // this.openRespChannelContainer(channel);
+    this.EmitOpenService.respCloseThreadsEvent$.subscribe(() => {
+      this.showSecondary = false;
     });
   }
 
@@ -133,7 +129,6 @@ export class GeneralViewComponent implements OnInit {
     this.isChannelOpen = false;
     this.isMainChatcomplete = true;
     this.isMainChatInit = true;
-    // this.isMainChatSmaller = false;
     setTimeout(() => {
       this.channelDisplay = 'none';
       this.buttonText = 'Workspace-Menü öffen';
@@ -178,6 +173,7 @@ export class GeneralViewComponent implements OnInit {
     this.EmitOpenService.openRespNewMessage$.subscribe(() => {
       this.showChannels = false;
       this.showMainChat = true;
+      this.mainChatRespo = true;
     });
   }
 

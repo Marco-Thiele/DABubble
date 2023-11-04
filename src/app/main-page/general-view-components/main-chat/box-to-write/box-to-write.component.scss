@@ -201,6 +201,54 @@
   .message-box-cont {
     padding: 20px;
   }
+
+  .message-box {
+    padding: 15px;
+
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  .icon-plus {
+    div {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .icons-line {
+    height: 30px;
+  }
+
+  .icon-s {
+    div {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .icon-et {
+    .et-div {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .send-msg {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (width < 500px) {
+  .image-preview-cont {
+    height: 50px;
+
+    img {
+      height: 50px;
+    }
+  }
 }
 
 @media (height < 1200px) {
@@ -222,6 +270,7 @@
     }
   }
 }
+
 @media (height < 700px) {
   .message-box-cont {
     padding: 20px;

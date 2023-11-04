@@ -35,7 +35,7 @@
         <div class="icon-smile"></div>
       </div>
       <div class="reaction-icon">
-        <div class="icon-message"></div>
+        <div class="icon-message" (click)="openThread(i, message.id)"></div>
       </div>
       <div [ngClass]="{
               'reaction-icon': message.userName == userService.getName()

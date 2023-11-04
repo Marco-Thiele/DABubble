@@ -138,3 +138,58 @@
 .box-to-write {
   width: -webkit-fill-available;
 }
+
+@media (width < 500px) {
+  .head-new-direct-message-cont {
+    padding: 10px 45px;
+    gap: 10px;
+  }
+
+  .head-photo {
+    height: 40px;
+    img {
+      height: 40px;
+      width: 40px;
+    }
+    .online {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .head-new-direct-message {
+    span {
+      font-size: 20px;
+    }
+  }
+
+  .description-private-msg {
+    span {
+      font-size: 17px;
+    }
+  }
+}
+@media (height < 700px) {
+  .head-new-direct-message-cont {
+    padding: 10px 45px;
+    gap: 10px;
+  }
+
+  .head-photo {
+    height: 40px;
+    img {
+      height: 40px;
+      width: 40px;
+    }
+    .online {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .head-new-direct-message {
+    span {
+      font-size: 20px;
+    }
+  }
+}

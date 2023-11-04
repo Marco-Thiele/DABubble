@@ -48,6 +48,16 @@ export class ChannelsPageComponent implements OnInit {
     });
   }
 
+  /**
+   * opens the channel container in the responsive view
+   * @param channel the channel to open
+   */
+  openRespChannelContainer(channel: any) {
+    this.EmitOpenService.openRespChannelEvent$.subscribe((channel: any) => {
+      this.selectedChannel = channel;
+    });
+  }
+
   getMessages(channel: any) {
     return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
       this.selectedChannel = [];

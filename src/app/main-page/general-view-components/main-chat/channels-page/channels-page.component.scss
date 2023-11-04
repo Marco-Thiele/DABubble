@@ -216,6 +216,43 @@
   width: -webkit-fill-available;
 }
 
+@media (width < 500px) {
+  .head-member-container {
+    padding: 10px 45px;
+  }
+
+  .title-hashtag {
+    .hashtag {
+      width: 17px;
+      height: 17px;
+    }
+    .title {
+      font-size: 20px;
+    }
+  }
+
+  .descrip-text {
+    font-size: 17px;
+  }
+
+  .members-add-container {
+    span {
+      font-size: 18px;
+    }
+  }
+
+  .add-member-cont {
+    div {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .members-cont {
+    display: none;
+  }
+}
+
 @media (height < 700px) {
   .head-member-container {
     padding: 10px 45px;

@@ -80,7 +80,7 @@ export class BoxToWriteComponent implements OnInit {
       this.sendChannel = true;
       this.sendPrivate = false;
       this.currentChatData = false;
-      this.placeholderMessageBox = 'Nachricht an #' + channel.name;
+      this.placeholderMessageBox = 'Nachricht an #' + channel?.name;
     });
   }
 
@@ -89,7 +89,7 @@ export class BoxToWriteComponent implements OnInit {
       this.selectedChannel = [];
       list.forEach((element: any) => {
         const channelData = element.data();
-        if (channelData.name === channel.name) {
+        if (channelData.name === channel?.name) {
           this.selectedChannel = channelData;
           this.selectedChannel.id = channel.id;
         }

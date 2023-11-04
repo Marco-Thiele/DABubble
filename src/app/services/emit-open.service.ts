@@ -104,12 +104,12 @@ export class EmitOpenService {
   /**
    * Emits an event to close the threads container in responsive mode.
    */
-  private respCloseThreadsEvent = new Subject<any>();
+  private respCloseThreadsEvent = new Subject<Channel>();
 
   respCloseThreadsEvent$ = this.respCloseThreadsEvent.asObservable();
 
-  emitRespCloseThreads(i: any) {
-    this.respCloseThreadsEvent.next(i);
+  emitRespCloseThreads(channel: Channel) {
+    this.respCloseThreadsEvent.next(channel);
   }
 
   /**

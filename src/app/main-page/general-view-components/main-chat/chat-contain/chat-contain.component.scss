@@ -383,6 +383,10 @@
   }
 }
 
+.emoji-mart-dark {
+  width: 240px;
+}
+
 // Design from messages of the members of the channel
 
 .message-members-box-cont {
@@ -572,5 +576,54 @@
     font-size: 18px;
     font-weight: 700;
     color: white;
+  }
+}
+
+@media (width < 550px) {
+  .message-user-box-cont {
+    padding: 10px 35px 10px 35px;
+  }
+
+  .message-members-box-cont {
+    padding: 10px 35px 10px 35px;
+  }
+
+  .message-members-speech {
+    span {
+      font-size: 17px;
+    }
+  }
+
+  .message-box-cont {
+    padding: 20px;
+  }
+
+  .message-user-img {
+    div {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  .message-members-answers {
+    gap: 15px;
+    span {
+      font-size: 14px;
+    }
+    a {
+      font-size: 12px;
+    }
+  }
+
+  .time-separator {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+
+  .time-day {
+    padding: 5px 10px;
+    span {
+      font-size: 15px;
+    }
   }
 }

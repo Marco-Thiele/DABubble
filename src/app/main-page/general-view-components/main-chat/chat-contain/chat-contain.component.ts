@@ -63,7 +63,7 @@ export class ChatContainComponent implements OnInit {
       this.selectedChannel = [];
       list.forEach((element: any) => {
         const channelData = element.data();
-        if (channelData.name === channel.name) {
+        if (channelData.name === channel?.name) {
           this.selectedChannel = channelData;
           this.selectedChannel.id = channel.id;
         }
@@ -161,15 +161,17 @@ export class ChatContainComponent implements OnInit {
    * @param member the member to open
    */
   openThread(i: number, messageID: any) {
-    if (window.innerWidth < 1000) {
-      this.EmitOpenService.emitRespOpenThreadsEvent();
+    if (this.selectedChannel) {
+      if (window.innerWidth < 1000) {
+        this.EmitOpenService.emitRespOpenThreadsEvent();
+      }
+      this.sharedService.selectedChannel = this.selectedChannel;
+      this.sharedService.i = i;
+      this.sharedService.messageID = messageID;
+      this.sharedService.loadThreads();
+      this.EmitOpenService.openThread = true;
+      this.EmitOpenService.openThreads();
     }
-    this.sharedService.selectedChannel = this.selectedChannel;
-    this.sharedService.i = i;
-    this.sharedService.messageID = messageID;
-    this.sharedService.loadThreads();
-    this.EmitOpenService.openThread = true;
-    this.EmitOpenService.openThreads();
   }
 
   /**

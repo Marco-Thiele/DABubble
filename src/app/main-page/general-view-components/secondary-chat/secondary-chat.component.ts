@@ -110,7 +110,7 @@ export class SecondaryChatComponent {
     this.profilEmail = UserService.getMail();
     this.readThread();
     this.loadUsers();
-    this.subscribeToChat()
+    this.subscribeToChat();
   }
 
   /**
@@ -120,7 +120,7 @@ export class SecondaryChatComponent {
     setInterval(() => {
       if (this.EmitOpenService.openThread) {
         this.i = this.sharedService.i;
-       // this.threadAnswersJson = this.sharedService.thread.answers;
+        // this.threadAnswersJson = this.sharedService.thread.answers;
         this.readThreadObject();
         //this.selectedChannel = this.sharedService.selectedChannel;
       }
@@ -131,31 +131,29 @@ export class SecondaryChatComponent {
     }, 200);
   }
 
-
   subscribeToChat() {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       this.getMessages(channel);
     });
   }
 
-
   getMessages(channel: any) {
     return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
       this.selectedChannel = [];
       list.forEach((element: any) => {
         const channelData = element.data();
-        if (channelData.name === channel.name) {
+        if (channelData.name === channel?.name) {
           this.selectedChannel = channelData;
-          this.selectedChannel.id = channel.id
-          console.log('channeldata',channelData);
-          console.log('i',this.i);
-          this.threadAnswersJson = channelData.chat[this.sharedService.i]['answers']
-          console.log('channeldata',this.threadAnswersJson);
+          this.selectedChannel.id = channel.id;
+          console.log('channeldata', channelData);
+          console.log('i', this.i);
+          this.threadAnswersJson =
+            channelData.chat[this.sharedService.i]['answers'];
+          console.log('channeldata', this.threadAnswersJson);
         }
       });
     });
   }
-
 
   /**
    * load the variable threads shared.Service
@@ -455,13 +453,13 @@ export class SecondaryChatComponent {
   /**
    * Closes the thread container
    */
-  closeThreads(i: any) {
+  closeThreads(channel: any) {
     if (innerWidth < 1000) {
-      this.EmitOpenService.emitRespCloseThreads(i);
-      this.EmitOpenService.emitRespOpenChannel(i);
-      this.EmitOpenService.emitOpenChannel(i);
+      this.EmitOpenService.emitRespCloseThreads(channel);
+      this.EmitOpenService.emitRespOpenChannel(channel);
+      this.EmitOpenService.emitOpenChannel(channel);
     }
-    this.EmitOpenService.closeThreads(i);
+    this.EmitOpenService.closeThreads(channel);
   }
 
   deleteMessage(i: number) {
