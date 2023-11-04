@@ -110,6 +110,7 @@ export class SecondaryChatComponent {
     this.profilEmail = UserService.getMail();
     this.readThread();
     this.loadUsers();
+    this.subscribeToChat()
   }
 
   /**
@@ -119,7 +120,7 @@ export class SecondaryChatComponent {
     setInterval(() => {
       if (this.EmitOpenService.openThread) {
         this.i = this.sharedService.i;
-        this.threadAnswersJson = this.sharedService.thread.answers;
+       // this.threadAnswersJson = this.sharedService.thread.answers;
         this.readThreadObject();
         this.selectedChannel = this.sharedService.selectedChannel;
       }
@@ -129,6 +130,32 @@ export class SecondaryChatComponent {
       }, 150);
     }, 200);
   }
+
+
+  subscribeToChat() {
+    this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
+      this.getMessages(channel);
+    });
+  }
+
+
+  getMessages(channel: any) {
+    return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
+      this.selectedChannel = [];
+      list.forEach((element: any) => {
+        const channelData = element.data();
+        if (channelData.name === channel.name) {
+          this.selectedChannel = channelData;
+          this.selectedChannel.id = channel.id
+          console.log('channeldata',channelData);
+          console.log('i',this.i);
+          this.threadAnswersJson = channelData.chat[this.sharedService.i]['answers']
+          console.log('channeldata',this.threadAnswersJson);
+        }
+      });
+    });
+  }
+
 
   /**
    * load the variable threads shared.Service
@@ -167,16 +194,16 @@ export class SecondaryChatComponent {
   /**
    * Opens the new message component which is used to create a new channel or to start a new chat with a member
    */
-  openNewMessage() {
-    this.EmitOpenService.openNewMessageEvent$.subscribe(() => {
-      this.isNewMessageVisible = true;
-      this.isChannelVisible = false;
-      this.isChatWithMemberVisible = false;
-      this.isPrivatChatContainerVisible = false;
-      this.isPrivatChatContainerVisible = false;
-      this.isPrivateChatVisible = false;
-    });
-  }
+  // openNewMessage() {
+  //   this.EmitOpenService.openNewMessageEvent$.subscribe(() => {
+  //     this.isNewMessageVisible = true;
+  //     this.isChannelVisible = false;
+  //     this.isChatWithMemberVisible = false;
+  //     this.isPrivatChatContainerVisible = false;
+  //     this.isPrivatChatContainerVisible = false;
+  //     this.isPrivateChatVisible = false;
+  //   });
+  // }
 
   /**
    * change the size from the textarea

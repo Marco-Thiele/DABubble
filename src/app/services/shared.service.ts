@@ -510,15 +510,4 @@ export class SharedService implements OnInit {
     });
   }
 
-  setThreadsObject(obj: any, id: string) {
-    return {
-      id: id,
-      chat: obj.chat || [],
-      imgProfil: obj.imgProfil || '',
-      member: obj.member || [],
-      name: obj.name || '',
-      type: obj.type || '',
-      channels: obj.channels || [],
-    };
-  }
 }
