@@ -44,10 +44,7 @@ export class ChannelsPageComponent implements OnInit {
    */
   openChannelContainer(channel: any) {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
-      console.log('channel', channel);
       this.selectedChannel = channel;
-      //   this.getMessages(channel);
-      //   this.scrollToBottom();
     });
   }
 

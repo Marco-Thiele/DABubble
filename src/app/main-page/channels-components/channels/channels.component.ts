@@ -143,10 +143,11 @@ export class ChannelsComponent implements OnInit {
    * Opens the new message container in main chat.
    */
   openNewMessage() {
-    this.EmitOpenService.emitOpenNewMessage();
     if (window.innerWidth < 1000) {
       this.EmitOpenService.openMainChatContainer();
+      this.EmitOpenService.toggleIconResponsive(true);
     }
+    this.EmitOpenService.emitOpenNewMessage();
   }
 
   /**

@@ -165,7 +165,7 @@ export class UserService {
             chatData['participants'] &&
             this.user &&
             chatData['participants'].includes(this.user.uid) &&
-            chatData['participants'].includes(this.selectedChatPartner.uid)
+            chatData['participants'].includes(this.selectedChatPartner?.uid)
           ) {
             this.currentChatId = chat.id;
             this.currentChat = chatData;

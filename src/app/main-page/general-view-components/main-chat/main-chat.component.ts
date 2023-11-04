@@ -37,6 +37,7 @@ export class MainChatComponent implements OnInit {
       this.openPrincipalPage = true;
       this.openChannelPage = false;
       this.openChatPage = false;
+      console.log(this.openPrincipalPage);
     });
   }
 
@@ -46,13 +47,10 @@ export class MainChatComponent implements OnInit {
    */
   openChannelContainer(channel: any) {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
-      console.log('channel', channel);
       this.openChannelPage = true;
       this.openPrincipalPage = false;
-      // this.EmitOpenService.emitOpenChannel(channel);
-      // this.openChatPage = false;
+      this.openChatPage = false;
       this.selectedChannel = channel;
-      console.log('selectedChannel', this.selectedChannel);
     });
   }
 

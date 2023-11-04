@@ -60,7 +60,7 @@ export class BoxToWriteComponent implements OnInit {
     this.imagePreview = new ElementRef(null);
     this.privateChatWithMember(this.selectedMember);
     this.openChannelContainer(this.selectedChannel);
-    // this.loadUsers();
+    this.openNewMessage();
   }
 
   ngOnInit(): void {}
@@ -75,21 +75,16 @@ export class BoxToWriteComponent implements OnInit {
    */
   openChannelContainer(channel: any) {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
-      console.log('channel', channel);
       this.selectedChannel = channel;
-      console.log('selectedChannel', this.selectedChannel);
       this.currentChannel = channel;
-      console.log('currentChannel', this.currentChannel);
       this.sendChannel = true;
-      console.log('sendChannel', this.sendChannel);
+      this.sendPrivate = false;
+      this.currentChatData = false;
       this.placeholderMessageBox = 'Nachricht an #' + channel.name;
-      console.log('placeholderMessageBox', this.placeholderMessageBox);
-      this.getMessages(channel);
     });
   }
 
   getMessages(channel: any) {
-    console.log('channel', channel);
     return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
       this.selectedChannel = [];
       list.forEach((element: any) => {
@@ -107,6 +102,7 @@ export class BoxToWriteComponent implements OnInit {
       this.currentChatData = true;
       this.selectedMember = member;
       this.sendPrivate = true;
+      this.sendChannel = false;
       this.placeholderMessageBox = 'Nachricht an ' + member.name;
       this.getsPrivateChats();
     });
@@ -118,6 +114,18 @@ export class BoxToWriteComponent implements OnInit {
       .subscribe((chatData) => {
         this.currentChatData = chatData;
       });
+  }
+
+  openNewMessage() {
+    this.EmitOpenService.openNewMessageEvent$.subscribe(() => {
+      this.sendPrivate = false;
+      this.sendChannel = false;
+      this.currentChatData = false;
+      this.selectedChannel = null;
+      this.currentChannel = null;
+      this.selectedMember = null;
+      this.placeholderMessageBox = 'Starte eine neue Nachricht';
+    });
   }
 
   /**
@@ -335,7 +343,6 @@ export class BoxToWriteComponent implements OnInit {
         date: new Date().toLocaleDateString(),
         email: this.userService.getMail(),
       };
-      console.log('message', message);
       if (selectedFile) {
         this.convertImageToBase64(selectedFile).then((base64Data) => {
           message.imageUrl = base64Data;

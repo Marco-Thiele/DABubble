@@ -54,7 +54,6 @@ export class PrivateChatPageComponent implements OnInit {
   privateChatWithMember(member: any) {
     this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
       this.selectedMember = member;
-      this.scrollToBottom();
     });
   }
 

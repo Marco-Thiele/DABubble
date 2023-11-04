@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { UserService } from './user.service';
+import { Channel } from '../models/channel';
+import { userData } from '../models/userData';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +27,7 @@ export class EmitOpenService {
   openNewMessageEvent$ = this.openNewMessageEvent.asObservable();
 
   emitOpenNewMessage() {
+    console.log('emitOpenNewMessage');
     this.openNewMessageEvent.next();
   }
 
@@ -42,11 +45,11 @@ export class EmitOpenService {
   /**
    * Emits an event to open the channel component from Main-Chat to Channel
    */
-  private openChannelEvent = new Subject<any>();
+  private openChannelEvent = new ReplaySubject<Channel>();
 
   openChannelEvent$ = this.openChannelEvent.asObservable();
 
-  emitOpenChannel(channel: any) {
+  emitOpenChannel(channel: Channel) {
     this.openChannelEvent.next(channel);
   }
 
@@ -64,7 +67,7 @@ export class EmitOpenService {
   /**
    * Emits an event to open the private container from Main-Chat to Private
    */
-  private openPrivateContainerEvent = new Subject<any>();
+  private openPrivateContainerEvent = new ReplaySubject<userData>();
 
   openPrivateContainerEvent$ = this.openPrivateContainerEvent.asObservable();
 

@@ -52,11 +52,8 @@ export class ChatContainComponent implements OnInit {
    */
   openChannelContainer(channel: any) {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
-      console.log('channel', channel);
       this.selectedChannel = channel;
       this.currentChannel = channel;
-      this.getMessages(channel);
-      // this.scrollToBottom();
     });
   }
 
@@ -75,6 +72,8 @@ export class ChatContainComponent implements OnInit {
 
   privateChatWithMember(member: any) {
     this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
+      this.selectedChannel = null;
+      this.currentChannel = null;
       this.currentChatData = true;
       this.selectedMember = member;
       this.getsPrivateChats();
