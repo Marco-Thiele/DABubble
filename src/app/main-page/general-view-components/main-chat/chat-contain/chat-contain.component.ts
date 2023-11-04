@@ -94,7 +94,7 @@ export class ChatContainComponent implements OnInit {
    * Scrolls to the bottom of the chat
    */
   scrollToBottom() {
-    if (this.selectedMember || this.currentChannel) {
+    if (this.selectedMember || this.selectedChannel) {
       const chatElement = this.chatContainer.nativeElement;
       chatElement.scrollTop = chatElement.scrollHeight;
     }

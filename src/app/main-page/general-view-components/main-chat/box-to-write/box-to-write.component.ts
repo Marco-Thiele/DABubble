@@ -8,7 +8,7 @@ import {
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
 import { Subscription } from 'rxjs';
-import { collection, Firestore, onSnapshot } from '@firebase/firestore';
+import { onSnapshot } from '@angular/fire/firestore';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { EmitOpenService } from 'src/app/services/emit-open.service';
 
@@ -77,6 +77,7 @@ export class BoxToWriteComponent implements OnInit {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       this.selectedChannel = channel;
       this.currentChannel = channel;
+      this.getMessages(channel);
       this.sendChannel = true;
       this.sendPrivate = false;
       this.currentChatData = false;
