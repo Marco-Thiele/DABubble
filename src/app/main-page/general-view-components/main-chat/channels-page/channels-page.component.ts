@@ -58,6 +58,10 @@ export class ChannelsPageComponent implements OnInit {
     });
   }
 
+  /**
+   * Gets the messages of the channel
+   * @param channel the channel to get the messages from
+   */
   getMessages(channel: any) {
     return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
       this.selectedChannel = [];

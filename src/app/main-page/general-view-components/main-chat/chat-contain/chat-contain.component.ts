@@ -56,6 +56,7 @@ export class ChatContainComponent implements OnInit {
     this.EmitOpenService.OpenChat$.subscribe((receivedData: any) => {
       const channel = receivedData.channel;
       const member = receivedData.member;
+      const newMessage = receivedData.newMessage;
 
       if (channel) {
         this.selectedChannel = [];
@@ -65,14 +66,15 @@ export class ChatContainComponent implements OnInit {
         this.selectedMember = '';
       } else if (member) {
         this.selectedChannel = null;
-
         this.currentChannel = null;
-
         this.currentChatData = true;
-
         this.selectedMember = member;
-
         this.getsPrivateChats();
+      } else if (newMessage) {
+        this.selectedChannel = null;
+        this.currentChannel = null;
+        this.currentChatData = false;
+        this.selectedMember = null;
       }
     });
   }
@@ -86,18 +88,9 @@ export class ChatContainComponent implements OnInit {
     return [];
   }
 
-  /*
-   * Opens the channel container
-   * @param channel the channel to open
+  /**
+   * gets the messages of the channel
    */
-  // openChannelContainer(channel: any) {
-  //   this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
-  //     this.selectedChannel = channel;
-  //     this.getMessages(channel);
-  //     this.currentChannel = channel;
-  //   });
-  // }
-
   getMessages(channel: any) {
     return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
       this.selectedChannel = [];
@@ -111,16 +104,9 @@ export class ChatContainComponent implements OnInit {
     });
   }
 
-  // privateChatWithMember(member: any) {
-  //   this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
-  //     this.selectedChannel = null;
-  //     this.currentChannel = null;
-  //     this.currentChatData = true;
-  //     this.selectedMember = member;
-  //     this.getsPrivateChats();
-  //   });
-  // }
-
+  /**
+   * Gets the private chats of the user
+   */
   getsPrivateChats() {
     this.chatSubscription = this.userService
       .subToChosenChat()
@@ -139,6 +125,9 @@ export class ChatContainComponent implements OnInit {
     }
   }
 
+  /**
+   * Formats the date
+   */
   parseDate(dateString: string): string {
     if (dateString.includes('.')) {
       const [day, month, year] = dateString.split('.').map(Number);
@@ -155,6 +144,9 @@ export class ChatContainComponent implements OnInit {
     return '';
   }
 
+  /**
+   * Checks if the date has changed
+   */
   updatePreviousDate(date: string) {
     this.previousDate = date;
   }
@@ -166,6 +158,9 @@ export class ChatContainComponent implements OnInit {
     this.showEmojiPicker[index] = !this.showEmojiPicker[index];
   }
 
+  /**
+   * Shows the edit message button
+   */
   toggleShowEdit(i: number) {
     this.showEdit[i] = !this.showEdit[i];
   }
@@ -183,6 +178,13 @@ export class ChatContainComponent implements OnInit {
     this.sharedService.messageID = messageID;
   }
 
+  /**
+   * the function shows the user profil
+   * @param userName the name of the user
+   * @param userPhotoURL the photo of the user
+   * @param userEmail the email of the user
+   * @param userUID the uid of the user
+   */
   showUserProfil(
     userName: string,
     userPhotoURL: string,
@@ -321,6 +323,9 @@ export class ChatContainComponent implements OnInit {
     }
   }
 
+  /**
+   * Gets the last answer time
+   */
   getLastAnswerTime(message: any): string | null {
     const answers = message.answers;
     if (answers.length > 0) {

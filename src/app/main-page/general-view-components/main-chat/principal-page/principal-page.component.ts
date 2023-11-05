@@ -12,7 +12,7 @@ export class PrincipalPageComponent implements OnInit {
   isFocused = false;
   memberMatches: any[] = [];
   channelMatches: any[] = [];
-  isNewMessageVisible = false;
+  isNewMessageVisible = true;
   inputValue: string = '';
   showContainers: boolean = true;
   selectedMember: any;
@@ -23,7 +23,9 @@ export class PrincipalPageComponent implements OnInit {
     private sharedService: SharedService,
     private userService: UserService,
     private EmitOpenService: EmitOpenService
-  ) {}
+  ) {
+    this.openRespNewMessage();
+  }
 
   ngOnInit(): void {}
 
@@ -39,6 +41,18 @@ export class PrincipalPageComponent implements OnInit {
    */
   inputBlurred() {
     this.isFocused = false;
+  }
+
+  /**
+   * opens the principal page component in the responsive view
+   * @param channel the channel to open
+   */
+  openRespNewMessage() {
+    this.EmitOpenService.openRespNewMessage$.subscribe(() => {
+      this.showContainers = true;
+      this.inputValue = '';
+      this.isNewMessageVisible = true;
+    });
   }
 
   /**
@@ -72,7 +86,6 @@ export class PrincipalPageComponent implements OnInit {
       this.memberMatches.length > 0 || this.channelMatches.length > 0;
     if (this.isNewMessageVisible) {
     }
-    console.log(this.memberMatches);
   }
 
   /**

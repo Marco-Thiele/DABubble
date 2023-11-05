@@ -20,41 +20,49 @@ export class EmitOpenService {
   }
 
   /**
-   * Emits an event to open the new message component from Channel to Main-Chat
+   * Emits an event to open the principal-page component
    */
   private openNewMessageEvent = new Subject<void>();
-
   openNewMessageEvent$ = this.openNewMessageEvent.asObservable();
 
   emitOpenNewMessage() {
-    console.log('emitOpenNewMessage');
     this.openNewMessageEvent.next();
   }
 
   /**
    * Emits an event to open the new message component from Channel to Main-Chat in responsive mode
    */
-  private openRespNewMessage = new Subject<void>();
-
+  private openRespNewMessage = new ReplaySubject<any>();
   openRespNewMessage$ = this.openRespNewMessage.asObservable();
 
-  openMainChatContainer() {
-    this.openRespNewMessage.next();
+  openMainChatContainer(data: any) {
+    this.openRespNewMessage.next(data);
   }
 
   /**
-   * Emits an event to open the channel component from Main-Chat to Channel
+   * Emits an event to open the box to wirte component for channel und private chat
    */
   private OpenBoxToWrite = new ReplaySubject<any>();
-
   OpenBoxToWrite$ = this.OpenBoxToWrite.asObservable();
 
   emitOpenBoxToWrite(data: any) {
     this.OpenBoxToWrite.next(data);
   }
 
-  private OpenChat = new ReplaySubject<any>();
+  /**
+   * Emits an event to open the selected component in main-chat
+   */
+  private openMainChatContainerEvent = new ReplaySubject<any>();
+  openMainChatContainerEvent$ = this.openMainChatContainerEvent.asObservable();
 
+  emitOpenMainChatContainerEvent(data: any) {
+    this.openMainChatContainerEvent.next(data);
+  }
+
+  /**
+   * Emits an event to open the chat component for channel und private chat
+   */
+  private OpenChat = new ReplaySubject<any>();
   OpenChat$ = this.OpenChat.asObservable();
 
   emitOpenChat(data: any) {
@@ -62,10 +70,9 @@ export class EmitOpenService {
   }
 
   /**
-   * Emits an event to open the channel component from Main-Chat to Channel
+   * Emits an event to open the channel component
    */
   private openChannelEvent = new ReplaySubject<Channel>();
-
   openChannelEvent$ = this.openChannelEvent.asObservable();
 
   emitOpenChannel(channel: Channel) {
@@ -73,10 +80,9 @@ export class EmitOpenService {
   }
 
   /**
-   * Emits an event to open the channel component from Main-Chat to Channel in responsive mode
+   * Emits an event to open the channel component in responsive mode
    */
   private openRespChannelEvent = new Subject<any>();
-
   openRespChannelEvent$ = this.openRespChannelEvent.asObservable();
 
   emitRespOpenChannel(channel: any) {
@@ -84,24 +90,21 @@ export class EmitOpenService {
   }
 
   /**
-   * Emits an event to open the private container from Main-Chat to Private
+   * Emits an event to open the private messages component
    */
   private openPrivateContainerEvent = new ReplaySubject<userData>();
-
   openPrivateContainerEvent$ = this.openPrivateContainerEvent.asObservable();
 
   emitOpenPrivateContainer(member: any) {
     this.UserService.selectedChatPartner = member;
-
     this.UserService.subToChosenChat();
     this.openPrivateContainerEvent.next(member);
   }
 
   /**
-   * Emits an event to open the private container from Main-Chat to Private in responsive mode
+   * Emits an event to open the private messages component in responsive mode
    */
   private respOpenPrivateContainerEvent = new Subject<any>();
-
   respOpenPrivateContainerEvent$ =
     this.respOpenPrivateContainerEvent.asObservable();
 
@@ -113,7 +116,6 @@ export class EmitOpenService {
    * Emits an event to open the threads container in responsive mode.
    */
   private respOpenThreadsEvent = new Subject<any>();
-
   respOpenThreadsEvent$ = this.respOpenThreadsEvent.asObservable();
 
   emitRespOpenThreadsEvent() {
@@ -124,7 +126,6 @@ export class EmitOpenService {
    * Emits an event to close the threads container in responsive mode.
    */
   private respCloseThreadsEvent = new Subject<Channel>();
-
   respCloseThreadsEvent$ = this.respCloseThreadsEvent.asObservable();
 
   emitRespCloseThreads(channel: Channel) {
@@ -135,7 +136,6 @@ export class EmitOpenService {
    * Emits an event to change the icon in responsive mode.
    */
   private iconResponsiveSubject = new Subject<boolean>();
-
   iconResponsive$ = this.iconResponsiveSubject.asObservable();
 
   toggleIconResponsive(value: boolean) {
@@ -146,7 +146,6 @@ export class EmitOpenService {
    * Emits an event to open the channels container in responsive mode.
    */
   private onResizeRequestedSubject = new Subject<void>();
-
   onResizeRequestedSubject$ = this.onResizeRequestedSubject.asObservable();
 
   callOnResize() {

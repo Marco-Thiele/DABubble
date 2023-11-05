@@ -57,8 +57,6 @@ export class BoxToWriteComponent implements OnInit {
   ) {
     this.imagePreview = new ElementRef(null);
     this.openBoxForChannelAndChat(this.data);
-
-    this.openNewMessage();
   }
 
   ngOnInit(): void {}
@@ -75,6 +73,7 @@ export class BoxToWriteComponent implements OnInit {
     this.EmitOpenService.OpenBoxToWrite$.subscribe((receivedData: any) => {
       const channel = receivedData.channel;
       const member = receivedData.member;
+      const newMessage = receivedData.newMessage;
       if (channel) {
         this.selectedChannel = channel;
         this.currentChannel = channel;
@@ -91,10 +90,21 @@ export class BoxToWriteComponent implements OnInit {
         this.sendChannel = false;
         this.placeholderMessageBox = 'Nachricht an ' + member.name;
         this.getsPrivateChats();
+      } else if (newMessage) {
+        this.sendPrivate = false;
+        this.sendChannel = false;
+        this.currentChatData = false;
+        this.selectedChannel = null;
+        this.currentChannel = null;
+        this.selectedMember = null;
+        this.placeholderMessageBox = 'Starte eine neue Nachricht';
       }
     });
   }
 
+  /**
+   * Gets the messages of the channel
+   */
   getMessages(channel: any) {
     return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
       this.selectedChannel = [];
@@ -108,24 +118,15 @@ export class BoxToWriteComponent implements OnInit {
     });
   }
 
+  /**
+   * Gets the messages of private chats
+   */
   getsPrivateChats() {
     this.chatSubscription = this.userService
       .subToChosenChat()
       .subscribe((chatData) => {
         this.currentChatData = chatData;
       });
-  }
-
-  openNewMessage() {
-    this.EmitOpenService.openNewMessageEvent$.subscribe(() => {
-      this.sendPrivate = false;
-      this.sendChannel = false;
-      this.currentChatData = false;
-      this.selectedChannel = null;
-      this.currentChannel = null;
-      this.selectedMember = null;
-      this.placeholderMessageBox = 'Starte eine neue Nachricht';
-    });
   }
 
   /**
@@ -318,6 +319,10 @@ export class BoxToWriteComponent implements OnInit {
   //   });
   // }
 
+  /**
+   * Adds a user to the message
+   * @param name the name of the user
+   */
   addUser(name: string) {
     this.message += '#' + name;
   }
@@ -425,6 +430,11 @@ export class BoxToWriteComponent implements OnInit {
     }
   }
 
+  /**
+   * Saves a private message to local storage
+   * @param message message from user
+   * @param messageDate date of message
+   */
   savePrivateMessage(selectedMember: any, message: any) {
     this.userService.currentChat.chat.push(message);
 
@@ -438,6 +448,9 @@ export class BoxToWriteComponent implements OnInit {
     this.returnPrivatesMessagesFS();
   }
 
+  /**
+   * Returns the messages of the private chat from server
+   */
   returnPrivatesMessagesFS() {
     this.selectedMember.chat = this.userService.subToChosenChat();
   }

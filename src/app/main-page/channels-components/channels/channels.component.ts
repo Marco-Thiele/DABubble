@@ -11,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChannelErstellenComponent } from '../channel-erstellen/channel-erstellen.component';
 import { SharedService } from '../../../services/shared.service';
 import { UserService } from '../../../services/user.service';
-import { DocumentData } from 'rxfire/firestore/interfaces';
 import { EmitOpenService } from 'src/app/services/emit-open.service';
 import { Channel } from 'src/app/models/channel';
 
@@ -23,6 +22,7 @@ import { Channel } from 'src/app/models/channel';
 })
 export class ChannelsComponent implements OnInit {
   @ViewChild('searchContainer', { read: ElementRef })
+  @HostListener('document:click', ['$event'])
   searchContainer!: ElementRef;
   channel: Channel = {} as Channel;
   uniqueId = this.sharedService.generateUniqueId();
@@ -37,6 +37,7 @@ export class ChannelsComponent implements OnInit {
   memberMatches: any[] = [];
   channelMatches: any[] = [];
   searchContainerOpen = false;
+  newMessage: boolean = true;
 
   public user = {
     id: this.sharedService.getID(),
@@ -51,7 +52,6 @@ export class ChannelsComponent implements OnInit {
     private dialog: MatDialog,
     private sharedService: SharedService,
     public userService: UserService,
-    private renderer: Renderer2,
     private EmitOpenService: EmitOpenService
   ) {}
 
@@ -70,7 +70,10 @@ export class ChannelsComponent implements OnInit {
     this.sharedService.addUserToAllgemeinChannel(this.user);
   }
 
-  @HostListener('document:click', ['$event'])
+  /**
+   * Bei responsive mode, the user clicks outside de channels component, the search container closes.
+   * @param event the click of the user
+   */
   onClickOutside(event: Event): void {
     if (this.searchContainerOpen) {
       const clickedInside = this.searchContainer.nativeElement.contains(
@@ -82,6 +85,9 @@ export class ChannelsComponent implements OnInit {
     }
   }
 
+  /**
+   * Closes the search container.
+   */
   closeSearchContainer(): void {
     this.searchContainerOpen = false;
   }
@@ -142,12 +148,14 @@ export class ChannelsComponent implements OnInit {
   /**
    * Opens the new message container in main chat.
    */
-  openNewMessage() {
+  openNewMessage(newMessage: any) {
     if (window.innerWidth < 1000) {
-      this.EmitOpenService.openMainChatContainer();
+      this.EmitOpenService.openMainChatContainer({ newMessage });
       this.EmitOpenService.toggleIconResponsive(true);
     }
-    this.EmitOpenService.emitOpenNewMessage();
+    this.EmitOpenService.emitOpenMainChatContainerEvent({ newMessage });
+    this.EmitOpenService.emitOpenBoxToWrite({ newMessage });
+    this.EmitOpenService.emitOpenChat({ newMessage });
   }
 
   /**
@@ -158,6 +166,7 @@ export class ChannelsComponent implements OnInit {
       this.EmitOpenService.emitRespOpenChannel(channel);
       this.EmitOpenService.toggleIconResponsive(true);
     }
+    this.EmitOpenService.emitOpenMainChatContainerEvent({ channel });
     this.EmitOpenService.emitOpenChannel(channel);
     this.EmitOpenService.emitOpenBoxToWrite({ channel });
     this.EmitOpenService.emitOpenChat({ channel });
@@ -171,6 +180,7 @@ export class ChannelsComponent implements OnInit {
       this.EmitOpenService.emitRespOpenPrivateContainer(member);
       this.EmitOpenService.toggleIconResponsive(true);
     }
+    this.EmitOpenService.emitOpenMainChatContainerEvent({ member });
     this.EmitOpenService.emitOpenPrivateContainer(member);
     this.EmitOpenService.emitOpenBoxToWrite({ member });
     this.EmitOpenService.emitOpenChat({ member });
@@ -185,7 +195,6 @@ export class ChannelsComponent implements OnInit {
     this.searchChannels(inputText).then((channels) => {
       this.channelMatches = channels;
     });
-
     this.searchContainerOpen = true;
   }
 

@@ -15,19 +15,48 @@ export class MainChatComponent implements OnInit {
   openChatPage: boolean = false;
   selectedMember: any;
   selectedChannel: any;
+  data: any;
 
   constructor(
     private sharedService: SharedService,
     private EmitOpenService: EmitOpenService
   ) {
     this.openNewMessage();
-    // this.loadChannel();
-    this.openChannelContainer(this.selectedChannel);
-    this.privateChatWithMember(this.selectedMember);
+    this.openContainerMainChat(this.data);
     this.openNewMessage();
   }
 
   ngOnInit(): void {}
+
+  /**
+   * Opens the main chat container
+   * @param data the data to open the main chat container
+   */
+  openContainerMainChat(data: any) {
+    this.EmitOpenService.openMainChatContainerEvent$.subscribe(
+      (receivedData: any) => {
+        const channel = receivedData.channel;
+        const member = receivedData.member;
+        const newMessage = receivedData.newMessage;
+
+        if (channel) {
+          this.openChannelPage = true;
+          this.openPrincipalPage = false;
+          this.openChatPage = false;
+          this.selectedChannel = channel;
+        } else if (member) {
+          this.openPrincipalPage = false;
+          this.openChannelPage = false;
+          this.openChatPage = true;
+          this.selectedMember = member;
+        } else if (newMessage) {
+          this.openPrincipalPage = true;
+          this.openChannelPage = false;
+          this.openChatPage = false;
+        }
+      }
+    );
+  }
 
   /**
    * Opens the new message component which is used to create a new channel or to start a new chat with a member
@@ -37,7 +66,6 @@ export class MainChatComponent implements OnInit {
       this.openPrincipalPage = true;
       this.openChannelPage = false;
       this.openChatPage = false;
-      console.log(this.openPrincipalPage);
     });
   }
 
@@ -66,64 +94,4 @@ export class MainChatComponent implements OnInit {
       this.selectedMember = member;
     });
   }
-
-  // ngOnDestroy() {
-  //   this.chatSubscription.unsubscribe();
-  // }
-
-  // /**
-  //  * It is executed when the view is initialized
-  //  */
-  // ngAfterViewInit() {
-  //   if (this.messageTextarea && this.messageTextarea.nativeElement) {
-  //   }
-  // }
-
-  // scrollToTop() {
-  //   if (this.membersContainer) {
-  //     const containerElement = this.membersContainer.nativeElement;
-  //     containerElement.scrollTop = 0;
-  //   }
-  // }
-
-  /**
-   * Loads the channel
-   */
-  // loadChannel() {
-  //   const channels = this.sharedService.getChannelsFromFS();
-  //   if (channels) {
-  //     this.isNewMessageVisible = true;
-  //     this.isChannelVisible = false;
-  //   } else {
-  //     this.selectChannel(channels);
-  //   }
-  // }
-
-  // /**
-  //  * Selects a channel
-  //  * @param channel the channel to select
-  //  */
-  // selectChannel(channel: any) {
-  //   this.isChannelVisible = true;
-  //   this.selectedChannel = channel;
-  //   this.currentChannel = channel;
-  //   this.sendChannel = true;
-  // }
 }
-
-// Alen Tests
-
-// onSearch(event: Event) {
-//   this.foundUsers = [];
-//   const input = (event.target as HTMLInputElement).value;
-//   this.userService.usersList.forEach((user) => {
-//     if (user['name'].toLowerCase().includes(input.toLowerCase())) {
-//       this.foundUsers.push(user);
-//     }
-//   });
-
-//   this.showResults = true;
-//   if (input.length === 0) {
-//     this.showResults = false;
-//   }
-// }
