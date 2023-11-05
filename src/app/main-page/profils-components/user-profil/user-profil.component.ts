@@ -62,10 +62,10 @@ export class UserProfilComponent {
     if (window.innerWidth < 1000) {
       this.EmitOpenService.emitRespOpenPrivateContainer(member);
       this.EmitOpenService.toggleIconResponsive(true);
-    } else {
-      this.EmitOpenService.emitOpenPrivateContainer(member);
-      this.EmitOpenService.emitOpenBoxToWrite({ member });
-      this.EmitOpenService.emitOpenChat({ member });
     }
+    this.EmitOpenService.emitOpenMainChatContainerEvent({ member });
+    this.EmitOpenService.emitOpenPrivateContainer(member);
+    this.EmitOpenService.emitOpenBoxToWrite({ member });
+    this.EmitOpenService.emitOpenChat({ member });
   }
 }

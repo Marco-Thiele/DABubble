@@ -130,6 +130,14 @@ export class PrincipalPageComponent implements OnInit {
    */
   openPrivateContainer(member: any) {
     console.log(member);
+    if (window.innerWidth < 1000) {
+      this.EmitOpenService.emitRespOpenPrivateContainer(member);
+      this.EmitOpenService.toggleIconResponsive(true);
+    }
+    this.EmitOpenService.emitOpenMainChatContainerEvent({ member });
+    this.EmitOpenService.emitOpenPrivateContainer(member);
+    this.EmitOpenService.emitOpenBoxToWrite({ member });
+    this.EmitOpenService.emitOpenChat({ member });
     this.selectedMember = member;
     const memberId = member.id;
     this.userService.selectedChatPartner = member;
@@ -137,9 +145,7 @@ export class PrincipalPageComponent implements OnInit {
     this.userService.doesChatExist();
     this.userService.createChat();
     this.userService.chatAlreadyExists = false;
-    this.EmitOpenService.emitOpenPrivateContainer(member);
     this.inputValue = '';
-    this.showContainers = false;
   }
 
   /**
@@ -147,9 +153,14 @@ export class PrincipalPageComponent implements OnInit {
    * @param channel the channel to open
    */
   openChannel(channel: any) {
-    this.selectedChannel = channel;
-    const channelId = channel.id;
+    if (window.innerWidth < 1000) {
+      this.EmitOpenService.emitRespOpenChannel(channel);
+      this.EmitOpenService.toggleIconResponsive(true);
+    }
+    this.EmitOpenService.emitOpenMainChatContainerEvent({ channel });
     this.EmitOpenService.emitOpenChannel(channel);
+    this.EmitOpenService.emitOpenBoxToWrite({ channel });
+    this.EmitOpenService.emitOpenChat({ channel });
     this.inputValue = '';
   }
 }
