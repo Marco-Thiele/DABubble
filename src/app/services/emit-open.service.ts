@@ -91,10 +91,10 @@ export class EmitOpenService {
   openPrivateContainerEvent$ = this.openPrivateContainerEvent.asObservable();
 
   emitOpenPrivateContainer(member: any) {
-    this.openPrivateContainerEvent.next(member);
     this.UserService.selectedChatPartner = member;
-
+    console.log('member chosen from emit:', member);
     this.UserService.subToChosenChat();
+    this.openPrivateContainerEvent.next(member);
   }
 
   /**

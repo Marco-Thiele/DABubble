@@ -67,15 +67,14 @@ export class ChatContainComponent implements OnInit {
       } else if (member) {
         console.log('member', member);
         this.selectedChannel = null;
-        console.log('this.selectedChannel', this.selectedChannel);
+
         this.currentChannel = null;
-        console.log('this.currentChannel', this.currentChannel);
+
         this.currentChatData = true;
-        console.log('this.currentChatData', this.currentChatData);
+
         this.selectedMember = member;
-        console.log('this.selectedMember', this.selectedMember);
+
         this.getsPrivateChats();
-        console.log('this.getsPrivateChats', this.getsPrivateChats);
       }
     });
   }

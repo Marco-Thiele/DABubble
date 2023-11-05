@@ -4,6 +4,12 @@ import { UserService } from '../../../services/user.service';
 import { SharedService } from '../../../services/shared.service';
 import { EmitOpenService } from 'src/app/services/emit-open.service';
 
+interface member {
+  email: string;
+  name: string;
+  profileImg: string;
+  uid: string;
+}
 @Component({
   selector: 'app-user-profil',
   templateUrl: './user-profil.component.html',
@@ -28,19 +34,19 @@ export class UserProfilComponent {
   }
 
   sendPrivateMessage() {
-    let userJson = {
+    let member = {
       email: this.profilEmail,
       name: this.profilName,
       profileImg: this.profilImg,
       uid: this.userID,
     };
 
-    this.UserService.selectedChatPartner = userJson;
-    console.log('chosen member from profile component: ', userJson);
+    this.UserService.selectedChatPartner = member;
+    console.log('chosen member from profile component: ', member);
     this.UserService.doesChatExist();
     this.UserService.createChat();
     this.UserService.chatAlreadyExists = false;
-    this.EmitOpenService.emitOpenPrivateContainer(userJson);
+    this.openChat(member);
     this.closeDialog();
   }
 
@@ -50,5 +56,16 @@ export class UserProfilComponent {
    */
   closeDialog() {
     this.dialogService.closeDialog();
+  }
+
+  openChat(member: member) {
+    if (window.innerWidth < 1000) {
+      this.EmitOpenService.emitRespOpenPrivateContainer(member);
+      this.EmitOpenService.toggleIconResponsive(true);
+    } else {
+      this.EmitOpenService.emitOpenPrivateContainer(member);
+      this.EmitOpenService.emitOpenBoxToWrite({ member });
+      this.EmitOpenService.emitOpenChat({ member });
+    }
   }
 }

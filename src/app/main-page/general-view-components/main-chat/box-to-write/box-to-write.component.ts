@@ -74,6 +74,7 @@ export class BoxToWriteComponent implements OnInit {
    */
   openBoxForChannelAndChat(data: any) {
     this.EmitOpenService.OpenBoxToWrite$.subscribe((receivedData: any) => {
+      console.log('recieving: ..', receivedData);
       const channel = receivedData.channel;
       const member = receivedData.member;
       if (channel) {
@@ -85,6 +86,7 @@ export class BoxToWriteComponent implements OnInit {
         this.currentChatData = false;
         this.placeholderMessageBox = 'Nachricht an #' + channel?.name;
       } else if (member) {
+        this.selectedMember = '';
         this.currentChatData = true;
         this.selectedMember = member;
         this.sendPrivate = true;
