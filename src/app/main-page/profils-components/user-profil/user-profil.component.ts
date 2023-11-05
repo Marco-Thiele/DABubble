@@ -42,7 +42,7 @@ export class UserProfilComponent {
     };
 
     this.UserService.selectedChatPartner = member;
-    console.log('chosen member from profile component: ', member);
+
     this.UserService.doesChatExist();
     this.UserService.createChat();
     this.UserService.chatAlreadyExists = false;

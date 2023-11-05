@@ -56,7 +56,6 @@ export class ChatContainComponent implements OnInit {
     this.EmitOpenService.OpenChat$.subscribe((receivedData: any) => {
       const channel = receivedData.channel;
       const member = receivedData.member;
-      console.log('receivedData', receivedData);
 
       if (channel) {
         this.selectedChannel = [];
@@ -65,7 +64,6 @@ export class ChatContainComponent implements OnInit {
         this.currentChatData = false;
         this.selectedMember = '';
       } else if (member) {
-        console.log('member', member);
         this.selectedChannel = null;
 
         this.currentChannel = null;

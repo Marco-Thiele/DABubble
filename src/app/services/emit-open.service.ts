@@ -92,7 +92,7 @@ export class EmitOpenService {
 
   emitOpenPrivateContainer(member: any) {
     this.UserService.selectedChatPartner = member;
-    console.log('member chosen from emit:', member);
+
     this.UserService.subToChosenChat();
     this.openPrivateContainerEvent.next(member);
   }
