@@ -311,7 +311,7 @@ export class BoxToWriteComponent implements OnInit {
    * @param name the name of the user
    */
   addUser(name: string) {
-    this.message += '#' + name;
+    this.message += '@' + name;
   }
 
   /**
