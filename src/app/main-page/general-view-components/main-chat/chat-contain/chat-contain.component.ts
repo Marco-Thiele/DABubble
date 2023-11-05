@@ -59,9 +59,11 @@ export class ChatContainComponent implements OnInit {
       console.log('receivedData', receivedData);
 
       if (channel) {
-        this.selectedChannel = channel;
+        this.selectedChannel = [];
         this.getMessages(channel);
         this.currentChannel = channel;
+        this.currentChatData = false;
+        this.selectedMember = '';
       } else if (member) {
         console.log('member', member);
         this.selectedChannel = null;
