@@ -8,7 +8,7 @@ import {
 import { SharedService } from 'src/app/services/shared.service';
 import { UserService } from 'src/app/services/user.service';
 import { Subscription } from 'rxjs';
-import { onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { EmitOpenService } from 'src/app/services/emit-open.service';
 
@@ -46,6 +46,7 @@ export class BoxToWriteComponent implements OnInit {
   showUser: boolean = false;
   users: DocumentData[] = [];
   data: any;
+  firestore: Firestore = inject(Firestore);
 
   private userHasWrittenAfterAt = false;
   private chatSubscription: Subscription = new Subscription();
@@ -57,6 +58,7 @@ export class BoxToWriteComponent implements OnInit {
   ) {
     this.imagePreview = new ElementRef(null);
     this.openBoxForChannelAndChat(this.data);
+    this.loadUsers();
   }
 
   ngOnInit(): void {}
@@ -150,20 +152,6 @@ export class BoxToWriteComponent implements OnInit {
     this.isFocused = true;
   }
 
-  insertName(member: any) {
-    //   if (this.messageTextarea && this.messageTextarea.nativeElement) {
-    //     const currentText = this.messageTextarea.nativeElement.value;
-    //     const textBeforeLastAt = currentText.substring(
-    //       0,
-    //       currentText.lastIndexOf('@')
-    //     );
-    //     const newText = `${textBeforeLastAt}@${member.name}`;
-    //     this.messageTextarea.nativeElement.value = newText;
-    //     this.message = newText;
-    //   }
-    //   this.userChannel = false;
-    // }
-  }
   /**
    * Checks if the user has written after the @ and regulaces the height of the textarea
    * @param event the event
@@ -291,33 +279,32 @@ export class BoxToWriteComponent implements OnInit {
     this.message = text;
   }
 
-  // /**
-  //  * Send a @ to the textarea to look for a member
-  //  */
-  // writeUser() {
-  //   if (this.messageTextarea && this.messageTextarea.nativeElement) {
-  //     this.messageTextarea.nativeElement.value += '@';
-  //     this.userHasWrittenAfterAt = false;
-  //   }
-  // }
+  /**
+   * Shows the users in the chat
+   */
   showUsers() {
     this.showUser = !this.showUser;
-    console.log('showUser', this.showUser);
   }
 
-  // getUserCollection() {
-  //   return collection(this.firestore, 'users');
-  // }
+  /**
+   * Gets the user collection
+   * @returns the user collection
+   */
+  getUserCollection() {
+    return collection(this.firestore, 'users');
+  }
 
-  // loadUsers() {
-  //   return onSnapshot(this.getUserCollection(), (list) => {
-  //     list.forEach((element) => {
-  //       const userData = element.data();
-  //       this.users.push(userData);
-  //     });
-  //     console.log('userdaten', this.users);
-  //   });
-  // }
+  /**
+   * Loads the users from the server
+   */
+  loadUsers() {
+    return onSnapshot(this.getUserCollection(), (list) => {
+      list.forEach((element) => {
+        const userData = element.data();
+        this.users.push(userData);
+      });
+    });
+  }
 
   /**
    * Adds a user to the message
