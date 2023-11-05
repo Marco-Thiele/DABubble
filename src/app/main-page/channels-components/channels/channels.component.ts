@@ -4,7 +4,6 @@ import {
   ViewEncapsulation,
   ElementRef,
   HostListener,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,6 +12,7 @@ import { SharedService } from '../../../services/shared.service';
 import { UserService } from '../../../services/user.service';
 import { EmitOpenService } from 'src/app/services/emit-open.service';
 import { Channel } from 'src/app/models/channel';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-channels',
@@ -25,17 +25,15 @@ export class ChannelsComponent implements OnInit {
   searchContainer!: ElementRef;
   channel: Channel = {} as Channel;
   uniqueId = this.sharedService.generateUniqueId();
-  profilImg: any;
-  panelOpenState = false;
-  isClicked = false;
-  channels: any[] = [];
-  members: any[] = [];
-  selectedMember: any;
+  panelOpenState: boolean = false;
+  isClicked: boolean = false;
+  channels: Channel[] = [];
+  members: User[] = [];
   userData: any;
   searchTerm: string = '';
   memberMatches: any[] = [];
   channelMatches: any[] = [];
-  searchContainerOpen = false;
+  searchContainerOpen: boolean = false;
   newMessage: boolean = true;
 
   public user = {
@@ -69,6 +67,10 @@ export class ChannelsComponent implements OnInit {
     this.sharedService.addUserToAllgemeinChannel(this.user);
   }
 
+  /**
+   * Closes the search container if the user clicks outside of it.
+   * @param event the event
+   */
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
     if (this.searchContainerOpen) {

@@ -7,8 +7,6 @@ import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../../../services/shared.service';
 import { UserService } from '../../../services/user.service';
-import { getDocs } from 'firebase/firestore';
-import { timeInterval } from 'rxjs';
 import { ChannelErstellenComponent } from '../channel-erstellen/channel-erstellen.component';
 
 @Component({

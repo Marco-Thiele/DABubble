@@ -109,7 +109,6 @@ export class ChannelEditComponent implements OnInit {
           selectedChannel: this.selectedChannel,
           members: this.members,
         },
-        // panelClass: 'slide-up',
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {

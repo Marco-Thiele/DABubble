@@ -1,17 +1,10 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation,
-  Input,
-  Inject,
-} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import {
   MatDialogRef,
   MatDialog,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { AddChannelMembersComponent } from '../add-channel-members/add-channel-members.component';
-import { SharedService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-channel-members',
@@ -27,7 +20,6 @@ export class ChannelMembersComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ChannelMembersComponent>,
     private dialog: MatDialog,
-    private sharedService: SharedService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.members = data.members;
