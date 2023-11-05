@@ -14,6 +14,7 @@ import { ImpressumComponent } from './login-components/impressum/impressum.compo
 import { DataPolicyComponent } from './login-components/data-policy/data-policy.component';
 
 const routes: Routes = [
+  { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: CreateAccountComponent },
   { path: 'pick-avatar', component: PickAvatarComponent },
