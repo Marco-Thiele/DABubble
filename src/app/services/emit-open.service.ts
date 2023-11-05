@@ -45,6 +45,25 @@ export class EmitOpenService {
   /**
    * Emits an event to open the channel component from Main-Chat to Channel
    */
+  private OpenBoxToWrite = new ReplaySubject<any>();
+
+  OpenBoxToWrite$ = this.OpenBoxToWrite.asObservable();
+
+  emitOpenBoxToWrite(data: any) {
+    this.OpenBoxToWrite.next(data);
+  }
+
+  private OpenChat = new ReplaySubject<any>();
+
+  OpenChat$ = this.OpenChat.asObservable();
+
+  emitOpenChat(data: any) {
+    this.OpenChat.next(data);
+  }
+
+  /**
+   * Emits an event to open the channel component from Main-Chat to Channel
+   */
   private openChannelEvent = new ReplaySubject<Channel>();
 
   openChannelEvent$ = this.openChannelEvent.asObservable();

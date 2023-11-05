@@ -29,6 +29,7 @@ export class ChatContainComponent implements OnInit {
   editedMessageUser: string = '';
   currentChannel: any;
   autoScrollEnabled = true;
+  data: any;
 
   constructor(
     private sharedService: SharedService,
@@ -36,8 +37,9 @@ export class ChatContainComponent implements OnInit {
     private dialogService: DialogService,
     private EmitOpenService: EmitOpenService
   ) {
-    this.privateChatWithMember(this.selectedMember);
-    this.openChannelContainer(this.selectedChannel);
+    // this.privateChatWithMember(this.selectedMember);
+    // this.openChannelContainer(this.selectedChannel);
+    this.OpenChat(this.data);
   }
 
   ngOnInit(): void {}
@@ -46,17 +48,56 @@ export class ChatContainComponent implements OnInit {
     this.chatSubscription.unsubscribe();
   }
 
+  /**
+   * Opens the channel container
+   * @param channel the channel to open
+   */
+  OpenChat(data: any) {
+    this.EmitOpenService.OpenChat$.subscribe((receivedData: any) => {
+      const channel = receivedData.channel;
+      const member = receivedData.member;
+      console.log('receivedData', receivedData);
+
+      if (channel) {
+        this.selectedChannel = channel;
+        this.getMessages(channel);
+        this.currentChannel = channel;
+      } else if (member) {
+        console.log('member', member);
+        this.selectedChannel = null;
+        console.log('this.selectedChannel', this.selectedChannel);
+        this.currentChannel = null;
+        console.log('this.currentChannel', this.currentChannel);
+        this.currentChatData = true;
+        console.log('this.currentChatData', this.currentChatData);
+        this.selectedMember = member;
+        console.log('this.selectedMember', this.selectedMember);
+        this.getsPrivateChats();
+        console.log('this.getsPrivateChats', this.getsPrivateChats);
+      }
+    });
+  }
+
+  getMessagesToDisplay(): any[] {
+    if (this.selectedMember && this.currentChatData) {
+      return this.currentChatData.chat || [];
+    } else if (this.selectedChannel) {
+      return this.selectedChannel.chat || [];
+    }
+    return [];
+  }
+
   /*
    * Opens the channel container
    * @param channel the channel to open
    */
-  openChannelContainer(channel: any) {
-    this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
-      this.selectedChannel = channel;
-      this.getMessages(channel);
-      this.currentChannel = channel;
-    });
-  }
+  // openChannelContainer(channel: any) {
+  //   this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
+  //     this.selectedChannel = channel;
+  //     this.getMessages(channel);
+  //     this.currentChannel = channel;
+  //   });
+  // }
 
   getMessages(channel: any) {
     return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
@@ -71,15 +112,15 @@ export class ChatContainComponent implements OnInit {
     });
   }
 
-  privateChatWithMember(member: any) {
-    this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
-      this.selectedChannel = null;
-      this.currentChannel = null;
-      this.currentChatData = true;
-      this.selectedMember = member;
-      this.getsPrivateChats();
-    });
-  }
+  // privateChatWithMember(member: any) {
+  //   this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
+  //     this.selectedChannel = null;
+  //     this.currentChannel = null;
+  //     this.currentChatData = true;
+  //     this.selectedMember = member;
+  //     this.getsPrivateChats();
+  //   });
+  // }
 
   getsPrivateChats() {
     this.chatSubscription = this.userService

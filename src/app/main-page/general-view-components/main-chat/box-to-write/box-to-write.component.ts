@@ -45,7 +45,7 @@ export class BoxToWriteComponent implements OnInit {
   autoScrollEnabled = true;
   showUser: boolean = false;
   users: DocumentData[] = [];
-
+  data: any;
   // firestore: Firestore = inject(Firestore);
 
   private userHasWrittenAfterAt = false;
@@ -57,8 +57,8 @@ export class BoxToWriteComponent implements OnInit {
     private EmitOpenService: EmitOpenService
   ) {
     this.imagePreview = new ElementRef(null);
-    this.privateChatWithMember(this.selectedMember);
-    this.openChannelContainer(this.selectedChannel);
+    this.openBoxForChannelAndChat(this.data);
+    // this.openChannelContainer(this.selectedChannel);
     this.openNewMessage();
   }
 
@@ -72,17 +72,44 @@ export class BoxToWriteComponent implements OnInit {
    * Opens the channel container
    * @param channel the channel to open
    */
-  openChannelContainer(channel: any) {
-    this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
-      this.selectedChannel = channel;
-      this.currentChannel = channel;
-      this.getMessages(channel);
-      this.sendChannel = true;
-      this.sendPrivate = false;
-      this.currentChatData = false;
-      this.placeholderMessageBox = 'Nachricht an #' + channel?.name;
+  openBoxForChannelAndChat(data: any) {
+    this.EmitOpenService.OpenBoxToWrite$.subscribe((receivedData: any) => {
+      const channel = receivedData.channel;
+      const member = receivedData.member;
+      if (channel) {
+        this.selectedChannel = channel;
+        this.currentChannel = channel;
+        this.getMessages(channel);
+        this.sendChannel = true;
+        this.sendPrivate = false;
+        this.currentChatData = false;
+        this.placeholderMessageBox = 'Nachricht an #' + channel?.name;
+      } else if (member) {
+        this.currentChatData = true;
+        this.selectedMember = member;
+        this.sendPrivate = true;
+        this.sendChannel = false;
+        this.placeholderMessageBox = 'Nachricht an ' + member.name;
+        this.getsPrivateChats();
+      }
     });
   }
+
+  /**
+   * Opens the channel container
+   * @param channel the channel to open
+   */
+  // openChannelContainer(channel: any) {
+  //   this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
+  //     this.selectedChannel = channel;
+  //     this.currentChannel = channel;
+  //     this.getMessages(channel);
+  //     this.sendChannel = true;
+  //     this.sendPrivate = false;
+  //     this.currentChatData = false;
+  //     this.placeholderMessageBox = 'Nachricht an #' + channel?.name;
+  //   });
+  // }
 
   getMessages(channel: any) {
     return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
@@ -97,16 +124,16 @@ export class BoxToWriteComponent implements OnInit {
     });
   }
 
-  privateChatWithMember(member: any) {
-    this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
-      this.currentChatData = true;
-      this.selectedMember = member;
-      this.sendPrivate = true;
-      this.sendChannel = false;
-      this.placeholderMessageBox = 'Nachricht an ' + member.name;
-      this.getsPrivateChats();
-    });
-  }
+  // privateChatWithMember(member: any) {
+  //   this.EmitOpenService.openPrivateContainerEvent$.subscribe((member: any) => {
+  //     this.currentChatData = true;
+  //     this.selectedMember = member;
+  //     this.sendPrivate = true;
+  //     this.sendChannel = false;
+  //     this.placeholderMessageBox = 'Nachricht an ' + member.name;
+  //     this.getsPrivateChats();
+  //   });
+  // }
 
   getsPrivateChats() {
     this.chatSubscription = this.userService

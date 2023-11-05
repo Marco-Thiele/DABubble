@@ -159,6 +159,8 @@ export class ChannelsComponent implements OnInit {
       this.EmitOpenService.toggleIconResponsive(true);
     }
     this.EmitOpenService.emitOpenChannel(channel);
+    this.EmitOpenService.emitOpenBoxToWrite({ channel });
+    this.EmitOpenService.emitOpenChat({ channel });
   }
 
   /**
@@ -170,6 +172,8 @@ export class ChannelsComponent implements OnInit {
       this.EmitOpenService.toggleIconResponsive(true);
     }
     this.EmitOpenService.emitOpenPrivateContainer(member);
+    this.EmitOpenService.emitOpenBoxToWrite({ member });
+    this.EmitOpenService.emitOpenChat({ member });
   }
 
   searchMembersAndChannels(event: Event) {
