@@ -36,7 +36,7 @@ export class PickAvatarComponent {
   ];
 
   auth = getAuth();
-  picked_avatar: string = '../../assets/img/avatars/person.svg';
+  picked_avatar: string = '.assets/img/avatars/person.svg';
   name: string = this.UserService.getName();
   currentUser = this.auth.currentUser;
 
