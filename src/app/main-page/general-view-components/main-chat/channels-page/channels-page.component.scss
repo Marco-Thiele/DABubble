@@ -40,7 +40,7 @@
 
   &:hover {
     .hashtag {
-      background-image: url(/assets/icons/tag_blue.svg) !important;
+      background-image: url(../../../../../assets/icons/tag_blue.svg) !important;
       background-size: cover;
       width: 22px;
       height: 23px;
@@ -52,7 +52,7 @@
 
     .head-arrow-cont {
       div {
-        background-image: url(/assets/icons/keyboard_arrow_down_blue.svg) !important;
+        background-image: url(../../../../../assets/icons/keyboard_arrow_down_blue.svg) !important;
         background-size: cover;
         width: 12px;
         height: 8px;
@@ -79,7 +79,7 @@
   align-self: stretch;
 
   .hashtag {
-    background-image: url(/assets/icons/tag.svg);
+    background-image: url(../../../../../assets/icons/tag.svg);
     background-size: cover;
     width: 22px;
     height: 23px;
@@ -93,7 +93,7 @@
     display: flex;
     padding: 2px;
     div {
-      background-image: url(/assets/icons/keyboard_arrow_down.svg);
+      background-image: url(../../../../../assets/icons/keyboard_arrow_down.svg);
       background-size: cover;
       width: 12px;
       height: 8px;
@@ -156,7 +156,7 @@
   cursor: pointer;
 
   div {
-    background-image: url(/assets/icons/person_add.svg);
+    background-image: url(../../../../../assets/icons/person_add.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
@@ -164,7 +164,7 @@
 
   &:hover {
     div {
-      background-image: url(/assets/icons/person_add_blue.svg);
+      background-image: url(../../../../../assets/icons/person_add_blue.svg);
     }
     border-radius: 20px;
     background: var(--Bg-color, #eceefe);
@@ -205,7 +205,7 @@
   }
 
   div {
-    background-image: url(/assets/icons/tag_blue.svg);
+    background-image: url(../../../../../assets/icons/tag_blue.svg);
     background-size: cover;
     width: 16px;
     height: 16px;

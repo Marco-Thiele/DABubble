@@ -2,10 +2,10 @@
   <div class="position-header">
     <div class="thread-contant">
       <div class="thread">Thread</div>
-      <div class="channel"> # {{ sharedService.selectedChannel['name'] }}</div>
+      <div class="channel"># {{ sharedService.selectedChannel["name"] }}</div>
     </div>
     <div class="position-close" (click)="closeThreads(selectedChannel)">
-      <img src="../../assets/icons/close.svg" alt="" />
+      <img src="assets/icons/close.svg" alt="" />
     </div>
   </div>
   <div class="contant-scrollbar">
@@ -16,13 +16,16 @@
       <div>
         <div class="position-contant">
           <div class="info">
-            <div class="name" (click)="
+            <div
+              class="name"
+              (click)="
                 showUserProfil(
                   threads.userName,
                   threads.profileImg,
                   threads.email
                 )
-              ">
+              "
+            >
               {{ threads.userName }}
             </div>
             <div>
@@ -32,26 +35,34 @@
               <div class="img-react" (click)="toggleEmojiPicker(-1)"></div>
             </div>
             <div>
-              <emoji-mart [style]="{ width: '250px' }" class="emoji-mart" *ngIf="showEmojiPicker[-1]"
-                (emojiSelect)="addEmojiThread($event)" size="50px 50px" title="Pick your emoji…"></emoji-mart>
+              <emoji-mart
+                [style]="{ width: '250px' }"
+                class="emoji-mart"
+                *ngIf="showEmojiPicker[-1]"
+                (emojiSelect)="addEmojiThread($event)"
+                size="50px 50px"
+                title="Pick your emoji…"
+              ></emoji-mart>
             </div>
           </div>
           <div class="question">
             {{ threads.text }}
           </div>
           <div class="answer-icons">
-            <div *ngFor="let emojis of threads['reactions'] let j = index" class="answer-reaction"
-              (click)="deleteEmojiThread(j)">
+            <div
+              *ngFor="let emojis of threads['reactions']; let j = index"
+              class="answer-reaction"
+              (click)="deleteEmojiThread(j)"
+            >
               <div class="info-emojis">
-                <div class="info-emoji">{{emojis["emoji"]}}</div>
-                <div class="info-emojis-name">{{emojis['users']}} </div>
+                <div class="info-emoji">{{ emojis["emoji"] }}</div>
+                <div class="info-emojis-name">{{ emojis["users"] }}</div>
                 <div>hat reagiert</div>
               </div>
-              {{emojis["emoji"]}}
+              {{ emojis["emoji"] }}
               <div>
-                {{emojis['count']}}
+                {{ emojis["count"] }}
               </div>
-
             </div>
           </div>
         </div>
@@ -63,73 +74,107 @@
       <div class="seperate-line"></div>
     </div>
 
-    <div *ngFor="let thread of threadAnswersJson; let i = index" class="position-question-contant" [ngClass]="{
+    <div
+      *ngFor="let thread of threadAnswersJson; let i = index"
+      class="position-question-contant"
+      [ngClass]="{
         'position-question-contant-reverse':
           thread['userName'] == UserService.getName()
-      }">
+      }"
+    >
       <div class="profil-img">
         <img src="{{ thread['profileImg'] }}" alt="" />
       </div>
       <div>
         <div class="position-contant">
           <div class="info">
-            <div class="name" (click)="
+            <div
+              class="name"
+              (click)="
                 showUserProfil(
                   thread['userName'],
                   thread['profileImg'],
                   thread['email']
                 )
-              ">
+              "
+            >
               {{ thread["userName"] }}
             </div>
             <div>
               {{ thread["time"] }}
             </div>
-            <div [ngClass]="{
+            <div
+              [ngClass]="{
                 'hover-img-reverse': thread['userName'] == UserService.getName()
-              }" class="hover-img">
+              }"
+              class="hover-img"
+            >
               <div class="img-react" (click)="toggleEmojiPicker(i)"></div>
-              <div [ngClass]="{
+              <div
+                [ngClass]="{
                   'img-points': thread['userName'] == UserService.getName()
-                }" (click)="toggleShowDelete(i)">
-                <div class="delete-message" *ngIf="showDelete[i]" (click)="editMessage(i, message)">
+                }"
+                (click)="toggleShowDelete(i)"
+              >
+                <div
+                  class="delete-message"
+                  *ngIf="showDelete[i]"
+                  (click)="editMessage(i, message)"
+                >
                   Nachricht bearbeiten
                 </div>
               </div>
             </div>
             <div>
-              <emoji-mart [style]="{ width: '250px' }" class="emoji-mart" *ngIf="showEmojiPicker[i]"
-                (emojiSelect)="addEmojiAnswer($event, i)" size="25%" title="Pick your emoji…"></emoji-mart>
+              <emoji-mart
+                [style]="{ width: '250px' }"
+                class="emoji-mart"
+                *ngIf="showEmojiPicker[i]"
+                (emojiSelect)="addEmojiAnswer($event, i)"
+                size="25%"
+                title="Pick your emoji…"
+              ></emoji-mart>
             </div>
           </div>
-          <div class="question" [ngClass]="{
+          <div
+            class="question"
+            [ngClass]="{
               'question-reverse': thread['userName'] == UserService.getName()
-            }">
+            }"
+          >
             {{ thread["text"] }}
           </div>
           <div class="answer-icons">
-            <div *ngFor="let emojis of thread['reactions'] let j = index" class="answer-reaction"
-              (click)="deleteEmoji(i,j)">
-              <div [ngClass]="{
-                'info-emojis-reverse':
-                  thread['userName'] !== UserService.getName()
-              }" class="info-emojis">
-                <div class="info-emoji">{{emojis["emoji"]}}</div>
-                <div class="info-emojis-name">{{emojis['userName']}} </div>
+            <div
+              *ngFor="let emojis of thread['reactions']; let j = index"
+              class="answer-reaction"
+              (click)="deleteEmoji(i, j)"
+            >
+              <div
+                [ngClass]="{
+                  'info-emojis-reverse':
+                    thread['userName'] !== UserService.getName()
+                }"
+                class="info-emojis"
+              >
+                <div class="info-emoji">{{ emojis["emoji"] }}</div>
+                <div class="info-emojis-name">{{ emojis["userName"] }}</div>
                 <div>hat reagiert</div>
               </div>
-              {{emojis["emoji"]}}
+              {{ emojis["emoji"] }}
               <div>
-                {{emojis['userName'].length}}
+                {{ emojis["userName"].length }}
               </div>
-
             </div>
 
             <!-- Eddit Answer -->
-
           </div>
           <div class="editMessage" *ngIf="editMessageUser[i]">
-            <input type="text" placeholder="{{ thread['text'] }}" [(ngModel)]="editedMessageUser" />
+            <input
+              type="text"
+              placeholder="{{ thread['text'] }}"
+              [(ngModel)]="editedMessageUser"
+            />
             <div class="editMessage-buttons">
               <div class="editMessage-cancel" (click)="closeEdit(i)">
                 <span>Abbrechen</span>
@@ -146,9 +191,15 @@
     <!--Container to write in chat-->
     <div class="message-box-cont" *ngIf="messageBox">
       <div class="message-box" [class.focused]="taIsFocused">
-        <textarea class="font400-normal auto-resizable-textarea" placeholder="Antworten..."
-          (input)="onTextareaInput($event)" [(ngModel)]="message" (focus)="inputFocused()" (focus)="textAreaFocused()"
-          (blur)="textAreaBlurred()"></textarea>
+        <textarea
+          class="font400-normal auto-resizable-textarea"
+          placeholder="Antworten..."
+          (input)="onTextareaInput($event)"
+          [(ngModel)]="message"
+          (focus)="inputFocused()"
+          (focus)="textAreaFocused()"
+          (blur)="textAreaBlurred()"
+        ></textarea>
         <div class="image-preview-cont" #imagePreviewCont>
           <img id="image-preview" #imagePreview />
         </div>
@@ -156,29 +207,42 @@
         <div class="send-mesg-box">
           <div class="send-msg-icons">
             <div class="icon-plus icons" (click)="fileInput.click()">
-              <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none" />
+              <input
+                type="file"
+                (change)="onFileSelected($event)"
+                #fileInput
+                style="display: none"
+              />
               <div></div>
             </div>
             <div class="icons-line"></div>
             <div class="icon-s icons" (click)="toggleEmojiPicker(-2)">
               <div></div>
             </div>
-            <div style="position: relative;">
-              <emoji-mart [style]="{ width: '250px' }" class="emoji-mart-message" *ngIf="showEmojiPicker[-2]"
-                (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+            <div style="position: relative">
+              <emoji-mart
+                [style]="{ width: '250px' }"
+                class="emoji-mart-message"
+                *ngIf="showEmojiPicker[-2]"
+                (emojiSelect)="addEmoji($event)"
+                title="Pick your emoji…"
+              ></emoji-mart>
             </div>
             <div class="icon-et icons" (click)="showUsers()">
               <div class="et-div">
                 <div class="render-users" *ngIf="showUser">
-                  <div class="render-user" *ngFor="let user of users" (click)="addUser(user['name'])">
+                  <div
+                    class="render-user"
+                    *ngFor="let user of users"
+                    (click)="addUser(user['name'])"
+                  >
                     <div>
                       <img src="{{ user['photoURL'] }}" alt="" />
                     </div>
                     <div>
-                      {{user['name']}}
+                      {{ user["name"] }}
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>

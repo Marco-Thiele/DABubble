@@ -1,7 +1,7 @@
 <div class="grey-back">
   <div class="add-channel-members-cont">
     <div class="line-grey">
-      <img src="/assets/icons/rectangle_grey.svg" alt="">
+      <img src="assets/icons/rectangle_grey.svg" alt="" />
     </div>
     <div class="add-members-head">
       <div class="head-title">
@@ -12,31 +12,46 @@
       </div>
       <div class="add-members-channel-name">
         <div></div>
-        <span class="font400-normal">{{channel.name}}</span>
+        <span class="font400-normal">{{ channel.name }}</span>
       </div>
     </div>
 
     <div class="add-member-add-name">
-      <input placeholder="Name eingeben" [(ngModel)]="searchInput" (input)="searchMembers()">
+      <input
+        placeholder="Name eingeben"
+        [(ngModel)]="searchInput"
+        (input)="searchMembers()"
+      />
     </div>
 
     <div *ngIf="searchInput && allMatches.length > 0" class="member-matches">
-      <div *ngFor="let match of allMatches" class="member-match-cont" (click)="toggleMemberSelection(match)">
-        <img [src]="match.imgProfil || match.profileImg" [alt]="match.name">
+      <div
+        *ngFor="let match of allMatches"
+        class="member-match-cont"
+        (click)="toggleMemberSelection(match)"
+      >
+        <img [src]="match.imgProfil || match.profileImg" [alt]="match.name" />
         <span [class.selected]="match.selected"> {{ match.name }} </span>
       </div>
     </div>
 
     <div *ngIf="selectedMembers.length > 0" class="selected-members">
       <div *ngFor="let member of selectedMembers" class="selected-member">
-        <img [src]="member.imgProfil || member.profileImg" [alt]="member.name">
+        <img
+          [src]="member.imgProfil || member.profileImg"
+          [alt]="member.name"
+        />
         <span class="font400-normal">{{ member.name }}</span>
         <div class="cancelMember" (click)="removeSelectedMember(member)"></div>
       </div>
     </div>
 
-    <div class="add-members-button" (click)="addMember()" [style.background-color]="buttonColor"
-      [attr.disabled]="isButtonDisabled ? true : null">
+    <div
+      class="add-members-button"
+      (click)="addMember()"
+      [style.background-color]="buttonColor"
+      [attr.disabled]="isButtonDisabled ? true : null"
+    >
       <span class="font700-normal">Hinzufügen</span>
     </div>
   </div>

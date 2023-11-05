@@ -1,23 +1,35 @@
 <!--Main chat-head channel-->
 <div class="head-member-container">
-  <div class="head-title-channel" (click)="editChannel(selectedChannel)" [style.background-color]="
+  <div
+    class="head-title-channel"
+    (click)="editChannel(selectedChannel)"
+    [style.background-color]="
       isEditChannelOpen() ? 'var(--Bg-color, #eceefe)' : 'initial'
-    ">
+    "
+  >
     <div class="title-channel">
       <div class="title-hashtag">
-        <div class="hashtag" [style.background-image]="
+        <div
+          class="hashtag"
+          [style.background-image]="
             isEditChannelOpen()
-              ? 'url(/assets/icons/tag_blue.svg)'
-              : 'url(/assets/icons/tag.svg)'
-          "></div>
-        <span class="title font700-normal" [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'">{{
-          selectedChannel?.name }}</span>
+              ? 'url(assets/icons/tag_blue.svg)'
+              : 'url(assets/icons/tag.svg)'
+          "
+        ></div>
+        <span
+          class="title font700-normal"
+          [style.color]="isEditChannelOpen() ? '#535af1' : 'initial'"
+          >{{ selectedChannel?.name }}</span
+        >
         <div class="head-arrow-cont">
-          <div [style.background-image]="
+          <div
+            [style.background-image]="
               isEditChannelOpen()
-                ? 'url(/assets/icons/keyboard_arrow_down_blue.svg)'
-                : 'url(/assets/icons/keyboard_arrow_down.svg)'
-            "></div>
+                ? 'url(assets/icons/keyboard_arrow_down_blue.svg)'
+                : 'url(assets/icons/keyboard_arrow_down.svg)'
+            "
+          ></div>
         </div>
       </div>
     </div>
@@ -39,16 +51,18 @@
 <!--Container for the intro of the chat-->
 <div class="chat-container">
   <div class="inner-container" #chatContainer (scroll)="handleScroll($event)">
-
     <div class="beginning-chat-cont">
       <div class="title-hashtag">
         <div class="hashtag"></div>
         <span class="title font700-normal">{{ selectedChannel?.name }}</span>
       </div>
       <div class="beginning-description">
-        <span class="font400-normal descrip-text">Du hast diesen Channel heute erstellt. Das ist der Anfang des
+        <span class="font400-normal descrip-text"
+          >Du hast diesen Channel heute erstellt. Das ist der Anfang des
           Channels
-          <span class="font400-normal"><a style="font-size: 22px">#</a>&nbsp;<a>Office-team</a>.</span>
+          <span class="font400-normal"
+            ><a style="font-size: 22px">#</a>&nbsp;<a>Office-team</a>.</span
+          >
         </span>
       </div>
     </div>

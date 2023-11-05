@@ -21,7 +21,7 @@ export class UserService {
   userObject: userData = new userData();
   docId: string = '';
   selectedUserName: string = 'Guest';
-  selectedUserPhotoURL: string = '../../assets/img/avatars/person.svg';
+  selectedUserPhotoURL: string = 'assets/img/avatars/person.svg';
   selectedUserEmail: string = 'guest@guest.de';
   selectedUserUid: string = '';
   messageText: string = '';
@@ -51,8 +51,8 @@ export class UserService {
 
   getPhoto() {
     return this.user
-      ? this.user.photoURL || '../../assets/img/avatars/person.svg'
-      : '../../assets/img/avatars/person.svg';
+      ? this.user.photoURL || 'assets/img/avatars/person.svg'
+      : 'assets/img/avatars/person.svg';
   }
 
   getMail() {
@@ -79,7 +79,7 @@ export class UserService {
       userName: this.user ? this.user.displayName : 'Guest',
       profileImg: this.user
         ? this.user.photoURL
-        : '../../assets/img/avatars/person.svg',
+        : 'assets/img/avatars/person.svg',
       imageUrl: '',
       time: new Date().toLocaleTimeString(),
       date: new Date().toLocaleDateString(),

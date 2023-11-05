@@ -25,7 +25,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 30px;
-  background-image: url(/assets/icons/Rectangle.svg);
+  background-image: url(../../../../assets/icons/Rectangle.svg);
 }
 
 .channel-title {
@@ -44,13 +44,13 @@
   cursor: pointer;
 
   .icon {
-    background-image: url(/assets/icons/edit.svg);
+    background-image: url(../../../../assets/icons/edit.svg);
     background-size: 20px;
     background-position: center;
   }
   &:hover {
     .icon {
-      background-image: url(/assets/icons/edit_blue.svg);
+      background-image: url(../../../../assets/icons/edit_blue.svg);
       background-size: 20px;
     }
     border-radius: 20px;
@@ -119,14 +119,14 @@
   cursor: pointer;
 
   .icon-expansion {
-    background-image: url(/assets/icons/arrow_drop_down.svg);
+    background-image: url(../../../../assets/icons/arrow_drop_down.svg);
     background-position: center;
     padding-right: 15px;
     transform: rotate(-90deg);
   }
 
   .workspaces {
-    background-image: url(/assets/icons/workspaces.svg);
+    background-image: url(../../../../assets/icons/workspaces.svg);
     padding-right: 10px;
     background-size: 24px;
   }
@@ -142,11 +142,11 @@
     }
 
     .workspaces {
-      background-image: url(/assets/icons/workspaces_blue.svg);
+      background-image: url(../../../../assets/icons/workspaces_blue.svg);
     }
 
     .icon-expansion {
-      background-image: url(/assets/icons/arrow_drop_down_blue.svg);
+      background-image: url(../../../../assets/icons/arrow_drop_down_blue.svg);
     }
   }
 
@@ -165,14 +165,14 @@
   margin-top: 13px;
 
   .add-icon {
-    background-image: url(/assets/icons/add.svg);
+    background-image: url(../../../../assets/icons/add.svg);
     background-size: 24px;
     cursor: pointer;
   }
 
   &:hover {
     .add-icon {
-      background-image: url(/assets/icons/add_blue.svg);
+      background-image: url(../../../../assets/icons/add_blue.svg);
     }
     border-radius: 20px;
     background: var(--Bg-color, #eceefe);
@@ -205,7 +205,7 @@
   border-radius: 20px;
 
   div {
-    background-image: url(/assets/icons/tag.svg);
+    background-image: url(../../../../assets/icons/tag.svg);
     background-size: cover;
     width: 16px;
     height: 16px;
@@ -218,7 +218,7 @@
 
   &:hover {
     div {
-      background-image: url(/assets/icons/tag_blue.svg) !important;
+      background-image: url(../../../../assets/icons/tag_blue.svg) !important;
     }
 
     a {
@@ -237,7 +237,7 @@
   width: fit-content;
 
   div {
-    background-image: url(/assets/icons/add_circle.svg);
+    background-image: url(../../../../assets/icons/add_circle.svg);
     background-size: cover;
     padding-left: 25px;
     height: 24px;
@@ -250,7 +250,7 @@
 
   &:hover {
     div {
-      background-image: url(/assets/icons/add_circle_blue.svg);
+      background-image: url(../../../../assets/icons/add_circle_blue.svg);
     }
 
     a {
@@ -296,14 +296,14 @@
   cursor: pointer;
 
   .icon-expansion {
-    background-image: url(/assets/icons/arrow_drop_down.svg);
+    background-image: url(../../../../assets/icons/arrow_drop_down.svg);
     background-position: center;
     padding-right: 15px;
     transform: rotate(-90deg);
   }
 
   .icon-account {
-    background-image: url(/assets/icons/account_circle.svg);
+    background-image: url(../../../../assets/icons/account_circle.svg);
     padding-right: 10px;
     background-size: 24px;
   }
@@ -319,11 +319,11 @@
     }
 
     .icon-account {
-      background-image: url(/assets/icons/account_circle_blue.svg);
+      background-image: url(../../../../assets/icons/account_circle_blue.svg);
     }
 
     .icon-expansion {
-      background-image: url(/assets/icons/arrow_drop_down_blue.svg);
+      background-image: url(../../../../assets/icons/arrow_drop_down_blue.svg);
     }
   }
 
@@ -646,7 +646,7 @@
     border: 1px solid #adb0d9;
     height: 32px;
     div {
-      background-image: url(/assets/icons/search.svg);
+      background-image: url(../../../../assets/icons/search.svg);
       background-repeat: no-repeat;
       width: 32px;
       height: 32px;
@@ -712,7 +712,7 @@
     cursor: pointer;
 
     div {
-      background-image: url(/assets/icons/edit_white.svg);
+      background-image: url(../../../../assets/icons/edit_white.svg);
       background-size: cover;
       width: 43px;
       height: 43px;

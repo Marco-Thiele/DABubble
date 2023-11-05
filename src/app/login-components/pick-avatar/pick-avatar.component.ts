@@ -27,12 +27,12 @@ export class PickAvatarComponent {
   constructor(private _router: Router, private UserService: UserService) {}
 
   avatar_list: string[] = [
-    '../../assets/img/avatars/frederickbeck.svg',
-    '../../assets/img/avatars/sofiamueller.svg',
-    '../../assets/img/avatars/noahbraun.svg',
-    '../../assets/img/avatars/steffenhoffmann.svg',
-    '../../assets/img/avatars/eliasneumann.svg',
-    '../../assets/img/avatars/eliseroth.svg',
+    './assets/img/avatars/frederickbeck.svg',
+    './assets/img/avatars/sofiamueller.svg',
+    './assets/img/avatars/noahbraun.svg',
+    './assets/img/avatars/steffenhoffmann.svg',
+    './assets/img/avatars/eliasneumann.svg',
+    './assets/img/avatars/eliseroth.svg',
   ];
 
   auth = getAuth();

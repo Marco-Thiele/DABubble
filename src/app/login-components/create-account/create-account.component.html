@@ -1,10 +1,10 @@
 <div class="container">
-  <img class="logo" src="../../assets/img/logo_with_text.svg" />
+  <img class="logo" src="./assets/img/logo_with_text.svg" />
 
   <div class="register-container">
     <div class="greet">
       <a routerLink="/login" class="return-arrow">
-        <img src="../../assets/img/arrow_back.svg" />
+        <img src="./assets/img/arrow_back.svg" />
       </a>
       <h1>Konto erstellen</h1>
       <span
@@ -16,7 +16,7 @@
     <form (submit)="registerUser()" #createUserForm ngNativeValidate>
       <div class="wrapper">
         <div class="name-container" [class.focused]="isNameFocused">
-          <img src="../../assets/img/person_filled.svg" />
+          <img src="./assets/img/person_filled.svg" />
           <input
             [(ngModel)]="name"
             name="name"
@@ -33,7 +33,7 @@
       </div>
       <div class="wrapper">
         <div class="email-container" [class.focused]="isEmailFocused">
-          <img src="../../assets/img/mail.svg" />
+          <img src="./assets/img/mail.svg" />
           <input
             [(ngModel)]="email"
             name="email"
@@ -50,7 +50,7 @@
       </div>
       <div class="wrapper">
         <div class="pwd-container" [class.focused]="isPwdFocused">
-          <img src="../../assets/img/lock.svg" />
+          <img src="./assets/img/lock.svg" />
           <input
             [(ngModel)]="password"
             name="password"

@@ -114,7 +114,7 @@
   }
 
   div.open {
-    background-image: url(/assets/icons/menu-close.svg);
+    background-image: url(../../../../assets/icons/menu-close.svg);
     background-size: cover;
     width: 16px;
     height: 16px;
@@ -122,7 +122,7 @@
   }
 
   div.closed {
-    background-image: url(/assets/icons/menu-open.svg);
+    background-image: url(../../../../assets/icons/menu-open.svg);
     background-size: cover;
     width: 16px;
     height: 16px;
@@ -134,14 +134,14 @@
       color: var(--Blue, #3f51b5);
     }
     div.open {
-      background-image: url(/assets/icons/menu-close-blue.svg);
+      background-image: url(../../../../assets/icons/menu-close-blue.svg);
       background-size: cover;
       width: 17px;
       height: 17px;
     }
 
     div.closed {
-      background-image: url(/assets/icons/menu-open-blue.svg);
+      background-image: url(../../../../assets/icons/menu-open-blue.svg);
       background-size: cover;
       width: 17px;
       height: 17px;

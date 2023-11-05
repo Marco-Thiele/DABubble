@@ -1,6 +1,6 @@
 <div class="container">
   <div class="header">
-    <img class="logo" src="../../assets/img/logo_with_text.svg" />
+    <img class="logo" src="./assets/img/logo_with_text.svg" />
     <div class="reg-container">
       Neu bei DABubble?
       <a routerLink="/register">Konto erstellen</a>
@@ -14,7 +14,7 @@
     class="start-animation"
   >
     <div class="content" [@moveAnimation]="moveState">
-      <img [@slideAnimation]="svgTransform" src="../../assets/img/Logo.svg" />
+      <img [@slideAnimation]="svgTransform" src="./assets/img/Logo.svg" />
       <div class="text">
         <span [@textAnimation]="textState">DABubble</span>
       </div>
@@ -34,7 +34,7 @@
     <form (submit)="loginUser()" #loginUserForm ngNativeValidate>
       <div class="wrapper">
         <div class="email-container" [class.focused]="isEmailFocused">
-          <img src="../../assets/img/mail.svg" />
+          <img src="./assets/img/mail.svg" />
           <input
             required
             id="email"
@@ -55,7 +55,7 @@
       </div>
       <div class="wrapper">
         <div class="pwd-container" [class.focused]="isPwdFocused">
-          <img src="../../assets/img/lock.svg" />
+          <img src="./assets/img/lock.svg" />
           <input
             required
             id="password"
@@ -84,7 +84,7 @@
       </div>
 
       <div class="google" (click)="googleLogin()">
-        <img src="../../assets/img/google.svg" />
+        <img src="./assets/img/google.svg" />
         <span>Anmelden mit Google</span>
       </div>
 

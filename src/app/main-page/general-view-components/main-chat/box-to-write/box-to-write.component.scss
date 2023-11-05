@@ -46,7 +46,7 @@
     height: 200px;
   }
   div {
-    background-image: url(/assets/icons/close.svg);
+    background-image: url(../../../../../assets/icons/close.svg);
     background-size: cover;
     width: 20px;
     height: 20px;
@@ -55,7 +55,7 @@
     cursor: pointer;
 
     &:hover {
-      background-image: url(/assets/icons/close_blue.svg);
+      background-image: url(../../../../../assets/icons/close_blue.svg);
       background-color: #eceefe;
       border-radius: 20px;
     }
@@ -86,7 +86,7 @@
 
 .icon-plus {
   div {
-    background-image: url(/assets/icons/add-icon.svg);
+    background-image: url(../../../../../assets/icons/add-icon.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
@@ -94,7 +94,7 @@
 
   &:hover {
     div {
-      background-image: url(/assets/icons/add-icon-blue.svg);
+      background-image: url(../../../../../assets/icons/add-icon-blue.svg);
     }
     border-radius: 20px;
     background: var(--Bg-color, #eceefe);
@@ -102,7 +102,7 @@
 }
 
 .icons-line {
-  background-image: url(/assets/icons/vector_4.svg);
+  background-image: url(../../../../../assets/icons/vector_4.svg);
   background-size: cover;
   width: 1px;
   height: 40px;
@@ -110,14 +110,14 @@
 
 .icon-s {
   div {
-    background-image: url(/assets/icons/satisfied.svg);
+    background-image: url(../../../../../assets/icons/satisfied.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
   }
   &:hover {
     div {
-      background-image: url(/assets/icons/satisfied_blue.svg);
+      background-image: url(../../../../../assets/icons/satisfied_blue.svg);
     }
     border-radius: 20px;
     background: var(--Bg-color, #eceefe);
@@ -127,7 +127,7 @@
 .icon-et {
   .et-div {
     position: relative;
-    background-image: url(/assets/icons/et.svg);
+    background-image: url(../../../../../assets/icons/et.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
@@ -135,7 +135,7 @@
 
   &:hover {
     .et-div {
-      background-image: url(/assets/icons/et_blue.svg);
+      background-image: url(../../../../../assets/icons/et_blue.svg);
     }
 
     border-radius: 20px;
@@ -173,14 +173,14 @@
 }
 
 .send-msg {
-  background-image: url(/assets/icons/send.svg);
+  background-image: url(../../../../../assets/icons/send.svg);
   background-size: cover;
   width: 40px;
   height: 40px;
   cursor: pointer;
 
   &:hover {
-    background-image: url(/assets/icons/send_heller.svg);
+    background-image: url(../../../../../assets/icons/send_heller.svg);
   }
 }
 

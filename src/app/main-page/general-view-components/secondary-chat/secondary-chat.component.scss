@@ -99,14 +99,14 @@
 }
 
 .img-react {
-  background-image: url(/assets/icons/add_reaction.svg);
+  background-image: url(../../../../assets/icons/add_reaction.svg);
   background-size: 24px 24px;
   background-repeat: no-repeat;
   background-position: center;
   width: 24px;
   height: 24px;
   &:hover {
-    background-image: url(/assets/icons/add_reaction_blue.svg);
+    background-image: url(../../../../assets/icons/add_reaction_blue.svg);
     cursor: pointer;
   }
 }
@@ -140,12 +140,12 @@
 }
 
 .img-points {
-  background-image: url(/assets/icons/points_black.svg);
+  background-image: url(../../../../assets/icons/points_black.svg);
   background-size: cover;
   width: 24px;
   height: 24px;
   &:hover {
-    background-image: url(/assets/icons/points_blue.svg);
+    background-image: url(../../../../assets/icons/points_blue.svg);
     cursor: pointer;
   }
 }
@@ -248,7 +248,7 @@
 
 .answer-emojis {
   background-color: white;
-  background-image: url(/assets/icons/add_reaction.svg);
+  background-image: url(../../../../assets/icons/add_reaction.svg);
   background-size: 24px 24px;
   background-repeat: no-repeat;
   background-position: center;
@@ -258,7 +258,7 @@
   cursor: pointer;
 
   &:hover {
-    background-image: url(/assets/icons/add_reaction_blue.svg);
+    background-image: url(../../../../assets/icons/add_reaction_blue.svg);
     background-color: rgb(236, 238, 254);
   }
 }
@@ -392,7 +392,7 @@
 
 .icon-plus {
   div {
-    background-image: url(/assets/icons/add-icon.svg);
+    background-image: url(../../../../assets/icons/add-icon.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
@@ -400,7 +400,7 @@
 
   &:hover {
     div {
-      background-image: url(/assets/icons/add-icon-blue.svg);
+      background-image: url(../../../../assets/icons/add-icon-blue.svg);
     }
 
     border-radius: 20px;
@@ -409,7 +409,7 @@
 }
 
 .icons-line {
-  background-image: url(/assets/icons/vector_4.svg);
+  background-image: url(../../../../assets/icons/vector_4.svg);
   background-size: cover;
   width: 1px;
   height: 40px;
@@ -417,7 +417,7 @@
 
 .icon-s {
   div {
-    background-image: url(/assets/icons/satisfied.svg);
+    background-image: url(../../../../assets/icons/satisfied.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
@@ -425,7 +425,7 @@
 
   &:hover {
     div {
-      background-image: url(/assets/icons/satisfied_blue.svg);
+      background-image: url(../../../../assets/icons/satisfied_blue.svg);
     }
 
     border-radius: 20px;
@@ -436,7 +436,7 @@
 .icon-et {
   .et-div {
     position: relative;
-    background-image: url(/assets/icons/et.svg);
+    background-image: url(../../../../assets/icons/et.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
@@ -444,7 +444,7 @@
 
   &:hover {
     .et-div {
-      background-image: url(/assets/icons/et_blue.svg);
+      background-image: url(../../../../assets/icons/et_blue.svg);
     }
 
     border-radius: 20px;
@@ -452,46 +452,44 @@
   }
 }
 
-.render-users{
+.render-users {
   position: absolute;
   width: 150px;
   height: 134px;
   border: 1px solid black;
-  transform: translate(-37px,-138px);
+  transform: translate(-37px, -138px);
   background: white;
   border-radius: 10px;
   overflow: scroll;
 }
 
-.render-user{
+.render-user {
   display: flex;
   align-items: center;
   gap: 8px;
   margin: 8px;
- 
 
-  img{
+  img {
     width: 30px;
     height: 30px;
     border-radius: 100%;
     display: flex;
   }
 
-  &:hover{
-    background: rgba(0,0,0,0.1);
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
   }
 }
 
-
 .send-msg {
-  background-image: url(/assets/icons/send.svg);
+  background-image: url(../../../../assets/icons/send.svg);
   background-size: cover;
   width: 40px;
   height: 40px;
   cursor: pointer;
 
   &:hover {
-    background-image: url(/assets/icons/send_heller.svg);
+    background-image: url(../../../../assets/icons/send_heller.svg);
   }
 }
 
@@ -509,7 +507,7 @@
   position: absolute;
   font-family: Nunito;
   z-index: 100;
-  
+
   transform: translate(-105px, -450px);
 }
 
@@ -563,49 +561,49 @@
 }
 
 .icon-tick {
-  background-image: url(/assets/icons/tick.svg);
+  background-image: url(../../../../assets/icons/tick.svg);
   background-size: cover;
   width: 20px;
   height: 20px;
 }
 
 .icon-hands {
-  background-image: url(/assets/icons/hands.svg);
+  background-image: url(../../../../assets/icons/hands.svg);
   background-size: cover;
   width: 20px;
   height: 20px;
 }
 
 .icon-smile {
-  background-image: url(/assets/icons/add_reaction.svg);
+  background-image: url(../../../../assets/icons/add_reaction.svg);
   background-size: cover;
   width: 24px;
   height: 24px;
 
   &:hover {
-    background-image: url(/assets/icons/add_reaction_blue.svg);
+    background-image: url(../../../../assets/icons/add_reaction_blue.svg);
   }
 }
 
 .icon-message {
-  background-image: url(/assets/icons/comment.svg);
+  background-image: url(../../../../assets/icons/comment.svg);
   background-size: cover;
   width: 24px;
   height: 24px;
 
   &:hover {
-    background-image: url(/assets/icons/comment_blue.svg);
+    background-image: url(../../../../assets/icons/comment_blue.svg);
   }
 }
 
 .icon-points {
-  background-image: url(/assets/icons/points_black.svg);
+  background-image: url(../../../../assets/icons/points_black.svg);
   background-size: cover;
   width: 24px;
   height: 24px;
 
   &:hover {
-    background-image: url(/assets/icons/points_blue.svg);
+    background-image: url(../../../../assets/icons/points_blue.svg);
   }
 }
 
@@ -711,7 +709,7 @@
 }
 
 .icons-background {
-  background-image: url(/assets/icons/rocket.svg);
+  background-image: url(../../../../assets/icons/rocket.svg);
   background-size: cover;
   width: 24px;
   height: 24px;
@@ -722,7 +720,7 @@
 }
 
 .tick {
-  background-image: url(/assets/icons/tick.svg);
+  background-image: url(../../../../assets/icons/tick.svg);
   background-size: cover;
   width: 24px;
   height: 24px;
@@ -738,7 +736,7 @@
   cursor: pointer;
 
   div {
-    background-image: url(/assets/icons/add_reaction.svg);
+    background-image: url(../../../../assets/icons/add_reaction.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
@@ -746,7 +744,7 @@
 
   &:hover {
     div {
-      background-image: url(/assets/icons/add_reaction_blue.svg);
+      background-image: url(../../../../assets/icons/add_reaction_blue.svg);
     }
 
     background: var(--Bg-color, #eceefe);
@@ -834,7 +832,7 @@
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1);
 
   div {
-    background-image: url(/assets/profil-img/profile_bild.svg);
+    background-image: url(../../../../assets/profil-img/profile_bild.svg);
     background-size: cover;
     width: 70px;
     height: 70px;
@@ -850,7 +848,7 @@
     padding: 30px 20px 30px 20px;
   }
 
-  .message-box-cont{
+  .message-box-cont {
     padding: 30px 20px 30px 20px;
   }
 

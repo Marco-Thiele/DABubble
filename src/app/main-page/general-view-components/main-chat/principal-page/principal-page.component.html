@@ -4,15 +4,25 @@
     <span class="font700-normal">Neue Nachricht</span>
   </div>
   <div class="head-new-message-searchbar" [class.focused]="isFocused">
-    <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" (focus)="inputFocused()"
-      (blur)="inputBlurred()" (input)="searchMembersAndChannels($event)" [(ngModel)]="inputValue" />
+    <input
+      type="text"
+      placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+      (focus)="inputFocused()"
+      (blur)="inputBlurred()"
+      (input)="searchMembersAndChannels($event)"
+      [(ngModel)]="inputValue"
+    />
   </div>
 </div>
 
 <div class="chat-container">
   <div class="inner-container">
     <!--Main chat principal-->
-    <div *ngIf="showContainers && inputValue" class="container-lookingfor" #membersContainer>
+    <div
+      *ngIf="showContainers && inputValue"
+      class="container-lookingfor"
+      #membersContainer
+    >
       <div *ngIf="memberMatches.length > 0" class="searchMatches">
         <span class="font600-normal">Members gefunden:</span>
         <div *ngFor="let member of memberMatches">
@@ -26,7 +36,7 @@
         <span class="font600-normal">Channels gefunden:</span>
         <div *ngFor="let channel of channelMatches">
           <div class="channelMatches" (click)="openChannel(channel)">
-            <img src="/assets/icons/tag.svg" alt="" />
+            <img src="assets/icons/tag.svg" alt="" />
             <span class="font400-normal">{{ channel.name }}</span>
           </div>
         </div>
@@ -34,7 +44,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- Container for the user to write-->
 
