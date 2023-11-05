@@ -22,7 +22,6 @@ import { Channel } from 'src/app/models/channel';
 })
 export class ChannelsComponent implements OnInit {
   @ViewChild('searchContainer', { read: ElementRef })
-  @HostListener('document:click', ['$event'])
   searchContainer!: ElementRef;
   channel: Channel = {} as Channel;
   uniqueId = this.sharedService.generateUniqueId();
@@ -70,10 +69,7 @@ export class ChannelsComponent implements OnInit {
     this.sharedService.addUserToAllgemeinChannel(this.user);
   }
 
-  /**
-   * Bei responsive mode, the user clicks outside de channels component, the search container closes.
-   * @param event the click of the user
-   */
+  @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
     if (this.searchContainerOpen) {
       const clickedInside = this.searchContainer.nativeElement.contains(
