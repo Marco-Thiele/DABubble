@@ -30,6 +30,7 @@ export class ChatContainComponent implements OnInit {
   currentChannel: any;
   autoScrollEnabled = true;
   data: any;
+  showThread: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -60,17 +61,21 @@ export class ChatContainComponent implements OnInit {
 
       if (channel) {
         this.selectedChannel = [];
+        this.showThread = true;
         this.getMessages(channel);
         this.currentChannel = channel;
         this.currentChatData = false;
         this.selectedMember = '';
       } else if (member) {
         this.selectedChannel = null;
+
+        this.showThread = false;
         this.currentChannel = null;
         this.currentChatData = true;
         this.selectedMember = member;
         this.getsPrivateChats();
       } else if (newMessage) {
+        this.showThread = false;
         this.selectedChannel = null;
         this.currentChannel = null;
         this.currentChatData = false;
@@ -111,7 +116,8 @@ export class ChatContainComponent implements OnInit {
     this.chatSubscription = this.userService
       .subToChosenChat()
       .subscribe((chatData) => {
-        this.currentChatData = chatData;        
+        this.currentChatData = chatData;
+        this.selectedChannel = null;
       });
   }
 
@@ -203,7 +209,7 @@ export class ChatContainComponent implements OnInit {
    * @param member the member to open
    */
   openThread(i: number, messageID: any) {
-    if (this.selectedChannel) {
+    if (this.showThread) {
       if (window.innerWidth < 1000) {
         this.EmitOpenService.emitRespOpenThreadsEvent();
       }
