@@ -3,19 +3,12 @@ import { UserService } from '../../../services/user.service';
 import { UserProfilComponent } from '../../profils-components/user-profil/user-profil.component';
 import {
   Component,
-  OnInit,
   ElementRef,
   ViewChild,
   inject,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ChannelEditComponent } from '../../channels-components/channel-edit/channel-edit.component';
 import { SharedService } from '../../../services/shared.service';
-import { ChannelMembersComponent } from '../../channels-components/channel-members/channel-members.component';
-import { AddChannelMembersComponent } from '../../channels-components/add-channel-members/add-channel-members.component';
 import { Firestore, collection, onSnapshot } from '@angular/fire/firestore';
-import { object } from 'rxfire/database';
-import { user } from 'rxfire/auth';
 import { DocumentData } from 'rxfire/firestore/interfaces';
 import { EmitOpenService } from 'src/app/services/emit-open.service';
 
@@ -129,11 +122,13 @@ export class SecondaryChatComponent {
     }, 200);
   }
 
+
   subscribeToChat() {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       this.getMessages(channel);
     });
   }
+
 
   getMessages(channel: any) {
     return onSnapshot(this.sharedService.getChannelsFromFS(), (list: any) => {
@@ -143,10 +138,8 @@ export class SecondaryChatComponent {
         if (channelData.name === channel?.name) {
           this.selectedChannel = channelData;
           this.selectedChannel.id = channel.id;
-
           this.threadAnswersJson =
             channelData.chat[this.sharedService.i]['answers'];
-          console.log('channeldata', this.threadAnswersJson);
         }
       });
     });
