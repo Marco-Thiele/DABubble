@@ -73,7 +73,6 @@ export class SecondaryChatComponent {
     users: [],
     emoji: '',
   };
-  allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
   messageID: any;
   thread: any;
   showEmojiPicker: boolean[] = [false, false];
@@ -85,7 +84,6 @@ export class SecondaryChatComponent {
   isPrivatChatContainerVisible = false;
   isChatWithMemberVisible = false;
   isPrivateChatVisible = false;
-  selectedMember: any;
   selectedChannel: any;
   currentChannel: any;
   sameName: boolean = false;

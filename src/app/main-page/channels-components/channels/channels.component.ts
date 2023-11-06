@@ -174,6 +174,8 @@ export class ChannelsComponent implements OnInit {
    * Opens the private container in main chat.
    */
   openPrivateContainer(member: any) {
+    console.log('member', member);
+    
     if (window.innerWidth < 1000) {
       this.EmitOpenService.emitRespOpenPrivateContainer(member);
       this.EmitOpenService.toggleIconResponsive(true);
