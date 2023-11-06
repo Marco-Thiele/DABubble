@@ -145,8 +145,7 @@ export class SecondaryChatComponent {
         if (channelData.name === channel?.name) {
           this.selectedChannel = channelData;
           this.selectedChannel.id = channel.id;
-          console.log('channeldata', channelData);
-          console.log('i', this.i);
+
           this.threadAnswersJson =
             channelData.chat[this.sharedService.i]['answers'];
           console.log('channeldata', this.threadAnswersJson);
@@ -238,7 +237,6 @@ export class SecondaryChatComponent {
    */
   toggleEmojiPicker(index: number) {
     this.showEmojiPicker[index] = !this.showEmojiPicker[index];
-    console.log(this.showEmojiPicker);
   }
 
   /**
@@ -499,7 +497,6 @@ export class SecondaryChatComponent {
         const userData = element.data();
         this.users.push(userData);
       });
-      console.log('userdaten', this.users);
     });
   }
 

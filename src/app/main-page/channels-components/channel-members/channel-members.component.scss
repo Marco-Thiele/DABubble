@@ -34,14 +34,14 @@
   cursor: pointer;
 
   div {
-    background-image: url(/assets/icons/close.svg);
+    background-image: url(../../../../assets/icons/close.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
   }
   &:hover {
     div {
-      background-image: url(/assets/icons/close_blue.svg);
+      background-image: url(../../../../assets/icons/close_blue.svg);
     }
     border-radius: 20px;
     background: var(--Bg-color, #eceefe);
@@ -74,7 +74,7 @@
   cursor: pointer;
 
   .channel-photo {
-    background-image: url(/assets/profil-img/profile_bild.svg);
+    background-image: url(../../../../assets/profil-img/profile_bild.svg);
     background-size: cover;
     height: 50px;
     width: 50px;
@@ -126,7 +126,7 @@
     padding: 4px;
 
     div {
-      background-image: url(/assets/icons/person_add.svg);
+      background-image: url(../../../../assets/icons/person_add.svg);
       background-size: cover;
       width: 24px;
       height: 24px;
@@ -136,7 +136,7 @@
   &:hover {
     .add-icon {
       div {
-        background-image: url(/assets/icons/person_add_blue.svg);
+        background-image: url(../../../../assets/icons/person_add_blue.svg);
       }
     }
 

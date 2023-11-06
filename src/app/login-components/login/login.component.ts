@@ -241,7 +241,6 @@ export class LoginComponent implements OnInit {
       if (!this.userArr.includes(user.email)) {
         this.addUserToDatabase(user);
       } else {
-        console.log('already in db!');
       }
     }
   }

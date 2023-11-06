@@ -36,14 +36,14 @@
   cursor: pointer;
 
   div {
-    background-image: url(/assets/icons/close.svg);
+    background-image: url(../../../../assets/icons/close.svg);
     background-size: cover;
     width: 24px;
     height: 24px;
   }
   &:hover {
     div {
-      background-image: url(/assets/icons/close_blue.svg);
+      background-image: url(../../../../assets/icons/close_blue.svg);
     }
     border-radius: 20px;
     background: var(--Bg-color, #eceefe);

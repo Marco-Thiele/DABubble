@@ -45,7 +45,6 @@ export class ChannelEditComponent implements OnInit {
   editChannelContainer(channel: any) {
     this.EmitOpenService.openChannelEvent$.subscribe((channel: any) => {
       this.selectedChannel = channel;
-      console.log(channel);
     });
   }
   /**

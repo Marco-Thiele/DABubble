@@ -24,7 +24,7 @@
   border-radius: 42px;
 
   padding: 17px 45px 17px 45px;
-  background-image: url("../../../../assets/icons/search.svg");
+  background-image: url(../../../../assets/icons/search.svg);
   background-repeat: no-repeat;
   box-sizing: border-box;
   background-position: right center;
@@ -140,7 +140,7 @@
   cursor: pointer;
 
   div {
-    background-image: url(/assets/icons/arrow-left.svg);
+    background-image: url(../../../../assets/icons/arrow-left.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -205,7 +205,7 @@
 }
 
 @media (max-width: 600px) {
-  .profil-name{
+  .profil-name {
     display: none;
   }
 }
