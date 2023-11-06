@@ -77,7 +77,9 @@
       </div>
       <div class="message-user-reaction">
         <div>
-          <div class="answer-icons">
+          <div  [ngClass]="{
+            'd-none': message.reactions.length == 0
+          }" class="answer-icons">
             <div *ngFor="
                     let emojis of (selectedChannel
                       ? selectedChannel?.chat

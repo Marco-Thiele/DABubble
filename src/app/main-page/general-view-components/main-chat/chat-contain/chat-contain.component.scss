@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.d-none{
+  display: none !important;
+}
+
 .time-line {
   background-image: url(../../../../../assets/icons/line-time.svg);
   background-size: cover;

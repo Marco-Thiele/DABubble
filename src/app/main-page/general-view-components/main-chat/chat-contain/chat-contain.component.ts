@@ -112,6 +112,8 @@ export class ChatContainComponent implements OnInit {
       .subToChosenChat()
       .subscribe((chatData) => {
         this.currentChatData = chatData;
+        console.log('chatdata', this.currentChatData);
+        
       });
   }
 
