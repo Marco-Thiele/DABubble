@@ -192,6 +192,7 @@
     <div class="message-box-cont" *ngIf="messageBox">
       <div class="message-box" [class.focused]="taIsFocused">
         <textarea
+          (keyup.enter)="sendChannelMsg()"
           class="font400-normal auto-resizable-textarea"
           placeholder="Antworten..."
           (input)="onTextareaInput($event)"

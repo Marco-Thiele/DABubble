@@ -80,9 +80,7 @@ export class ChatContainComponent implements OnInit {
   }
 
   getMessagesToDisplay(): any[] {
-    
     if (this.selectedMember && this.currentChatData) {
-      this.selectedChannel= [];
       return this.currentChatData.chat || [];
     } else if (this.selectedChannel) {
       return this.selectedChannel.chat || [];
@@ -114,8 +112,6 @@ export class ChatContainComponent implements OnInit {
       .subToChosenChat()
       .subscribe((chatData) => {
         this.currentChatData = chatData;
-        console.log('getsPrivateChats', this.currentChatData);
-        
       });
   }
 
