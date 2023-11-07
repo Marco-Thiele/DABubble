@@ -79,6 +79,8 @@ export class EditProfilComponent {
         this.closeDialog();
         this.UserService.userObject.name = this.newName;
         this.UserService.userObject.email = this.newEmail;
+        this.UserService.myUserDocument.name = this.newName;
+        this.UserService.updateName();
       });
     }
   }

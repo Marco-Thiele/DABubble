@@ -5,6 +5,8 @@ import {
   collection,
   addDoc,
   onSnapshot,
+  doc,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { getAuth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { userData } from '../models/userData';
@@ -26,18 +28,19 @@ export class UserService {
   selectedUserUid: string = '';
   messageText: string = '';
   foundPrivateMessages: DocumentData[] = [];
-  usersList: DocumentData[] = [];
+  usersList: any;
   selectedChatPartner: any;
   currentChat: any;
   availableChatPartners: DocumentData[] = [];
   currentChatId: string = '';
   chatAlreadyExists: boolean = false;
-
+  myDocId: string = '';
+  myUserDocument: any;
   constructor() {
     this.getUserData();
     this.subPrivateChat();
 
-    this.getUserList;
+    this.getUserList();
     this.userObject.name = this.getName();
     this.userObject.email = this.getMail();
     this.userObject.photoURL = this.getPhoto();
@@ -186,13 +189,25 @@ export class UserService {
     return onSnapshot(this.getUsers(), (userList) => {
       this.usersList = [];
       userList.forEach((user) => {
-        const userData = user.data();
-        this.usersList.push(user);
+        const found_user = user.data();
+        if (found_user['uid'] === this.user?.uid) {
+          this.myDocId = user.id;
+          this.myUserDocument = found_user;
+        }
       });
     });
   }
 
+  async updateName() {
+    let docRef = this.getSingleDocRef();
+    await updateDoc(docRef, this.myUserDocument);
+  }
+
   getUsers() {
     return collection(this.firestore, 'users');
+  }
+
+  getSingleDocRef() {
+    return doc(collection(this.firestore, 'users'), this.myDocId);
   }
 }
