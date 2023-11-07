@@ -19,7 +19,6 @@
 }
 
 .general-channels-container.open {
-  padding: 32px 25px;
   width: 25.2%;
   transition: width 1s ease;
 }
@@ -204,5 +203,15 @@
   .general-channels-container.open {
     padding: 15px 25px;
     gap: 5px;
+  }
+}
+
+@media (width < 500px) {
+  .general-channels-container.open {
+    padding: 20px;
+  }
+
+  .general-channels-container {
+    gap: 15px;
   }
 }

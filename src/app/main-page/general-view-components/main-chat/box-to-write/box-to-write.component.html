@@ -2,35 +2,13 @@
   <div class="message-box" [class.focused]="taIsFocused">
     <div *ngIf="userChannel" class="containerSearchChat"></div>
 
-    <textarea
-      *ngIf="sendChannel"
-      (keyup.enter)="sendChannelMsg()"
-      class="font400-normal auto-resizable-textarea"
-      placeholder="{{ placeholderMessageBox }}"
-      (input)="onTextareaInput($event)"
-      [(ngModel)]="message"
-      (focus)="inputFocused()"
-      (focus)="textAreaFocused()"
-      (blur)="textAreaBlurred()"
-      #messageTextarea
-    ></textarea>
-    <textarea
-      *ngIf="sendPrivate"
-      (keyup.enter)="sendPrivateMsg()"
-      class="font400-normal auto-resizable-textarea"
-      placeholder="{{ placeholderMessageBox }}"
-      (input)="onTextareaInput($event)"
-      [(ngModel)]="message"
-      (focus)="inputFocused()"
-      (focus)="textAreaFocused()"
-      (blur)="textAreaBlurred()"
-      #messageTextarea
-    ></textarea>
-    <div
-      class="image-preview-cont"
-      #imagePreviewCont
-      [style.display]="imageLoaded ? 'block' : 'none'"
-    >
+    <textarea *ngIf="sendChannel" (keyup.enter)="sendChannelMsg()" class="font400-normal auto-resizable-textarea"
+      placeholder="{{ placeholderMessageBox }}" (input)="onTextareaInput($event)" [(ngModel)]="message"
+      (focus)="inputFocused()" (focus)="textAreaFocused()" (blur)="textAreaBlurred()" #messageTextarea></textarea>
+    <textarea *ngIf="sendPrivate" (keyup.enter)="sendPrivateMsg()" class="font400-normal auto-resizable-textarea"
+      placeholder="{{ placeholderMessageBox }}" (input)="onTextareaInput($event)" [(ngModel)]="message"
+      (focus)="inputFocused()" (focus)="textAreaFocused()" (blur)="textAreaBlurred()" #messageTextarea></textarea>
+    <div class="image-preview-cont" #imagePreviewCont [style.display]="imageLoaded ? 'block' : 'none'">
       <img id="image-preview" #imagePreview />
       <div (click)="removeFileSelected()"></div>
     </div>
@@ -38,12 +16,7 @@
     <div class="send-mesg-box">
       <div class="send-msg-icons">
         <div class="icon-plus icons" (click)="fileInput.click()">
-          <input
-            type="file"
-            (change)="onFileSelected($event)"
-            #fileInput
-            style="display: none"
-          />
+          <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none" />
           <div></div>
         </div>
         <div class="icons-line"></div>
@@ -51,21 +24,13 @@
           <div></div>
         </div>
         <div>
-          <emoji-mart
-            class="emoji-mart"
-            *ngIf="showEmojiPicker[-2]"
-            (emojiSelect)="addEmoji($event)"
-            title="Pick your emoji…"
-          ></emoji-mart>
+          <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker[-2]" (emojiSelect)="addEmoji($event)"
+            title="Pick your emoji…" [style]="{ width: '230px'}"></emoji-mart>
         </div>
         <div class="icon-et icons" (click)="showUsers()">
           <div class="et-div">
             <div class="render-users" *ngIf="showUser">
-              <div
-                class="render-user"
-                *ngFor="let user of users"
-                (click)="addUser(user['name'])"
-              >
+              <div class="render-user" *ngFor="let user of users" (click)="addUser(user['name'])">
                 <div>
                   <img src="{{ user['photoURL'] }}" alt="" />
                 </div>
@@ -78,18 +43,8 @@
         </div>
       </div>
 
-      <div
-        class="send-msg"
-        *ngIf="sendChannel"
-        (click)="sendChannelMsg()"
-        (keyup.enter)="sendChannelMsg()"
-      ></div>
-      <div
-        class="send-msg"
-        *ngIf="sendPrivate"
-        (click)="sendPrivateMsg()"
-        (keyup.enter)="sendPrivateMsg()"
-      ></div>
+      <div class="send-msg" *ngIf="sendChannel" (click)="sendChannelMsg()" (keyup.enter)="sendChannelMsg()"></div>
+      <div class="send-msg" *ngIf="sendPrivate" (click)="sendPrivateMsg()" (keyup.enter)="sendPrivateMsg()"></div>
     </div>
   </div>
 </div>

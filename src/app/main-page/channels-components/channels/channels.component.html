@@ -1,98 +1,101 @@
 <!--Channels title-->
-<div class="input-position_channels">
-  <div class="input_container">
-    <input class="input-field" type="text" placeholder="Gehe zu..." [(ngModel)]="searchTerm"
-      (input)="searchMembersAndChannels($event)" />
+<div class="channels-contain">
+  <div class="input-position_channels">
+    <div class="input_container">
+      <input class="input-field" type="text" placeholder="Gehe zu..." [(ngModel)]="searchTerm"
+        (input)="searchMembersAndChannels($event)" />
+      <div></div>
+    </div>
+    <div #searchContainer class="searchContainer" *ngIf="searchContainerOpen">
+      <div *ngFor="let user of memberMatches" class="searchResult" (click)="openPrivateContainer(user)">
+        <img [src]="user.profileImg" />
+        <span>{{ user.name }}</span>
+      </div>
+      <div *ngFor="let channel of channelMatches" class="searchResult" (click)="openChannel(channel)">
+        <span>{{ channel.name }}</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="title-container">
+    <div class="channel-name">
+      <div class="channel-logo">
+        <img src="assets/icons/Group.svg" />
+      </div>
+      <div class="channel-title">
+        <span class="title font700-normal">Code learning</span>
+      </div>
+    </div>
+    <div class="edit-icon" (click)="openNewMessage(newMessage)">
+      <mat-icon class="icon"></mat-icon>
+    </div>
+  </div>
+
+  <!--Channels menu-->
+  <div class="final-menu">
+    <div class="channels-menu">
+      <mat-accordion class="channels-menu-up">
+        <mat-expansion-panel #expansionPanel hideToggle>
+          <mat-expansion-panel-header class="channel-container-head">
+            <div class="channels-title-container" [ngClass]="{ clicked: isClicked }" (click)="openMenuChannels()">
+              <mat-icon class="icon-expansion"></mat-icon>
+              <mat-icon class="workspaces"></mat-icon>
+              <mat-panel-title class="channels-title font700-normal">
+                Channels
+              </mat-panel-title>
+            </div>
+          </mat-expansion-panel-header>
+          <div class="channels-container">
+            <div class="channels-list-container" *ngFor="let channel of getChannelsFS()">
+              <div class="channels-list" (click)="openChannel(channel)">
+                <div></div>
+                <a class="font400-normal">
+                  {{ channel.name }}
+                </a>
+              </div>
+            </div>
+            <div class="add-new-chanel" (click)="openNewChannel()">
+              <div></div>
+              <a class="font400-normal">Channel hinzufügen</a>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <div class="channel-add" (click)="openNewChannel()">
+        <mat-icon class="add-icon"></mat-icon>
+      </div>
+    </div>
+    <!--Direct messages menu-->
+    <div class="directmessages-menu">
+      <mat-accordion class="channel-menu-up">
+        <mat-expansion-panel #expansionPanel hideToggle>
+          <mat-expansion-panel-header class="dm-container-head">
+            <div class="dm-title-container" [ngClass]="{ clicked: isClicked }" (click)="openDirectMessages()">
+              <mat-icon class="icon-expansion"></mat-icon>
+              <mat-icon class="icon-account"></mat-icon>
+              <mat-panel-title class="channels-title font700-normal">
+                Direktnachrichten
+              </mat-panel-title>
+            </div>
+          </mat-expansion-panel-header>
+          <div class="dm-container">
+            <div class="channels-list-container" *ngFor="let user of getUsersFS()">
+              <div class="channel-member" (click)="openPrivateContainer(user)">
+                <div class="channel-photo">
+                  <img src="{{ user.profileImg }}" />
+                  <div class="online"></div>
+                </div>
+                <span class="font400-normal">{{ user.name }}</span>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+
+  <div class="button-new-message" (click)="openNewMessage(newMessage)">
     <div></div>
   </div>
-  <div #searchContainer class="searchContainer" *ngIf="searchContainerOpen">
-    <div *ngFor="let user of memberMatches" class="searchResult" (click)="openPrivateContainer(user)">
-      <img [src]="user.profileImg" />
-      <span>{{ user.name }}</span>
-    </div>
-    <div *ngFor="let channel of channelMatches" class="searchResult" (click)="openChannel(channel)">
-      <span>{{ channel.name }}</span>
-    </div>
-  </div>
 
-</div>
-<div class="title-container">
-  <div class="channel-name">
-    <div class="channel-logo">
-      <img src="assets/icons/Group.svg" />
-    </div>
-    <div class="channel-title">
-      <span class="title font700-normal">Code learning</span>
-    </div>
-  </div>
-  <div class="edit-icon" (click)="openNewMessage(newMessage)">
-    <mat-icon class="icon"></mat-icon>
-  </div>
-</div>
-
-<!--Channels menu-->
-<div class="final-menu">
-  <div class="channels-menu">
-    <mat-accordion class="channels-menu-up">
-      <mat-expansion-panel #expansionPanel hideToggle>
-        <mat-expansion-panel-header class="channel-container-head">
-          <div class="channels-title-container" [ngClass]="{ clicked: isClicked }" (click)="openMenuChannels()">
-            <mat-icon class="icon-expansion"></mat-icon>
-            <mat-icon class="workspaces"></mat-icon>
-            <mat-panel-title class="channels-title font700-normal">
-              Channels
-            </mat-panel-title>
-          </div>
-        </mat-expansion-panel-header>
-        <div class="channels-container">
-          <div class="channels-list-container" *ngFor="let channel of getChannelsFS()">
-            <div class="channels-list" (click)="openChannel(channel)">
-              <div></div>
-              <a class="font400-normal">
-                {{ channel.name }}
-              </a>
-            </div>
-          </div>
-          <div class="add-new-chanel" (click)="openNewChannel()">
-            <div></div>
-            <a class="font400-normal">Channel hinzufügen</a>
-          </div>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-    <div class="channel-add" (click)="openNewChannel()">
-      <mat-icon class="add-icon"></mat-icon>
-    </div>
-  </div>
-  <!--Direct messages menu-->
-  <div class="directmessages-menu">
-    <mat-accordion class="channel-menu-up">
-      <mat-expansion-panel #expansionPanel hideToggle>
-        <mat-expansion-panel-header class="dm-container-head">
-          <div class="dm-title-container" [ngClass]="{ clicked: isClicked }" (click)="openDirectMessages()">
-            <mat-icon class="icon-expansion"></mat-icon>
-            <mat-icon class="icon-account"></mat-icon>
-            <mat-panel-title class="channels-title font700-normal">
-              Direktnachrichten
-            </mat-panel-title>
-          </div>
-        </mat-expansion-panel-header>
-        <div class="dm-container">
-          <div class="channels-list-container" *ngFor="let user of getUsersFS()">
-            <div class="channel-member" (click)="openPrivateContainer(user)">
-              <div class="channel-photo">
-                <img src="{{ user.profileImg }}" />
-                <div class="online"></div>
-              </div>
-              <span class="font400-normal">{{ user.name }}</span>
-            </div>
-          </div>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
-</div>
-
-<div class="button-new-message" (click)="openNewMessage(newMessage)">
-  <div></div>
 </div>

@@ -1,3 +1,8 @@
+.channels-contain {
+  padding: 32px 25px;
+  height: -webkit-fill-available;
+}
+
 .title-container {
   display: flex;
   width: 306px;
@@ -727,6 +732,31 @@
   }
   .input_container {
     width: 200px;
+    padding: 4px 20px;
+  }
+
+  .channels-title-container .channels-title {
+    font-size: 18px;
+  }
+
+  .channels-title-container .workspaces {
+    background-size: 22px;
+  }
+
+  .dm-title-container .channels-title {
+    font-size: 18px;
+  }
+
+  .dm-title-container .icon-account {
+    background-size: 22px;
+  }
+
+  .channels-container {
+    height: 117px;
+  }
+
+  .channels-menu {
+    max-height: 165px;
   }
 }
 

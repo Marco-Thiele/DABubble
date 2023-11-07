@@ -91,6 +91,10 @@ export class GeneralViewComponent implements OnInit {
     });
   }
 
+  /**
+   * closes the threads container in the responsive view
+   * @param channel the channel to close
+   */
   closeRespThreadsContainer(channel: any) {
     this.EmitOpenService.respCloseThreadsEvent$.subscribe(() => {
       this.showSecondary = false;
@@ -129,11 +133,9 @@ export class GeneralViewComponent implements OnInit {
     this.isChannelOpen = false;
     this.isMainChatcomplete = true;
     this.isMainChatInit = true;
-    setTimeout(() => {
-      this.channelDisplay = 'none';
-      this.buttonText = 'Workspace-Menü öffen';
-      this.isMenuOpen = false;
-    }, 1000);
+    this.channelDisplay = 'none';
+    this.buttonText = 'Workspace-Menü öffen';
+    this.isMenuOpen = false;
   }
 
   /**

@@ -53,7 +53,7 @@ export class SharedService implements OnInit {
   };
   selectedChat: any;
   selectedChannel: any;
-  allgemeinChannelId = 'F4IP13XBHg4DmwEe4EPH';
+  allgemeinChannelId = 'USjDNewm462RuuBFGvOi';
   thread: any;
   reactions = {
     id: '',
